@@ -1,9 +1,8 @@
 package ca.mohawk.HealthMetrics;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,10 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import ca.mohawk.HealthMetrics.MetricManagement.MetricsViewFragment;
+import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
+import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
+import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +28,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -41,6 +37,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        MetricsViewFragment metricsViewFragment = new MetricsViewFragment();
+        fragmentTransaction.add(R.id.fragmentContainer,metricsViewFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -69,21 +70,30 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
+            ViewProfileFragment profileFragment = new ViewProfileFragment();
+            fragmentTransaction.add(R.id.fragmentContainer,profileFragment);
 
         } else if (id == R.id.nav_metrics) {
-
+            MetricsViewFragment metricsViewFragment = new MetricsViewFragment();
+            fragmentTransaction.add(R.id.fragmentContainer,metricsViewFragment);
 
         } else if (id == R.id.nav_notifications) {
-
+            NotificationListFragment notificationListFragment = new NotificationListFragment();
+            fragmentTransaction.add(R.id.fragmentContainer,notificationListFragment);
 
         } else if (id == R.id.nav_prescriptions) {
 
+            PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
+            fragmentTransaction.add(R.id.fragmentContainer,prescriptionListFragment);
         }
-
+        fragmentTransaction.commit();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
