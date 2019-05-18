@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import ca.mohawk.HealthMetrics.MetricsViewFragment.OnListFragmentInteractionListener;
+import ca.mohawk.HealthMetrics.MetricManagement.MetricsViewFragment.OnListFragmentInteractionListener;
 import ca.mohawk.HealthMetrics.dummy.DummyContent.DummyItem;
 
 import java.util.List;
