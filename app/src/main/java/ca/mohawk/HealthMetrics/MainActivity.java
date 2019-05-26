@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     HealthMetricsDbHelper db =  new HealthMetricsDbHelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

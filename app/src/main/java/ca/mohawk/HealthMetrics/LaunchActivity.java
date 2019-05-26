@@ -22,6 +22,8 @@ public class LaunchActivity extends Application {
             startActivity(intent);
         }
         else {
+            editor.putBoolean("loggedIn",true);
+            editor.commit();
             Intent intent = new Intent(this, UserCreationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
