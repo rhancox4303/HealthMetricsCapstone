@@ -9,12 +9,22 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "HealthMetrics.db";
+    private static HealthMetricsDbHelper sInstance;
 
-    public HealthMetricsDbHelper(Context context) {
+    private HealthMetricsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    @Override
+    public static synchronized HealthMetricsDbHelper getInstance(Context context) {
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new HealthMetricsDbHelper(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+        @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(HealthMetricContract.DosageMeasurements.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Prescriptions.CREATE_TABLE);

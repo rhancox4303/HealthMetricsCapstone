@@ -125,9 +125,9 @@ public final class HealthMetricContract {
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
-    //QuantitativeMetrics Table
+    //QuantitativeMetric Table
     public static abstract class QuantitativeMetrics implements BaseColumns {
-        public static final String TABLE_NAME = "QuantitativeMetrics";
+        public static final String TABLE_NAME = "QuantitativeMetric";
         public static final String COLUMN_NAME_UNITID = "UnitID";
         public static final String COLUMN_NAME_METRICNAME = "MetricName";
         public static final String COLUMN_NAME_ISADDEDTOPROFILE = "IsAddedToProfile";
