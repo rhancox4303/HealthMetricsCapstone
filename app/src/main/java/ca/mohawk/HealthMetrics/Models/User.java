@@ -15,4 +15,7 @@ public class User {
         Gender = gender;
         DateOfBirth = dateOfBirth;
     }
+    public String getStringDateOfBirth(){
+        return DateOfBirth.toString();
+    }
 }

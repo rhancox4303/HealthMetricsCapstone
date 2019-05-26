@@ -77,8 +77,8 @@ public final class HealthMetricContract {
     }
     //User Table
 
-    public static abstract class User implements BaseColumns {
-        public static final String TABLE_NAME = "User";
+    public static abstract class Users implements BaseColumns {
+        public static final String TABLE_NAME = "Users";
         public static final String COLUMN_NAME_FIRSTNAME = "FirstName";
         public static final String COLUMN_NAME_LASTNAME = "LastName";
         public static final String COLUMN_NAME_GENDER = "Gender";
