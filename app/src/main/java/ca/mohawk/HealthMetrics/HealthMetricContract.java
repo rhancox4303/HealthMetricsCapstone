@@ -60,7 +60,7 @@ public final class HealthMetricContract {
         public static final String COLUMN_NAME_TYPE = "Type";
         public static final String COLUMN_NAME_TARGETDATETIME = "TargetDateAndTime";
 
-        //Add Metric and Gallery Key
+
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME +
                 "(" + _ID + " INTEGER PRIMARY KEY," +
