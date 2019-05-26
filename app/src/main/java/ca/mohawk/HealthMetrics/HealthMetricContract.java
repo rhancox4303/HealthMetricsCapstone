@@ -3,6 +3,7 @@ package ca.mohawk.HealthMetrics;
 import android.provider.BaseColumns;
 
 public final class HealthMetricContract {
+
     private HealthMetricContract() {
 
     }
@@ -17,7 +18,7 @@ public final class HealthMetricContract {
                 + TABLE_NAME +
                 "(" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_NAME_DOSAGEMEASUREMENT + "REAL," +
-                COLUMN_NAME_UNITABBREVIATION + "TEXT )";
+                COLUMN_NAME_UNITABBREVIATION + "TEXT );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
@@ -50,25 +51,6 @@ public final class HealthMetricContract {
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
-    //User Table
-    public static abstract class User implements BaseColumns {
-        public static final String TABLE_NAME = "User";
-        public static final String COLUMN_NAME_FIRSTNAME = "FirstName";
-        public static final String COLUMN_NAME_LASTNAME = "LastName";
-        public static final String COLUMN_NAME_GENDER = "Gender";
-        public static final String COLUMN_NAME_DATEOFBIRTH = "DateOfBirth";
-
-        public static final String CREATE_TABLE = "CREATE TABLE "
-                + TABLE_NAME +
-                "(" + _ID + " INTEGER PRIMARY KEY," +
-                COLUMN_NAME_FIRSTNAME + "TEXT," +
-                COLUMN_NAME_LASTNAME + "TEXT," +
-                COLUMN_NAME_GENDER + "TEXT," +
-                COLUMN_NAME_DATEOFBIRTH + "TEXT )";
-
-        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-    }
-
     //Notification Table
     public static abstract class Notifications implements BaseColumns {
         public static final String TABLE_NAME = "Notifications";
@@ -87,7 +69,28 @@ public final class HealthMetricContract {
                 COLUMN_NAME_METRICID + "INTEGER," +
                 COLUMN_NAME_TYPE + "TEXT," +
                 COLUMN_NAME_TARGETDATETIME + "TEXT," +
-                "FOREIGN KEY (" + COLUMN_NAME_PRESCRIPTIONID + ") REFERENCES " + Prescriptions.TABLE_NAME + "(_ID));";
+                "FOREIGN KEY (" + COLUMN_NAME_PRESCRIPTIONID + ") REFERENCES " + Prescriptions.TABLE_NAME + "(_ID)" +
+                "FOREIGN KEY (" +  COLUMN_NAME_GALLERYID + ") REFERENCES " + Galleries.TABLE_NAME + "(_ID)" +
+                "FOREIGN KEY (" + COLUMN_NAME_METRICID + ") REFERENCES " + QuantitativeMetrics.TABLE_NAME + "(_ID));";
+
+        public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+    }
+    //User Table
+
+    public static abstract class User implements BaseColumns {
+        public static final String TABLE_NAME = "User";
+        public static final String COLUMN_NAME_FIRSTNAME = "FirstName";
+        public static final String COLUMN_NAME_LASTNAME = "LastName";
+        public static final String COLUMN_NAME_GENDER = "Gender";
+        public static final String COLUMN_NAME_DATEOFBIRTH = "DateOfBirth";
+
+        public static final String CREATE_TABLE = "CREATE TABLE "
+                + TABLE_NAME +
+                "(" + _ID + " INTEGER PRIMARY KEY," +
+                COLUMN_NAME_FIRSTNAME + "TEXT," +
+                COLUMN_NAME_LASTNAME + "TEXT," +
+                COLUMN_NAME_GENDER + "TEXT," +
+                COLUMN_NAME_DATEOFBIRTH + "TEXT )";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
@@ -102,7 +105,7 @@ public final class HealthMetricContract {
                 + TABLE_NAME +
                 "(" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_NAME_NOTECONTENT + "TEXT," +
-                COLUMN_NAME_DATEOFENTRY + "TEXT )";
+                COLUMN_NAME_DATEOFENTRY + "TEXT );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
@@ -117,7 +120,7 @@ public final class HealthMetricContract {
                 + TABLE_NAME +
                 "(" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_NAME_UNITNAME + "TEXT," +
-                COLUMN_NAME_ABBREVIATION + "TEXT )";
+                COLUMN_NAME_ABBREVIATION + "TEXT );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }

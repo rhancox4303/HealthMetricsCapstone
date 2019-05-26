@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     FragmentManager fragmentManager = getSupportFragmentManager();
-
+    HealthMetricsDbHelper db =  new HealthMetricsDbHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

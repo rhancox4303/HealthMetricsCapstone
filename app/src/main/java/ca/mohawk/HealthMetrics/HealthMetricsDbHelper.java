@@ -16,7 +16,16 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL(HealthMetricContract.DosageMeasurements.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.Prescriptions.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.User.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.Notes.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.Units.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.QuantitativeMetrics.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.QuantitativeMetricsEntries.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.Galleries.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.PhotoEntries.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.Notifications.CREATE_TABLE);
     }
 
     @Override
