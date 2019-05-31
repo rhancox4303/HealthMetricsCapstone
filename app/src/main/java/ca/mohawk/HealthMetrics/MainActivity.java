@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             ViewProfileFragment profileFragment = new ViewProfileFragment();
-            fragmentTransaction.add(R.id.fragmentContainer,profileFragment);
+            fragmentTransaction.add(R.id.fragmentContainer, profileFragment);
 
         } else if (id == R.id.nav_metrics) {
             MetricsViewFragment metricsViewFragment = new MetricsViewFragment();

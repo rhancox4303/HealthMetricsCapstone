@@ -83,7 +83,7 @@
         app:layout_constraintGuide_percent="0.6" />
 
     <RadioGroup
-        android:id="@+id/RadioGroupGender"
+        android:id="@+id/radioGroupGender"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -125,7 +125,7 @@
         android:text="Gender"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toStartOf="@+id/RadioGroupGender"
+        app:layout_constraintEnd_toStartOf="@+id/radioGroupGender"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
@@ -156,6 +156,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:onClick="createUser"
         android:text="Create User"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
