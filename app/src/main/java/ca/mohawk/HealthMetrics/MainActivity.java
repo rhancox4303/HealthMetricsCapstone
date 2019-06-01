@@ -78,21 +78,22 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             ViewProfileFragment profileFragment = new ViewProfileFragment();
-            fragmentTransaction.add(R.id.fragmentContainer, profileFragment);
+            fragmentTransaction.replace(R.id.fragmentContainer, profileFragment);
 
         } else if (id == R.id.nav_metrics) {
             MetricsViewFragment metricsViewFragment = new MetricsViewFragment();
-            fragmentTransaction.add(R.id.fragmentContainer,metricsViewFragment);
+            fragmentTransaction.replace(R.id.fragmentContainer,metricsViewFragment);
 
         } else if (id == R.id.nav_notifications) {
             NotificationListFragment notificationListFragment = new NotificationListFragment();
-            fragmentTransaction.add(R.id.fragmentContainer,notificationListFragment);
+            fragmentTransaction.replace(R.id.fragmentContainer,notificationListFragment);
 
         } else if (id == R.id.nav_prescriptions) {
 
             PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
-            fragmentTransaction.add(R.id.fragmentContainer,prescriptionListFragment);
+            fragmentTransaction.replace(R.id.fragmentContainer,prescriptionListFragment);
         }
+
         fragmentTransaction.commit();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
