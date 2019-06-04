@@ -21,7 +21,7 @@ import ca.mohawk.HealthMetrics.Models.User;
 import ca.mohawk.HealthMetrics.R;
 
 public class UserCreationActivity extends AppCompatActivity {
-    HealthMetricsDbHelper healthMetricsDbHelper; ;
+    HealthMetricsDbHelper healthMetricsDbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

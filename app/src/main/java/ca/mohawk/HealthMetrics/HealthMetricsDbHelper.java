@@ -2,10 +2,16 @@ package ca.mohawk.HealthMetrics;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import ca.mohawk.HealthMetrics.Models.User;
 
@@ -65,6 +71,32 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             Log.d(TAG, "Error while trying to add user to database");
         } finally {
             db.endTransaction();
+        }
+    }
+    public User GetUser(){
+
+        SQLiteDatabase database = getReadableDatabase();
+        String  selectQuery = "SELECT * FROM " + HealthMetricContract.Users.TABLE_NAME + " WHERE _ID = 1";
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        if(cursor != null){
+            String firstName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME));
+            String lastName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_LASTNAME));
+            String gender = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_GENDER));
+            Date dateOfBirth = null;
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+            try {
+                dateOfBirth = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH)));
+            } catch (ParseException ex) {
+                Log.v("Exception", ex.getLocalizedMessage());
+            }
+
+            User user = new User(firstName,lastName,gender,dateOfBirth);
+            return user;
+        }else{
+            Log.d("ERROR","No user found.");
+            return null;
         }
     }
 }
