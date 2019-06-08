@@ -7,15 +7,12 @@ public class User {
     public String FirstName;
     public String LastName;
     public String Gender;
-    public Date DateOfBirth;
+    public String DateOfBirth;
 
-    public User(String firstName, String lastName, String gender, Date dateOfBirth) {
+    public User(String firstName, String lastName, String gender, String dateOfBirth) {
         FirstName = firstName;
         LastName = lastName;
         Gender = gender;
         DateOfBirth = dateOfBirth;
-    }
-    public String getStringDateOfBirth(){
-        return DateOfBirth.toString();
     }
 }

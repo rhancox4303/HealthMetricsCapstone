@@ -61,7 +61,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.FirstName);
             values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.LastName);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.getStringDateOfBirth());
+            values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.DateOfBirth);
             values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
 
             // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
@@ -78,24 +78,22 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getReadableDatabase();
         String  selectQuery = "SELECT * FROM " + HealthMetricContract.Users.TABLE_NAME + " WHERE _ID = 1";
         Cursor cursor = database.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
 
         if(cursor != null){
             String firstName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME));
             String lastName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_LASTNAME));
             String gender = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_GENDER));
-            Date dateOfBirth = null;
-
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-            try {
-                dateOfBirth = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH)));
-            } catch (ParseException ex) {
-                Log.v("Exception", ex.getLocalizedMessage());
-            }
+            String dateOfBirth = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH));
 
             User user = new User(firstName,lastName,gender,dateOfBirth);
+            cursor.close();
+            database.close();
             return user;
         }else{
             Log.d("ERROR","No user found.");
+            cursor.close();
+            database.close();
             return null;
         }
     }

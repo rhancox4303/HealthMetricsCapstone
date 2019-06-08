@@ -43,9 +43,8 @@ public class UserCreationActivity extends AppCompatActivity {
 
         String firstName = firstNameEditText.getText().toString();
         String lastName = lastNameEditText.getText().toString();
-        String stringDateOfBirth = dateOfBirthEditText.getText().toString();
+        String dateOfBirth = dateOfBirthEditText.getText().toString();
         String gender;
-        Date dateOfBirth = null;
 
         if(genderRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMale){
             gender = "Male";
@@ -53,14 +52,9 @@ public class UserCreationActivity extends AppCompatActivity {
             gender = "Female";
         }
 
-        if(firstName.matches("")  || lastName.matches("")| stringDateOfBirth.matches("") ){
+        if(firstName.matches("")  || lastName.matches("")| dateOfBirth.matches("") ){
             Toast.makeText(this, "Please fill in all fields.", Toast.LENGTH_SHORT).show();
         }else{
-            try {
-                 dateOfBirth = simpleDateFormat.parse(stringDateOfBirth);
-            } catch (ParseException ex) {
-                Log.v("Exception", ex.getLocalizedMessage());
-            }
 
             healthMetricsDbHelper.addUser(new User(firstName,lastName,gender,dateOfBirth));
 
