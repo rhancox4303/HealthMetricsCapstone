@@ -1,7 +1,6 @@
 package ca.mohawk.HealthMetrics.UserProfile;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,7 +33,7 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_view_profile, container, false);
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        Button editButton = (Button) view.findViewById(R.id.buttonEditProfile);
+        Button editButton = (Button) view.findViewById(R.id.buttonNavigateToEditProfile);
 
         editButton.setOnClickListener(this);
 
@@ -43,7 +42,7 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         TextView genderView = view.findViewById(R.id.textViewGenderDisplay);
         TextView dateOfBirthView = view.findViewById(R.id.textViewBirthDateDisplay);
 
-        User user = healthMetricsDbHelper.GetUser();
+        User user = healthMetricsDbHelper.getUser();
 
         firstNameView.setText(user.FirstName);
         lastNameView.setText(user.LastName);

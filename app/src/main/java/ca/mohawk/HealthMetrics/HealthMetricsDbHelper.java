@@ -73,7 +73,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
-    public User GetUser(){
+    public User getUser(){
 
         SQLiteDatabase database = getReadableDatabase();
         String  selectQuery = "SELECT * FROM " + HealthMetricContract.Users.TABLE_NAME + " WHERE _ID = 1";
@@ -96,6 +96,19 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             database.close();
             return null;
         }
+    }
+
+    public int updateUser(User user){
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.FirstName);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.LastName);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.DateOfBirth);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
+
+        return database.update(HealthMetricContract.Users.TABLE_NAME, values,HealthMetricContract.Users._ID + " = 1",
+                null);
     }
 }
 
