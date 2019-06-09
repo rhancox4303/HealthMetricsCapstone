@@ -134,4 +134,16 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.7" />
 
+    <Button
+        android:id="@+id/buttonCreateUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline13"
+        app:layout_constraintTop_toTopOf="@+id/guideline11"
+        tools:text="Create Unit" />
+
 </android.support.constraint.ConstraintLayout>
