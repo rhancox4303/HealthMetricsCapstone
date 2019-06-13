@@ -5,17 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
 import android.util.Log;
-import android.widget.Toast;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import ca.mohawk.HealthMetrics.Models.User;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
@@ -68,7 +60,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             db.insertOrThrow(HealthMetricContract.Users.TABLE_NAME, null, values);
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to add user to database");
+            Log.d("TAG", "Error while trying to add user to database");
         } finally {
             db.endTransaction();
         }

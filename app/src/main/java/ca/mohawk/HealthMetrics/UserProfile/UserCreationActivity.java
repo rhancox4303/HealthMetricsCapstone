@@ -3,17 +3,14 @@ package ca.mohawk.HealthMetrics.UserProfile;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MainActivity;
