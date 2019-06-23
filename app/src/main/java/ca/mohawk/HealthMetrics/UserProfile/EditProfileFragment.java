@@ -38,8 +38,8 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        Button editProfile =  view.findViewById(R.id.buttonEditProfile);
-        editProfile.setOnClickListener(this);
+        Button editProfileButton =  view.findViewById(R.id.buttonEditProfile);
+        editProfileButton.setOnClickListener(this);
 
         firstNameEditText = view.findViewById(R.id.editTextFirstNameEditProfile);
          lastNameEditText = view.findViewById(R.id.editTextLastNameEditProfile);
