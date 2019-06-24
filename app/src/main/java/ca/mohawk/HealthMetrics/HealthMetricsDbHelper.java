@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import ca.mohawk.HealthMetrics.Models.Metric;
+import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.Models.User;
 
 public class HealthMetricsDbHelper extends SQLiteOpenHelper {
@@ -33,8 +35,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         db.execSQL(HealthMetricContract.Users.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Notes.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Units.CREATE_TABLE);
-        db.execSQL(HealthMetricContract.QuantitativeMetrics.CREATE_TABLE);
-        db.execSQL(HealthMetricContract.QuantitativeMetricsEntries.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.Metrics.CREATE_TABLE);
+        db.execSQL(HealthMetricContract.MetricDataEntries.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Galleries.CREATE_TABLE);
         db.execSQL(HealthMetricContract.PhotoEntries.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Notifications.CREATE_TABLE);
@@ -65,6 +67,40 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
+    public void addMetric(Metric metric){
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try{
+            ContentValues values = new ContentValues();
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.Name);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, metric.UnitId);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.IsAddedToProfile);
+
+            db.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME,null,values);
+            db.setTransactionSuccessful();
+        }catch (Exception e){
+            Log.d("TAG", "Error while trying to add metric to database");
+        }finally {
+            db.endTransaction();
+        }
+    }
+    public void addUnit(Unit unit){
+        SQLiteDatabase db =getWritableDatabase();
+        db.beginTransaction();
+        try{
+            ContentValues values = new ContentValues();
+            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITNAME, unit.UnitName);
+            values.put(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION, unit.UnitAbbreviation);
+
+            db.insertOrThrow(HealthMetricContract.Units.TABLE_NAME,null,values);
+            db.setTransactionSuccessful();
+        }catch (Exception e){
+            Log.d("TAG", "Error while trying to add unit to database");
+        }finally {
+            db.endTransaction();
+        }
+    }
+
     public User getUser(){
 
         SQLiteDatabase database = getReadableDatabase();
@@ -102,5 +138,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.Users.TABLE_NAME, values,HealthMetricContract.Users._ID + " = 1",
                 null);
     }
+
 }
 

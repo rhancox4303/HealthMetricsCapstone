@@ -71,7 +71,7 @@ public final class HealthMetricContract {
                 COLUMN_NAME_TARGETDATETIME + " TEXT," +
                 "FOREIGN KEY (" + COLUMN_NAME_PRESCRIPTIONID + ") REFERENCES " + Prescriptions.TABLE_NAME + "(_ID)" +
                 "FOREIGN KEY (" +  COLUMN_NAME_GALLERYID + ") REFERENCES " + Galleries.TABLE_NAME + "(_ID)" +
-                "FOREIGN KEY (" + COLUMN_NAME_METRICID + ") REFERENCES " + QuantitativeMetrics.TABLE_NAME + "(_ID));";
+                "FOREIGN KEY (" + COLUMN_NAME_METRICID + ") REFERENCES " + Metrics.TABLE_NAME + "(_ID));";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
@@ -125,9 +125,9 @@ public final class HealthMetricContract {
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
-    //QuantitativeMetric Table
-    public static abstract class QuantitativeMetrics implements BaseColumns {
-        public static final String TABLE_NAME = "QuantitativeMetric";
+    //Metric Table
+    public static abstract class Metrics implements BaseColumns {
+        public static final String TABLE_NAME = "Metrics";
         public static final String COLUMN_NAME_UNITID = "UnitID";
         public static final String COLUMN_NAME_METRICNAME = "MetricName";
         public static final String COLUMN_NAME_ISADDEDTOPROFILE = "IsAddedToProfile";
@@ -157,8 +157,8 @@ public final class HealthMetricContract {
     }
 
     //QuantitativeMetricsEntries Table
-    public static abstract class QuantitativeMetricsEntries implements BaseColumns {
-        public static final String TABLE_NAME = "QuantitativeMetricsEntries";
+    public static abstract class MetricDataEntries implements BaseColumns {
+        public static final String TABLE_NAME = "MetricsDataEntries";
         public static final String COLUMN_NAME_METRICID = "MetricID";
         public static final String COLUMN_NAME_DATAENTRY = "DataEntry";
         public static final String COLUMN_NAME_DATEOFENTRY = "DateOfEntry";
@@ -169,7 +169,7 @@ public final class HealthMetricContract {
                 COLUMN_NAME_METRICID + " INTEGER," +
                 COLUMN_NAME_DATAENTRY + " REAL," +
                 COLUMN_NAME_DATEOFENTRY + " TEXT," +
-                "FOREIGN KEY (" + COLUMN_NAME_METRICID + ") REFERENCES " + QuantitativeMetrics.TABLE_NAME + "(_ID));";
+                "FOREIGN KEY (" + COLUMN_NAME_METRICID + ") REFERENCES " + Metrics.TABLE_NAME + "(_ID));";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
