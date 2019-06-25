@@ -6,7 +6,7 @@ public class Notifications {
     public int Id;
     public Prescription Prescription;
     public PhotoGallery PhotoGallery;
-    public QuantitativeMetric QuantitativeMetric;
+    public Metric Metric;
     public String NotificationType;
     public Date TargetDateTime;
 
@@ -15,8 +15,8 @@ public class Notifications {
         NotificationType = notificationType;
         TargetDateTime = targetDateTime;
     }
-    public Notifications(QuantitativeMetric quantitativeMetric, String notificationType, Date targetDateTime) {
-        QuantitativeMetric = quantitativeMetric;
+    public Notifications(Metric metric, String notificationType, Date targetDateTime) {
+        Metric = metric;
         NotificationType = notificationType;
         TargetDateTime = targetDateTime;
     }

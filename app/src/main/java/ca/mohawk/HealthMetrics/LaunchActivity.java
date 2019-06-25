@@ -10,7 +10,6 @@ import ca.mohawk.HealthMetrics.UserProfile.UserCreationActivity;
 public class LaunchActivity extends Application {
     @Override
     public void onCreate() {
-
         super.onCreate();
         SharedPreferences userInfo = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor  editor = userInfo.edit();

@@ -35,6 +35,7 @@ public class UserCreationActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_user_creation);
         setTitle("Create User Profile");
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
+        healthMetricsDbHelper.seedUnits();
         dateOfBirthEditText = findViewById(R.id.editTextDateOfBirthUserCreation);
         dateOfBirthEditText.setOnClickListener(this);
     }

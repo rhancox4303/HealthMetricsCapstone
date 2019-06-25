@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.Models.User;
@@ -74,6 +76,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.Name);
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, metric.UnitId);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORY, metric.UnitCategory);
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.IsAddedToProfile);
 
             db.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME,null,values);
@@ -84,6 +87,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
+
     public void addUnit(Unit unit){
         SQLiteDatabase db =getWritableDatabase();
         db.beginTransaction();
@@ -91,7 +95,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Units.COLUMN_NAME_UNITNAME, unit.UnitName);
             values.put(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION, unit.UnitAbbreviation);
-
+            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORY,unit.UnitCategory);
             db.insertOrThrow(HealthMetricContract.Units.TABLE_NAME,null,values);
             db.setTransactionSuccessful();
         }catch (Exception e){
@@ -100,7 +104,64 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
+    public void seedUnits(){
 
+        ArrayList<Unit> unitArrayList =  new ArrayList<Unit>();
+
+        Unit centimeters = new Unit("Centimeters","cm","Length");
+        Unit meters = new Unit("Meters","m","Length");
+        Unit inches = new Unit("Inches","in","Length");
+        Unit feet = new Unit("Feet","ft","Length");
+
+        unitArrayList.add(centimeters);
+        unitArrayList.add(meters);
+        unitArrayList.add(inches);
+        unitArrayList.add(feet);
+
+        Unit kilograms = new Unit("Kilograms","kg","Weight");
+        Unit grams = new Unit("Grams","g","Weight");
+        Unit milligrams = new Unit("Milligrams","mg","Weight");
+        Unit pounds = new Unit("Pounds","lb","Weight");
+
+        unitArrayList.add(kilograms);
+        unitArrayList.add(grams);
+        unitArrayList.add(milligrams);
+        unitArrayList.add(pounds);
+
+        Unit hours = new Unit("Hours","hrs","Time");
+        Unit minutes = new Unit("Minutes","min","Time");
+        Unit seconds = new Unit("Seconds","s","Time");
+
+        unitArrayList.add(hours);
+        unitArrayList.add(minutes);
+        unitArrayList.add(seconds);
+
+        Unit litres = new Unit("Litres","l","Volume");
+        Unit milliliter = new Unit("Milliliters","ml","Volume");
+        Unit ounce = new Unit("Ounces","fl oz","Volume");
+        Unit cupMilliliter = new Unit("Cup(240ml)","Cups","Volume");
+        Unit cupOunce = new Unit("Cup(8.4 fl oz)","Cups","Volume");
+
+        unitArrayList.add(litres);
+        unitArrayList.add(milliliter);
+        unitArrayList.add(ounce);
+        unitArrayList.add(cupMilliliter);
+        unitArrayList.add(cupOunce);
+
+        Unit systolicBloodPressure = new Unit("Systolic Blood Pressure","mmHg","Blood Pressure");
+        Unit diastolicBloodPressure = new Unit("Diastolic Blood Pressure","mmHg","Blood Pressure");
+
+        unitArrayList.add(systolicBloodPressure);
+        unitArrayList.add(diastolicBloodPressure);
+
+        for(Unit unit : unitArrayList){
+            addUnit(unit);
+        }
+    }
+
+    public void seedMetrics(){
+
+    }
     public User getUser(){
 
         SQLiteDatabase database = getReadableDatabase();

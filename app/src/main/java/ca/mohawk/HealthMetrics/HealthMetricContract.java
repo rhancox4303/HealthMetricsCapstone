@@ -115,11 +115,13 @@ public final class HealthMetricContract {
         public static final String TABLE_NAME = "Units";
         public static final String COLUMN_NAME_UNITNAME = "UnitName";
         public static final String COLUMN_NAME_ABBREVIATION = "UnitAbbreviation";
+        public static final String COLUMN_NAME_UNITCATEGORY = "UnitCategory";
 
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME +
                 "(" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_NAME_UNITNAME + " TEXT," +
+                COLUMN_NAME_UNITCATEGORY + " TEXT," +
                 COLUMN_NAME_ABBREVIATION + " TEXT );";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -130,6 +132,7 @@ public final class HealthMetricContract {
         public static final String TABLE_NAME = "Metrics";
         public static final String COLUMN_NAME_UNITID = "UnitID";
         public static final String COLUMN_NAME_METRICNAME = "MetricName";
+        public static final String COLUMN_NAME_UNITCATEGORY = "UnitCategory";
         public static final String COLUMN_NAME_ISADDEDTOPROFILE = "IsAddedToProfile";
 
         public static final String CREATE_TABLE = "CREATE TABLE "
@@ -137,6 +140,7 @@ public final class HealthMetricContract {
                 "(" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_NAME_UNITID + " INTEGER," +
                 COLUMN_NAME_METRICNAME + " TEXT," +
+                COLUMN_NAME_UNITCATEGORY + " TEXT," +
                 COLUMN_NAME_ISADDEDTOPROFILE + " INTEGER," +
                 "FOREIGN KEY (" + COLUMN_NAME_UNITID + ") REFERENCES " + Units.TABLE_NAME + "(_ID));";
 
