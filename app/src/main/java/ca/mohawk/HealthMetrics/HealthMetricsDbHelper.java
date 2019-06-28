@@ -69,6 +69,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
+
     public void addMetric(Metric metric){
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
@@ -160,6 +161,41 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     public void seedMetrics(){
+        ArrayList<Metric>  metricArrayList=  new ArrayList<Metric>();
+
+        Metric leftBicepSize = new Metric(0,"Left Bicep Size","Length",0);
+        Metric rightBicepSize = new Metric(0,"Right Bicep Size","Length",0);
+
+        metricArrayList.add(leftBicepSize);
+        metricArrayList.add(rightBicepSize);
+
+        Metric bloodPressure = new Metric(0,"Blood Pressure", "Blood Pressure",0);
+        metricArrayList.add(bloodPressure);
+
+        Metric bodyHeight = new Metric(0,"Body Height","Length",0);
+        metricArrayList.add(bodyHeight);
+
+        Metric leftCalfSize = new Metric(0,"Left Calf Size","Length",0);
+        Metric rightCalfSize = new Metric(0,"Right Calf Size","Length",0);
+
+        metricArrayList.add(leftCalfSize);
+        metricArrayList.add(rightCalfSize);
+
+        Metric chestSize = new Metric(0,"Chest Size","Length",0);
+        metricArrayList.add(chestSize);
+
+        Metric sleepDuration = new Metric(0,"Sleep Duration","Time",0);
+        metricArrayList.add(sleepDuration);
+
+        Metric waistSize = new Metric(0,"Waist Size","Length",0);
+        metricArrayList.add(waistSize);
+
+        Metric waterIntake = new Metric(0,"Water Intake","Volume",0);
+        metricArrayList.add(waterIntake);
+
+        for(Metric metric : metricArrayList){
+            addMetric(metric);
+        }
 
     }
     public User getUser(){
@@ -199,6 +235,5 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.Users.TABLE_NAME, values,HealthMetricContract.Users._ID + " = 1",
                 null);
     }
-
 }
 

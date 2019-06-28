@@ -13,4 +13,5 @@ public class Metric {
         IsAddedToProfile = isAddedToProfile;
         UnitCategory = unitCategory;
     }
+
 }
