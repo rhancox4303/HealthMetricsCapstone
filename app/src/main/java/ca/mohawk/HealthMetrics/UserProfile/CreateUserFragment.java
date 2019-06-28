@@ -41,7 +41,7 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
 
     EditText dateOfBirthEditText;
     EditText firstNameEditText;
-    EditText lastNameEditText ;
+    EditText lastNameEditText;
     RadioGroup genderRadioGroup;
 
     @Override

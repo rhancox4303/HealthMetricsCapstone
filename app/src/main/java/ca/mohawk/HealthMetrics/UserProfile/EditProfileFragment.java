@@ -32,8 +32,6 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     RadioGroup radioGroupGender;
     EditText dateOfBirthEditText;
 
-    DatePickerFragment datePickerFragment = new DatePickerFragment();
-
     public EditProfileFragment() {
         // Required empty public constructor
     }
@@ -76,6 +74,8 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         if (v.getId() == R.id.buttonEditProfile) {
             editUserProfile();
         } else if (v.getId() == R.id.editTextDateOfBirthEditProfile) {
+            DatePickerFragment datePickerFragment = new DatePickerFragment();
+            datePickerFragment.setOnDateSetListener(this);
             datePickerFragment.show(getFragmentManager().beginTransaction(), "datePicker");
         }
     }
