@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 
-import androidx.fragment.app.DialogFragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MainActivity;
@@ -25,7 +25,6 @@ public class UserCreationActivity extends AppCompatActivity implements View.OnCl
 
     HealthMetricsDbHelper healthMetricsDbHelper;
     EditText dateOfBirthEditText;
-    DatePickerFragment datePickerFragment = new DatePickerFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +82,7 @@ public class UserCreationActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 

@@ -23,7 +23,11 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment{
 
-    String date = "" ;
+    private DatePickerDialog.OnDateSetListener onDateSetListener;
+
+    public void setOnDateSetListener(DatePickerDialog.OnDateSetListener onDateSetListener) {
+        this.onDateSetListener = onDateSetListener;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -34,6 +38,6 @@ public class DatePickerFragment extends DialogFragment{
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), (UserCreationActivity)getActivity(), year, month, day);
+        return new DatePickerDialog(getActivity(), onDateSetListener, year, month, day);
     }
 }
