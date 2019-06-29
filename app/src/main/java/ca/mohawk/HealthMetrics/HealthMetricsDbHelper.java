@@ -323,5 +323,14 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);
     }
 
+    public int addMetricToProfile(int unitId, int metricId){
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID,unitId);
+        values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE,1);
+
+        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Users._ID + " = " + metricId,
+                null);
+    }
 }
 

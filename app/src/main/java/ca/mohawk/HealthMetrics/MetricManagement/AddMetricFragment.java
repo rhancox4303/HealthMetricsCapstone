@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.SpinnerObjects.MetricSpinnerObject;
 import ca.mohawk.HealthMetrics.SpinnerObjects.UnitSpinnerObject;
@@ -31,6 +32,8 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     }
 
     Spinner unitSpinner;
+    private int UnitId;
+    private int MetricId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,6 +43,9 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
         Button createMetricButton =  view.findViewById(R.id.buttonCreateMetricAddMetric);
         createMetricButton.setOnClickListener(this);
+
+        Button addMetricButton =  view.findViewById(R.id.buttonAddMetric);
+        addMetricButton.setOnClickListener(this);
 
         unitSpinner = (Spinner) view.findViewById(R.id.spinnerUnitAddMetric);
 
@@ -62,6 +68,20 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
                     .replace(R.id.fragmentContainer, createMetricFragment)
                     .addToBackStack(null)
                     .commit();
+        }else if (v.getId() == R.id.buttonAddMetric){
+            int updateStatus = healthMetricsDbHelper.addMetricToProfile(UnitId,MetricId);
+           if(updateStatus != 1){
+               Toast.makeText(getActivity(), "Error when adding metric", Toast.LENGTH_SHORT).show();
+           }else{
+               Toast.makeText(getActivity(), "Metric added successfully", Toast.LENGTH_SHORT).show();
+
+               MetricsViewFragment metricsViewFragment= new MetricsViewFragment();
+               getActivity().getSupportFragmentManager().beginTransaction()
+                       .replace(R.id.fragmentContainer, metricsViewFragment)
+                       .addToBackStack(null)
+                       .commit();
+           }
+
         }
     }
 
@@ -69,7 +89,10 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.spinnerMetricAddMetric) {
             String unitCategory = ((MetricSpinnerObject)parent.getSelectedItem()).getUnitCategory();
+            MetricId = ((MetricSpinnerObject)parent.getSelectedItem()).getMetridId();
             LoadUnitSpinner(unitCategory,view);
+        } else if (parent.getId() == R.id.spinnerUnitAddMetric){
+            UnitId = ((UnitSpinnerObject)parent.getSelectedItem()).getUnitId();
         }
     }
 
@@ -82,7 +105,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         unitSpinner.setAdapter(null);
 
         List<UnitSpinnerObject> units = healthMetricsDbHelper.getAllSpinnerUnits(unitCategory);
-        ArrayAdapter<UnitSpinnerObject> unitSpinnerObjectArrayAdapter = new ArrayAdapter<UnitSpinnerObject>(view.getContext(), android.R.layout.simple_spinner_item, units);
+        ArrayAdapter<UnitSpinnerObject> unitSpinnerObjectArrayAdapter = new ArrayAdapter<UnitSpinnerObject>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, units);
         unitSpinnerObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(unitSpinnerObjectArrayAdapter);
     }
