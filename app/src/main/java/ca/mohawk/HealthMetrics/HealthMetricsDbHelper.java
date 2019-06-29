@@ -6,12 +6,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.Models.User;
+import ca.mohawk.HealthMetrics.SpinnerObjects.MetricSpinnerObject;
+import ca.mohawk.HealthMetrics.SpinnerObjects.UnitSpinnerObject;
 
 public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
@@ -70,78 +75,79 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addMetric(Metric metric){
+    public void addMetric(Metric metric) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
-        try{
+        try {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.Name);
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, metric.UnitId);
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORY, metric.UnitCategory);
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.IsAddedToProfile);
 
-            db.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME,null,values);
+            db.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME, null, values);
             db.setTransactionSuccessful();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d("TAG", "Error while trying to add metric to database");
-        }finally {
+        } finally {
             db.endTransaction();
         }
     }
 
-    public void addUnit(Unit unit){
-        SQLiteDatabase db =getWritableDatabase();
+    public void addUnit(Unit unit) {
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
-        try{
+        try {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Units.COLUMN_NAME_UNITNAME, unit.UnitName);
             values.put(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION, unit.UnitAbbreviation);
-            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORY,unit.UnitCategory);
-            db.insertOrThrow(HealthMetricContract.Units.TABLE_NAME,null,values);
+            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORY, unit.UnitCategory);
+            db.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
             db.setTransactionSuccessful();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d("TAG", "Error while trying to add unit to database");
-        }finally {
+        } finally {
             db.endTransaction();
         }
     }
-    public void seedUnits(){
 
-        ArrayList<Unit> unitArrayList =  new ArrayList<Unit>();
+    public void seedUnits() {
 
-        Unit centimeters = new Unit("Centimeters","cm","Length");
-        Unit meters = new Unit("Meters","m","Length");
-        Unit inches = new Unit("Inches","in","Length");
-        Unit feet = new Unit("Feet","ft","Length");
+        ArrayList<Unit> unitArrayList = new ArrayList<Unit>();
+
+        Unit centimeters = new Unit("Centimeters", "cm", "Length");
+        Unit meters = new Unit("Meters", "m", "Length");
+        Unit inches = new Unit("Inches", "in", "Length");
+        Unit feet = new Unit("Feet", "ft", "Length");
 
         unitArrayList.add(centimeters);
         unitArrayList.add(meters);
         unitArrayList.add(inches);
         unitArrayList.add(feet);
 
-        Unit kilograms = new Unit("Kilograms","kg","Weight");
-        Unit grams = new Unit("Grams","g","Weight");
-        Unit milligrams = new Unit("Milligrams","mg","Weight");
-        Unit pounds = new Unit("Pounds","lb","Weight");
+        Unit kilograms = new Unit("Kilograms", "kg", "Weight");
+        Unit grams = new Unit("Grams", "g", "Weight");
+        Unit milligrams = new Unit("Milligrams", "mg", "Weight");
+        Unit pounds = new Unit("Pounds", "lb", "Weight");
 
         unitArrayList.add(kilograms);
         unitArrayList.add(grams);
         unitArrayList.add(milligrams);
         unitArrayList.add(pounds);
 
-        Unit hours = new Unit("Hours","hrs","Time");
-        Unit minutes = new Unit("Minutes","min","Time");
-        Unit seconds = new Unit("Seconds","s","Time");
+        Unit hours = new Unit("Hours", "hrs", "Time");
+        Unit minutes = new Unit("Minutes", "min", "Time");
+        Unit seconds = new Unit("Seconds", "s", "Time");
 
         unitArrayList.add(hours);
         unitArrayList.add(minutes);
         unitArrayList.add(seconds);
 
-        Unit litres = new Unit("Litres","l","Volume");
-        Unit milliliter = new Unit("Milliliters","ml","Volume");
-        Unit ounce = new Unit("Ounces","fl oz","Volume");
-        Unit cupMilliliter = new Unit("Cup(240ml)","Cups","Volume");
-        Unit cupOunce = new Unit("Cup(8.4 fl oz)","Cups","Volume");
+        Unit litres = new Unit("Litres", "l", "Volume");
+        Unit milliliter = new Unit("Milliliters", "ml", "Volume");
+        Unit ounce = new Unit("Ounces", "fl oz", "Volume");
+        Unit cupMilliliter = new Unit("Cup(240ml)", "Cups", "Volume");
+        Unit cupOunce = new Unit("Cup(8.4 fl oz)", "Cups", "Volume");
 
         unitArrayList.add(litres);
         unitArrayList.add(milliliter);
@@ -149,81 +155,162 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         unitArrayList.add(cupMilliliter);
         unitArrayList.add(cupOunce);
 
-        Unit systolicBloodPressure = new Unit("Systolic Blood Pressure","mmHg","Blood Pressure");
-        Unit diastolicBloodPressure = new Unit("Diastolic Blood Pressure","mmHg","Blood Pressure");
+        Unit systolicBloodPressure = new Unit("Systolic Blood Pressure", "mmHg", "Blood Pressure");
+        Unit diastolicBloodPressure = new Unit("Diastolic Blood Pressure", "mmHg", "Blood Pressure");
 
         unitArrayList.add(systolicBloodPressure);
         unitArrayList.add(diastolicBloodPressure);
 
-        for(Unit unit : unitArrayList){
+        for (Unit unit : unitArrayList) {
             addUnit(unit);
         }
     }
 
-    public void seedMetrics(){
-        ArrayList<Metric>  metricArrayList=  new ArrayList<Metric>();
+    public void seedMetrics() {
+        ArrayList<Metric> metricArrayList = new ArrayList<Metric>();
 
-        Metric leftBicepSize = new Metric(0,"Left Bicep Size","Length",0);
-        Metric rightBicepSize = new Metric(0,"Right Bicep Size","Length",0);
+        Metric leftBicepSize = new Metric(0, "Left Bicep Size", "Length", 0);
+        Metric rightBicepSize = new Metric(0, "Right Bicep Size", "Length", 0);
 
         metricArrayList.add(leftBicepSize);
         metricArrayList.add(rightBicepSize);
 
-        Metric bloodPressure = new Metric(0,"Blood Pressure", "Blood Pressure",0);
+        Metric bloodPressure = new Metric(0, "Blood Pressure", "Blood Pressure", 0);
         metricArrayList.add(bloodPressure);
 
-        Metric bodyHeight = new Metric(0,"Body Height","Length",0);
+        Metric bodyHeight = new Metric(0, "Body Height", "Length", 0);
         metricArrayList.add(bodyHeight);
 
-        Metric leftCalfSize = new Metric(0,"Left Calf Size","Length",0);
-        Metric rightCalfSize = new Metric(0,"Right Calf Size","Length",0);
+        Metric leftCalfSize = new Metric(0, "Left Calf Size", "Length", 0);
+        Metric rightCalfSize = new Metric(0, "Right Calf Size", "Length", 0);
 
         metricArrayList.add(leftCalfSize);
         metricArrayList.add(rightCalfSize);
 
-        Metric chestSize = new Metric(0,"Chest Size","Length",0);
+        Metric chestSize = new Metric(0, "Chest Size", "Length", 0);
         metricArrayList.add(chestSize);
 
-        Metric sleepDuration = new Metric(0,"Sleep Duration","Time",0);
+        Metric sleepDuration = new Metric(0, "Sleep Duration", "Time", 0);
         metricArrayList.add(sleepDuration);
 
-        Metric waistSize = new Metric(0,"Waist Size","Length",0);
+        Metric waistSize = new Metric(0, "Waist Size", "Length", 0);
         metricArrayList.add(waistSize);
 
-        Metric waterIntake = new Metric(0,"Water Intake","Volume",0);
+        Metric waterIntake = new Metric(0, "Water Intake", "Volume", 0);
         metricArrayList.add(waterIntake);
 
-        for(Metric metric : metricArrayList){
+        for (Metric metric : metricArrayList) {
             addMetric(metric);
         }
 
     }
-    public User getUser(){
+
+    public List<MetricSpinnerObject> getAllSpinnerMetrics() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                HealthMetricContract.Metrics._ID,
+                HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME,
+                HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORY
+        };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME + " ASC";
+
+        Cursor cursor = db.query(
+                HealthMetricContract.Metrics.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                sortOrder);              // The sort order
+
+        List metrics = new ArrayList<MetricSpinnerObject>();
+
+        while (cursor.moveToNext()) {
+            String metricName = cursor.getString(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME));
+
+            String unitCategory = cursor.getString(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORY));
+            int id = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics._ID));
+            metrics.add(new MetricSpinnerObject(unitCategory,metricName,id));
+        }
+
+        cursor.close();
+        return metrics;
+    }
+    public List<UnitSpinnerObject> getAllSpinnerUnits(String unitCategory) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                HealthMetricContract.Units._ID,
+                HealthMetricContract.Units.COLUMN_NAME_UNITNAME
+        };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                HealthMetricContract.Units.COLUMN_NAME_UNITNAME + " ASC";
+
+        String selection =  HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORY + "=?";
+
+        Cursor cursor = db.query(
+                HealthMetricContract.Units.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+              selection,              // The columns for the WHERE clause
+                new String[]{unitCategory},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                sortOrder);              // The sort order
+
+        List unitSpinnerObjects = new ArrayList<UnitSpinnerObject>();
+
+        while (cursor.moveToNext()) {
+            String unitName = cursor.getString(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Units.COLUMN_NAME_UNITNAME));
+
+            int id = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Units._ID));
+            unitSpinnerObjects.add(new UnitSpinnerObject(unitName,id));
+        }
+
+        cursor.close();
+        return unitSpinnerObjects;
+    }
+
+    public User getUser() {
 
         SQLiteDatabase database = getReadableDatabase();
-        String  selectQuery = "SELECT * FROM " + HealthMetricContract.Users.TABLE_NAME + " WHERE _ID = 1";
+        String selectQuery = "SELECT * FROM " + HealthMetricContract.Users.TABLE_NAME + " WHERE _ID = 1";
         Cursor cursor = database.rawQuery(selectQuery, null);
         cursor.moveToFirst();
 
-        if(cursor != null){
+        if (cursor != null) {
             String firstName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME));
             String lastName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_LASTNAME));
             String gender = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_GENDER));
             String dateOfBirth = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH));
 
-            User user = new User(firstName,lastName,gender,dateOfBirth);
+            User user = new User(firstName, lastName, gender, dateOfBirth);
             cursor.close();
             database.close();
             return user;
-        }else{
-            Log.d("ERROR","No user found.");
+        } else {
+            Log.d("ERROR", "No user found.");
             cursor.close();
             database.close();
             return null;
         }
     }
 
-    public int updateUser(User user){
+    public int updateUser(User user) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -232,8 +319,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.DateOfBirth);
         values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
 
-        return database.update(HealthMetricContract.Users.TABLE_NAME, values,HealthMetricContract.Users._ID + " = 1",
+        return database.update(HealthMetricContract.Users.TABLE_NAME, values, HealthMetricContract.Users._ID + " = 1",
                 null);
     }
+
 }
 

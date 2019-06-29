@@ -8,7 +8,7 @@
     tools:context=".MetricManagement.AddMetricFragment">
 
     <Spinner
-        android:id="@+id/spinnerMetricAddMetric2"
+        android:id="@+id/spinnerUnitAddMetric"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
