@@ -151,10 +151,12 @@ public final class HealthMetricContract {
     public static abstract class Galleries implements BaseColumns {
         public static final String TABLE_NAME = "Galleries";
         public static final String COLUMN_NAME_GALLERYNAME = "GalleryName";
+        public static final String COLUMN_NAME_ISADDEDTOPROFILE = "IsAddedToProfile";
 
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME +
                 "(" + _ID + " INTEGER PRIMARY KEY," +
+                COLUMN_NAME_ISADDEDTOPROFILE + " INTEGER," +
                 COLUMN_NAME_GALLERYNAME + " TEXT )";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

@@ -9,4 +9,4 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         tools:context=".MetricManagement.MetricsViewFragment"
-        tools:listitem="@layout/fragment_metrics_" />
+        tools:listitem="@layout/fragment_metrics_custom_recyclerview_layout" />

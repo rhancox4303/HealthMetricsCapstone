@@ -2,19 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/metric_recycler_view_border">
 
     <TextView
-        android:id="@+id/item_number"
+        android:id="@+id/textViewMetricName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
+        android:gravity="center_vertical|left"
         android:textAppearance="?attr/textAppearanceListItem" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/textViewMetricDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
+        android:gravity="center_vertical|right"
         android:textAppearance="?attr/textAppearanceListItem" />
 </LinearLayout>

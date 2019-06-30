@@ -1,6 +1,4 @@
-package ca.mohawk.HealthMetrics.SpinnerObjects;
-
-import ca.mohawk.HealthMetrics.Models.Metric;
+package ca.mohawk.HealthMetrics.DisplayObjects;
 
 public class MetricSpinnerObject {
 

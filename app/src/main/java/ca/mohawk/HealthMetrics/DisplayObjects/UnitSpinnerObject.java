@@ -1,4 +1,4 @@
-package ca.mohawk.HealthMetrics.SpinnerObjects;
+package ca.mohawk.HealthMetrics.DisplayObjects;
 
 public class UnitSpinnerObject {
 

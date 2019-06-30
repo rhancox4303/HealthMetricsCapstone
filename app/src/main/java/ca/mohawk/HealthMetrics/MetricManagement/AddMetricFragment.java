@@ -3,6 +3,8 @@ package ca.mohawk.HealthMetrics.MetricManagement;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,9 @@ import android.widget.Toast;
 import java.util.List;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
-import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.R;
-import ca.mohawk.HealthMetrics.SpinnerObjects.MetricSpinnerObject;
-import ca.mohawk.HealthMetrics.SpinnerObjects.UnitSpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
 
 
 /**
@@ -48,10 +49,13 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         addMetricButton.setOnClickListener(this);
 
         unitSpinner = (Spinner) view.findViewById(R.id.spinnerUnitAddMetric);
+        unitSpinner.setOnItemSelectedListener(this);
 
         Spinner metricSpinner = (Spinner) view.findViewById(R.id.spinnerMetricAddMetric);
         metricSpinner.setOnItemSelectedListener(this);
-        List<MetricSpinnerObject> metrics = healthMetricsDbHelper.getAllSpinnerMetrics();
+
+        List<MetricSpinnerObject> metrics = healthMetricsDbHelper.getAllMetrics();
+
         ArrayAdapter<MetricSpinnerObject> metricSpinnerObjectArrayAdapter = new ArrayAdapter<MetricSpinnerObject>(view.getContext(), android.R.layout.simple_spinner_item, metrics);
         metricSpinnerObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         metricSpinner.setAdapter(metricSpinnerObjectArrayAdapter);
@@ -81,7 +85,6 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
                        .addToBackStack(null)
                        .commit();
            }
-
         }
     }
 
@@ -93,6 +96,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
             LoadUnitSpinner(unitCategory,view);
         } else if (parent.getId() == R.id.spinnerUnitAddMetric){
             UnitId = ((UnitSpinnerObject)parent.getSelectedItem()).getUnitId();
+            Log.d("UNITID","TEST" + UnitId);
         }
     }
 

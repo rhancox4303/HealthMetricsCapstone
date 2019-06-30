@@ -6,17 +6,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
 import ca.mohawk.HealthMetrics.Models.Metric;
+import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
+import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.Models.User;
-import ca.mohawk.HealthMetrics.SpinnerObjects.MetricSpinnerObject;
-import ca.mohawk.HealthMetrics.SpinnerObjects.UnitSpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
 
 public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
@@ -205,7 +206,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<MetricSpinnerObject> getAllSpinnerMetrics() {
+    public List<MetricSpinnerObject> getAllMetrics() {
         SQLiteDatabase db = getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -239,12 +240,13 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORY));
             int id = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics._ID));
-            metrics.add(new MetricSpinnerObject(unitCategory,metricName,id));
+            metrics.add(new MetricSpinnerObject(unitCategory, metricName, id));
         }
 
         cursor.close();
         return metrics;
     }
+
     public List<UnitSpinnerObject> getAllSpinnerUnits(String unitCategory) {
         SQLiteDatabase db = getReadableDatabase();
 
@@ -259,12 +261,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         String sortOrder =
                 HealthMetricContract.Units.COLUMN_NAME_UNITNAME + " ASC";
 
-        String selection =  HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORY + "=?";
+        String selection = HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORY + "=?";
 
         Cursor cursor = db.query(
                 HealthMetricContract.Units.TABLE_NAME,   // The table to query
                 projection,             // The array of columns to return (pass null to get all)
-              selection,              // The columns for the WHERE clause
+                selection,              // The columns for the WHERE clause
                 new String[]{unitCategory},          // The values for the WHERE clause
                 null,                   // don't group the rows
                 null,                   // don't filter by row groups
@@ -278,11 +280,146 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             int id = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Units._ID));
-            unitSpinnerObjects.add(new UnitSpinnerObject(unitName,id));
+            unitSpinnerObjects.add(new UnitSpinnerObject(unitName, id));
         }
 
         cursor.close();
         return unitSpinnerObjects;
+    }
+
+    public List<MetricRecyclerViewObject> getAddedMetricsAndGalleries() {
+
+        List<MetricRecyclerViewObject> recyclerViewObjects = new ArrayList<MetricRecyclerViewObject>();
+        recyclerViewObjects = getAddedMetrics(recyclerViewObjects);
+
+        return recyclerViewObjects;
+    }
+
+    public List<MetricRecyclerViewObject> getAddedMetrics(List<MetricRecyclerViewObject> recyclerViewObjects) {
+        SQLiteDatabase db = getReadableDatabase();
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                HealthMetricContract.Metrics._ID,
+                HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME,
+                HealthMetricContract.Metrics.COLUMN_NAME_UNITID
+        };
+
+        String selection = HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE + "=?";
+
+        Cursor cursor = db.query(
+                HealthMetricContract.Metrics.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                new String[]{String.valueOf(1)},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null);              // The sort order
+
+        while (cursor.moveToNext()) {
+            String metricName = cursor.getString(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME));
+            Log.d("TEST",metricName);
+            int metricId = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics._ID));
+
+            int unitId = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics.COLUMN_NAME_UNITID));
+
+            String dataEntry = getLatestDataEntryValue(metricId);
+            Log.d("TEST",String.valueOf(unitId));
+            Unit unit = getUnitById(unitId);
+            recyclerViewObjects.add(new MetricRecyclerViewObject(metricName, dataEntry, unit.UnitAbbreviation, "Quantitative"));
+        }
+
+        cursor.close();
+        return recyclerViewObjects;
+    }
+
+    public List<MetricRecyclerViewObject> getAddedPhotoGalleries(List<MetricRecyclerViewObject> recyclerViewObjects) {
+        return recyclerViewObjects;
+    }
+
+    public String getLatestDataEntryValue(int metricId) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY
+        };
+
+        String selection = HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID + "=?";
+        String sortOrder =
+                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY + " ASC";
+        Cursor cursor = db.query(
+                HealthMetricContract.MetricDataEntries.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                new String[]{String.valueOf(metricId)},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                sortOrder);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
+                cursor.close();
+                db.close();
+                return dataEntry;
+            } else {
+                cursor.close();
+                db.close();
+                return "No Data Available";
+            }
+        } else {
+            cursor.close();
+            db.close();
+            return "No Data Available";
+        }
+    }
+
+    public Unit getUnitById(int unitId) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Units.COLUMN_NAME_UNITNAME,
+                HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORY,
+                HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION
+        };
+
+        String selection = HealthMetricContract.Units._ID + "=?";
+        String unitIdString = String.valueOf(unitId);
+
+        Cursor cursor = db.query(
+                HealthMetricContract.Units.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                new String[]{unitIdString},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,
+                null);                      // don't filter by row groups
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                String unitName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITNAME));
+                String unitCategory = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORY));
+                String unitAbbreviation = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION));
+
+                Unit unit = new Unit(unitName, unitAbbreviation, unitCategory);
+                cursor.close();
+                db.close();
+                return unit;
+            }else{
+                Log.d("ERROR", "No unit found.");
+                cursor.close();
+                db.close();
+                return null;
+            }
+        } else {
+            Log.d("ERROR", "No unit found.");
+            cursor.close();
+            db.close();
+            return null;
+        }
     }
 
     public User getUser() {
@@ -323,11 +460,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);
     }
 
-    public int addMetricToProfile(int unitId, int metricId){
+    public int addMetricToProfile(int unitId, int metricId) {
+        Log.d("TEST",String.valueOf(unitId));
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID,unitId);
-        values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE,1);
+        values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, unitId);
+        values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, 1);
 
         return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Users._ID + " = " + metricId,
                 null);
