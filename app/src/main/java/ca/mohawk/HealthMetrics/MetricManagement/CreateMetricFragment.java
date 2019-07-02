@@ -6,15 +6,33 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
+import java.util.List;
+
+import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateMetricFragment extends Fragment {
+public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener, Spinner.OnItemSelectedListener  {
 
+    private HealthMetricsDbHelper healthMetricsDbHelper;
+    private TextView nameTextView;
+    private TextView unitCategoryDisplayTextView;
+    private Spinner unitCategorySpinner;
+    private RadioGroup metricTypeRadioGroup;
+    private EditText metricNameEditText;
+    private String unitCategory;
 
     public CreateMetricFragment() {
         // Required empty public constructor
@@ -25,7 +43,71 @@ public class CreateMetricFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_metric, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_create_metric, container, false);
+
+        Button createMetricButton = rootView.findViewById(R.id.buttonCreateMetric);
+        createMetricButton.setOnClickListener(this);
+        metricNameEditText = rootView.findViewById(R.id.editTextMetricNameCreateMetric);
+        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+        List<String> unitCategoriesList = healthMetricsDbHelper.getAllUnitCategories();
+
+        nameTextView = rootView.findViewById(R.id.textViewDisplayMetricNameCreateMetric);
+        unitCategoryDisplayTextView = rootView.findViewById(R.id.textViewDisplayUnitCategoryCreateMetric);
+        unitCategorySpinner = rootView.findViewById(R.id.spinnerUnitCategoryCreateMetric);
+
+        ArrayAdapter<String> unitCategoryAdapater = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item,unitCategoriesList);
+        unitCategorySpinner.setAdapter(unitCategoryAdapater);
+        unitCategorySpinner.setOnItemSelectedListener(this);
+
+        metricTypeRadioGroup = rootView.findViewById(R.id.radioGroupMetricTypeCreateMetric);
+        metricTypeRadioGroup.setOnCheckedChangeListener(this);
+        return rootView;
     }
 
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+        switch(checkedId){
+            case R.id.radioButtonQuantitativeCreateMetric:
+                nameTextView.setText("Metric Name");
+                unitCategoryDisplayTextView.setVisibility(View.VISIBLE);
+                unitCategorySpinner.setVisibility(View.VISIBLE);
+                break;
+            case R.id.radioButtonGalleryCreateMetric:
+                nameTextView.setText("Gallery Name");
+                unitCategoryDisplayTextView.setVisibility(View.INVISIBLE);
+                unitCategorySpinner.setVisibility(View.INVISIBLE);
+                break;
+        }
+    }
+
+    public Metric CreateNewMetric(){
+        String metricName = metricNameEditText.getText().toString();
+        Metric newMetric = new Metric(0,metricName,unitCategory,0);
+        return  newMetric;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(metricTypeRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonQuantitativeCreateMetric && !metricNameEditText.equals("") ){
+        Metric newMetric = CreateNewMetric();
+        healthMetricsDbHelper.addMetric(newMetric);
+
+        AddMetricFragment addMetricFragment= new AddMetricFragment();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, addMetricFragment)
+                .addToBackStack(null)
+                .commit();
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        unitCategory = parent.getSelectedItem().toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
