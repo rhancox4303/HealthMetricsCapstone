@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.Adapaters.MetricRecyclerViewAdapter;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
@@ -35,6 +36,8 @@ public class MetricsViewFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((MainActivity)getActivity()).getSupportActionBar().show();
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_metrics_view, container, false);
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());

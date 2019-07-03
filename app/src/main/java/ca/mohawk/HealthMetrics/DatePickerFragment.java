@@ -7,14 +7,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import ca.mohawk.HealthMetrics.UserProfile.UserCreationActivity;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 

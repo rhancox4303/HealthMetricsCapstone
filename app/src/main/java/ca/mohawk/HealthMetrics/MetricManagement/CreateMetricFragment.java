@@ -18,6 +18,7 @@ import java.util.List;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
+import ca.mohawk.HealthMetrics.Models.UnitCategory;
 import ca.mohawk.HealthMetrics.R;
 
 
@@ -32,7 +33,7 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
     private Spinner unitCategorySpinner;
     private RadioGroup metricTypeRadioGroup;
     private EditText metricNameEditText;
-    private String unitCategory;
+    private int unitCategoryId;
 
     public CreateMetricFragment() {
         // Required empty public constructor
@@ -49,13 +50,13 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
         createMetricButton.setOnClickListener(this);
         metricNameEditText = rootView.findViewById(R.id.editTextMetricNameCreateMetric);
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
-        List<String> unitCategoriesList = healthMetricsDbHelper.getAllUnitCategories();
+        List<UnitCategory> unitCategoriesList = healthMetricsDbHelper.getAllUnitCategories();
 
         nameTextView = rootView.findViewById(R.id.textViewDisplayMetricNameCreateMetric);
         unitCategoryDisplayTextView = rootView.findViewById(R.id.textViewDisplayUnitCategoryCreateMetric);
         unitCategorySpinner = rootView.findViewById(R.id.spinnerUnitCategoryCreateMetric);
 
-        ArrayAdapter<String> unitCategoryAdapater = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item,unitCategoriesList);
+        ArrayAdapter<UnitCategory> unitCategoryAdapater = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, unitCategoriesList);
         unitCategorySpinner.setAdapter(unitCategoryAdapater);
         unitCategorySpinner.setOnItemSelectedListener(this);
 
@@ -83,7 +84,7 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
 
     public Metric CreateNewMetric(){
         String metricName = metricNameEditText.getText().toString();
-        Metric newMetric = new Metric(0,metricName,unitCategory,0);
+        Metric newMetric = new Metric(0,metricName,unitCategoryId,0);
         return  newMetric;
     }
 
@@ -103,7 +104,7 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        unitCategory = parent.getSelectedItem().toString();
+        unitCategoryId = ((UnitCategory)parent.getSelectedItem()).getId();
     }
 
     @Override

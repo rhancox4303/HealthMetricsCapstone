@@ -4,12 +4,12 @@ public class Unit {
     public int Id;
     public String UnitName;
     public String UnitAbbreviation;
-    public String UnitCategory;
+    public int UnitCategoryId;
 
-    public Unit(String unitName, String unitAbbreviation, String unitCategory) {
+    public Unit(String unitName, String unitAbbreviation, int unitCategoryId) {
         UnitName = unitName;
         UnitAbbreviation = unitAbbreviation;
-        UnitCategory = unitCategory;
+        UnitCategoryId = unitCategoryId;
     }
 
     @Override

@@ -22,7 +22,6 @@ import ca.mohawk.HealthMetrics.MetricManagement.MetricsViewFragment;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
 import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
-import ca.mohawk.HealthMetrics.UserProfile.UserCreationActivity;
 import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -60,6 +59,7 @@ public class MainActivity extends AppCompatActivity
 
             //Create and seed the DB
             healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
+            healthMetricsDbHelper.seedUnitCategories();
             healthMetricsDbHelper.seedUnits();
             healthMetricsDbHelper.seedMetrics();
 

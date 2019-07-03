@@ -48,7 +48,7 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+        ((MainActivity)getActivity()).getSupportActionBar().hide();
         View rootView =  inflater.inflate(R.layout.fragment_create_user, container, false);
         getActivity().setTitle("Create User Profile");
 

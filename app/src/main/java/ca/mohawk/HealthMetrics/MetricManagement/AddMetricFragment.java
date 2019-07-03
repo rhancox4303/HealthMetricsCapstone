@@ -91,9 +91,11 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.spinnerMetricAddMetric) {
-            String unitCategory = ((MetricSpinnerObject)parent.getSelectedItem()).getUnitCategory();
+
+            int unitCategoryId = ((MetricSpinnerObject)parent.getSelectedItem()).getUnitCategoryId();
             MetricId = ((MetricSpinnerObject)parent.getSelectedItem()).getMetridId();
-            LoadUnitSpinner(unitCategory,view);
+            LoadUnitSpinner(unitCategoryId);
+
         } else if (parent.getId() == R.id.spinnerUnitAddMetric){
             UnitId = ((UnitSpinnerObject)parent.getSelectedItem()).getUnitId();
             Log.d("UNITID","TEST" + UnitId);
@@ -104,11 +106,11 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    public void LoadUnitSpinner(String unitCategory, View view){
+    public void LoadUnitSpinner(int unitCategoryId){
 
         unitSpinner.setAdapter(null);
 
-        List<UnitSpinnerObject> units = healthMetricsDbHelper.getAllSpinnerUnits(unitCategory);
+        List<UnitSpinnerObject> units = healthMetricsDbHelper.getAllSpinnerUnits(unitCategoryId);
         ArrayAdapter<UnitSpinnerObject> unitSpinnerObjectArrayAdapter = new ArrayAdapter<UnitSpinnerObject>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, units);
         unitSpinnerObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(unitSpinnerObjectArrayAdapter);

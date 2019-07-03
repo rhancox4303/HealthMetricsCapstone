@@ -4,14 +4,14 @@ public class Metric {
     public int Id;
     public int UnitId;
     public String Name;
-    public String UnitCategory;
+    public int UnitCategoryId;
     public int IsAddedToProfile;
 
-    public Metric(int unitId, String name, String unitCategory,  int isAddedToProfile) {
+    public Metric(int unitId, String name, int unitCategoryId,  int isAddedToProfile) {
         UnitId = unitId;
         Name = name;
         IsAddedToProfile = isAddedToProfile;
-        UnitCategory = unitCategory;
+        UnitCategoryId = unitCategoryId;
     }
 
 }
