@@ -15,7 +15,8 @@ import ca.mohawk.HealthMetrics.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The ViewProfileFragment class is an extension of the Fragment class.
+ * It is used to view the user's profile information.
  */
 public class ViewProfileFragment extends Fragment implements View.OnClickListener  {
     HealthMetricsDbHelper healthMetricsDbHelper;
@@ -24,7 +25,10 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         // Required empty public constructor
     }
 
-
+    /**
+     * The onCreateView method initializes the view variables 
+     * and the HealthMetricsDbHelper object when the Fragment view is created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,9 +45,11 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
         TextView lastNameView = view.findViewById(R.id.textViewLastNameDisplay);
         TextView genderView = view.findViewById(R.id.textViewGenderDisplay);
         TextView dateOfBirthView = view.findViewById(R.id.textViewBirthDateDisplay);
-
+        
+        //Get the user from the database.
         User user = healthMetricsDbHelper.getUser();
-
+        
+        //Fill the fields with the user data.
         firstNameView.setText(user.FirstName);
         lastNameView.setText(user.LastName);
         genderView.setText(user.Gender);
@@ -51,7 +57,10 @@ public class ViewProfileFragment extends Fragment implements View.OnClickListene
 
         return view;
     }
-
+    /**
+     * The onClick method runs when the a view's onClickListener is activated.
+     * It displays the EditProfileFragment when the method is run.
+     */
     @Override
     public void onClick(View v) {
         EditProfileFragment editProfileFragment= new EditProfileFragment();
