@@ -11,7 +11,8 @@ import androidx.fragment.app.Fragment;
 import java.util.Calendar;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The DatePickerFragment class is an extension of the Dialog Fragment class.
+ * It is used to represent a Date Picker Dialog.
  */
 public class DatePickerFragment extends DialogFragment{
 
