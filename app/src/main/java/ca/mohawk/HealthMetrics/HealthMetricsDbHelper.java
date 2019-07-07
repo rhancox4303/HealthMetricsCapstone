@@ -20,6 +20,10 @@ import ca.mohawk.HealthMetrics.Models.User;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
 
+/**
+ * The HealthMetricsDbHelper class extends the SQLiteOpenHelper Class.
+ * It contains helper methods for interacting with the HealthMetrics Database.
+ */
 public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
@@ -37,6 +41,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return sInstance;
     }
 
+    /**
+     * The onCreate method runs when the database is created.
+     * It executes the Create statments from HealthMetricContract.
+     *
+     * @param db represents the database.
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(HealthMetricContract.DosageMeasurements.CREATE_TABLE);
@@ -57,30 +67,43 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * The addUser method adds the user to the database.
+     *
+     * @param user represents the user to be added to the database.
+     */
     public void addUser(User user) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.beginTransaction();
-        try {
 
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+
+        try {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.FirstName);
             values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.LastName);
             values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.DateOfBirth);
             values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
 
-            // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
-            db.insertOrThrow(HealthMetricContract.Users.TABLE_NAME, null, values);
-            db.setTransactionSuccessful();
+            writableDatabase.insertOrThrow(HealthMetricContract.Users.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add user to database");
         } finally {
-            db.endTransaction();
+            writableDatabase.endTransaction();
+            writableDatabase.close();
         }
     }
 
+    /**
+     * The addMetric method adds the metric to the database.
+     *
+     * @param metric represents the metric to be added to the database.
+     */
     public void addMetric(Metric metric) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.beginTransaction();
+
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+
         try {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.Name);
@@ -88,78 +111,101 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID, metric.UnitCategoryId);
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.IsAddedToProfile);
 
-            db.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME, null, values);
-            db.setTransactionSuccessful();
+            writableDatabase.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add metric to database");
         } finally {
-            db.endTransaction();
+            writableDatabase.endTransaction();
+            writableDatabase.close();
         }
     }
 
+    /**
+     * The addUnit method adds the unit to the database.
+     *
+     * @param unit represents the unit to be added to the database.
+     */
     public void addUnit(Unit unit) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.beginTransaction();
+
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+
         try {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Units.COLUMN_NAME_UNITNAME, unit.UnitName);
             values.put(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION, unit.UnitAbbreviation);
             values.put(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID, unit.UnitCategoryId);
-            db.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
-            db.setTransactionSuccessful();
+
+            writableDatabase.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add unit to database");
         } finally {
-            db.endTransaction();
+            writableDatabase.endTransaction();
+            writableDatabase.close();
         }
     }
 
+    /**
+     * The addUnitCategory method adds the unitcategory to the database.
+     *
+     * @param unitCategory represents the unit category to be added to the database.
+     */
     public void addUnitCategory(UnitCategory unitCategory) {
 
-        SQLiteDatabase db = getWritableDatabase();
-        db.beginTransaction();
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
 
         try {
             ContentValues values = new ContentValues();
-            if(unitCategory.Id != 0) {
-                values.put(HealthMetricContract.UnitCategories._ID,unitCategory.Id);
+
+            if (unitCategory.Id != 0) {
+                values.put(HealthMetricContract.UnitCategories._ID, unitCategory.Id);
             }
+
             values.put(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY, unitCategory.UnitCategory);
 
-            db.insertOrThrow(HealthMetricContract.UnitCategories.TABLE_NAME, null, values);
-            db.setTransactionSuccessful();
+            writableDatabase.insertOrThrow(HealthMetricContract.UnitCategories.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
 
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add unit category to database");
         } finally {
-            db.endTransaction();
+            writableDatabase.endTransaction();
+            writableDatabase.close();
         }
     }
 
-    public void seedUnitCategories(){
+    /**
+     * The seedUnitCategories method seeds unit categories for the database.
+     */
+    public void seedUnitCategories() {
         List<UnitCategory> unitCategories = new ArrayList<>();
 
-        UnitCategory length = new UnitCategory(1,"Length");
+        UnitCategory length = new UnitCategory(1, "Length");
         unitCategories.add(length);
 
-        UnitCategory weight = new UnitCategory(2,"Weight");
+        UnitCategory weight = new UnitCategory(2, "Weight");
         unitCategories.add(weight);
 
-        UnitCategory time = new UnitCategory(3,"Time");
+        UnitCategory time = new UnitCategory(3, "Time");
         unitCategories.add(time);
 
-        UnitCategory volume = new UnitCategory(4,"Volume");
+        UnitCategory volume = new UnitCategory(4, "Volume");
         unitCategories.add(volume);
 
-        UnitCategory bloodPressure = new UnitCategory(5,"Blood Pressure");
+        UnitCategory bloodPressure = new UnitCategory(5, "Blood Pressure");
         unitCategories.add(bloodPressure);
 
         for (UnitCategory unitCategory : unitCategories) {
             addUnitCategory(unitCategory);
         }
-
-
     }
+
+    /**
+     * The seedUnits method seeds units for the database.
+     */
     public void seedUnits() {
 
         ArrayList<Unit> unitArrayList = new ArrayList<Unit>();
@@ -215,6 +261,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * The seedMetrics method seeds netrics for the database.
+     */
     public void seedMetrics() {
         ArrayList<Metric> metricArrayList = new ArrayList<Metric>();
 
@@ -251,32 +300,32 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         for (Metric metric : metricArrayList) {
             addMetric(metric);
         }
-
     }
 
+    /**
+     * The getAllMetrics method get all Metrics from the database.
+     *
+     * @return A list of MetricSpinnerObjects is returned.
+     */
     public List<MetricSpinnerObject> getAllMetrics() {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
         String[] projection = {
                 HealthMetricContract.Metrics._ID,
                 HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME,
                 HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID
         };
 
-        // How you want the results sorted in the resulting Cursor
-        String sortOrder =
-                HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME + " ASC";
+        String sortOrder = HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME + " ASC";
 
-        Cursor cursor = db.query(
-                HealthMetricContract.Metrics.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                sortOrder);              // The sort order
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Metrics.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder);
 
         List metrics = new ArrayList<MetricSpinnerObject>();
 
@@ -293,33 +342,37 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        readableDatabase.close();
         return metrics;
     }
 
+    /**
+     * The getAllSpinnerUnits method gets units based on the unit category id.
+     *
+     * @param unitCategoryId is the unit category id of units that will be returned.
+     * @return A list of UnitSpinner objects is returned.
+     */
     public List<UnitSpinnerObject> getAllSpinnerUnits(int unitCategoryId) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
         String[] projection = {
                 HealthMetricContract.Units._ID,
                 HealthMetricContract.Units.COLUMN_NAME_UNITNAME
         };
+
         String unitCategoryIdString = String.valueOf(unitCategoryId);
-        // How you want the results sorted in the resulting Cursor
-        String sortOrder =
-                HealthMetricContract.Units.COLUMN_NAME_UNITNAME + " ASC";
+        String sortOrder = HealthMetricContract.Units.COLUMN_NAME_UNITNAME + " ASC";
 
         String selection = HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID + "=?";
 
-        Cursor cursor = db.query(
-                HealthMetricContract.Units.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                new String[]{unitCategoryIdString},          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                sortOrder);              // The sort order
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Units.TABLE_NAME,
+                projection,
+                selection,
+                new String[]{unitCategoryIdString},
+                null,
+                null,
+                sortOrder);
 
         List unitSpinnerObjects = new ArrayList<UnitSpinnerObject>();
 
@@ -333,9 +386,15 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        readableDatabase.close();
         return unitSpinnerObjects;
     }
 
+    /**
+     * The getAddedMetricsAndGalleries method retrieves the added metrics and galleries.
+     *
+     * @return A list of MetricRecyclerViewObjects is returned.
+     */
     public List<MetricRecyclerViewObject> getAddedMetricsAndGalleries() {
 
         List<MetricRecyclerViewObject> recyclerViewObjects = new ArrayList<MetricRecyclerViewObject>();
@@ -344,10 +403,16 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return recyclerViewObjects;
     }
 
+    /**
+     * The getAddedMetrics method queries the database for added metrics.
+     *
+     * @param recyclerViewObjects represents the list that will be returned.
+     * @return A list of MetricRecyclerViewObjects is returned.
+     */
     public List<MetricRecyclerViewObject> getAddedMetrics(List<MetricRecyclerViewObject> recyclerViewObjects) {
-        SQLiteDatabase db = getReadableDatabase();
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
+
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
         String[] projection = {
                 HealthMetricContract.Metrics._ID,
                 HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME,
@@ -356,14 +421,14 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         String selection = HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE + "=?";
 
-        Cursor cursor = db.query(
-                HealthMetricContract.Metrics.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                new String[]{String.valueOf(1)},          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null);              // The sort order
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Metrics.TABLE_NAME,
+                projection,
+                selection,
+                new String[]{String.valueOf(1)},
+                null,
+                null,
+                null);
 
         while (cursor.moveToNext()) {
             String metricName = cursor.getString(
@@ -382,15 +447,55 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        readableDatabase.close();
         return recyclerViewObjects;
     }
 
+    /**
+     * The getAddedPhotoGalleries method queries the database for added photo galleries.
+     *
+     * @param recyclerViewObjects represents the list that will be returned.
+     * @return A list of MetricRecyclerViewObjects is returned.
+     */
     public List<MetricRecyclerViewObject> getAddedPhotoGalleries(List<MetricRecyclerViewObject> recyclerViewObjects) {
+
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME,
+        };
+
+        String selection = HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE + "=?";
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Galleries.TABLE_NAME,
+                projection,
+                selection,
+                new String[]{String.valueOf(1)},
+                null,
+                null,
+                null);
+
+        while (cursor.moveToNext()) {
+            String galleryName = cursor.getString(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
+
+            recyclerViewObjects.add(new MetricRecyclerViewObject(galleryName, null, null, "Gallery"));
+        }
+
+        cursor.close();
+        readableDatabase.close();
         return recyclerViewObjects;
     }
 
+    /**
+     * The getLatestDataEntryValue method retrieves the latest data entry for a specified metric.
+     *
+     * @param metricId The id of the metric of the data entry retrieved.
+     * @return The value of the latest data entry retrieved.
+     */
     public String getLatestDataEntryValue(int metricId) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
                 HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY
@@ -399,7 +504,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         String selection = HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID + "=?";
         String sortOrder =
                 HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY + " ASC";
-        Cursor cursor = db.query(
+        Cursor cursor = readableDatabase.query(
                 HealthMetricContract.MetricDataEntries.TABLE_NAME,   // The table to query
                 projection,             // The array of columns to return (pass null to get all)
                 selection,              // The columns for the WHERE clause
@@ -409,25 +514,24 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 sortOrder);
 
         if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
-                cursor.close();
-                db.close();
-                return dataEntry;
-            } else {
-                cursor.close();
-                db.close();
-                return "No Data Available";
-            }
+            String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
+            cursor.close();
+            readableDatabase.close();
+            return dataEntry;
         } else {
             cursor.close();
-            db.close();
+            readableDatabase.close();
             return "No Data Available";
         }
     }
 
+    /**
+     * The getUnitById retrieves a unit based on it's id.
+     * @param unitId The id of the unit that will be returned.
+     * @return The unit with the id specified.
+     */
     public Unit getUnitById(int unitId) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
                 HealthMetricContract.Units.COLUMN_NAME_UNITNAME,
@@ -438,7 +542,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         String selection = HealthMetricContract.Units._ID + "=?";
         String unitIdString = String.valueOf(unitId);
 
-        Cursor cursor = db.query(
+        Cursor cursor = readableDatabase.query(
                 HealthMetricContract.Units.TABLE_NAME,   // The table to query
                 projection,             // The array of columns to return (pass null to get all)
                 selection,              // The columns for the WHERE clause
@@ -448,29 +552,27 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);                      // don't filter by row groups
 
         if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                String unitName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITNAME));
-                int unitCategoryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID));
-                String unitAbbreviation = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION));
+            String unitName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITNAME));
+            int unitCategoryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID));
+            String unitAbbreviation = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION));
 
-                Unit unit = new Unit(unitName, unitAbbreviation, unitCategoryId);
-                cursor.close();
-                db.close();
-                return unit;
-            } else {
-                Log.d("ERROR", "No unit found.");
-                cursor.close();
-                db.close();
-                return null;
-            }
+            Unit unit = new Unit(unitName, unitAbbreviation, unitCategoryId);
+            cursor.close();
+            readableDatabase.close();
+            return unit;
         } else {
             Log.d("ERROR", "No unit found.");
             cursor.close();
-            db.close();
+            readableDatabase.close();
             return null;
         }
     }
 
+    /**
+     *  The getUnitCategoryById method retrieves a unit category based on it's id.
+     * @param unitCategoryId The id of the unit category that is retrieved.
+     * @return The unit category with the id specified.
+     */
     public UnitCategory getUnitCategoryById(int unitCategoryId) {
         SQLiteDatabase db = getReadableDatabase();
 
@@ -492,20 +594,14 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);                      // don't filter by row groups
 
         if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                String unitCategoryString = cursor.getString(cursor.getColumnIndex(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY));
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow(HealthMetricContract.UnitCategories._ID));
+            String unitCategoryString = cursor.getString(cursor.getColumnIndex(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(HealthMetricContract.UnitCategories._ID));
 
-                UnitCategory unitCategory = new UnitCategory(id,unitCategoryIdString);
-                cursor.close();
-                db.close();
-                return unitCategory;
-            } else {
-                Log.d("ERROR", "No unit found.");
-                cursor.close();
-                db.close();
-                return null;
-            }
+            UnitCategory unitCategory = new UnitCategory(id, unitCategoryIdString);
+            cursor.close();
+            db.close();
+            return unitCategory;
+
         } else {
             Log.d("ERROR", "No unit found.");
             cursor.close();
@@ -513,6 +609,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             return null;
         }
     }
+
+    /**
+     * The getAllUnitCategories method returns all unit categories from the database
+     * @return A list of all unit categories.
+     */
     public List<UnitCategory> getAllUnitCategories() {
         List<UnitCategory> unitCategories = new ArrayList<>();
 
@@ -524,7 +625,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         };
         Cursor cursor = db.query(
                 HealthMetricContract.UnitCategories.TABLE_NAME,
-                 projection,
+                projection,
                 null,
                 null,
                 null,
@@ -533,18 +634,23 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);
 
         while (cursor.moveToNext()) {
-            int unitCategoryId =cursor.getInt(
+            int unitCategoryId = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.UnitCategories._ID));
             String unitCategoryString = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY));
 
-            UnitCategory unitCategory = new UnitCategory(unitCategoryId,unitCategoryString);
+            UnitCategory unitCategory = new UnitCategory(unitCategoryId, unitCategoryString);
             unitCategories.add(unitCategory);
         }
+        cursor.close();
         db.close();
         return unitCategories;
     }
 
+    /**
+     * The getUser profile retrieves the user from the database.
+     * @return The user is returned.
+     */
     public User getUser() {
 
         SQLiteDatabase database = getReadableDatabase();
@@ -570,6 +676,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * The updateUser method updates the user profile in the database.
+     * @param user The user that will be updated.
+     * @return An integer value indicating if the update is successful.
+     */
     public int updateUser(User user) {
         SQLiteDatabase database = this.getWritableDatabase();
 
@@ -583,6 +694,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);
     }
 
+    /**
+     * The addMetricToProfile method adds the metric the metric to the user profile.
+     * @param unitId The unit id of the unit that the metric will use.
+     * @param metricId The id of the metric that is being updated.
+     * @return An integer value indicating if the update is successful.
+     */
     public int addMetricToProfile(int unitId, int metricId) {
         Log.d("TEST", String.valueOf(unitId));
         SQLiteDatabase database = getWritableDatabase();

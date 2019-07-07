@@ -1,5 +1,7 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
+import ca.mohawk.HealthMetrics.Models.Metric;
+
 public class MetricRecyclerViewObject {
     public String MetricName;
     public String LatestMetricDataEntry;
@@ -17,7 +19,9 @@ public class MetricRecyclerViewObject {
         return MetricName;
     }
     public String getLatestMetricDataEntry(){
-        if(LatestMetricDataEntry.equals("No Data Available")){
+        if(MetricCategory.equals("Gallery")){
+            return "Photo Gallery";
+        } else if(LatestMetricDataEntry.equals("No Data Available")){
             return LatestMetricDataEntry;
         }else{
             return LatestMetricDataEntry + " " + UnitAbbreviation;
