@@ -95,6 +95,30 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * The addPhotoGallery method adds the gallery to the database.
+     *
+     * @param photoGallery represents the gallery to be added to the database.
+     */
+    public void addPhotoGallery(PhotoGallery photoGallery) {
+
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+        try{
+            ContentValues values = new ContentValues();
+            values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME,photoGallery.Name);
+            values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE,photoGallery.IsAddedToProfile);
+
+            writableDatabase.insertOrThrow(HealthMetricContract.Galleries.TABLE_NAME,null,values);
+            writableDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "Error while trying to add gallery to database");
+        } finally {
+            writableDatabase.endTransaction();
+            writableDatabase.close();
+        }
+    }
+
+    /**
      * The addMetric method adds the metric to the database.
      *
      * @param metric represents the metric to be added to the database.
@@ -527,6 +551,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     /**
      * The getUnitById retrieves a unit based on it's id.
+     *
      * @param unitId The id of the unit that will be returned.
      * @return The unit with the id specified.
      */
@@ -569,7 +594,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *  The getUnitCategoryById method retrieves a unit category based on it's id.
+     * The getUnitCategoryById method retrieves a unit category based on it's id.
+     *
      * @param unitCategoryId The id of the unit category that is retrieved.
      * @return The unit category with the id specified.
      */
@@ -612,6 +638,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     /**
      * The getAllUnitCategories method returns all unit categories from the database
+     *
      * @return A list of all unit categories.
      */
     public List<UnitCategory> getAllUnitCategories() {
@@ -649,6 +676,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     /**
      * The getUser profile retrieves the user from the database.
+     *
      * @return The user is returned.
      */
     public User getUser() {
@@ -678,6 +706,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     /**
      * The updateUser method updates the user profile in the database.
+     *
      * @param user The user that will be updated.
      * @return An integer value indicating if the update is successful.
      */
@@ -696,7 +725,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
     /**
      * The addMetricToProfile method adds the metric the metric to the user profile.
-     * @param unitId The unit id of the unit that the metric will use.
+     *
+     * @param unitId   The unit id of the unit that the metric will use.
      * @param metricId The id of the metric that is being updated.
      * @return An integer value indicating if the update is successful.
      */
