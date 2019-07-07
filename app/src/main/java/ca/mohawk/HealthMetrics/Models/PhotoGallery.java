@@ -5,8 +5,7 @@ public class PhotoGallery {
     public String Name;
     public int IsAddedToProfile;
 
-    public PhotoGallery(int id, String name, int isAddedToProfile) {
-        Id = id;
+    public PhotoGallery(String name, int isAddedToProfile) {
         Name = name;
         IsAddedToProfile = isAddedToProfile;
     }

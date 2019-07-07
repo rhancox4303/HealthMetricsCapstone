@@ -5,6 +5,7 @@ public class MetricSpinnerObject {
     private int UnitCategoryId;
     private String MetricName;
     private int MetridId;
+
     public MetricSpinnerObject(int unitCategory, String metricName, int metricId) {
         MetridId = metricId;
         UnitCategoryId = unitCategory;

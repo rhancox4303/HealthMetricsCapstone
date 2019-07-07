@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
@@ -423,7 +424,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         List<MetricRecyclerViewObject> recyclerViewObjects = new ArrayList<MetricRecyclerViewObject>();
         recyclerViewObjects = getAddedMetrics(recyclerViewObjects);
-
+        recyclerViewObjects = getAddedPhotoGalleries(recyclerViewObjects);
         return recyclerViewObjects;
     }
 
@@ -513,6 +514,45 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * The getAllPhotoGalleries method gets all photo galleries.
+     * @return The list of PhotoGallerySpinnerObjects.
+     */
+    public List<PhotoGallerySpinnerObject> getAllPhotoGalleries(){
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME,
+                HealthMetricContract.Galleries._ID
+        };
+
+        String sortOrder = HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME + " ASC";
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Galleries.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder);
+
+        List photoGallerySpinnerObjects = new ArrayList<PhotoGallerySpinnerObject>();
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries._ID));
+            String galleryName = cursor.getString(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
+
+            photoGallerySpinnerObjects.add(new PhotoGallerySpinnerObject(galleryName,id));
+        }
+
+        cursor.close();
+        readableDatabase.close();
+        return photoGallerySpinnerObjects;
+    }
+
+    /**
      * The getLatestDataEntryValue method retrieves the latest data entry for a specified metric.
      *
      * @param metricId The id of the metric of the data entry retrieved.
@@ -537,7 +577,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,                   // don't filter by row groups
                 sortOrder);
 
-        if (cursor != null) {
+        if (cursor != null && cursor.moveToFirst()) {
             String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
             cursor.close();
             readableDatabase.close();
@@ -576,7 +616,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);                      // don't filter by row groups
 
-        if (cursor != null) {
+        if (cursor != null && cursor.moveToFirst()) {
             String unitName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITNAME));
             int unitCategoryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID));
             String unitAbbreviation = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION));
@@ -724,7 +764,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * The addMetricToProfile method adds the metric the metric to the user profile.
+     * The addMetricToProfile method adds the metric to the user profile.
      *
      * @param unitId   The unit id of the unit that the metric will use.
      * @param metricId The id of the metric that is being updated.
@@ -737,7 +777,23 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, unitId);
         values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, 1);
 
-        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Users._ID + " = " + metricId,
+        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Units._ID + " = " + metricId,
+                null);
+    }
+
+    /**
+     * The addGalleryToProfile method adds the gallery to the user profile.
+     *
+     * @param galleryId The id of the gallery that is being updated.
+     * @return An integer value indicating if the update is successful.
+     */
+    public int addGalleryToProfile(int galleryId){
+
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE,1);
+
+        return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + galleryId,
                 null);
     }
 }

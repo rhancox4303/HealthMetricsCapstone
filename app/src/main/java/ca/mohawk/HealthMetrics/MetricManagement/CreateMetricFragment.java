@@ -18,6 +18,7 @@ import java.util.List;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
+import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.Models.UnitCategory;
 import ca.mohawk.HealthMetrics.R;
 
@@ -82,16 +83,21 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
         }
     }
 
-    public Metric CreateNewMetric(){
+    public Metric createNewMetric(){
         String metricName = metricNameEditText.getText().toString();
         Metric newMetric = new Metric(0,metricName,unitCategoryId,0);
         return  newMetric;
     }
+    public PhotoGallery createNewGallery(){
+        String galleryName = metricNameEditText.getText().toString();
+        PhotoGallery photoGallery = new PhotoGallery(galleryName,0);
+        return  photoGallery;
+    }
 
     @Override
     public void onClick(View v) {
-        if(metricTypeRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonQuantitativeCreateMetric && !metricNameEditText.equals("") ){
-        Metric newMetric = CreateNewMetric();
+        if(metricTypeRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonQuantitativeCreateMetric && !metricNameEditText.getText().toString().equals("") ){
+        Metric newMetric = createNewMetric();
         healthMetricsDbHelper.addMetric(newMetric);
 
         AddMetricFragment addMetricFragment= new AddMetricFragment();
@@ -99,6 +105,16 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
                 .replace(R.id.fragmentContainer, addMetricFragment)
                 .addToBackStack(null)
                 .commit();
+
+        }else if(!metricNameEditText.getText().toString().equals("")) {
+            PhotoGallery photoGallery = createNewGallery();
+            healthMetricsDbHelper.addPhotoGallery(photoGallery);
+
+            AddMetricFragment addMetricFragment= new AddMetricFragment();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, addMetricFragment)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 
