@@ -468,7 +468,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String dataEntry = getLatestDataEntryValue(metricId);
             Log.d("TEST", String.valueOf(unitId));
             Unit unit = getUnitById(unitId);
-            recyclerViewObjects.add(new MetricRecyclerViewObject(metricName, dataEntry, unit.UnitAbbreviation, "Quantitative"));
+            recyclerViewObjects.add(new MetricRecyclerViewObject(metricId,metricName, dataEntry, unit.UnitAbbreviation, "Quantitative"));
         }
 
         cursor.close();
@@ -487,7 +487,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
-                HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME,
+                HealthMetricContract.Galleries._ID,
+                HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME
         };
 
         String selection = HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE + "=?";
@@ -502,10 +503,14 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);
 
         while (cursor.moveToNext()) {
+
+            int galleryId = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries._ID));
+
             String galleryName = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
 
-            recyclerViewObjects.add(new MetricRecyclerViewObject(galleryName, null, null, "Gallery"));
+            recyclerViewObjects.add(new MetricRecyclerViewObject(galleryId, galleryName, null, null, "Gallery"));
         }
 
         cursor.close();

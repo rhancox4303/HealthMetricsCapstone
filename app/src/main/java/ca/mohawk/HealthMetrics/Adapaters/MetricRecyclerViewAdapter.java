@@ -1,6 +1,7 @@
 package ca.mohawk.HealthMetrics.Adapaters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,22 +9,29 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
+import ca.mohawk.HealthMetrics.MainActivity;
+import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.R;
 
 /**
  * The MetricRecyclerViewAdapter is a custom adapater to display
  * MetricRecyclerViewObject objects in the Metrics View Recycler View.
  */
+
 public class MetricRecyclerViewAdapter extends
         RecyclerView.Adapter<MetricRecyclerViewAdapter.ViewHolder>
 {
-    //The list of mtrics to be displayed in the recycler view.
+    private Context context;
+    //The list of metrics to be displayed in the recycler view.
     private List<MetricRecyclerViewObject> metricRecyclerViewObjectList;
     
-    public MetricRecyclerViewAdapter(List<MetricRecyclerViewObject> metricRecyclerViewObjectList) {
+    public MetricRecyclerViewAdapter(List<MetricRecyclerViewObject> metricRecyclerViewObjectList, Context context) {
         this.metricRecyclerViewObjectList = metricRecyclerViewObjectList;
+        this.context = context;
     }
     
     /**
@@ -45,7 +53,7 @@ public class MetricRecyclerViewAdapter extends
     
      /**
      * The onCreateViewHolder method is used to inflate 
-     * the custom layoutand create the viewholder.
+     * the custom layout and create the viewholder.
      */
     @Override
     public MetricRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -66,18 +74,50 @@ public class MetricRecyclerViewAdapter extends
     @Override
     public void onBindViewHolder(MetricRecyclerViewAdapter.ViewHolder viewHolder, int position) {
         //Get data object
-        MetricRecyclerViewObject metric = metricRecyclerViewObjectList.get(position);
+        final MetricRecyclerViewObject metric = metricRecyclerViewObjectList.get(position);
 
         // Set item views
         TextView metricTextView = viewHolder.textViewMetricName;
         metricTextView.setText(metric.getMetricName());
         TextView latestDataEntryTextView = viewHolder.latestMetricDataEntry;
         latestDataEntryTextView.setText(metric.getLatestMetricDataEntry());
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFragment(metric);
+            }
+        });
     }
 
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
         return metricRecyclerViewObjectList.size();
+    }
+
+    private void changeFragment(MetricRecyclerViewObject itemSelected) {
+        Fragment fragment = null;
+        if(itemSelected.MetricCategory.equals("Quantitative")){
+            fragment = new MetricDataViewFragment();
+        }else if(itemSelected.MetricCategory.equals("Gallery")){
+            fragment = new ViewPhotoGalleryFragment();
+        }
+
+        Bundle metricBundle = new Bundle();
+        metricBundle.putInt("item_selected_key", itemSelected.Id);
+
+        fragment.setArguments(metricBundle);
+        switchContent(fragment);
+    }
+
+    public void switchContent(Fragment fragment) {
+        if (context == null)
+            return;
+        if (context instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) context;
+            mainActivity.switchContent(fragment);
+        }
+
     }
 }

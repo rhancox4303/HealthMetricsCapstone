@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
