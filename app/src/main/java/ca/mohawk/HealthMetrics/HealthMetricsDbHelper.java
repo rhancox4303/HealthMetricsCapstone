@@ -639,6 +639,51 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * The getMetricById retrieves a metric based on it's id.
+     *
+     * @param metricID The id of the metric that will be returned.
+     * @return The metric with the id specified.
+     */
+    public Metric getMetricById(int metricID) {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME,
+                HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID,
+                HealthMetricContract.Metrics.COLUMN_NAME_UNITID,
+                HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE
+        };
+
+        String selection = HealthMetricContract.Metrics._ID + "=?";
+        String metricIDString = String.valueOf(metricID);
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Metrics.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                new String[]{metricIDString},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,
+                null);                      // don't filter by row groups
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String metricName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME));
+            int unitCategoryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID));
+            int unitId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Metrics.COLUMN_NAME_UNITID));
+            int isAddedToProfile = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE));
+
+            Metric metric = new Metric(unitId,metricName,unitCategoryId,isAddedToProfile);
+            cursor.close();
+            readableDatabase.close();
+            return metric;
+        } else {
+            Log.d("ERROR", "No metric found." + metricID);
+            cursor.close();
+            readableDatabase.close();
+            return null;
+        }
+    }
+    /**
      * The getUnitCategoryById method retrieves a unit category based on it's id.
      *
      * @param unitCategoryId The id of the unit category that is retrieved.

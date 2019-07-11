@@ -105,7 +105,7 @@ public class MetricRecyclerViewAdapter extends
         }
 
         Bundle metricBundle = new Bundle();
-        metricBundle.putInt("item_selected_key", itemSelected.Id);
+        metricBundle.putInt("metric_selected_key", itemSelected.Id);
 
         fragment.setArguments(metricBundle);
         switchContent(fragment);
