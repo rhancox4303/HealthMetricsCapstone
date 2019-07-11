@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
@@ -19,7 +20,7 @@ import ca.mohawk.HealthMetrics.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddDataEntryFragment extends Fragment {
+public class AddDataEntryFragment extends Fragment implements View.OnClickListener {
 
     HealthMetricsDbHelper healthMetricsDbHelper;
     int MetricId;
@@ -47,10 +48,16 @@ public class AddDataEntryFragment extends Fragment {
 
         TextView unitTextView = rootView.findViewById(R.id.textViewUnitAddDataEntry);
         TextView metricNameTextView = rootView.findViewById(R.id.textViewMetricDisplayAddDataEntry);
+        Button addDataEntry = rootView.findViewById(R.id.buttonAddEntry);
+        addDataEntry.setOnClickListener(this);
 
         unitTextView.setText(unit.UnitAbbreviation);
         metricNameTextView.setText(metric.Name);
         return rootView;
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }
