@@ -16,7 +16,7 @@ public class TimePickerFragment extends DialogFragment
 
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
 
-             public void setOnDateSetListener(TimePickerDialog.OnTimeSetListener onTimeSetListener) {
+             public void setOnTimeSetListener(TimePickerDialog.OnTimeSetListener onTimeSetListener) {
                  this.onTimeSetListener = onTimeSetListener;
              }
 
