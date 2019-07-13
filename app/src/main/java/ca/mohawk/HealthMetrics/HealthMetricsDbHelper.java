@@ -147,6 +147,31 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * The addDataEntry adds the metric to the database.
+     *
+     * @param metricDataEntry represents the metric data entry to be added to the database.
+     */
+    public void addDataEntry(MetricDataEntry metricDataEntry){
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY,metricDataEntry.DataEntry);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY,metricDataEntry.DateOfEntry);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID,metricDataEntry.MetricId);
+
+            writableDatabase.insertOrThrow(HealthMetricContract.MetricDataEntries.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "Error while trying to add data entry to database");
+        } finally {
+            writableDatabase.endTransaction();
+            writableDatabase.close();
+        }
+    }
+
+    /**
      * The addUnit method adds the unit to the database.
      *
      * @param unit represents the unit to be added to the database.

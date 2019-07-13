@@ -4,12 +4,12 @@ import java.util.Date;
 
 public class MetricDataEntry {
     public int Id;
-    public Metric Metric;
-    public double DataEntry;
-    public Date DateOfEntry;
+    public int MetricId;
+    public String DataEntry;
+    public String DateOfEntry;
 
-    public MetricDataEntry(Metric metric, double dataEntry, Date dateOfEntry) {
-        Metric = metric;
+    public MetricDataEntry(int metricId, String dataEntry, String dateOfEntry) {
+        MetricId = metricId;
         DataEntry = dataEntry;
         DateOfEntry = dateOfEntry;
     }
