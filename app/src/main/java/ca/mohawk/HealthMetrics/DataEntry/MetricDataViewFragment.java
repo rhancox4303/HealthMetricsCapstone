@@ -74,6 +74,7 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
         setUpGraphView();
         return rootView;
     }
+
     public void setUpGraphView(){
 
         List<Entry> entries = new ArrayList<Entry>();
