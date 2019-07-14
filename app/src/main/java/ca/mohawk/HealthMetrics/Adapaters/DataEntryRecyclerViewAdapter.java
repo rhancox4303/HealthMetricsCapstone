@@ -77,7 +77,7 @@ public class DataEntryRecyclerViewAdapter extends
         textViewDataEntry.setText(dataEntry.getDataEntry());
 
         TextView textViewDateOfEntry = viewHolder.textViewDateOfEntry;
-        textViewDateOfEntry.setText(dataEntry.getDateOfEntry());
+        textViewDateOfEntry.setText(dataEntry.getDateOfEntryString());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,6 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.utils.EntryXComparator;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +41,7 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
     HealthMetricsDbHelper healthMetricsDbHelper;
 
     int MetricId;
+    LineChart chart;
     public MetricDataViewFragment() {
         // Required empty public constructor
     }
@@ -41,6 +53,7 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_metric_data_view, container, false);
 
+        chart = (LineChart) rootView.findViewById(R.id.chartMetricDataView);
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         Bundle bundle = this.getArguments();
@@ -58,8 +71,34 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
         dataEntryRecylerView.setAdapter(adapter);
         dataEntryRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
+        setUpGraphView();
         return rootView;
+    }
+    public void setUpGraphView(){
+
+        List<Entry> entries = new ArrayList<Entry>();
+        final List <String> dates = new ArrayList<String>();
+
+        for (DataEntryRecyclerViewObject dataEntry : dataEntryRecyclerViewObjectList) {
+           Log.d("CHART",dataEntry.getDataEntry());
+            // turn your data into Entry objects
+            entries.add(new Entry(dataEntry.getDateOfEntry().getTime(), dataEntry.getNumericDataEntry()));
+            dates.add(dataEntry.getDateOfEntryString());
+        }
+
+        XAxis xAxis = chart.getXAxis();
+
+        xAxis.setDrawLabels(false);
+        chart.getLegend().setEnabled(false);   // Hide the legend
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+
+        Collections.sort(entries, new EntryXComparator());
+        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
+
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate(); // refresh
     }
 
     @Override
