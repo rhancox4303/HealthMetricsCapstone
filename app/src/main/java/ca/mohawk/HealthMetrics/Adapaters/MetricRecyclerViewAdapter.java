@@ -26,6 +26,7 @@ public class MetricRecyclerViewAdapter extends
         RecyclerView.Adapter<MetricRecyclerViewAdapter.ViewHolder>
 {
     private Context context;
+
     //The list of metrics to be displayed in the recycler view.
     private List<MetricRecyclerViewObject> metricRecyclerViewObjectList;
     
