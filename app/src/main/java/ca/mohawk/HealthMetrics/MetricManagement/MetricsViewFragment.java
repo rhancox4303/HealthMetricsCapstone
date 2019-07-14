@@ -48,15 +48,11 @@ public class MetricsViewFragment extends Fragment implements View.OnClickListene
         // Lookup the recyclerview in activity layout
         RecyclerView metricRecylerView = (RecyclerView) view.findViewById(R.id.recyclerViewMetrics);
 
-        // Initialize contacts
         addedMetricsList = healthMetricsDbHelper.getAddedMetricsAndGalleries();
-        // Create adapter passing in the sample user data
         MetricRecyclerViewAdapter adapter = new MetricRecyclerViewAdapter(addedMetricsList,getActivity());
-        // Attach the adapter to the recyclerview to populate items
         metricRecylerView.setAdapter(adapter);
-        // Set layout manager to position the items
         metricRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // That's all!
+
         return view;
     }
 

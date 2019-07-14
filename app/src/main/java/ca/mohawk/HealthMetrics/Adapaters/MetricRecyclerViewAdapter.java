@@ -62,7 +62,7 @@ public class MetricRecyclerViewAdapter extends
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View contactView = inflater.inflate(R.layout.fragment_metrics_custom_recyclerview_layout, parent, false);
+        View contactView = inflater.inflate(R.layout.metrics_view_recyclerview_layout, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;

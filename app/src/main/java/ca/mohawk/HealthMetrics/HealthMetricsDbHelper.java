@@ -10,6 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.Models.Metric;
@@ -618,6 +619,53 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             return "No Data Available";
         }
     }
+
+    /**
+     * The getDataEntriesByMetricId method retrieves the data entries for a specified metric.
+     *
+     * @param metricId The id of the metric of the data entries retrieved.
+     * @return The list of the data entries retrieved.
+     */
+    public List<DataEntryRecyclerViewObject> getDataEntriesByMetricId(int metricId) {
+
+        Metric metric = getMetricById(metricId);
+        Unit unit = getUnitById(metric.UnitId);
+
+        List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjectList = new ArrayList<DataEntryRecyclerViewObject>();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+
+        String[] projection = {
+                HealthMetricContract.MetricDataEntries._ID,
+                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY,
+                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY,
+        };
+
+        String selection = HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID + "=?";
+
+        String sortOrder =
+                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY + " ASC";
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.MetricDataEntries.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                new String[]{String.valueOf(metricId)},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                sortOrder);
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries._ID));
+            String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
+            String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY));
+            dataEntryRecyclerViewObjectList.add(new DataEntryRecyclerViewObject(id,dateOfEntry,dataEntry,unit.UnitAbbreviation));
+        }
+        cursor.close();
+        readableDatabase.close();
+        return dataEntryRecyclerViewObjectList;
+    }
+
 
     /**
      * The getUnitById retrieves a unit based on it's id.
