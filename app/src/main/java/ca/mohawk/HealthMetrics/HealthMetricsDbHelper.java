@@ -666,6 +666,50 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return dataEntryRecyclerViewObjectList;
     }
 
+    /**
+     * The getDataEntryById retrieves a data entry based on it's id.
+     *
+     * @param dataEntryId The id of the entry that will be returned.
+     * @return The entry with the id specified.
+     */
+    public MetricDataEntry getDataEntryById(int dataEntryId ){
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY,
+                HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID,
+                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY,
+
+        };
+
+        String selection = HealthMetricContract.MetricDataEntries._ID + "=?";
+        String dataEntryIdString = String.valueOf(dataEntryId);
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.MetricDataEntries.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                new String[]{dataEntryIdString},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,
+                null);                      // don't filter by row groups
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY));
+            int metricId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID));
+            String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
+
+            MetricDataEntry dataEntryObject = new MetricDataEntry(metricId, dataEntry, dateOfEntry);
+            cursor.close();
+            readableDatabase.close();
+            return dataEntryObject;
+        } else {
+            Log.d("ERROR", "No data entry found.");
+            cursor.close();
+            readableDatabase.close();
+            return null;
+        }
+    }
 
     /**
      * The getUnitById retrieves a unit based on it's id.

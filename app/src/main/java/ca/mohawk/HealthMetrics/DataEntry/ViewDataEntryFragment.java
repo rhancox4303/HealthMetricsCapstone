@@ -6,26 +6,70 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.Models.Metric;
+import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
+import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewDataEntryFragment extends Fragment {
+public class ViewDataEntryFragment extends Fragment implements View.OnClickListener{
 
 
     public ViewDataEntryFragment() {
         // Required empty public constructor
     }
 
-
+    HealthMetricsDbHelper healthMetricsDbHelper;
+    private int DataEntryId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_data_entry, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_view_data_entry, container, false);
+        TextView metricNameTextView = rootView.findViewById(R.id.textViewMetricDisplayViewDataEntry);
+        TextView dataEntryTextView = rootView.findViewById(R.id.textViewDataDisplayViewDataEntry);
+        TextView dateOfEntryTextView = rootView.findViewById(R.id.textViewDateOfEntryViewDataEntry);
+
+        Button editDataEntryButton = rootView.findViewById(R.id.buttonEditEntryViewDataEntry);
+        editDataEntryButton.setOnClickListener(this);
+
+        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            DataEntryId = bundle.getInt("data_entry_selected_key", -1);
+        }
+
+        MetricDataEntry dataEntry = healthMetricsDbHelper.getDataEntryById(DataEntryId);
+        Metric metric = healthMetricsDbHelper.getMetricById(dataEntry.MetricId);
+        Unit unit = healthMetricsDbHelper.getUnitById(metric.UnitId);
+
+        metricNameTextView.setText(metric.Name);
+        dataEntryTextView.setText(dataEntry.DataEntry + " " + unit.UnitAbbreviation);
+        dateOfEntryTextView.setText(dataEntry.DateOfEntry);
+        return rootView;
     }
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.buttonEditEntryViewDataEntry){
+            Bundle bundle = new Bundle();
+            bundle.putInt("data_entry_selected_key",DataEntryId);
+            Fragment fragment = new EditDataEntryFragment();
+            fragment.setArguments(bundle);
+
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
 }
