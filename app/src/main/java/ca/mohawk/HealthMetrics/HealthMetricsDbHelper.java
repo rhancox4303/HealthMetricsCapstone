@@ -931,6 +931,24 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * The updateDataEntry method updates the data entry profile in the database.
+     *
+     * @param dataEntry The user that will be updated.
+     * @return An integer value indicating if the update is successful.
+     */
+    public int updateDataEntry(MetricDataEntry dataEntry) {
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.MetricId);
+        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.DateOfEntry);
+        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.DataEntry);
+
+        return database.update(HealthMetricContract.MetricDataEntries.TABLE_NAME, values, HealthMetricContract.MetricDataEntries._ID + " = " + dataEntry.Id,
+                null);
+    }
+
+    /**
      * The addMetricToProfile method adds the metric to the user profile.
      *
      * @param unitId   The unit id of the unit that the metric will use.

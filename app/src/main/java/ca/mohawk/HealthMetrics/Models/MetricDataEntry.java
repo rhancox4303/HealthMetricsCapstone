@@ -13,4 +13,11 @@ public class MetricDataEntry {
         DataEntry = dataEntry;
         DateOfEntry = dateOfEntry;
     }
+
+    public MetricDataEntry(int id, int metricId, String dataEntry, String dateOfEntry) {
+        Id = id;
+        MetricId = metricId;
+        DataEntry = dataEntry;
+        DateOfEntry = dateOfEntry;
+    }
 }

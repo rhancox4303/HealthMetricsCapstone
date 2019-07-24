@@ -86,11 +86,11 @@ public class AddDataEntryFragment extends Fragment implements View.OnClickListen
             return true;
         }
     }
+
     public void addDataEntry(){
         String date = dateOfEntryEditText.getText().toString();
         String entry = dataEntryEditText.getText().toString();
         healthMetricsDbHelper.addDataEntry(new MetricDataEntry(MetricId, entry,date));
-
     }
 
     @Override
