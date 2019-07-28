@@ -981,5 +981,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + galleryId,
                 null);
     }
+
+    public void updateMetric(Metric newMetric) {
+    }
 }
 
