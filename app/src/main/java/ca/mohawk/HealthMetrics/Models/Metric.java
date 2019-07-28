@@ -14,4 +14,11 @@ public class Metric {
         UnitCategoryId = unitCategoryId;
     }
 
+    public Metric(int id, int unitId, String name, int unitCategoryId, int isAddedToProfile) {
+        Id = id;
+        UnitId = unitId;
+        Name = name;
+        UnitCategoryId = unitCategoryId;
+        IsAddedToProfile = isAddedToProfile;
+    }
 }

@@ -789,7 +789,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             int unitId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Metrics.COLUMN_NAME_UNITID));
             int isAddedToProfile = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE));
 
-            Metric metric = new Metric(unitId,metricName,unitCategoryId,isAddedToProfile);
+            Metric metric = new Metric(metricID,unitId,metricName,unitCategoryId,isAddedToProfile);
             cursor.close();
             readableDatabase.close();
             return metric;
@@ -949,6 +949,23 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * The updateMetric method updates the metric in the database.
+     *
+     * @param metric The metric that will be updated.
+     * @return An integer value indicating if the update is successful.
+     */
+    public int updateMetric(Metric metric) {
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.Name);
+
+        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Metrics._ID + " = " + metric.Id,
+                null);
+    }
+
+    /**
      * The addMetricToProfile method adds the metric to the user profile.
      *
      * @param unitId   The unit id of the unit that the metric will use.
@@ -982,7 +999,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);
     }
 
-    public void updateMetric(Metric newMetric) {
-    }
+
 }
 

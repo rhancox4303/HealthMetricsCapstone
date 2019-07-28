@@ -65,9 +65,9 @@ public class EditMetricFragment extends Fragment implements View.OnClickListener
 
     public void editMetric(){
         String metricName = MetricNameEditText.getText().toString();
-        Metric newMetric = Metric;
-        newMetric.Name = metricName;
-        healthMetricsDbHelper.updateMetric(newMetric);
+        Metric.Name = metricName;
+        healthMetricsDbHelper.updateMetric(Metric);
+
     }
 
     @Override
