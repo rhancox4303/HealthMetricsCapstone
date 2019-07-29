@@ -23,12 +23,12 @@ import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MetricsViewFragment extends Fragment implements View.OnClickListener{
+public class MetricsListFragment extends Fragment implements View.OnClickListener{
 
     private List<MetricRecyclerViewObject> addedMetricsList;
     HealthMetricsDbHelper healthMetricsDbHelper;
 
-    public MetricsViewFragment() {
+    public MetricsListFragment() {
         // Required empty public constructor
     }
 

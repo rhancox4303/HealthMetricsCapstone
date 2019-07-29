@@ -19,10 +19,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
-import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
@@ -103,9 +101,9 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         }
 
         if(isAddedToProfile) {
-            MetricsViewFragment metricsViewFragment = new MetricsViewFragment();
+            MetricsListFragment metricsListFragment = new MetricsListFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, metricsViewFragment)
+                    .replace(R.id.fragmentContainer, metricsListFragment)
                     .addToBackStack(null)
                     .commit();
         }

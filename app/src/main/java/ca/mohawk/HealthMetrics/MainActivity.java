@@ -19,7 +19,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import ca.mohawk.HealthMetrics.MetricManagement.MetricsViewFragment;
+import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
 import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (loggedIn) {
-            MetricsViewFragment metricsViewFragment = new MetricsViewFragment();
-            fragmentTransaction.add(R.id.fragmentContainer, metricsViewFragment);
+            MetricsListFragment metricsListFragment = new MetricsListFragment();
+            fragmentTransaction.add(R.id.fragmentContainer, metricsListFragment);
         } else {
 
             //Create and seed the DB
@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragmentContainer, profileFragment);
 
         } else if (id == R.id.nav_metrics) {
-            MetricsViewFragment metricsViewFragment = new MetricsViewFragment();
-            fragmentTransaction.replace(R.id.fragmentContainer, metricsViewFragment);
+            MetricsListFragment metricsListFragment = new MetricsListFragment();
+            fragmentTransaction.replace(R.id.fragmentContainer, metricsListFragment);
 
         } else if (id == R.id.nav_notifications) {
             NotificationListFragment notificationListFragment = new NotificationListFragment();

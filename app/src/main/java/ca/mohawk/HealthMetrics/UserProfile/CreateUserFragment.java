@@ -2,7 +2,6 @@ package ca.mohawk.HealthMetrics.UserProfile;
 
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -18,11 +17,10 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.fragment.app.FragmentManager;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MainActivity;
-import ca.mohawk.HealthMetrics.MetricManagement.MetricsViewFragment;
+import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.Models.User;
 import ca.mohawk.HealthMetrics.R;
 
@@ -102,9 +100,9 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
             
             storeLoggedInState();
             
-            MetricsViewFragment metricsViewFragment = new MetricsViewFragment();        
+            MetricsListFragment metricsListFragment = new MetricsListFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer,metricsViewFragment )
+                    .replace(R.id.fragmentContainer, metricsListFragment)
                     .addToBackStack(null)
                     .commit();
         }
