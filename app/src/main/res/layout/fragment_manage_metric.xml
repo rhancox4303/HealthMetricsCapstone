@@ -80,7 +80,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline37" />
 
     <TextView
-        android:id="@+id/textVietextViewUnitManageMetricw5"
+        android:id="@+id/textViewUnitManageMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

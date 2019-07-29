@@ -29,7 +29,6 @@ import ca.mohawk.HealthMetrics.Adapaters.DataEntryRecyclerViewAdapter;
 import ca.mohawk.HealthMetrics.Adapaters.MetricRecyclerViewAdapter;
 import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
-import ca.mohawk.HealthMetrics.MetricManagement.ManageMetricFragment;
 import ca.mohawk.HealthMetrics.R;
 
 
@@ -62,11 +61,8 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
             MetricId = bundle.getInt("metric_selected_key", -1);
         }
 
-        Button addMetricButton = rootView.findViewById(R.id.buttonAddEntryMetricDataView);
-        addMetricButton.setOnClickListener(this);
-
-        Button manageMetricButton = rootView.findViewById(R.id.buttonManageMetricMetricDataView);
-        manageMetricButton.setOnClickListener(this);
+        Button addMetric = rootView.findViewById(R.id.buttonAddEntryMetricDataView);
+        addMetric.setOnClickListener(this);
 
         RecyclerView dataEntryRecylerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewMetricDataView);
 
@@ -112,16 +108,11 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
         switch (v.getId()) {
             case R.id.buttonAddEntryMetricDataView:
                 destinationFragment = new AddDataEntryFragment();
-                break;
-            case R.id.buttonManageMetricMetricDataView:
-                destinationFragment = new ManageMetricFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("metric_id",MetricId);
+                destinationFragment.setArguments(bundle);
                 break;
         }
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("metric_id",MetricId);
-        destinationFragment.setArguments(bundle);
-
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, destinationFragment)
                 .addToBackStack(null)
