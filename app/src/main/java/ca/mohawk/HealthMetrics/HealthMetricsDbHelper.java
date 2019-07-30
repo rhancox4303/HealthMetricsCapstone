@@ -228,6 +228,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void seedDosageMeasurements(){
+
+    }
+
     /**
      * The seedUnitCategories method seeds unit categories for the database.
      */
@@ -998,7 +1002,5 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + galleryId,
                 null);
     }
-
-
 }
 
