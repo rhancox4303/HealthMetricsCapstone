@@ -13,6 +13,7 @@ import java.util.List;
 import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
+import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
@@ -67,6 +68,26 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public void addDosageMeasurement(DosageMeasurement dosageMeasurement){
+
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT, dosageMeasurement.DosageMeasurement);
+            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION, dosageMeasurement.UnitAbbreviation);
+
+            writableDatabase.insertOrThrow(HealthMetricContract.DosageMeasurements.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "Error while trying to add dosage measurement to database");
+        } finally {
+            writableDatabase.endTransaction();
+            writableDatabase.close();
+        }
     }
 
     /**
@@ -228,14 +249,37 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void seedDosageMeasurements(){
+    public void seedDatabase(){
+        seedUnitCategories();
+        seedUnits();
+        seedMetrics();
+        seedDosageMeasurements();
+    }
 
+    private void seedDosageMeasurements(){
+        List<DosageMeasurement> dosageMeasurementList = new ArrayList<>();
+
+        DosageMeasurement milliliters = new DosageMeasurement("Milliliters","ml");
+        dosageMeasurementList.add(milliliters);
+
+        DosageMeasurement teaspoon = new DosageMeasurement("Teaspoons","tsp");
+        dosageMeasurementList.add(teaspoon);
+
+        DosageMeasurement gram = new DosageMeasurement("Grams","tsp");
+        dosageMeasurementList.add(gram);
+
+        DosageMeasurement milligram = new DosageMeasurement("Milligrams","mg");
+        dosageMeasurementList.add(milligram);
+
+        for (DosageMeasurement dosageMeasurement : dosageMeasurementList) {
+            addDosageMeasurement(dosageMeasurement);
+        }
     }
 
     /**
      * The seedUnitCategories method seeds unit categories for the database.
      */
-    public void seedUnitCategories() {
+    private void seedUnitCategories() {
         List<UnitCategory> unitCategories = new ArrayList<>();
 
         UnitCategory length = new UnitCategory(1, "Length");
@@ -261,7 +305,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     /**
      * The seedUnits method seeds units for the database.
      */
-    public void seedUnits() {
+    private void seedUnits() {
 
         ArrayList<Unit> unitArrayList = new ArrayList<Unit>();
 
@@ -319,7 +363,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     /**
      * The seedMetrics method seeds netrics for the database.
      */
-    public void seedMetrics() {
+    private void seedMetrics() {
         ArrayList<Metric> metricArrayList = new ArrayList<Metric>();
 
         Metric leftBicepSize = new Metric(0, "Left Bicep Size", 1, 0);

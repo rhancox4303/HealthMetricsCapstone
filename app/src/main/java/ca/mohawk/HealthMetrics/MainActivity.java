@@ -60,9 +60,7 @@ public class MainActivity extends AppCompatActivity
 
             //Create and seed the DB
             healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
-            healthMetricsDbHelper.seedUnitCategories();
-            healthMetricsDbHelper.seedUnits();
-            healthMetricsDbHelper.seedMetrics();
+            healthMetricsDbHelper.seedDatabase();
 
             CreateUserFragment createUserFragment = new CreateUserFragment();
             fragmentTransaction.add(R.id.fragmentContainer, createUserFragment);

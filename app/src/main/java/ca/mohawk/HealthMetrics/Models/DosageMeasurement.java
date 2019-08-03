@@ -5,10 +5,10 @@ import android.text.GetChars;
 public class DosageMeasurement {
 
     public int Id;
-    public double DosageMeasurement;
+    public String DosageMeasurement;
     public String UnitAbbreviation;
 
-    public DosageMeasurement(double dosageMeasurement, String unitAbbreviation) {
+    public DosageMeasurement(String dosageMeasurement, String unitAbbreviation) {
         DosageMeasurement = dosageMeasurement;
         UnitAbbreviation = unitAbbreviation;
     }
