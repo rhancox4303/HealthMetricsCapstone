@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ import ca.mohawk.HealthMetrics.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreatePrescriptionFragment extends Fragment implements View.OnClickListener {
+public class CreatePrescriptionFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener  {
 
     private HealthMetricsDbHelper healthMetricsDbHelper;
     private EditText nameEditText;
@@ -36,6 +37,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
     private EditText frequencyEditText;
     private EditText amountEditText;
     private EditText reasonEditText;
+    private int dosageMeasurementId;
 
     public CreatePrescriptionFragment() {
         // Required empty public constructor
@@ -65,6 +67,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
         dosageMeasurementSpinner = rootView.findViewById(R.id.spinnerDosageMeasurement);
         ArrayAdapter<DosageMeasurement> dosageMeasurementArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, dosageMeasurementList);
         dosageMeasurementSpinner.setAdapter(dosageMeasurementArrayAdapter);
+        dosageMeasurementSpinner.setOnItemSelectedListener(this);
 
         return rootView;
     }
@@ -100,17 +103,20 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
         }
 
         return isValidInput;
-
     }
 
     public void createPrescription() {
+
         String name = nameEditText.getText().toString();
         String form = formEditText.getText().toString();
         String strength= strengthEditText.getText().toString();
         String dose = doseEditText.getText().toString();
         String frequency = frequencyEditText.getText().toString();
-        String amount = amountEditText.getText().toString();
+        double amount = Double.parseDouble(amountEditText.getText().toString());
         String reason = reasonEditText.getText().toString();
+
+        Prescription newPrescription = new Prescription(dosageMeasurementId,name,form,strength,dose,frequency,amount,reason);
+        healthMetricsDbHelper.addPrescription(newPrescription);
 
     }
 
@@ -126,5 +132,15 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
                     .addToBackStack(null)
                     .commit();
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        dosageMeasurementId  = ((DosageMeasurement)parent.getSelectedItem()).getId();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

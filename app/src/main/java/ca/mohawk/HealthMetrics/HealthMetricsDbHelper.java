@@ -17,6 +17,7 @@ import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
+import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.Models.UnitCategory;
 import ca.mohawk.HealthMetrics.Models.User;
@@ -113,6 +114,33 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add user to database");
+        } finally {
+            writableDatabase.endTransaction();
+            writableDatabase.close();
+        }
+    }
+
+    public void addPrescription(Prescription prescription){
+
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.Name);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.Amount);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT, prescription.DosageAmount);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.DosageMeasurementId);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.Form);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.Frequency);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.Strength);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.Frequency);
+
+
+            writableDatabase.insertOrThrow(HealthMetricContract.Prescriptions.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "Error while trying to add prescription to database");
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();

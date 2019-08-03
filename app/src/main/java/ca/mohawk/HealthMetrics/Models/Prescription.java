@@ -2,7 +2,7 @@ package ca.mohawk.HealthMetrics.Models;
 
 public class Prescription {
     public int Id;
-    public DosageMeasurement DosageMeasurement;
+    public int DosageMeasurementId;
     public String Name;
     public String Form;
     public String Strength;
@@ -11,8 +11,8 @@ public class Prescription {
     public double Amount;
     public String Reason;
 
-    public Prescription(DosageMeasurement dosageMeasurement, String name, String form, String strength, String dosageAmount, String frequency, double amount, String reason) {
-        DosageMeasurement = dosageMeasurement;
+    public Prescription(int dosageMeasurementId, String name, String form, String strength, String dosageAmount, String frequency, double amount, String reason) {
+        DosageMeasurementId = dosageMeasurementId;
         Name = name;
         Form = form;
         Strength = strength;

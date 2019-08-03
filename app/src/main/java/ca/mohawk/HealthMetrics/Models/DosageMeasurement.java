@@ -23,4 +23,8 @@ public class DosageMeasurement {
     public String toString() {
         return DosageMeasurement + " (" + UnitAbbreviation+ ")";
     }
+
+    public int getId() {
+        return Id;
+    }
 }
