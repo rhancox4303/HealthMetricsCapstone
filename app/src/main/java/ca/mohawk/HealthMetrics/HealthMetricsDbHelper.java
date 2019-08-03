@@ -82,6 +82,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             writableDatabase.insertOrThrow(HealthMetricContract.DosageMeasurements.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
+            Log.d("TEST add",dosageMeasurement.DosageMeasurement);
+
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add dosage measurement to database");
         } finally {
@@ -271,6 +273,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         DosageMeasurement milligram = new DosageMeasurement("Milligrams","mg");
         dosageMeasurementList.add(milligram);
 
+        DosageMeasurement tablet = new DosageMeasurement("Tablets","tab");
+        dosageMeasurementList.add(tablet);
+
+        DosageMeasurement capsule = new DosageMeasurement("Capsule","cap");
+        dosageMeasurementList.add(capsule);
+
         for (DosageMeasurement dosageMeasurement : dosageMeasurementList) {
             addDosageMeasurement(dosageMeasurement);
         }
@@ -443,6 +451,48 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         cursor.close();
         readableDatabase.close();
         return metrics;
+    }
+
+    public List<DosageMeasurement> getAllDosageMeasurements(){
+
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.DosageMeasurements._ID,
+                HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT,
+                HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION
+        };
+
+        String sortOrder = HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT + " ASC";
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.DosageMeasurements.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                sortOrder);
+
+        List dosageMeasurements = new ArrayList<HealthMetricContract.DosageMeasurements>();
+
+        while (cursor.moveToNext()) {
+            String dosageMeasurement = cursor.getString(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT));
+
+            String unitAbbreviation = cursor.getString(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION));
+
+            int id = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.DosageMeasurements._ID));
+            Log.d("TEST",id + " ID");
+
+            dosageMeasurements.add(new DosageMeasurement(id, unitAbbreviation, dosageMeasurement));
+        }
+
+        cursor.close();
+        readableDatabase.close();
+        return dosageMeasurements;
     }
 
     /**

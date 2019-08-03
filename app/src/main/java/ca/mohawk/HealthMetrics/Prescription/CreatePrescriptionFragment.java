@@ -8,12 +8,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.List;
+
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Prescription;
+import ca.mohawk.HealthMetrics.Models.UnitCategory;
 import ca.mohawk.HealthMetrics.R;
 
 
@@ -35,11 +41,12 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
         // Required empty public constructor
     }
 
-
+    private Spinner dosageMeasurementSpinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         healthMetricsDbHelper = healthMetricsDbHelper.getInstance(getActivity());
+        List<DosageMeasurement> dosageMeasurementList = healthMetricsDbHelper.getAllDosageMeasurements();
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_create_prescription, container, false);
@@ -54,6 +61,10 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
 
         Button createPrescriptionButton = rootView.findViewById(R.id.buttonCreatePrescription);
         createPrescriptionButton.setOnClickListener(this);
+
+        dosageMeasurementSpinner = rootView.findViewById(R.id.spinnerDosageMeasurement);
+        ArrayAdapter<DosageMeasurement> dosageMeasurementArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, dosageMeasurementList);
+        dosageMeasurementSpinner.setAdapter(dosageMeasurementArrayAdapter);
 
         return rootView;
     }

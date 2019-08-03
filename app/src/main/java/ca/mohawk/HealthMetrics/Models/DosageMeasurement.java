@@ -12,4 +12,15 @@ public class DosageMeasurement {
         DosageMeasurement = dosageMeasurement;
         UnitAbbreviation = unitAbbreviation;
     }
+
+    public DosageMeasurement(int id, String dosageMeasurement, String unitAbbreviation) {
+        Id = id;
+        DosageMeasurement = dosageMeasurement;
+        UnitAbbreviation = unitAbbreviation;
+    }
+
+    @Override
+    public String toString() {
+        return DosageMeasurement + " (" + UnitAbbreviation+ ")";
+    }
 }
