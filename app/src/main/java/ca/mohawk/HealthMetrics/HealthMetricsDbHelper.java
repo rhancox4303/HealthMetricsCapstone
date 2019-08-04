@@ -13,6 +13,7 @@ import java.util.List;
 import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionRecyclerViewObject;
 import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
@@ -523,6 +524,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return dosageMeasurements;
     }
 
+
+
     /**
      * The getAllSpinnerUnits method gets units based on the unit category id.
      *
@@ -618,7 +621,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics.COLUMN_NAME_UNITID));
 
             String dataEntry = getLatestDataEntryValue(metricId);
-            Log.d("TEST", String.valueOf(unitId));
+
             Unit unit = getUnitById(unitId);
             recyclerViewObjects.add(new MetricRecyclerViewObject(metricId,metricName, dataEntry, unit.UnitAbbreviation, "Quantitative"));
         }
@@ -960,6 +963,91 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             cursor.close();
             db.close();
             return unitCategory;
+
+        } else {
+            Log.d("ERROR", "No unit found.");
+            cursor.close();
+            db.close();
+            return null;
+        }
+    }
+
+    public List<PrescriptionRecyclerViewObject> getAllPrescriptions(){
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        List<PrescriptionRecyclerViewObject> prescriptionRecyclerViewObjects = new ArrayList<>();
+
+
+        String[] projection = {
+                HealthMetricContract.Prescriptions._ID,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_NAME,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT,
+        };
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.DosageMeasurements.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        while (cursor.moveToNext()) {
+
+            int id = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Prescriptions._ID));
+            int dosageMeasurementId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT));
+
+            String name = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME));
+            String dosageAmount = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT));
+            String frequency = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY));
+            double amount = cursor.getDouble(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT));
+
+            DosageMeasurement dosageMeasurement = getDosageMeasurementById(dosageMeasurementId);
+
+            prescriptionRecyclerViewObjects.add(new PrescriptionRecyclerViewObject(id,name,dosageAmount,dosageMeasurement.DosageMeasurement,frequency,amount));
+
+        }
+
+        cursor.close();
+        readableDatabase.close();
+        return prescriptionRecyclerViewObjects;
+    }
+
+
+    public DosageMeasurement getDosageMeasurementById(int dosageMeasurementId){
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION,
+                HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT
+        };
+
+        String selection = HealthMetricContract.DosageMeasurements._ID + "=?";
+        String dosageMeasurementsId = String.valueOf(dosageMeasurementId);
+
+        Cursor cursor = db.query(
+                HealthMetricContract.DosageMeasurements.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                new String[]{dosageMeasurementsId},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,
+                null);                      // don't filter by row groups
+
+        if (cursor != null) {
+            String unitAbbreviation = cursor.getString(cursor.getColumnIndex(HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION));
+            String dosageMeasurementString = cursor.getString(cursor.getColumnIndex(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT));
+
+
+            DosageMeasurement dosageMeasurement = new DosageMeasurement(dosageMeasurementString, unitAbbreviation);
+            cursor.close();
+            db.close();
+            return dosageMeasurement;
 
         } else {
             Log.d("ERROR", "No unit found.");

@@ -69,6 +69,7 @@ public class PrescriptionRecyclerViewAdapter
         //Get data object
         final PrescriptionRecyclerViewObject prescription = prescriptionList.get(position);
         String prescriptionInformation = prescription.getName() + "/n" + prescription.getDosageAmount() + " " + prescription.DosageMeasurement;
+        String prescriptionAmount = prescription.getDosageAmount() + " " + prescription.getDosageMeasurement();
         // Set item views
 
     }
