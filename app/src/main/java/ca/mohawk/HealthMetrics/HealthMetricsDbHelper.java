@@ -929,6 +929,57 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             return null;
         }
     }
+
+    public Prescription getPrescriptionById(int prescriptionId){
+
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Prescriptions.COLUMN_NAME_NAME,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_FORM,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_REASON,
+                HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH
+        };
+
+        String selection = HealthMetricContract.Prescriptions._ID + "=?";
+        String prescriptionIdString = String.valueOf(prescriptionId);
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Prescriptions.TABLE_NAME,
+                projection,
+                selection,
+                new String[]{prescriptionIdString},
+                null,
+                null,
+                null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+            String name = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME));
+            int dosageMeasurement = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT));
+            double amount = cursor.getDouble(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT));
+            String frequency = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY));
+            String dosageAmount = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT));
+            String form = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM));
+            String reason = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON));
+            String strength = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH));
+
+            Prescription prescription = new Prescription(dosageMeasurement,name,form,strength,dosageAmount,frequency,amount,reason);
+            cursor.close();
+            readableDatabase.close();
+            return prescription;
+
+        } else {
+            Log.d("ERROR", "No prescription found.");
+            cursor.close();
+            readableDatabase.close();
+            return null;
+        }
+    }
     /**
      * The getUnitCategoryById method retrieves a unit category based on it's id.
      *
