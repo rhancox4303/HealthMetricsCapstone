@@ -119,6 +119,5 @@ public class MetricRecyclerViewAdapter extends
             MainActivity mainActivity = (MainActivity) context;
             mainActivity.switchContent(fragment);
         }
-
     }
 }

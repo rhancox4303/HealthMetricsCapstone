@@ -187,7 +187,7 @@ public final class HealthMetricContract {
                 COLUMN_NAME_FORM + " TEXT," +
                 COLUMN_NAME_STRENGTH + " TEXT," +
                 COLUMN_NAME_DOSAGEAMOUNT + " TEXT," +
-                COLUMN_NAME_FREQUENCY + "T EXT," +
+                COLUMN_NAME_FREQUENCY + " TEXT," +
                 COLUMN_NAME_AMOUNT + " REAL," +
                 COLUMN_NAME_REASON + " TEXT," +
                 " FOREIGN KEY (" + COLUMN_NAME_DOSAGEMEASUREMENT + ") REFERENCES " + DosageMeasurements.TABLE_NAME + "(_ID));";

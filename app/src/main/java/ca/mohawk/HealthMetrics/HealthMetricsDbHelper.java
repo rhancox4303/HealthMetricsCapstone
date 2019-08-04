@@ -988,7 +988,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         };
 
         Cursor cursor = readableDatabase.query(
-                HealthMetricContract.DosageMeasurements.TABLE_NAME,
+                HealthMetricContract.Prescriptions.TABLE_NAME,
                 projection,
                 null,
                 null,
@@ -1000,7 +1000,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             int id = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Prescriptions._ID));
             int dosageMeasurementId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT));
-
+            Log.d("TEST", " G" + dosageMeasurementId);
             String name = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME));
             String dosageAmount = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT));
             String frequency = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY));
@@ -1039,7 +1039,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);                      // don't filter by row groups
 
-        if (cursor != null) {
+        if (cursor != null && cursor.moveToFirst()) {
             String unitAbbreviation = cursor.getString(cursor.getColumnIndex(HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION));
             String dosageMeasurementString = cursor.getString(cursor.getColumnIndex(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT));
 
