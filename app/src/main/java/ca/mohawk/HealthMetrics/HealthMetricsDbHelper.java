@@ -1263,5 +1263,24 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + galleryId,
                 null);
     }
+
+    public int updatePrescription(Prescription prescription) {
+
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.getName());
+        Log.d("TEST",prescription.getName());
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.getReason());
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.getFrequency());
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.getStrength());
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.getDosageMeasurementId());
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.getForm());
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.getAmount());
+
+        return database.update(HealthMetricContract.Prescriptions.TABLE_NAME, values,HealthMetricContract.Prescriptions._ID + " = " + prescription.getId(),
+                null);
+    }
 }
 

@@ -45,8 +45,8 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
 
     private Spinner dosageMeasurementSpinner;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         healthMetricsDbHelper = healthMetricsDbHelper.getInstance(getActivity());
         List<DosageMeasurement> dosageMeasurementList = healthMetricsDbHelper.getAllDosageMeasurements();
 
@@ -64,7 +64,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
         Button createPrescriptionButton = rootView.findViewById(R.id.buttonCreatePrescription);
         createPrescriptionButton.setOnClickListener(this);
 
-        dosageMeasurementSpinner = rootView.findViewById(R.id.spinnerDosageMeasurement);
+        dosageMeasurementSpinner = rootView.findViewById(R.id.spinnerDosageMeasurementCreatePrescription);
         ArrayAdapter<DosageMeasurement> dosageMeasurementArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, dosageMeasurementList);
         dosageMeasurementSpinner.setAdapter(dosageMeasurementArrayAdapter);
         dosageMeasurementSpinner.setOnItemSelectedListener(this);
@@ -117,7 +117,6 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
 
         Prescription newPrescription = new Prescription(dosageMeasurementId,name,form,strength,dose,frequency,amount,reason);
         healthMetricsDbHelper.addPrescription(newPrescription);
-
     }
 
     @Override
