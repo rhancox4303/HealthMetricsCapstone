@@ -283,8 +283,8 @@
 
     <TextView
         android:id="@+id/textViewAmountViewPrescription"
-        android:layout_width="63dp"
-        android:layout_height="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -297,8 +297,8 @@
 
     <TextView
         android:id="@+id/textViewReasonViewPrescription"
-        android:layout_width="63dp"
-        android:layout_height="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
