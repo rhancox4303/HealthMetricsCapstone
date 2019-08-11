@@ -2,13 +2,17 @@ package ca.mohawk.HealthMetrics.Prescription;
 
 
 import android.os.Bundle;
+
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import ca.mohawk.HealthMetrics.AlertDialogFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Prescription;
@@ -54,7 +58,7 @@ public class ViewPrescriptionFragment extends Fragment implements View.OnClickLi
         TextView reasonTextView = rootView.findViewById(R.id.textViewReasonViewPrescription);
 
         Button editPrescriptionButton = rootView.findViewById(R.id.buttonEditPrescriptionViewPrescription);
-        Button deletePrescriptionButton = rootView.findViewById(R.id.buttonEditPrescriptionViewPrescription);
+        Button deletePrescriptionButton = rootView.findViewById(R.id.buttonDeletePrescriptionViewPrescription);
 
         editPrescriptionButton.setOnClickListener(this);
         deletePrescriptionButton.setOnClickListener(this);
@@ -74,20 +78,23 @@ public class ViewPrescriptionFragment extends Fragment implements View.OnClickLi
 
         Fragment destinationFragment = new Fragment();
 
-        switch (v.getId()){
-            case R.id.buttonEditPrescriptionViewPrescription:
-                destinationFragment = new EditPrescriptionFragment();
-                break;
+        if (v.getId() == R.id.buttonEditPrescriptionViewPrescription) {
+            destinationFragment = new EditPrescriptionFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("prescription_id", PrescriptionId);
+            destinationFragment.setArguments(bundle);
+
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, destinationFragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else if(v.getId() == R.id.buttonDeletePrescriptionViewPrescription){
+            showDeleteDialog();
         }
+    }
 
-        Bundle bundle = new Bundle();
-        bundle.putInt("prescription_id",PrescriptionId);
-        destinationFragment.setArguments(bundle);
-
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, destinationFragment)
-                .addToBackStack(null)
-                .commit();
-
+    public void showDeleteDialog() {
+        DialogFragment newFragment = AlertDialogFragment.newInstance("Prescription", PrescriptionId);
+        newFragment.show(getFragmentManager(), "dialog");
     }
 }

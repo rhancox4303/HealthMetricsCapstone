@@ -27,6 +27,7 @@ import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
+import ca.mohawk.HealthMetrics.Prescription.ViewPrescriptionFragment;
 import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
 import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity
 
     public void switchContent(Fragment fragment) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer,fragment);
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);
         fragmentTransaction.commit();
     }
 
@@ -145,33 +146,37 @@ public class MainActivity extends AppCompatActivity
         Fragment destinationFragment = null;
         boolean deleteSuccessful = false;
 
-        switch(AlertDialogFragment.getDeleteType()){
+        switch (AlertDialogFragment.getDeleteType()) {
             case "DataEntry":
 
                 deleteSuccessful = healthMetricsDbHelper.deleteDataEntry(AlertDialogFragment.getDataID());
                 Bundle bundle = new Bundle();
-                bundle.putInt("metric_selected_key",AlertDialogFragment.getDataParentID());
+                bundle.putInt("metric_selected_key", AlertDialogFragment.getDataParentID());
 
                 destinationFragment = new MetricDataViewFragment();
                 destinationFragment.setArguments(bundle);
                 break;
+            case "Prescription":
+                deleteSuccessful = healthMetricsDbHelper.deletePrescription(AlertDialogFragment.getDataID());
+                destinationFragment = new PrescriptionListFragment();
+                break;
         }
 
-       getSupportFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, destinationFragment)
                 .addToBackStack(null)
                 .commit();
 
-        if(deleteSuccessful){
+        if (deleteSuccessful) {
             Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         dialog.dismiss();
     }
+
 }

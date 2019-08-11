@@ -65,6 +65,11 @@ public class AlertDialogFragment extends DialogFragment {
             case "DataEntry":
                 builder.setTitle("Delete Data Entry");
                 builder.setMessage("The data entry will be deleted");
+                break;
+            case "Prescription":
+                builder.setTitle("Delete Prescription");
+                builder.setMessage("The prescription will be deleted");
+                break;
         }
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
