@@ -1282,5 +1282,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.Prescriptions.TABLE_NAME, values,HealthMetricContract.Prescriptions._ID + " = " + prescription.getId(),
                 null);
     }
+
+    public boolean deleteDataEntry(int id)
+    {
+        SQLiteDatabase database = this.getWritableDatabase();
+        return database.delete(HealthMetricContract.MetricDataEntries.TABLE_NAME, HealthMetricContract.MetricDataEntries._ID + "=" + id,null) > 0;
+    }
 }
 

@@ -3,6 +3,7 @@ package ca.mohawk.HealthMetrics;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,9 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Switch;
+import android.widget.Toast;
 
+import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
@@ -26,7 +31,7 @@ import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
 import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AlertDialogFragment.AlertDialogListener {
 
     HealthMetricsDbHelper healthMetricsDbHelper;
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
 
         SharedPreferences userInfo = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = userInfo.edit();
@@ -58,7 +65,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.add(R.id.fragmentContainer, metricsListFragment);
         } else {
 
-            //Create and seed the DB
+            //seed the DB
             healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
             healthMetricsDbHelper.seedDatabase();
 
@@ -130,5 +137,41 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer,fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+
+        Fragment destinationFragment = null;
+        boolean deleteSuccessful = false;
+
+        switch(AlertDialogFragment.getDeleteType()){
+            case "DataEntry":
+
+                deleteSuccessful = healthMetricsDbHelper.deleteDataEntry(AlertDialogFragment.getDataID());
+                Bundle bundle = new Bundle();
+                bundle.putInt("metric_selected_key",AlertDialogFragment.getDataParentID());
+
+                destinationFragment = new MetricDataViewFragment();
+                destinationFragment.setArguments(bundle);
+                break;
+        }
+
+       getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, destinationFragment)
+                .addToBackStack(null)
+                .commit();
+
+        if(deleteSuccessful){
+            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        dialog.dismiss();
     }
 }

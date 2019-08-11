@@ -2,6 +2,9 @@ package ca.mohawk.HealthMetrics.DataEntry;
 
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ca.mohawk.HealthMetrics.AlertDialogFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
 import ca.mohawk.HealthMetrics.Models.Unit;
@@ -20,7 +25,7 @@ import ca.mohawk.HealthMetrics.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewDataEntryFragment extends Fragment implements View.OnClickListener{
+public class ViewDataEntryFragment extends Fragment implements View.OnClickListener {
 
 
     public ViewDataEntryFragment() {
@@ -29,6 +34,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
 
     HealthMetricsDbHelper healthMetricsDbHelper;
     private int DataEntryId;
+    private int MetricId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,6 +47,9 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
         Button editDataEntryButton = rootView.findViewById(R.id.buttonEditEntryViewDataEntry);
         editDataEntryButton.setOnClickListener(this);
 
+        Button deleteDataEntryButton = rootView.findViewById(R.id.buttonDeleteEntryViewDataEntry);
+        deleteDataEntryButton.setOnClickListener(this);
+
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         Bundle bundle = this.getArguments();
@@ -49,7 +58,8 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
         }
 
         MetricDataEntry dataEntry = healthMetricsDbHelper.getDataEntryById(DataEntryId);
-        Metric metric = healthMetricsDbHelper.getMetricById(dataEntry.MetricId);
+        MetricId = dataEntry.MetricId;
+        Metric metric = healthMetricsDbHelper.getMetricById(MetricId);
         Unit unit = healthMetricsDbHelper.getUnitById(metric.UnitId);
 
         metricNameTextView.setText(metric.Name);
@@ -57,6 +67,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
         dateOfEntryTextView.setText(dataEntry.DateOfEntry);
         return rootView;
     }
+
 
     @Override
     public void onClick(View v) {
@@ -70,6 +81,14 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
                     .replace(R.id.fragmentContainer, fragment)
                     .addToBackStack(null)
                     .commit();
+
+        }else if(v.getId() == R.id.buttonDeleteEntryViewDataEntry){
+            showDeleteDialog();
         }
+    }
+
+    public void showDeleteDialog(){
+        DialogFragment newFragment = AlertDialogFragment.newInstance("DataEntry", DataEntryId, MetricId);
+        newFragment.show(getFragmentManager(), "dialog");
     }
 }
