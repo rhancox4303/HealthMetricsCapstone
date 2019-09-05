@@ -1293,5 +1293,21 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         return database.delete(HealthMetricContract.Prescriptions.TABLE_NAME, HealthMetricContract.Prescriptions._ID + "=" + id,null) > 0;
     }
+
+    public boolean deleteMetric(int id){
+        Log.d("TEST", " " + id);
+        deleteDataEntryByMetricId(id);
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        return database.delete(HealthMetricContract.Metrics.TABLE_NAME, HealthMetricContract.Metrics._ID + "=?", new String[]{Integer.toString(id)}) > 0;
+
+    }
+
+    public boolean deleteDataEntryByMetricId(int metricId){
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        return database.delete(HealthMetricContract.MetricDataEntries.TABLE_NAME, HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID + "=?", new String[]{Integer.toString(metricId)}) > 0;
+
+    }
 }
 

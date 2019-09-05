@@ -17,22 +17,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
+import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
-import ca.mohawk.HealthMetrics.Prescription.ViewPrescriptionFragment;
 import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
 import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AlertDialogFragment.AlertDialogListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DeleteMetricDialog.DeleteMetricDialogListener {
 
     HealthMetricsDbHelper healthMetricsDbHelper;
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -140,30 +138,16 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
 
-        Fragment destinationFragment = null;
+    @Override
+    public void onDeleteMetricDialogPositiveClick(DeleteMetricDialog dialog) {
         boolean deleteSuccessful = false;
 
-        switch (AlertDialogFragment.getDeleteType()) {
-            case "DataEntry":
-
-                deleteSuccessful = healthMetricsDbHelper.deleteDataEntry(AlertDialogFragment.getDataID());
-                Bundle bundle = new Bundle();
-                bundle.putInt("metric_selected_key", AlertDialogFragment.getDataParentID());
-
-                destinationFragment = new MetricDataViewFragment();
-                destinationFragment.setArguments(bundle);
-                break;
-            case "Prescription":
-                deleteSuccessful = healthMetricsDbHelper.deletePrescription(AlertDialogFragment.getDataID());
-                destinationFragment = new PrescriptionListFragment();
-                break;
-        }
+        MetricsListFragment metricsListFragment = new MetricsListFragment();
+        deleteSuccessful = healthMetricsDbHelper.deleteMetric(dialog.getMetricId());
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, destinationFragment)
+                .replace(R.id.fragmentContainer, metricsListFragment)
                 .addToBackStack(null)
                 .commit();
 
@@ -175,8 +159,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
+    public void onDeleteMetricDialogNegativeClick(DeleteMetricDialog dialog) {
         dialog.dismiss();
     }
-
 }
