@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
 import ca.mohawk.HealthMetrics.Models.Unit;
@@ -84,5 +85,8 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
     }
 
     public void showDeleteDialog(){
+        DialogFragment newFragment = DeleteDataEntryDialog.newInstance(DataEntryId,MetricId);
+        newFragment.show(getFragmentManager(), "dialog");
     }
+
 }

@@ -3,7 +3,6 @@ package ca.mohawk.HealthMetrics;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import ca.mohawk.HealthMetrics.DataEntry.DeleteDataEntryDialog;
 import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
@@ -30,7 +30,7 @@ import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
 import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DeleteMetricDialog.DeleteMetricDialogListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DeleteMetricDialog.DeleteMetricDialogListener, DeleteDataEntryDialog.DeleteDataEntryDialogListener {
 
     HealthMetricsDbHelper healthMetricsDbHelper;
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -161,5 +161,34 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDeleteMetricDialogNegativeClick(DeleteMetricDialog dialog) {
         dialog.dismiss();
+    }
+
+    @Override
+    public void onDeleteDataEntryDialogPositiveClick(DeleteDataEntryDialog dialog) {
+        boolean deleteSuccessful = false;
+
+        MetricDataViewFragment metricDataViewFragment = new MetricDataViewFragment();
+        deleteSuccessful = healthMetricsDbHelper.deleteDataEntry(dialog.getDataEntryId());
+
+        Bundle metricBundle = new Bundle();
+        metricBundle.putInt("metric_selected_key", dialog.getMetricId());
+
+        metricDataViewFragment.setArguments(metricBundle);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, metricDataViewFragment)
+                .addToBackStack(null)
+                .commit();
+
+        if (deleteSuccessful) {
+            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDeleteDataEntryDialogNegativeClick(DeleteDataEntryDialog dialog) {
+
     }
 }
