@@ -65,7 +65,6 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
         return rootView;
     }
 
-
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.buttonEditEntryViewDataEntry){

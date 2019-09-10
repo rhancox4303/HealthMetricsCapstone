@@ -1295,7 +1295,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     public boolean deleteMetric(int id){
-        Log.d("TEST", " " + id);
         deleteDataEntryByMetricId(id);
 
         SQLiteDatabase database = this.getWritableDatabase();
