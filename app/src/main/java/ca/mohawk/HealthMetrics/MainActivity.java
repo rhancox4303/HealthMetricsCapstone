@@ -25,12 +25,13 @@ import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
+import ca.mohawk.HealthMetrics.Prescription.DeletePrescriptionDialog;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
 import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
 import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DeleteMetricDialog.DeleteMetricDialogListener, DeleteDataEntryDialog.DeleteDataEntryDialogListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DeleteMetricDialog.DeleteMetricDialogListener, DeleteDataEntryDialog.DeleteDataEntryDialogListener, DeletePrescriptionDialog.DeletePrescriptionDialogListener {
 
     HealthMetricsDbHelper healthMetricsDbHelper;
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -70,7 +71,6 @@ public class MainActivity extends AppCompatActivity
 
             CreateUserFragment createUserFragment = new CreateUserFragment();
             fragmentTransaction.add(R.id.fragmentContainer, createUserFragment);
-
         }
 
         fragmentTransaction.commit();
@@ -189,6 +189,31 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDeleteDataEntryDialogNegativeClick(DeleteDataEntryDialog dialog) {
+        dialog.dismiss();
+    }
 
+    @Override
+    public void onDeletePrescriptionDialogPositiveClick(DeletePrescriptionDialog dialog) {
+        boolean deleteSuccessful = false;
+
+        PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
+        deleteSuccessful = healthMetricsDbHelper.deletePrescription(dialog.getPrescriptionId());
+
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, prescriptionListFragment)
+                .addToBackStack(null)
+                .commit();
+
+        if (deleteSuccessful) {
+            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDeletePrescriptionDialogNegativeClick(DeletePrescriptionDialog dialog) {
+        dialog.dismiss();
     }
 }

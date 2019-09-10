@@ -3,6 +3,7 @@ package ca.mohawk.HealthMetrics.Prescription;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -92,5 +93,7 @@ public class ViewPrescriptionFragment extends Fragment implements View.OnClickLi
     }
 
     public void showDeleteDialog() {
+        DialogFragment newFragment = DeletePrescriptionDialog.newInstance(PrescriptionId);
+        newFragment.show(getFragmentManager(), "dialog");
     }
 }
