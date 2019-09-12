@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,9 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
         Button deleteButton = rootView.findViewById(R.id.buttonDeleteManageMetric);
         deleteButton.setOnClickListener(this);
 
+        Button removeButton = rootView.findViewById(R.id.buttonRemoveManageMetric);
+        removeButton.setOnClickListener(this);
+
         Button editButton = rootView.findViewById(R.id.buttonEditManageMetric);
         editButton.setOnClickListener(this);
 
@@ -67,12 +71,12 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         Fragment destinationFragment = new Fragment();
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.buttonEditManageMetric:
                 destinationFragment = new EditMetricFragment();
 
                 Bundle bundle = new Bundle();
-                bundle.putInt("metric_id",MetricId);
+                bundle.putInt("metric_id", MetricId);
                 destinationFragment.setArguments(bundle);
 
                 getActivity().getSupportFragmentManager().beginTransaction()
@@ -83,6 +87,11 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
             case R.id.buttonDeleteManageMetric:
                 DialogFragment newFragment = DeleteMetricDialog.newInstance(MetricId);
                 newFragment.show(getFragmentManager(), "dialog");
+                break;
+            case R.id.buttonRemoveManageMetric:
+                DialogFragment removeDialog = RemoveMetricDialog.newInstance(MetricId);
+                removeDialog.show(getFragmentManager(), "dialog");
+                break;
         }
     }
 }
