@@ -1248,6 +1248,16 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);
     }
 
+    public int removeMetricFromProfile(int metricId) {
+
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, 0);
+        values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, 0);
+
+        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Units._ID + " = " + metricId,
+                null);
+    }
     /**
      * The addGalleryToProfile method adds the gallery to the user profile.
      *
