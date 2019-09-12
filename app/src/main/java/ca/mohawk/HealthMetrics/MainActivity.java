@@ -24,6 +24,7 @@ import ca.mohawk.HealthMetrics.DataEntry.DeleteDataEntryDialog;
 import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
+import ca.mohawk.HealthMetrics.MetricManagement.RemoveMetricDialog;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.Prescription.DeletePrescriptionDialog;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
@@ -31,7 +32,9 @@ import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
 import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, DeleteMetricDialog.DeleteMetricDialogListener, DeleteDataEntryDialog.DeleteDataEntryDialogListener, DeletePrescriptionDialog.DeletePrescriptionDialogListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        DeleteMetricDialog.DeleteMetricDialogListener, DeleteDataEntryDialog.DeleteDataEntryDialogListener,
+        DeletePrescriptionDialog.DeletePrescriptionDialogListener, RemoveMetricDialog.RemoveMetricDialogListener {
 
     HealthMetricsDbHelper healthMetricsDbHelper;
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -215,5 +218,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDeletePrescriptionDialogNegativeClick(DeletePrescriptionDialog dialog) {
         dialog.dismiss();
+    }
+
+    @Override
+    public void onRemoveMetricDialogPositiveClick(RemoveMetricDialog dialog) {
+
+    }
+
+    @Override
+    public void onRemoveMetricDialogNegativeClick(RemoveMetricDialog dialog) {
+
     }
 }
