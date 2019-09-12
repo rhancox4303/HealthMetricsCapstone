@@ -23,9 +23,9 @@ public class RemoveMetricDialog extends DialogFragment {
     private RemoveMetricDialogListener listener;
     private static int MetricId;
 
-    public static DeleteMetricDialog newInstance(int metricId) {
+    public static RemoveMetricDialog newInstance(int metricId) {
         MetricId = metricId;
-        DeleteMetricDialog frag = new DeleteMetricDialog();
+        RemoveMetricDialog frag = new RemoveMetricDialog();
         return frag;
     }
 
