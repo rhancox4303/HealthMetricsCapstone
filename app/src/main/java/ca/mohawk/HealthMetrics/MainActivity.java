@@ -197,22 +197,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDeletePrescriptionDialogPositiveClick(DeletePrescriptionDialog dialog) {
-        boolean deleteSuccessful = false;
 
-        PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
-        deleteSuccessful = healthMetricsDbHelper.deletePrescription(dialog.getPrescriptionId());
-
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, prescriptionListFragment)
-                .addToBackStack(null)
-                .commit();
-
-        if (deleteSuccessful) {
-            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -223,10 +208,31 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRemoveMetricDialogPositiveClick(RemoveMetricDialog dialog) {
 
+        boolean removeSuccessful = false;
+        boolean deleteSuccessful = false;
+
+        deleteSuccessful = healthMetricsDbHelper.deleteDataEntryByMetricId(dialog.getMetricId());
+
+        if(!deleteSuccessful) {
+            MetricsListFragment metricsListFragment = new MetricsListFragment();
+
+            removeSuccessful = healthMetricsDbHelper.removeMetricFromProfile(dialog.getMetricId());
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, metricsListFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+
+        if (removeSuccessful) {
+            Toast.makeText(this, "Remove was successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Remove was not successful", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onRemoveMetricDialogNegativeClick(RemoveMetricDialog dialog) {
-
+        dialog.dismiss();
     }
 }
