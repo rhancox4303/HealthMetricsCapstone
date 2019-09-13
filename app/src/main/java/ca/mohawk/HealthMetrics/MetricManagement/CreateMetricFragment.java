@@ -47,19 +47,25 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_create_metric, container, false);
 
-        Button createMetricButton = rootView.findViewById(R.id.buttonCreateMetric);
-        createMetricButton.setOnClickListener(this);
-        metricNameEditText = rootView.findViewById(R.id.editTextMetricNameCreateMetric);
+       // Button createMetricButton = rootView.findViewById(R.id.buttonCreateMetric);
+        //createMetricButton.setOnClickListener(this);
+        //metricNameEditText = rootView.findViewById(R.id.editTextMetricNameCreateMetric);
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
         List<UnitCategory> unitCategoriesList = healthMetricsDbHelper.getAllUnitCategories();
 
-        nameTextView = rootView.findViewById(R.id.textViewDisplayMetricNameCreateMetric);
-        unitCategoryDisplayTextView = rootView.findViewById(R.id.textViewDisplayUnitCategoryCreateMetric);
-        unitCategorySpinner = rootView.findViewById(R.id.spinnerUnitCategoryCreateMetric);
+        CreateMetricInputFragment addMetricFragment= new CreateMetricInputFragment();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.CreateMetricFragmentContainer, addMetricFragment)
+                .addToBackStack(null)
+                .commit();
+
+        //nameTextView = rootView.findViewById(R.id.textViewDisplayMetricNameCreateMetric);
+       // unitCategoryDisplayTextView = rootView.findViewById(R.id.textViewDisplayUnitCategoryCreateMetric);
+        //unitCategorySpinner = rootView.findViewById(R.id.spinnerUnitCategoryCreateMetric);
 
         ArrayAdapter<UnitCategory> unitCategoryAdapater = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, unitCategoriesList);
-        unitCategorySpinner.setAdapter(unitCategoryAdapater);
-        unitCategorySpinner.setOnItemSelectedListener(this);
+//        unitCategorySpinner.setAdapter(unitCategoryAdapater);
+      //  unitCategorySpinner.setOnItemSelectedListener(this);
 
         metricTypeRadioGroup = rootView.findViewById(R.id.radioGroupMetricTypeCreateMetric);
         metricTypeRadioGroup.setOnCheckedChangeListener(this);
@@ -76,9 +82,6 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
                 unitCategorySpinner.setVisibility(View.VISIBLE);
                 break;
             case R.id.radioButtonGalleryCreateMetric:
-                nameTextView.setText("Gallery Name");
-                unitCategoryDisplayTextView.setVisibility(View.INVISIBLE);
-                unitCategorySpinner.setVisibility(View.INVISIBLE);
                 break;
         }
     }
