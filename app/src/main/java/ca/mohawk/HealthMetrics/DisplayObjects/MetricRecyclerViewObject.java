@@ -1,32 +1,23 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
-import ca.mohawk.HealthMetrics.Models.Metric;
-
 public class MetricRecyclerViewObject {
     public int Id;
-    public String MetricName;
-    public String LatestMetricDataEntry;
-    public String UnitAbbreviation;
-    public String MetricCategory;
+    public String Name;
+    public String Entry;
+    public String Category;
 
-    public MetricRecyclerViewObject(int id, String metricName, String latestMetricDataEntry, String unitAbbreviation, String metricCategory) {
+    public MetricRecyclerViewObject(int id, String name, String entry, String category) {
         Id = id;
-        MetricName = metricName;
-        LatestMetricDataEntry = latestMetricDataEntry;
-        UnitAbbreviation = unitAbbreviation;
-        MetricCategory = metricCategory;
+        Name = name;
+        Entry = entry;
+        Category = category;
     }
 
-    public String getMetricName() {
-        return MetricName;
+    public String getName() {
+        return Name;
     }
-    public String getLatestMetricDataEntry(){
-        if(MetricCategory.equals("Gallery")){
-            return "Photo Gallery";
-        } else if(LatestMetricDataEntry.equals("No Data Available")){
-            return LatestMetricDataEntry;
-        }else{
-            return LatestMetricDataEntry + " " + UnitAbbreviation;
-        }
+
+    public String getEntry(){
+        return Entry;
     }
 }

@@ -79,9 +79,9 @@ public class MetricRecyclerViewAdapter extends
 
         // Set item views
         TextView metricTextView = viewHolder.textViewMetricName;
-        metricTextView.setText(metric.getMetricName());
+        metricTextView.setText(metric.getName());
         TextView latestDataEntryTextView = viewHolder.latestMetricDataEntry;
-        latestDataEntryTextView.setText(metric.getLatestMetricDataEntry());
+        latestDataEntryTextView.setText(metric.getEntry());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +99,9 @@ public class MetricRecyclerViewAdapter extends
 
     private void changeFragment(MetricRecyclerViewObject itemSelected) {
         Fragment fragment = null;
-        if(itemSelected.MetricCategory.equals("Quantitative")){
+        if(itemSelected.Category.equals("Quantitative")){
             fragment = new MetricDataViewFragment();
-        }else if(itemSelected.MetricCategory.equals("Gallery")){
+        }else if(itemSelected.Category.equals("Gallery")){
             fragment = new ViewPhotoGalleryFragment();
         }
 

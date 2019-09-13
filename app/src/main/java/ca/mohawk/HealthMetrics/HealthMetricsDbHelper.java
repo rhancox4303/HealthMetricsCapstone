@@ -599,6 +599,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         List<MetricRecyclerViewObject> recyclerViewObjects = new ArrayList<MetricRecyclerViewObject>();
         recyclerViewObjects = getAddedMetrics(recyclerViewObjects);
         recyclerViewObjects = getAddedPhotoGalleries(recyclerViewObjects);
+        recyclerViewObjects = getAllNotes(recyclerViewObjects);
         return recyclerViewObjects;
     }
 
@@ -642,7 +643,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String dataEntry = getLatestDataEntryValue(metricId);
 
             Unit unit = getUnitById(unitId);
-            recyclerViewObjects.add(new MetricRecyclerViewObject(metricId,metricName, dataEntry, unit.UnitAbbreviation, "Quantitative"));
+            String entry = dataEntry + " " + unit.UnitAbbreviation;
+
+            recyclerViewObjects.add(new MetricRecyclerViewObject(metricId,metricName,entry,"Quantitative"));
         }
 
         cursor.close();
@@ -684,14 +687,45 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String galleryName = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
 
-            recyclerViewObjects.add(new MetricRecyclerViewObject(galleryId, galleryName, null, null, "Gallery"));
+            recyclerViewObjects.add(new MetricRecyclerViewObject(galleryId, galleryName, "Photo Gallery", "Gallery"));
         }
 
         cursor.close();
         readableDatabase.close();
         return recyclerViewObjects;
     }
+    public List<MetricRecyclerViewObject> getAllNotes(List<MetricRecyclerViewObject> recyclerViewObjects) {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
 
+        String[] projection = {
+                HealthMetricContract.Notes._ID,
+                HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT
+        };
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Notes.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        while (cursor.moveToNext()) {
+
+            int noteId = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Notes._ID));
+
+            String content = cursor.getString(
+                    cursor.getColumnIndexOrThrow(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT));
+
+            recyclerViewObjects.add(new MetricRecyclerViewObject(noteId, "Note", content, "Note"));
+        }
+
+        cursor.close();
+        readableDatabase.close();
+        return recyclerViewObjects;
+    }
     /**
      * The getAllPhotoGalleries method gets all photo galleries.
      * @return The list of PhotoGallerySpinnerObjects.
