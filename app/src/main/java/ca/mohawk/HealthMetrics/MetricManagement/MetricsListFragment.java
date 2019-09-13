@@ -37,6 +37,7 @@ public class MetricsListFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ((MainActivity)getActivity()).getSupportActionBar().show();
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Health Metrics");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_metrics_view, container, false);
