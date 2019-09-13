@@ -75,7 +75,7 @@
             android:text="Photo Galley" />
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radioButtonNoteCreateMetric"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

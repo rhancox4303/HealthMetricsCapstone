@@ -77,12 +77,25 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
 
         switch(checkedId){
             case R.id.radioButtonQuantitativeCreateMetric:
-                nameTextView.setText("Metric Name");
-                unitCategoryDisplayTextView.setVisibility(View.VISIBLE);
-                unitCategorySpinner.setVisibility(View.VISIBLE);
+                CreateMetricInputFragment addMetricFragment= new CreateMetricInputFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.CreateMetricFragmentContainer, addMetricFragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case R.id.radioButtonGalleryCreateMetric:
+                CreatePhotoGalleryInputFragment addGalleryFragment= new CreatePhotoGalleryInputFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.CreateMetricFragmentContainer, addGalleryFragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
+            case R.id.radioButtonNoteCreateMetric:
+                CreateNoteInputFragment noteInputFragment= new CreateNoteInputFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.CreateMetricFragmentContainer, noteInputFragment)
+                        .addToBackStack(null)
+                        .commit();
         }
     }
 

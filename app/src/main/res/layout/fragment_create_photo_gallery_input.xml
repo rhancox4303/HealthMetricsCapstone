@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout29"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MetricManagement.CreatePhotoGalleryInputFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline142"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline143"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline144"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/textViewGalleryNameCreatePhotoGalleryInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gallery Name"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline144"
+        app:layout_constraintEnd_toStartOf="@+id/guideline143"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline142" />
+
+    <EditText
+        android:id="@+id/editTextGalleryNameCreatePhotoGalleryInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/guideline144"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline143"
+        app:layout_constraintTop_toTopOf="@+id/guideline142" />
+
+    <Button
+        android:id="@+id/buttonCreateGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Gallery"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline144" />
+</androidx.constraintlayout.widget.ConstraintLayout>
