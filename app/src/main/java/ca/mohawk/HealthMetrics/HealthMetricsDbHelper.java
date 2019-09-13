@@ -17,6 +17,7 @@ import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionRecyclerViewObject;
 import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
+import ca.mohawk.HealthMetrics.Models.Note;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.Models.Unit;
@@ -94,6 +95,26 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void addNote(Note note){
+
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+
+        try{
+            ContentValues values = new ContentValues();
+            values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.NoteContent);
+            values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.DateOfEntry);
+
+            writableDatabase.insertOrThrow(HealthMetricContract.Notes.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
+        }catch (Exception e ){
+            Log.d("TAG", "Error while trying to add notes to database");
+        } finally {
+            writableDatabase.endTransaction();
+            writableDatabase.close();
+        }
+    }
+
     /**
      * The addUser method adds the user to the database.
      *
@@ -137,9 +158,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.Strength);
             values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.Reason);
 
-
             writableDatabase.insertOrThrow(HealthMetricContract.Prescriptions.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
+
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add prescription to database");
         } finally {
@@ -523,8 +544,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         readableDatabase.close();
         return dosageMeasurements;
     }
-
-
 
     /**
      * The getAllSpinnerUnits method gets units based on the unit category id.
@@ -1213,6 +1232,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);
     }
 
+
     /**
      * The updateMetric method updates the metric in the database.
      *
@@ -1258,6 +1278,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Units._ID + " = " + metricId,
                 null) > 0;
     }
+
     /**
      * The addGalleryToProfile method adds the gallery to the user profile.
      *

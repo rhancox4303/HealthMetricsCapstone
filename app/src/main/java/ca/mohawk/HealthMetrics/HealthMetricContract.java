@@ -101,6 +101,7 @@ public final class HealthMetricContract {
      * It represents the notes table.
      */
     public static abstract class Notes implements BaseColumns {
+
         public static final String TABLE_NAME = "Notes";
         public static final String COLUMN_NAME_NOTECONTENT = "NoteContent";
         public static final String COLUMN_NAME_DATEOFENTRY = "DateOfEntry";

@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Note {
     public int Id;
-    public Date DateOfEntry;
+    public String DateOfEntry;
     public String NoteContent;
 
-    public Note(Date dateOfEntry, String noteContent) {
+    public Note(String dateOfEntry, String noteContent) {
         DateOfEntry = dateOfEntry;
         NoteContent = noteContent;
     }

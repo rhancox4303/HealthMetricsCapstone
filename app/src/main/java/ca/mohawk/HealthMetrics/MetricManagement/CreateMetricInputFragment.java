@@ -26,14 +26,15 @@ import ca.mohawk.HealthMetrics.R;
  * A simple {@link Fragment} subclass.
  */
 public class CreateMetricInputFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
     private int unitCategoryId;
     private HealthMetricsDbHelper healthMetricsDbHelper;
     private Spinner unitCategorySpinner;
     private EditText metricNameEditText;
+
     public CreateMetricInputFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,17 +71,17 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
         }else{
             Toast.makeText(getActivity(), "Please enter all fields", Toast.LENGTH_SHORT).show();
         }
-
     }
+
     public void createMetric(){
         String metricName = metricNameEditText.getText().toString();
         healthMetricsDbHelper.addMetric(new Metric(0, metricName, unitCategoryId,0));
         Toast.makeText(getActivity(), "Metric created.", Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         unitCategoryId = ((UnitCategory)parent.getSelectedItem()).getId();
-
     }
 
     @Override
