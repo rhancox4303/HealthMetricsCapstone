@@ -36,8 +36,10 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline28"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline26" />
+        app:layout_constraintTop_toTopOf="@+id/guideline26"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline28"

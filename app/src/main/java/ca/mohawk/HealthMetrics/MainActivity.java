@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -259,4 +258,5 @@ public class MainActivity extends AppCompatActivity
     public void onDeleteNoteDialogNegativeClick(DeleteNoteDialog dialog) {
         dialog.dismiss();
     }
-}
+
+    }

@@ -6,9 +6,13 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -53,6 +57,7 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_metric_data_view, container, false);
+        setHasOptionsMenu(true);
 
         chart = (LineChart) rootView.findViewById(R.id.chartMetricDataView);
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
@@ -125,5 +130,25 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
                 .replace(R.id.fragmentContainer, destinationFragment)
                 .addToBackStack(null)
                 .commit();
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.email_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Fragment destinationFragment = new EmailShareFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("metric_id",MetricId);
+        destinationFragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, destinationFragment)
+                .addToBackStack(null)
+                .commit();
+
+        return  super.onOptionsItemSelected(item);
     }
 }
