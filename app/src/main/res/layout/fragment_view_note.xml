@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline21" />
 
     <TextView
-        android:id="@+id/textViewNoteDataViewNote"
+        android:id="@+id/textViewNoteContentViewNote"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

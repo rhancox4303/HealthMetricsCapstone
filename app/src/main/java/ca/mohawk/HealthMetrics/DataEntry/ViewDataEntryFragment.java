@@ -79,13 +79,9 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
                     .commit();
 
         }else if(v.getId() == R.id.buttonDeleteEntryViewDataEntry){
-            showDeleteDialog();
+
+            DialogFragment newFragment = DeleteDataEntryDialog.newInstance(DataEntryId,MetricId);
+            newFragment.show(getFragmentManager(), "dialog");
         }
     }
-
-    public void showDeleteDialog(){
-        DialogFragment newFragment = DeleteDataEntryDialog.newInstance(DataEntryId,MetricId);
-        newFragment.show(getFragmentManager(), "dialog");
-    }
-
 }

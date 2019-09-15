@@ -1223,7 +1223,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String noteContent = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT));
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY));
 
-
             Note note = new Note(dateOfEntry,noteContent);
             cursor.close();
             database.close();
