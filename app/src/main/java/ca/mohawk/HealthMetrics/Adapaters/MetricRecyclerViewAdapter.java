@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
 import ca.mohawk.HealthMetrics.MainActivity;
+import ca.mohawk.HealthMetrics.Note.ViewNoteFragment;
 import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.R;
 
@@ -103,10 +104,12 @@ public class MetricRecyclerViewAdapter extends
             fragment = new MetricDataViewFragment();
         }else if(itemSelected.Category.equals("Gallery")){
             fragment = new ViewPhotoGalleryFragment();
+        }else if(itemSelected.Category.equals("Note")){
+            fragment = new ViewNoteFragment();
         }
 
         Bundle metricBundle = new Bundle();
-        metricBundle.putInt("metric_selected_key", itemSelected.Id);
+        metricBundle.putInt("selected_item_key", itemSelected.Id);
 
         fragment.setArguments(metricBundle);
         switchContent(fragment);

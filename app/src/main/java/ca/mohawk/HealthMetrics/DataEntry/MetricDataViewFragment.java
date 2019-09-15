@@ -59,7 +59,7 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            MetricId = bundle.getInt("metric_selected_key", -1);
+            MetricId = bundle.getInt("selected_item_key", -1);
         }
 
         Button addMetric = rootView.findViewById(R.id.buttonAddEntryMetricDataView);
