@@ -1199,6 +1199,43 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return unitCategories;
     }
 
+    public Note getNoteById(int id){
+        SQLiteDatabase database = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY,
+                HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT,
+        };
+
+        String selection = HealthMetricContract.Notes._ID + "=?";
+        String noteId = String.valueOf(id);
+
+        Cursor cursor = database.query(
+                HealthMetricContract.Notes.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                new String[]{noteId},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,
+                null);                      // don't filter by row groups
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String noteContent = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT));
+            String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY));
+
+
+            Note note = new Note(dateOfEntry,noteContent);
+            cursor.close();
+            database.close();
+            return note;
+
+        } else {
+            Log.d("ERROR", "No Note found.");
+            cursor.close();
+            database.close();
+            return null;
+        }
+    }
     /**
      * The getUser profile retrieves the user from the database.
      *
