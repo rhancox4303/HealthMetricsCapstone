@@ -89,12 +89,11 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
     private void editNote() {
         String noteContent = noteContentEditText.getText().toString();
         String dateOfEntry = dateOfEntryEditText.getText().toString();
-        if(!healthMetricsDbHelper.updateNote(new Note(dateOfEntry, noteContent))){
+        if(healthMetricsDbHelper.updateNote(new Note(NoteId, dateOfEntry, noteContent))){
             Toast.makeText(getActivity(), "Edit Successful", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(getActivity(), "Edit Failed.", Toast.LENGTH_SHORT).show();
         }
-            
     }
 
     private boolean validateUserInput() {

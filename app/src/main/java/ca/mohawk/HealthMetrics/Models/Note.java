@@ -11,4 +11,10 @@ public class Note {
         DateOfEntry = dateOfEntry;
         NoteContent = noteContent;
     }
+
+    public Note(int id, String dateOfEntry, String noteContent) {
+        Id = id;
+        DateOfEntry = dateOfEntry;
+        NoteContent = noteContent;
+    }
 }
