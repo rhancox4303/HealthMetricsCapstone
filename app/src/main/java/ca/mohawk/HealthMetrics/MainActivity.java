@@ -25,6 +25,7 @@ import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.RemoveMetricDialog;
+import ca.mohawk.HealthMetrics.Note.DeleteNoteDialog;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.Prescription.DeletePrescriptionDialog;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
@@ -34,7 +35,7 @@ import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         DeleteMetricDialog.DeleteMetricDialogListener, DeleteDataEntryDialog.DeleteDataEntryDialogListener,
-        DeletePrescriptionDialog.DeletePrescriptionDialogListener, RemoveMetricDialog.RemoveMetricDialogListener {
+        DeletePrescriptionDialog.DeletePrescriptionDialogListener, RemoveMetricDialog.RemoveMetricDialogListener, DeleteNoteDialog.DeleteNoteDialogListener {
 
     HealthMetricsDbHelper healthMetricsDbHelper;
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -209,9 +210,8 @@ public class MainActivity extends AppCompatActivity
     public void onRemoveMetricDialogPositiveClick(RemoveMetricDialog dialog) {
 
         boolean removeSuccessful = false;
-        boolean deleteSuccessful = false;
 
-        deleteSuccessful = healthMetricsDbHelper.deleteDataEntryByMetricId(dialog.getMetricId());
+        boolean deleteSuccessful = healthMetricsDbHelper.deleteDataEntryByMetricId(dialog.getMetricId());
 
         if(!deleteSuccessful) {
             MetricsListFragment metricsListFragment = new MetricsListFragment();
@@ -233,6 +233,30 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRemoveMetricDialogNegativeClick(RemoveMetricDialog dialog) {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onDeleteNoteDialogPositiveClick(DeleteNoteDialog dialog) {
+        boolean deleteSuccessful = false;
+
+        MetricsListFragment metricsListFragment = new MetricsListFragment();
+        deleteSuccessful = healthMetricsDbHelper.deleteNoteById(dialog.getNoteId());
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, metricsListFragment)
+                .addToBackStack(null)
+                .commit();
+
+        if (deleteSuccessful) {
+            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDeleteNoteDialogNegativeClick(DeleteNoteDialog dialog) {
         dialog.dismiss();
     }
 }
