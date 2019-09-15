@@ -1327,7 +1327,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.DateOfEntry);
         values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.NoteContent);
 
-        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Notes._ID + " = " + note.Id,
+        return database.update(HealthMetricContract.Notes.TABLE_NAME, values, HealthMetricContract.Notes._ID + " = " + note.Id,
                 null) > 0;
     }
 
