@@ -1319,6 +1319,17 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Metrics._ID + " = " + metric.Id,
                 null);
     }
+    public boolean updateNote(Note note){
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.DateOfEntry);
+        values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.NoteContent);
+
+        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Notes._ID + " = " + note.Id,
+                null) > 0;
+    }
 
     /**
      * The addMetricToProfile method adds the metric to the user profile.
