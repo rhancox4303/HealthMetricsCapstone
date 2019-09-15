@@ -19,8 +19,6 @@ import androidx.fragment.app.Fragment;
         private static int DataEntryId;
         private static int MetricId;
 
-
-
     public static DeleteDataEntryDialog newInstance(int dataEntryId, int metricId) {
             MetricId = metricId;
             DataEntryId = dataEntryId;
