@@ -642,10 +642,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             String dataEntry = getLatestDataEntryValue(metricId);
 
-            Unit unit = getUnitById(unitId);
-            String entry = dataEntry + " " + unit.UnitAbbreviation;
 
-            recyclerViewObjects.add(new MetricRecyclerViewObject(metricId,metricName,entry,"Quantitative"));
+            if(!dataEntry.equals("No Data Available")) {
+                 Unit unit = getUnitById(unitId);
+                dataEntry = dataEntry + " " + unit.UnitAbbreviation;
+            }
+            recyclerViewObjects.add(new MetricRecyclerViewObject(metricId,metricName,dataEntry,"Quantitative"));
         }
 
         cursor.close();

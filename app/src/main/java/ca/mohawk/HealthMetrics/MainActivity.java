@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity
         deleteSuccessful = healthMetricsDbHelper.deleteDataEntry(dialog.getDataEntryId());
 
         Bundle metricBundle = new Bundle();
-        metricBundle.putInt("metric_selected_key", dialog.getMetricId());
+        metricBundle.putInt("selected_item_key", dialog.getMetricId());
 
         metricDataViewFragment.setArguments(metricBundle);
 

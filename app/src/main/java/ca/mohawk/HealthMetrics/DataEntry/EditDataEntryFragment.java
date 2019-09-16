@@ -105,7 +105,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
             MetricDataViewFragment dataViewFragment = new MetricDataViewFragment();
 
             Bundle metricBundle = new Bundle();
-            metricBundle.putInt("metric_selected_key", MetricId);
+            metricBundle.putInt("selected_item_key", MetricId);
             dataViewFragment.setArguments(metricBundle);
 
             getActivity().getSupportFragmentManager().beginTransaction()

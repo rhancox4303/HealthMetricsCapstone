@@ -54,7 +54,7 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            MetricId = bundle.getInt("metric_id", -1);
+            MetricId = bundle.getInt("metric_id_key", -1);
         }
 
         Metric metric = healthMetricsDbHelper.getMetricById(MetricId);
@@ -76,7 +76,7 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
                 destinationFragment = new EditMetricFragment();
 
                 Bundle bundle = new Bundle();
-                bundle.putInt("metric_id", MetricId);
+                bundle.putInt("metric_id_key", MetricId);
                 destinationFragment.setArguments(bundle);
 
                 getActivity().getSupportFragmentManager().beginTransaction()

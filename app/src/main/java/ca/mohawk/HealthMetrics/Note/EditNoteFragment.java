@@ -54,7 +54,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            NoteId = bundle.getInt("note_selected_key", -1);
+            NoteId = bundle.getInt("note_id_key", -1);
         }
 
         Note note = healthMetricsDbHelper.getNoteById(NoteId);

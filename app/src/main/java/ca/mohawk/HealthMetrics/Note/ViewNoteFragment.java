@@ -64,7 +64,7 @@ public class ViewNoteFragment extends Fragment implements View.OnClickListener {
         }else if(v.getId() == R.id.buttonEditNoteViewNote){
 
             Bundle bundle = new Bundle();
-            bundle.putInt("note_selected_key",NoteId);
+            bundle.putInt("note_id_key",NoteId);
             Fragment fragment = new EditNoteFragment();
             fragment.setArguments(bundle);
 

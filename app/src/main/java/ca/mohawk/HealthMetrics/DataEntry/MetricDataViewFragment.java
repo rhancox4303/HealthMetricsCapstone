@@ -123,7 +123,7 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
         }
 
         Bundle bundle = new Bundle();
-        bundle.putInt("metric_id",MetricId);
+        bundle.putInt("metric_id_key",MetricId);
         destinationFragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager().beginTransaction()
@@ -141,7 +141,7 @@ public class MetricDataViewFragment extends Fragment implements View.OnClickList
     public boolean onOptionsItemSelected(MenuItem item) {
         Fragment destinationFragment = new EmailShareFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("metric_id",MetricId);
+        bundle.putInt("metric_id_key",MetricId);
         destinationFragment.setArguments(bundle);
 
         getActivity().getSupportFragmentManager().beginTransaction()
