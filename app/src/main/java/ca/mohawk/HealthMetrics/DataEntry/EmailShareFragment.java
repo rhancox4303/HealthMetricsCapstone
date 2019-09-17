@@ -55,7 +55,7 @@ public class EmailShareFragment extends Fragment implements View.OnClickListener
         int MetricId = 0;
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            MetricId = bundle.getInt("selected_item_key", -1);
+            MetricId = bundle.getInt("metric_id_key", -1);
         }
 
         composeMessage(MetricId);
