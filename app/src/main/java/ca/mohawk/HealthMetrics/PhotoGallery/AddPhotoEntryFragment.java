@@ -27,5 +27,4 @@ public class AddPhotoEntryFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_photo_entry, container, false);
     }
-
 }
