@@ -1,17 +1,21 @@
+//Taken from https://developer.android.com/training/camera/photobasics
 package ca.mohawk.HealthMetrics.PhotoGallery;
 
-
         import android.Manifest;
+        import android.content.DialogInterface;
         import android.content.Intent;
         import android.content.pm.PackageManager;
         import android.graphics.Bitmap;
+        import android.net.Uri;
         import android.os.Bundle;
 
-        import androidx.annotation.NonNull;
-        import androidx.core.app.ActivityCompat;
+        import androidx.appcompat.app.AlertDialog;
         import androidx.core.content.ContextCompat;
+        import androidx.core.content.FileProvider;
         import androidx.fragment.app.Fragment;
 
+        import android.os.Environment;
+        import android.provider.MediaStore;
         import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -19,6 +23,11 @@ package ca.mohawk.HealthMetrics.PhotoGallery;
         import android.widget.Button;
         import android.widget.ImageView;
         import android.widget.Toast;
+
+        import java.io.File;
+        import java.io.IOException;
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
 
         import ca.mohawk.HealthMetrics.R;
 
@@ -30,10 +39,13 @@ package ca.mohawk.HealthMetrics.PhotoGallery;
  */
 public class AddPhotoEntryFragment extends Fragment implements View.OnClickListener {
 
-    private static final int CAMERA_REQUEST_CODE = 2000;
-    private static final int CAMERA_PERMISSION_CODE = 100;
+
     private ImageView imageView;
-    // private static final int GALLERY_REQUEST_CODE = 2001;
+
+    private static final int REQUEST_TAKE_PHOTO = 2000;
+    private static final int CAMERA_PERMISSION_CODE = 100;
+    private String currentPhotoPath;
+    // private static final int GALLERY_INTENT_CODE = 2001;
     // private static final int GALLERY_PERMISSION_CODE = 101;
 
     public AddPhotoEntryFragment() {
@@ -46,50 +58,49 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_add_photo_entry, container, false);
-        Button cameraButton = rootView.findViewById(R.id.buttonUseCamerAddPhotoEntry);
         imageView = rootView.findViewById(R.id.imageViewAddPhotoEntry);
-        cameraButton.setOnClickListener(this);
+        Button button = rootView.findViewById(R.id.buttonUploadImageAddPhotoEntry);
+        button.setOnClickListener(this);
         return rootView;
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.buttonUseCamerAddPhotoEntry){
-            checkPermissions();
-        }
-    }
-    public void launchCamera(){
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+        showDialog();
     }
 
-    private void checkPermissions(){
-        if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-        {
-            Log.d("Test","Test Method");
-               requestPermissions(
-                        new String[]{Manifest.permission.CAMERA},
-                        CAMERA_PERMISSION_CODE);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                Log.d("ERROR", ex.toString());
             }
-        else
-        {
-            launchCamera();
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                        "ca.mohawk.HealthMetrics.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
         }
     }
+
+
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
         switch (requestCode) {
             case CAMERA_PERMISSION_CODE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    launchCamera();
+                    dispatchTakePictureIntent();
                 } else {
                     Toast.makeText(getActivity(), "Camera permission is required to add photos using the camera.", Toast.LENGTH_SHORT).show();
                 }
@@ -97,14 +108,62 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
             }
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(imageBitmap);
         }
     }
+
+    private void checkPermissions(){
+        if (ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(
+                    new String[]{Manifest.permission.CAMERA},
+                    CAMERA_PERMISSION_CODE);
+        }
+        else {dispatchTakePictureIntent(); }
+    }
+
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setTitle("Insert Photo Entry");
+        builder.setMessage("Insert a photo entry");
+
+        builder.setPositiveButton("Use Camera", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                checkPermissions();
+            }
+        });
+
+        builder.setNegativeButton("From Gallery", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        builder.show();
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
 }
+
 
 
