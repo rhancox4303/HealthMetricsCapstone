@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -26,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,12 +45,13 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
 
     private ImageView imageView;
 
-    private static final int REQUEST_TAKE_PHOTO = 2000;
+    private static final int CAMERA_INTENT_CODE = 2000;
     private static final int CAMERA_PERMISSION_CODE = 100;
-    private String currentPhotoPath;
-    private Uri currentPhotoUri;
-    // private static final int GALLERY_INTENT_CODE = 2001;
-    // private static final int GALLERY_PERMISSION_CODE = 101;
+    private String currentPhotoPath = null;
+    private Uri currentPhotoUri = null;
+    private static final int GALLERY_INTENT_CODE = 2001;
+    private static final int GALLERY_PERMISSION_CODE = 101;
+    Bitmap currentImage;
 
     public AddPhotoEntryFragment() {
         // Required empty public constructor
@@ -63,11 +66,18 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
         imageView = rootView.findViewById(R.id.imageViewAddPhotoEntry);
         Button button = rootView.findViewById(R.id.buttonUploadImageAddPhotoEntry);
         button.setOnClickListener(this);
+
         return rootView;
     }
 
     @Override
     public void onClick(View v) {
+
+        if (currentPhotoPath != null) {
+            File file = new File(currentPhotoPath);
+            boolean deleted = file.delete();
+        }
+
         showDialog();
     }
 
@@ -83,63 +93,94 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
                 } else {
                     Toast.makeText(getActivity(), "Camera permission is required to add photos using the camera.", Toast.LENGTH_SHORT).show();
                 }
-                return;
+                break;
+            }
+            case GALLERY_PERMISSION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    dispatchPickFromGalleryIntent();
+                } else {
+                    Toast.makeText(getActivity(), "Storage permissions is required to add photos using storage.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
+        return;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            Matrix matrix = new Matrix();
-
-            matrix.postRotate(90);
-            Bitmap bitmap = null;
+        if (requestCode == CAMERA_INTENT_CODE && resultCode == RESULT_OK) {
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), currentPhotoUri);
+                currentPhotoUri = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), currentPhotoUri);
+                imageView.setImageBitmap(bitmap);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            imageView.setImageBitmap(rotatedBitmap);
+        }
+
+        if (requestCode == GALLERY_INTENT_CODE && resultCode == RESULT_OK) {
+            try {
+                currentPhotoUri = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), currentPhotoUri);
+                imageView.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void checkPermissions() {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                    new String[]{Manifest.permission.CAMERA},
-                    CAMERA_PERMISSION_CODE);
-        } else {
-            dispatchTakePictureIntent();
+    private void checkPermissions(int permissionCode) {
+        switch (permissionCode) {
+            case CAMERA_PERMISSION_CODE:
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(
+                            new String[]{Manifest.permission.CAMERA},
+                            CAMERA_PERMISSION_CODE);
+                } else {
+                    dispatchTakePictureIntent();
+                }
+                break;
+            case GALLERY_PERMISSION_CODE:
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            GALLERY_PERMISSION_CODE);
+                } else {
+                    dispatchPickFromGalleryIntent();
+                }
+                break;
         }
     }
 
     private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        InsertPhotoDialog dialog = InsertPhotoDialog.newInstance();
+        dialog.setListener(new InsertPhotoDialog.insertPhotoDialogListener() {
+            @Override
+            public void onInsertPhotoDialogPositiveClick(InsertPhotoDialog dialog) {
+                checkPermissions(CAMERA_PERMISSION_CODE);
+            }
 
-        builder.setTitle("Insert Photo Entry");
-        builder.setMessage("Insert a photo entry");
+            @Override
+            public void onInsertPhotoDialogNeutralClick(InsertPhotoDialog dialog) {
+                checkPermissions(GALLERY_PERMISSION_CODE);
+            }
 
-        builder.setPositiveButton("Use Camera", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                checkPermissions();
+            @Override
+            public void onInsertPhotoDialogNegativeClick(InsertPhotoDialog dialog) {
+                dialog.dismiss();
             }
         });
-
-        builder.setNegativeButton("From Gallery", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
-        builder.show();
+        dialog.show(getFragmentManager().beginTransaction(), "timePicker");
     }
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // Create the File where the photo should go
+           /* // Create the File where the photo should go
             File photoFile = null;
             try {
                 photoFile = createImageFile();
@@ -150,13 +191,33 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
             if (photoFile != null) {
                 currentPhotoUri = FileProvider.getUriForFile(getActivity(),
                         "ca.mohawk.HealthMetrics.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, currentPhotoUri);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+                        photoFile);*/
+            startActivityForResult(takePictureIntent, CAMERA_INTENT_CODE);
         }
     }
 
+    private void dispatchPickFromGalleryIntent() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        if (galleryIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+           /* // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                Log.d("ERROR", ex.toString());
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                currentPhotoUri = FileProvider.getUriForFile(getActivity(),
+                        "ca.mohawk.HealthMetrics.fileprovider",
+                        photoFile);*/
+
+            startActivityForResult(galleryIntent, GALLERY_INTENT_CODE);
+        }
+    }
+
+    //google
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
