@@ -10,6 +10,13 @@ public class PhotoEntry {
     public String PhotoEntryPath;
     public String DateOfEntry;
 
+    public PhotoEntry(int id, int photoGalleryId, String photoEntryPath, String dateOfEntry) {
+        Id = id;
+        PhotoGalleryId = photoGalleryId;
+        PhotoEntryPath = photoEntryPath;
+        DateOfEntry = dateOfEntry;
+    }
+
     public PhotoEntry(int photoGalleryId, String photoEntryPath, String dateOfEntry) {
         PhotoGalleryId = photoGalleryId;
         PhotoEntryPath = photoEntryPath;

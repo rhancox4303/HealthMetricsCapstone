@@ -4,8 +4,6 @@ public class PhotoGallerySpinnerObject {
     String GalleryName;
     int Id;
 
-
-
     public PhotoGallerySpinnerObject(String galleryName, int id) {
         GalleryName = galleryName;
         Id = id;
