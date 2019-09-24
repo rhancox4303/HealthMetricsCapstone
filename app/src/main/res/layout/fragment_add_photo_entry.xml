@@ -64,7 +64,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline68" />
 
     <Button
-        android:id="@+id/buttonAddEntry"
+        android:id="@+id/buttonAddEntryPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline69" />
 
     <EditText
-        android:id="@+id/editTextDateOfEntry"
+        android:id="@+id/editTextDateOfEntryAddPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -86,7 +86,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:inputType="date"
+        android:focusable="false"
+        android:inputType="none"
+        android:clickable="true"
         app:layout_constraintBottom_toTopOf="@+id/guideline69"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline70"

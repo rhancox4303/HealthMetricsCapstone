@@ -69,8 +69,6 @@ public class AddDataEntryFragment extends Fragment implements View.OnClickListen
         TextView metricNameTextView = rootView.findViewById(R.id.textViewMetricDisplayAddDataEntry);
         Button addDataEntry = rootView.findViewById(R.id.buttonAddEntryAddDataEntry);
 
-
-
         addDataEntry.setOnClickListener(this);
 
         unitTextView.setText(unit.UnitAbbreviation);
@@ -82,9 +80,8 @@ public class AddDataEntryFragment extends Fragment implements View.OnClickListen
         if(dateOfEntryEditText.getText().toString().equals("") || dataEntryEditText.getText().toString().equals("")){
             Toast.makeText(getActivity(), "Please enter all fields.", Toast.LENGTH_SHORT).show();
             return false;
-        }else{
-            return true;
         }
+            return true;
     }
 
     public void addDataEntry(){

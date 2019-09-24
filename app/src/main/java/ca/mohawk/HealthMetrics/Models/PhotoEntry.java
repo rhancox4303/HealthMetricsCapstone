@@ -6,12 +6,12 @@ import java.util.Date;
 
 public class PhotoEntry {
     public int Id;
-    public PhotoGallery PhotoGallery;
-    public Bitmap PhotoEntry;
-    public Date DateOfEntry;
+    public int PhotoGalleryId;
+    public String PhotoEntry;
+    public String DateOfEntry;
 
-    public PhotoEntry(PhotoGallery photoGallery, Bitmap photoEntry, Date dateOfEntry) {
-        PhotoGallery = photoGallery;
+    public PhotoEntry(int photoGalleryId, String photoEntry, String dateOfEntry) {
+        PhotoGalleryId = photoGalleryId;
         PhotoEntry = photoEntry;
         DateOfEntry = dateOfEntry;
     }
