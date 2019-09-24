@@ -12,9 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
-import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.Models.Metric;
-import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
+import ca.mohawk.HealthMetrics.Models.DataEntry;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.R;
 
@@ -54,7 +53,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
             DataEntryId = bundle.getInt("data_entry_selected_key", -1);
         }
 
-        MetricDataEntry dataEntry = healthMetricsDbHelper.getDataEntryById(DataEntryId);
+        DataEntry dataEntry = healthMetricsDbHelper.getDataEntryById(DataEntryId);
         MetricId = dataEntry.MetricId;
         Metric metric = healthMetricsDbHelper.getMetricById(MetricId);
         Unit unit = healthMetricsDbHelper.getUnitById(metric.UnitId);

@@ -6,7 +6,6 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +16,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.util.Date;
-
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
-import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
+import ca.mohawk.HealthMetrics.Models.DataEntry;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.TimePickerFragment;
-import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
 
 /**
@@ -87,7 +83,7 @@ public class AddDataEntryFragment extends Fragment implements View.OnClickListen
     public void addDataEntry(){
         String date = dateOfEntryEditText.getText().toString();
         String entry = dataEntryEditText.getText().toString();
-        healthMetricsDbHelper.addDataEntry(new MetricDataEntry(MetricId, entry,date));
+        healthMetricsDbHelper.addDataEntry(new DataEntry(MetricId, entry,date));
     }
 
     @Override

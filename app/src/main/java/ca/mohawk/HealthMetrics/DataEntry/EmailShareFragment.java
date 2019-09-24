@@ -13,12 +13,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.StringJoiner;
 
 import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
-import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
 import ca.mohawk.HealthMetrics.R;
 
 

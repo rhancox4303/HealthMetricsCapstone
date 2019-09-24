@@ -18,7 +18,7 @@ import android.widget.Toast;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
-import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
+import ca.mohawk.HealthMetrics.Models.DataEntry;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.TimePickerFragment;
@@ -64,7 +64,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
             DataEntryId = bundle.getInt("data_entry_selected_key", -1);
         }
 
-        MetricDataEntry dataEntry = healthMetricsDbHelper.getDataEntryById(DataEntryId);
+        DataEntry dataEntry = healthMetricsDbHelper.getDataEntryById(DataEntryId);
 
         MetricId = dataEntry.MetricId;
 
@@ -90,7 +90,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
     public void editDataEntry(){
         String date = dateOfEntryEditText.getText().toString();
         String entry = dataEntryEditText.getText().toString();
-        healthMetricsDbHelper.updateDataEntry(new MetricDataEntry(DataEntryId,MetricId,entry,date));
+        healthMetricsDbHelper.updateDataEntry(new DataEntry(DataEntryId,MetricId,entry,date));
     }
 
     @Override

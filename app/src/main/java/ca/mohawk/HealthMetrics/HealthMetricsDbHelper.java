@@ -16,7 +16,7 @@ import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionRecyclerViewObject;
 import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Metric;
-import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
+import ca.mohawk.HealthMetrics.Models.DataEntry;
 import ca.mohawk.HealthMetrics.Models.Note;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
@@ -245,17 +245,17 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     /**
      * The addDataEntry adds the metric to the database.
      *
-     * @param metricDataEntry represents the metric data entry to be added to the database.
+     * @param dataEntry represents the metric data entry to be added to the database.
      */
-    public void addDataEntry(MetricDataEntry metricDataEntry){
+    public void addDataEntry(DataEntry dataEntry){
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
 
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY,metricDataEntry.DataEntry);
-            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY,metricDataEntry.DateOfEntry);
-            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID,metricDataEntry.MetricId);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.DataEntry);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.DateOfEntry);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.MetricId);
 
             writableDatabase.insertOrThrow(HealthMetricContract.MetricDataEntries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -878,7 +878,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param dataEntryId The id of the entry that will be returned.
      * @return The entry with the id specified.
      */
-    public MetricDataEntry getDataEntryById(int dataEntryId ){
+    public DataEntry getDataEntryById(int dataEntryId ){
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -905,7 +905,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             int metricId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID));
             String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
 
-            MetricDataEntry dataEntryObject = new MetricDataEntry(metricId, dataEntry, dateOfEntry);
+            DataEntry dataEntryObject = new DataEntry(metricId, dataEntry, dateOfEntry);
             cursor.close();
             readableDatabase.close();
             return dataEntryObject;
@@ -1352,7 +1352,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param dataEntry The user that will be updated.
      * @return An integer value indicating if the update is successful.
      */
-    public int updateDataEntry(MetricDataEntry dataEntry) {
+    public int updateDataEntry(DataEntry dataEntry) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
