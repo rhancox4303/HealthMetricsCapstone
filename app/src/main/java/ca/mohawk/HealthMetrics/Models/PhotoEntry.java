@@ -7,12 +7,12 @@ import java.util.Date;
 public class PhotoEntry {
     public int Id;
     public int PhotoGalleryId;
-    public String PhotoEntry;
+    public String PhotoEntryPath;
     public String DateOfEntry;
 
-    public PhotoEntry(int photoGalleryId, String photoEntry, String dateOfEntry) {
+    public PhotoEntry(int photoGalleryId, String photoEntryPath, String dateOfEntry) {
         PhotoGalleryId = photoGalleryId;
-        PhotoEntry = photoEntry;
+        PhotoEntryPath = photoEntryPath;
         DateOfEntry = dateOfEntry;
     }
 }

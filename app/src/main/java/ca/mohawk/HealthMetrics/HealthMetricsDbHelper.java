@@ -18,6 +18,7 @@ import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.MetricDataEntry;
 import ca.mohawk.HealthMetrics.Models.Note;
+import ca.mohawk.HealthMetrics.Models.PhotoEntry;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.Models.Unit;
@@ -211,6 +212,27 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.IsAddedToProfile);
 
             writableDatabase.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "Error while trying to add metric to database");
+        } finally {
+            writableDatabase.endTransaction();
+            writableDatabase.close();
+        }
+    }
+
+    public void addPhotoEntry(PhotoEntry photoEntry) {
+
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.DateOfEntry);
+            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID, photoEntry.PhotoGalleryId);
+            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.PhotoEntryPath);
+
+            writableDatabase.insertOrThrow(HealthMetricContract.PhotoEntries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add metric to database");
@@ -979,6 +1001,44 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             return metric;
         } else {
             Log.d("ERROR", "No metric found." + metricID);
+            cursor.close();
+            readableDatabase.close();
+            return null;
+        }
+    }
+
+    public PhotoEntry getPhotoEntryById(int photoId) {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY,
+                HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID,
+                HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH
+        };
+
+        String selection = HealthMetricContract.Metrics._ID + "=?";
+        String photoIdString = String.valueOf(photoId);
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.PhotoEntries.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                new String[]{photoIdString},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,
+                null);                      // don't filter by row groups
+
+        if (cursor != null && cursor.moveToFirst()) {
+            String photoEntryPath = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH));
+            String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY));
+            int galleryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID));
+
+            PhotoEntry photoEntry = new PhotoEntry(galleryId,photoEntryPath,dateOfEntry);
+            cursor.close();
+            readableDatabase.close();
+            return photoEntry;
+        } else {
+            Log.d("ERROR", "No metric found." + photoId);
             cursor.close();
             readableDatabase.close();
             return null;
