@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.R;
 
 
@@ -16,7 +17,8 @@ import ca.mohawk.HealthMetrics.R;
  */
 public class ViewPhotoGalleryFragment extends Fragment implements View.OnClickListener {
 
-
+    private int GalleryId;
+    private HealthMetricsDbHelper healthMetricsDbHelper;
     public ViewPhotoGalleryFragment() {
         // Required empty public constructor
     }
@@ -25,6 +27,14 @@ public class ViewPhotoGalleryFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            GalleryId = bundle.getInt("selected_item_key", -1);
+        }
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_view_photo_gallery, container, false);
         Button addEntryButton = rootView.findViewById(R.id.buttonAddEntryViewPhotoGallery);
