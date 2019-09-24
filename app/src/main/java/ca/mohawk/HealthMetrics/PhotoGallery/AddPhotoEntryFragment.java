@@ -26,6 +26,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -110,24 +112,22 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_INTENT_CODE && resultCode == RESULT_OK) {
-            try {
-                currentPhotoUri = data.getData();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), currentPhotoUri);
-                imageView.setImageBitmap(bitmap);
+            currentPhotoUri = data.getData();
+            Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+            Glide.with(currentFragment)
+                    .load(currentPhotoUri)
+                    .into(imageView);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
-        if (requestCode == GALLERY_INTENT_CODE && resultCode == RESULT_OK) {
-            try {
-                currentPhotoUri = data.getData();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), currentPhotoUri);
-                imageView.setImageBitmap(bitmap);
+            if (requestCode == GALLERY_INTENT_CODE && resultCode == RESULT_OK) {
+                try {
+                    currentPhotoUri = data.getData();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), currentPhotoUri);
+                    imageView.setImageBitmap(bitmap);
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
