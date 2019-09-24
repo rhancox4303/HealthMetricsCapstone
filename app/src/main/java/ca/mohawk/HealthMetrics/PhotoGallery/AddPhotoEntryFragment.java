@@ -38,6 +38,7 @@ import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
 import ca.mohawk.HealthMetrics.R;
+import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -54,10 +55,11 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
     private static final int GALLERY_PERMISSION_CODE = 101;
 
     private HealthMetricsDbHelper healthMetricsDbHelper;
-    private boolean fileCreated = false;
     private ImageView imageView;
     private EditText dateOfEntryEditText;
     private Uri currentPhotoUri = null;
+    private String currentPhotoPath = null;
+    private String previousPhotoPath = null;
     private String time;
     private int GalleryId;
 
@@ -91,17 +93,27 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonUploadImageAddPhotoEntry:
-                if (fileCreated) {
-                    File file = new File(currentPhotoUri.toString());
-                    if (file.delete()) {
-                        fileCreated = false;
-                    }
-                }
+                previousPhotoPath = currentPhotoPath;
                 showImageDialog();
                 break;
             case R.id.buttonAddEntryPhotoEntry:
+                createImageEntry();
+
+                ViewPhotoGalleryFragment viewPhotoGalleryFragment = new ViewPhotoGalleryFragment();
+
+                Bundle metricBundle = new Bundle();
+                metricBundle.putInt("gallery_id", GalleryId);
+                viewPhotoGalleryFragment.setArguments(metricBundle);
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, viewPhotoGalleryFragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case R.id.editTextDateOfEntryAddPhotoEntry:
+                TimePickerFragment timePickerFragment = new TimePickerFragment();
+                timePickerFragment.setOnTimeSetListener(this);
+                timePickerFragment.show(getFragmentManager().beginTransaction(), "timePicker");
                 break;
         }
     }
@@ -109,12 +121,13 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
     private void createImageEntry() {
         if (validateUserInput()) {
             String date = dateOfEntryEditText.getText().toString();
-            PhotoEntry photoEntry = new PhotoEntry(GalleryId,currentPhotoUri.toString(),date);
+            PhotoEntry photoEntry = new PhotoEntry(GalleryId, currentPhotoPath, date);
+            healthMetricsDbHelper.addPhotoEntry(photoEntry);
         }
     }
 
     private boolean validateUserInput() {
-        if (dateOfEntryEditText.getText().toString().trim().equals("") || currentPhotoUri == null) {
+        if (dateOfEntryEditText.getText().toString().trim().equals("") || currentPhotoPath == null) {
             Toast.makeText(getActivity(), "Please enter all fields.", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -248,10 +261,17 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
                 storageDir      /* directory */
         );
 
+        currentPhotoPath = image.getAbsolutePath();
         // Save a file: path for use with ACTION_VIEW intents
-        fileCreated = true;
         return image;
     }
+
+    private void deleteImageFile(String path) {
+        Log.d("PATH", path.toString());
+        File file = new File(path);
+        file.delete();
+    }
+
 
     private void dispatchPickFromGalleryIntent() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -263,25 +283,24 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_INTENT_CODE && resultCode == RESULT_OK) {
+        Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
-            Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        if (requestCode == CAMERA_INTENT_CODE && resultCode == RESULT_OK) {
             Glide.with(currentFragment)
                     .load(currentPhotoUri)
                     .into(imageView);
         }
 
         if (requestCode == GALLERY_INTENT_CODE && resultCode == RESULT_OK) {
-            try {
-                currentPhotoUri = data.getData();
-                Log.d("URI", currentPhotoUri + " URI");
-                Log.d("URI STRING", currentPhotoUri.toString());
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), currentPhotoUri);
-                imageView.setImageBitmap(bitmap);
+            currentPhotoUri = data.getData();
+            Glide.with(currentFragment)
+                    .load(currentPhotoUri)
+                    .into(imageView);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        }
+
+        if (previousPhotoPath != null) {
+            deleteImageFile(previousPhotoPath);
         }
     }
 }
