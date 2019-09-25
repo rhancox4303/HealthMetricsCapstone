@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
+import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoEntryFragment;
 import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.R;
 
@@ -68,6 +69,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
 
         Glide.with(context)
                 .load(photoEntry.PhotoEntryPath)
+                .centerCrop()
                 .into(viewHolder.imageViewPhotoEntry);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +86,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
     }
 
     private void changeFragment(PhotoEntry itemSelected) {
-        ViewPhotoGalleryFragment fragment = new ViewPhotoGalleryFragment();
+        ViewPhotoEntryFragment fragment = new ViewPhotoEntryFragment();
         Bundle galleryBundle = new Bundle();
         galleryBundle.putInt("selected_item_key", itemSelected.Id);
         fragment.setArguments(galleryBundle);

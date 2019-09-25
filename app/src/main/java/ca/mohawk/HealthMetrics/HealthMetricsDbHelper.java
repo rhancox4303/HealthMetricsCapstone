@@ -843,7 +843,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         String selection = HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID + "=?";
 
         String sortOrder =
-                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY + " ASC";
+                HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY + " ASC";
 
         Cursor cursor = readableDatabase.query(
                 HealthMetricContract.PhotoEntries.TABLE_NAME,   // The table to query

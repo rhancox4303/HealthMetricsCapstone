@@ -77,14 +77,17 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            GalleryId = bundle.getInt("selected_item_key", -1);
+            GalleryId = bundle.getInt("selected_gallery_key", -1);
         }
 
         imageView = rootView.findViewById(R.id.imageViewAddPhotoEntry);
         dateOfEntryEditText = rootView.findViewById(R.id.editTextDateOfEntryAddPhotoEntry);
         dateOfEntryEditText.setOnClickListener(this);
-        Button button = rootView.findViewById(R.id.buttonUploadImageAddPhotoEntry);
-        button.setOnClickListener(this);
+        Button uploadButton = rootView.findViewById(R.id.buttonUploadImageAddPhotoEntry);
+        Button addEntryButton = rootView.findViewById(R.id.buttonAddEntryPhotoEntry);
+
+        addEntryButton.setOnClickListener(this);
+        uploadButton.setOnClickListener(this);
 
         return rootView;
     }
@@ -102,7 +105,7 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
                 ViewPhotoGalleryFragment viewPhotoGalleryFragment = new ViewPhotoGalleryFragment();
 
                 Bundle metricBundle = new Bundle();
-                metricBundle.putInt("gallery_id", GalleryId);
+                metricBundle.putInt("selected_item_key", GalleryId);
                 viewPhotoGalleryFragment.setArguments(metricBundle);
 
                 getActivity().getSupportFragmentManager().beginTransaction()
@@ -272,7 +275,6 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
         file.delete();
     }
 
-
     private void dispatchPickFromGalleryIntent() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
@@ -293,10 +295,10 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
 
         if (requestCode == GALLERY_INTENT_CODE && resultCode == RESULT_OK) {
             currentPhotoUri = data.getData();
+            currentPhotoPath = currentPhotoUri.toString();
             Glide.with(currentFragment)
                     .load(currentPhotoUri)
                     .into(imageView);
-
         }
 
         if (previousPhotoPath != null) {
