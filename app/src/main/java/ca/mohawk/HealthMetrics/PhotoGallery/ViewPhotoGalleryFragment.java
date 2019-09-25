@@ -19,6 +19,7 @@ public class ViewPhotoGalleryFragment extends Fragment implements View.OnClickLi
 
     private int GalleryId;
     private HealthMetricsDbHelper healthMetricsDbHelper;
+
     public ViewPhotoGalleryFragment() {
         // Required empty public constructor
     }
