@@ -88,7 +88,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
     private void changeFragment(PhotoEntry itemSelected) {
         ViewPhotoEntryFragment fragment = new ViewPhotoEntryFragment();
         Bundle galleryBundle = new Bundle();
-        galleryBundle.putInt("selected_item_key", itemSelected.Id);
+        galleryBundle.putInt("selected_photo_key", itemSelected.Id);
         fragment.setArguments(galleryBundle);
         switchContent(fragment);
     }
