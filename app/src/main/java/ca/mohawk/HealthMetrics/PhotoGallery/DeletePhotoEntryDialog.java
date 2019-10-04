@@ -23,15 +23,20 @@ public class DeletePhotoEntryDialog extends DialogFragment {
 
     private DeletePhotoEntryDialogListener listener;
     private static int PhotoEntryId;
-
-    public static DeletePhotoEntryDialog newInstance(int dataEntryId, int metricId) {
-        PhotoEntryId = dataEntryId;
+    private static int GalleryId;
+    public static DeletePhotoEntryDialog newInstance(int photoEntryId, int galleryId) {
+        PhotoEntryId = photoEntryId;
+        GalleryId = galleryId;
         DeletePhotoEntryDialog dialog = new DeletePhotoEntryDialog();
         return dialog;
     }
 
     public static int getPhotoEntryId() {
         return PhotoEntryId;
+    }
+
+    public static int getGalleryId() {
+        return GalleryId;
     }
 
     @Override
