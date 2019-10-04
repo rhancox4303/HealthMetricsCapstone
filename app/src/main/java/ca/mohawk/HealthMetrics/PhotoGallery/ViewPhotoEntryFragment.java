@@ -3,6 +3,7 @@ package ca.mohawk.HealthMetrics.PhotoGallery;
 
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import ca.mohawk.HealthMetrics.R;
 public class ViewPhotoEntryFragment extends Fragment implements View.OnClickListener {
     private HealthMetricsDbHelper healthMetricsDbHelper;
     private int PhotoId;
+    private PhotoEntry PhotoEntry;
 
 
     public ViewPhotoEntryFragment() {
@@ -47,22 +49,22 @@ public class ViewPhotoEntryFragment extends Fragment implements View.OnClickList
             PhotoId = bundle.getInt("selected_photo_key", -1);
         }
 
-        PhotoEntry photoEntry = healthMetricsDbHelper.getPhotoEntryById(PhotoId);
+        PhotoEntry = healthMetricsDbHelper.getPhotoEntryById(PhotoId);
 
         View rootView = inflater.inflate(R.layout.fragment_view_photo_entry, container, false);
         ImageView imageView = rootView.findViewById(R.id.imageViewPhotoEntry);
         TextView dateOfEntryTextView = rootView.findViewById(R.id.textViewDateOfEntryViewPhotoEntry);
+
         Button deleteEntryButton = rootView.findViewById(R.id.buttonDeleteEntryViewPhotoEntry);
         Button editEntryButton = rootView.findViewById(R.id.buttonEditEntryViewPhotoEntry);
 
         deleteEntryButton.setOnClickListener(this);
         editEntryButton.setOnClickListener(this);
 
-
-        dateOfEntryTextView.setText(photoEntry.DateOfEntry);
+        dateOfEntryTextView.setText(PhotoEntry.DateOfEntry);
 
         Glide.with(getActivity())
-                .load(photoEntry.PhotoEntryPath)
+                .load(PhotoEntry.PhotoEntryPath)
                 .fitCenter()
                 .into(imageView);
 
@@ -81,6 +83,9 @@ public class ViewPhotoEntryFragment extends Fragment implements View.OnClickList
                     .replace(R.id.fragmentContainer, destinationFragment)
                     .addToBackStack(null)
                     .commit();
+        } else if(v.getId() == R.id.buttonDeleteEntryViewPhotoEntry){
+            DialogFragment newFragment = DeletePhotoEntryDialog.newInstance(PhotoEntry);
+            newFragment.show(getFragmentManager(), "dialog");
         }
     }
 }

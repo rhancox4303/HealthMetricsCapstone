@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ca.mohawk.HealthMetrics.Models.PhotoEntry;
 import ca.mohawk.HealthMetrics.R;
 
 
@@ -22,23 +23,29 @@ import ca.mohawk.HealthMetrics.R;
 public class DeletePhotoEntryDialog extends DialogFragment {
 
     private DeletePhotoEntryDialogListener listener;
-    private static int PhotoEntryId;
-    private static int GalleryId;
-    public static DeletePhotoEntryDialog newInstance(int photoEntryId, int galleryId) {
-        PhotoEntryId = photoEntryId;
-        GalleryId = galleryId;
+    private static PhotoEntry PhotoEntry;
+
+    public static DeletePhotoEntryDialog newInstance(PhotoEntry photoEntry) {
         DeletePhotoEntryDialog dialog = new DeletePhotoEntryDialog();
+        PhotoEntry = photoEntry;
         return dialog;
     }
 
-    public static int getPhotoEntryId() {
-        return PhotoEntryId;
+    public int getPhotoEntryId() {
+        return PhotoEntry.Id;
     }
 
-    public static int getGalleryId() {
-        return GalleryId;
+    public int getGalleryId() {
+        return PhotoEntry.PhotoGalleryId;
     }
 
+    public int getIsFromGallery() {
+        return PhotoEntry.IsFromGallery;
+    }
+
+    public String getPhotoEntryPath() {
+        return PhotoEntry.PhotoEntryPath;
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

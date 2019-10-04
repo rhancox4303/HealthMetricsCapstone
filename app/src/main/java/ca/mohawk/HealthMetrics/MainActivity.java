@@ -23,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.File;
+
 import ca.mohawk.HealthMetrics.DataEntry.DeleteDataEntryDialog;
 import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
@@ -30,6 +32,8 @@ import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.RemoveMetricDialog;
 import ca.mohawk.HealthMetrics.Note.DeleteNoteDialog;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
+import ca.mohawk.HealthMetrics.PhotoGallery.DeletePhotoEntryDialog;
+import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.Prescription.DeletePrescriptionDialog;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
 import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
@@ -38,9 +42,12 @@ import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         DeleteMetricDialog.DeleteMetricDialogListener, DeleteDataEntryDialog.DeleteDataEntryDialogListener,
-        DeletePrescriptionDialog.DeletePrescriptionDialogListener, RemoveMetricDialog.RemoveMetricDialogListener, DeleteNoteDialog.DeleteNoteDialogListener {
+        DeletePrescriptionDialog.DeletePrescriptionDialogListener, RemoveMetricDialog.RemoveMetricDialogListener,
+        DeleteNoteDialog.DeleteNoteDialogListener, DeletePhotoEntryDialog.DeletePhotoEntryDialogListener {
+
     private static final int CAMERA_REQUEST_CODE = 2000;
     private static final int CAMERA_PERMISSION_CODE = 100;
+
     HealthMetricsDbHelper healthMetricsDbHelper;
     FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -262,4 +269,33 @@ public class MainActivity extends AppCompatActivity
     public void onDeleteNoteDialogNegativeClick(DeleteNoteDialog dialog) {
         dialog.dismiss();
     }
+
+    @Override
+    public void onDeletePhotoEntryDialogPositiveClick(DeletePhotoEntryDialog dialog) {
+
+        boolean deleteSuccessful = false;
+
+        ViewPhotoGalleryFragment viewPhotoGalleryFragment = new ViewPhotoGalleryFragment();
+
+        deleteSuccessful = healthMetricsDbHelper.deletePhotoEntryById(dialog.getPhotoEntryId());
+
+        if(deleteSuccessful && dialog.getIsFromGallery() == 0){
+            File photoEntryFile =  new File(dialog.getPhotoEntryPath());
+            photoEntryFile.delete();
+        }
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, viewPhotoGalleryFragment)
+                .addToBackStack(null)
+                .commit();
+
+        if (deleteSuccessful) {
+            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDeletePhotoEntryDialogNegativeClick(DeletePhotoEntryDialog dialog) { dialog.dismiss();}
 }
