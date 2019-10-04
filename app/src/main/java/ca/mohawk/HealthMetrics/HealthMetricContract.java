@@ -153,12 +153,14 @@ public final class HealthMetricContract {
         public static final String COLUMN_NAME_GALLERYID = "GalleryID";
         public static final String COLUMN_NAME_PHOTOENTRYPATH = "PhotoEntryPath";
         public static final String COLUMN_NAME_DATEOFENTRY = "DataOfEntry";
+        public static final String COLUMN_NAME_ISFROMGALLERY = "IsFromGallery";
 
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME +
                 "(" + _ID + " INTEGER PRIMARY KEY," +
                 COLUMN_NAME_GALLERYID + " INTEGER," +
                 COLUMN_NAME_PHOTOENTRYPATH + " TEXT," +
+                COLUMN_NAME_ISFROMGALLERY + " INTEGER," +
                 COLUMN_NAME_DATEOFENTRY + " TEXT," +
                 "FOREIGN KEY (" + COLUMN_NAME_GALLERYID + ") REFERENCES " + Galleries.TABLE_NAME + "(_ID));";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

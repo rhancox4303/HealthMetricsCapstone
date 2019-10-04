@@ -1071,8 +1071,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String photoEntryPath = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH));
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY));
             int galleryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID));
-
-            PhotoEntry photoEntry = new PhotoEntry(galleryId, photoEntryPath, dateOfEntry);
+            int isFromGallery = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY));
+            PhotoEntry photoEntry = new PhotoEntry(galleryId, photoEntryPath, dateOfEntry,isFromGallery);
             cursor.close();
             readableDatabase.close();
             return photoEntry;
@@ -1487,7 +1487,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.getName());
-        Log.d("TEST", prescription.getName());
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.getReason());
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.getFrequency());
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.getStrength());
@@ -1519,7 +1518,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase database = this.getWritableDatabase();
         return database.delete(HealthMetricContract.Metrics.TABLE_NAME, HealthMetricContract.Metrics._ID + "=?", new String[]{Integer.toString(id)}) > 0;
-
     }
 
     public boolean deleteDataEntryByMetricId(int metricId) {

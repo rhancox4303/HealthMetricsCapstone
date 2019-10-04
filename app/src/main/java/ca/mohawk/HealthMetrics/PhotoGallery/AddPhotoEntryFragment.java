@@ -62,6 +62,7 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
     private String previousPhotoPath = null;
     private String time;
     private int GalleryId;
+    private int isFromGallery = 0;
 
     public AddPhotoEntryFragment() {
         // Required empty public constructor
@@ -124,7 +125,7 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
     private void createImageEntry() {
         if (validateUserInput()) {
             String date = dateOfEntryEditText.getText().toString();
-            PhotoEntry photoEntry = new PhotoEntry(GalleryId, currentPhotoPath, date);
+            PhotoEntry photoEntry = new PhotoEntry(GalleryId, currentPhotoPath, date,isFromGallery);
             healthMetricsDbHelper.addPhotoEntry(photoEntry);
         }
     }
@@ -288,12 +289,14 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
         Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
         if (requestCode == CAMERA_INTENT_CODE && resultCode == RESULT_OK) {
+            isFromGallery = 0;
             Glide.with(currentFragment)
                     .load(currentPhotoUri)
                     .into(imageView);
         }
 
         if (requestCode == GALLERY_INTENT_CODE && resultCode == RESULT_OK) {
+            isFromGallery = 1;
             currentPhotoUri = data.getData();
             currentPhotoPath = currentPhotoUri.toString();
             Glide.with(currentFragment)
