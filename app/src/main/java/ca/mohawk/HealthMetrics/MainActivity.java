@@ -279,6 +279,11 @@ public class MainActivity extends AppCompatActivity
 
         deleteSuccessful = healthMetricsDbHelper.deletePhotoEntryById(dialog.getPhotoEntryId());
 
+        Bundle photoEntryBundle = new Bundle();
+        photoEntryBundle.putInt("selected_item_key", dialog.getGalleryId());
+
+        viewPhotoGalleryFragment.setArguments(photoEntryBundle);
+
         if(deleteSuccessful && dialog.getIsFromGallery() == 0){
             File photoEntryFile =  new File(dialog.getPhotoEntryPath());
             photoEntryFile.delete();

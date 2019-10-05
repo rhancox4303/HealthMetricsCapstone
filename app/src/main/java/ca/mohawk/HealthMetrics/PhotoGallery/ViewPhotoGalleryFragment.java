@@ -58,7 +58,6 @@ public class ViewPhotoGalleryFragment extends Fragment implements View.OnClickLi
         RecyclerView photoGalleryRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewPhotoGallery);
 
         photoEntryList = healthMetricsDbHelper.getPhotoEntriesByGalleryId(GalleryId);
-        Toast.makeText(getActivity(), GalleryId + " Size", Toast.LENGTH_SHORT).show();
         PhotoGalleryRecyclerViewAdapter adapter = new PhotoGalleryRecyclerViewAdapter(photoEntryList, getActivity());
         photoGalleryRecyclerView.setAdapter(adapter);
         photoGalleryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));

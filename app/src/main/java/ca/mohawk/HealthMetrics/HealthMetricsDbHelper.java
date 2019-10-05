@@ -1050,9 +1050,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
+                HealthMetricContract.PhotoEntries._ID,
                 HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY,
                 HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID,
-                HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH
+                HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH,
+                HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY
         };
 
         String selection = HealthMetricContract.PhotoEntries._ID + "=?";
@@ -1068,11 +1070,16 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);                      // don't filter by row groups
 
         if (cursor != null && cursor.moveToFirst()) {
+
             String photoEntryPath = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH));
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY));
+
+            int id = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries._ID));
             int galleryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID));
             int isFromGallery = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY));
-            PhotoEntry photoEntry = new PhotoEntry(galleryId, photoEntryPath, dateOfEntry,isFromGallery);
+
+            PhotoEntry photoEntry = new PhotoEntry(id, galleryId, photoEntryPath, dateOfEntry,isFromGallery);
+
             cursor.close();
             readableDatabase.close();
             return photoEntry;
