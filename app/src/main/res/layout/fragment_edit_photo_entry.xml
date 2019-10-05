@@ -38,32 +38,15 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <Button
-        android:id="@+id/buttonFromGalleryEditPhotoEntry"
+        android:id="@+id/buttonUploadImageEditPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="From Gallery"
-        app:layout_constraintBottom_toTopOf="@+id/guideline86"
-        app:layout_constraintEnd_toStartOf="@+id/guideline88"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline85" />
-
-    <Button
-        android:id="@+id/buttonUseCameraEditPhotoEntry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Button"
+        android:text="Upload Image"
         app:layout_constraintBottom_toTopOf="@+id/guideline86"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline88"
-        app:layout_constraintTop_toTopOf="@+id/guideline85" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline85"
+        app:layout_constraintVertical_bias="0.444" />
 
     <ImageView
         android:id="@+id/imageViewEditPhotoEntry"
@@ -109,7 +92,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:inputType="date"
+        android:inputType="none"
+        android:focusable="false"
+        android:clickable="true"
         app:layout_constraintBottom_toTopOf="@+id/guideline87"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline89"

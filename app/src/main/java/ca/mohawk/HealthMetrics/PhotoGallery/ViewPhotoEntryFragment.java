@@ -83,6 +83,7 @@ public class ViewPhotoEntryFragment extends Fragment implements View.OnClickList
                     .replace(R.id.fragmentContainer, destinationFragment)
                     .addToBackStack(null)
                     .commit();
+
         } else if(v.getId() == R.id.buttonDeleteEntryViewPhotoEntry){
             DialogFragment newFragment = DeletePhotoEntryDialog.newInstance(PhotoEntry);
             newFragment.show(getFragmentManager(), "dialog");

@@ -6,7 +6,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -61,13 +60,13 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
     private String currentPhotoPath = null;
     private String previousPhotoPath = null;
     private String time;
+
     private int GalleryId;
     private int isFromGallery = 0;
 
     public AddPhotoEntryFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -179,7 +178,7 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
                 dialog.dismiss();
             }
         });
-        dialog.show(getFragmentManager().beginTransaction(), "timePicker");
+        dialog.show(getFragmentManager().beginTransaction(), "imagePicker");
     }
 
     private void checkPermissions(int permissionCode) {
