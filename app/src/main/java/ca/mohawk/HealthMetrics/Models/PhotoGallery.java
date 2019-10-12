@@ -9,4 +9,10 @@ public class PhotoGallery {
         Name = name;
         IsAddedToProfile = isAddedToProfile;
     }
+
+    public PhotoGallery(int id, String name, int isAddedToProfile) {
+        Id = id;
+        Name = name;
+        IsAddedToProfile = isAddedToProfile;
+    }
 }

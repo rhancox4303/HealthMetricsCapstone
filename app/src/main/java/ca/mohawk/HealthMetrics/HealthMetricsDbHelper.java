@@ -828,6 +828,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             return "No Data Available";
         }
     }
+
     public List<PhotoEntry> getPhotoEntriesByGalleryId(int photoGalleryId) {
 
         List<PhotoEntry> photoEntriesList = new ArrayList<>();
@@ -860,12 +861,13 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             int galleryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID));
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY));
 
-            photoEntriesList.add(new PhotoEntry(id,galleryId,photoEntryPath,dateOfEntry));
+            photoEntriesList.add(new PhotoEntry(id, galleryId, photoEntryPath, dateOfEntry));
         }
         cursor.close();
         readableDatabase.close();
         return photoEntriesList;
     }
+
     /**
      * The getDataEntriesByMetricId method retrieves the data entries for a specified metric.
      *
@@ -1078,13 +1080,51 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             int galleryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID));
             int isFromGallery = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY));
 
-            PhotoEntry photoEntry = new PhotoEntry(id, galleryId, photoEntryPath, dateOfEntry,isFromGallery);
+            PhotoEntry photoEntry = new PhotoEntry(id, galleryId, photoEntryPath, dateOfEntry, isFromGallery);
 
             cursor.close();
             readableDatabase.close();
             return photoEntry;
         } else {
             Log.d("ERROR", "No photo entry found." + photoId);
+            cursor.close();
+            readableDatabase.close();
+            return null;
+        }
+    }
+
+    public PhotoGallery getPhotoGalleryById(int galleryId) {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME,
+                HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE
+        };
+
+        String selection = HealthMetricContract.Galleries._ID + "=?";
+        String galleryIdString = String.valueOf(galleryId);
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Prescriptions.TABLE_NAME,
+                projection,
+                selection,
+                new String[]{galleryIdString},
+                null,
+                null,
+                null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+            String galleryName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH));
+            int isAddedToProfile = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE));
+
+            PhotoGallery photoGallery = new PhotoGallery(galleryName,isAddedToProfile);
+
+            cursor.close();
+            readableDatabase.close();
+            return photoGallery;
+        } else {
+            Log.d("ERROR", "No photo entry found." + galleryId);
             cursor.close();
             readableDatabase.close();
             return null;
