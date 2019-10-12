@@ -82,6 +82,8 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
 
         Button uploadImageButton = rootView.findViewById(R.id.buttonUploadImageEditPhotoEntry);
         Button editPhotoEntryButton = rootView.findViewById(R.id.buttonEditPhotoEntry);
+
+        editPhotoEntryButton.setOnClickListener(this);
         uploadImageButton.setOnClickListener(this);
         dateOfEntryEditText.setOnClickListener(this);
 
