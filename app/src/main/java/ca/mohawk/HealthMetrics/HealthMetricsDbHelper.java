@@ -1142,49 +1142,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    /**
-     * The getUnitCategoryById method retrieves a unit category based on it's id.
-     *
-     * @param unitCategoryId The id of the unit category that is retrieved.
-     * @return The unit category with the id specified.
-     */
-    public UnitCategory getUnitCategoryById(int unitCategoryId) {
-        SQLiteDatabase db = getReadableDatabase();
-
-        String[] projection = {
-                HealthMetricContract.UnitCategories._ID,
-                HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY
-        };
-
-        String selection = HealthMetricContract.UnitCategories._ID + "=?";
-        String unitCategoryIdString = String.valueOf(unitCategoryId);
-
-        Cursor cursor = db.query(
-                HealthMetricContract.UnitCategories.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                new String[]{unitCategoryIdString},          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,
-                null);                      // don't filter by row groups
-
-        if (cursor != null) {
-            String unitCategoryString = cursor.getString(cursor.getColumnIndex(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY));
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow(HealthMetricContract.UnitCategories._ID));
-
-            UnitCategory unitCategory = new UnitCategory(id, unitCategoryIdString);
-            cursor.close();
-            db.close();
-            return unitCategory;
-
-        } else {
-            Log.d("ERROR", "No unit found.");
-            cursor.close();
-            db.close();
-            return null;
-        }
-    }
-
     public List<PrescriptionRecyclerViewObject> getAllPrescriptions() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
@@ -1538,7 +1495,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.delete(HealthMetricContract.Notes.TABLE_NAME, HealthMetricContract.Notes._ID + "=?", new String[]{Integer.toString(noteId)}) > 0;
     }
 
-    public void editPhotoEntry(PhotoEntry photoEntry) {
+    public void updatePhotoEntry(PhotoEntry photoEntry) {
     }
 }
 

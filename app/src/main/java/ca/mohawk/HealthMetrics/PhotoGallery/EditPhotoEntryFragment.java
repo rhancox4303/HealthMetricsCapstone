@@ -59,7 +59,7 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
     private int PhotoId;
 
     private Uri currentPhotoUri;
-    private int isFromGallery = 0;
+    private int isFromGallery;
     private String currentPhotoPath = null;
     private String previousPhotoPath = null;
     private int GalleryId;
@@ -96,6 +96,7 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         previousPhotoPath = photoEntry.PhotoEntryPath;
         GalleryId = photoEntry.PhotoGalleryId;
         dateOfEntryEditText.setText(photoEntry.DateOfEntry);
+        isFromGallery = photoEntry.IsFromGallery;
 
         Glide.with(getActivity())
                 .load(photoEntry.PhotoEntryPath)
@@ -137,7 +138,7 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         if (validateUserInput()) {
             String date = dateOfEntryEditText.getText().toString();
             PhotoEntry photoEntry = new PhotoEntry(GalleryId, currentPhotoPath, date,isFromGallery);
-            healthMetricsDbHelper.editPhotoEntry(photoEntry);
+            healthMetricsDbHelper.updatePhotoEntry(photoEntry);
         }
     }
 
