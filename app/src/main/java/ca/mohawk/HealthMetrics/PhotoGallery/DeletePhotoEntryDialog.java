@@ -46,6 +46,7 @@ public class DeletePhotoEntryDialog extends DialogFragment {
     public String getPhotoEntryPath() {
         return PhotoEntry.PhotoEntryPath;
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
