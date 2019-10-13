@@ -61,6 +61,8 @@ public class ManageGalleryFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonDeleteGalleryManageGallery:
+                DeleteGalleryDialog deleteGalleryDialog = DeleteGalleryDialog.newInstance(GalleryId);
+                deleteGalleryDialog.show(getFragmentManager(), "dialog");
                 break;
             case R.id.buttonEditGalleryManageGallery:
 

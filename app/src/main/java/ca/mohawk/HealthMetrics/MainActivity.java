@@ -32,6 +32,7 @@ import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.RemoveMetricDialog;
 import ca.mohawk.HealthMetrics.Note.DeleteNoteDialog;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
+import ca.mohawk.HealthMetrics.PhotoGallery.DeleteGalleryDialog;
 import ca.mohawk.HealthMetrics.PhotoGallery.DeletePhotoEntryDialog;
 import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.Prescription.DeletePrescriptionDialog;
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         DeleteMetricDialog.DeleteMetricDialogListener, DeleteDataEntryDialog.DeleteDataEntryDialogListener,
         DeletePrescriptionDialog.DeletePrescriptionDialogListener, RemoveMetricDialog.RemoveMetricDialogListener,
-        DeleteNoteDialog.DeleteNoteDialogListener, DeletePhotoEntryDialog.DeletePhotoEntryDialogListener {
+        DeleteNoteDialog.DeleteNoteDialogListener, DeletePhotoEntryDialog.DeletePhotoEntryDialogListener,
+        DeleteGalleryDialog.DeleteGalleryDialogListener {
 
     private static final int CAMERA_REQUEST_CODE = 2000;
     private static final int CAMERA_PERMISSION_CODE = 100;
@@ -223,7 +225,7 @@ public class MainActivity extends AppCompatActivity
 
         boolean deleteSuccessful = healthMetricsDbHelper.deleteDataEntryByMetricId(dialog.getMetricId());
 
-        if(!deleteSuccessful) {
+        if (!deleteSuccessful) {
             MetricsListFragment metricsListFragment = new MetricsListFragment();
 
             removeSuccessful = healthMetricsDbHelper.removeMetricFromProfile(dialog.getMetricId());
@@ -284,8 +286,8 @@ public class MainActivity extends AppCompatActivity
 
         viewPhotoGalleryFragment.setArguments(photoEntryBundle);
 
-        if(deleteSuccessful && dialog.getIsFromGallery() == 0){
-            File photoEntryFile =  new File(dialog.getPhotoEntryPath());
+        if (deleteSuccessful && dialog.getIsFromGallery() == 0) {
+            File photoEntryFile = new File(dialog.getPhotoEntryPath());
             photoEntryFile.delete();
         }
 
@@ -302,5 +304,32 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDeletePhotoEntryDialogNegativeClick(DeletePhotoEntryDialog dialog) { dialog.dismiss();}
+    public void onDeletePhotoEntryDialogNegativeClick(DeletePhotoEntryDialog dialog) {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onDeleteGalleryDialogPositiveClick(DeleteGalleryDialog dialog) {
+        boolean deleteSuccessful = false;
+
+        MetricsListFragment metricsListFragment = new MetricsListFragment();
+
+        deleteSuccessful = healthMetricsDbHelper.deleteGalleryById(dialog.getGalleryId());
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, metricsListFragment)
+                .addToBackStack(null)
+                .commit();
+
+        if (deleteSuccessful) {
+            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDeleteGalleryDialogNegativeClick(DeleteGalleryDialog dialog) {
+        dialog.dismiss();
+    }
 }

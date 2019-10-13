@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1118,7 +1119,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String galleryName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
             int isAddedToProfile = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE));
 
-            PhotoGallery photoGallery = new PhotoGallery(galleryName,isAddedToProfile);
+            PhotoGallery photoGallery = new PhotoGallery(galleryName, isAddedToProfile);
 
             cursor.close();
             readableDatabase.close();
@@ -1512,6 +1513,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.delete(HealthMetricContract.PhotoEntries.TABLE_NAME, HealthMetricContract.PhotoEntries._ID + "=" + id, null) > 0;
     }
 
+    public boolean deletePhotoEntriesByGalleryId(int galleryId) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        return database.delete(HealthMetricContract.PhotoEntries.TABLE_NAME, HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID + "=" + galleryId, null) > 0;
+    }
+
     public boolean deletePrescription(int id) {
         SQLiteDatabase database = this.getWritableDatabase();
         return database.delete(HealthMetricContract.Prescriptions.TABLE_NAME, HealthMetricContract.Prescriptions._ID + "=" + id, null) > 0;
@@ -1529,6 +1535,23 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         return database.delete(HealthMetricContract.MetricDataEntries.TABLE_NAME, HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID + "=?", new String[]{Integer.toString(metricId)}) > 0;
     }
+
+    public boolean deleteGalleryById(int galleryId) {
+        List<PhotoEntry> photos = getPhotoEntriesByGalleryId(galleryId);
+
+        for (PhotoEntry photoEntry : photos) {
+            if (photoEntry.IsFromGallery == 1) {
+                File file = new File(photoEntry.PhotoEntryPath);
+                file.delete();
+            }
+        }
+
+        deletePhotoEntriesByGalleryId(galleryId);
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        return database.delete(HealthMetricContract.Galleries.TABLE_NAME, HealthMetricContract.Galleries._ID + "=?", new String[]{Integer.toString(galleryId)}) > 0;
+    }
+
 
     public boolean deleteNoteById(int noteId) {
         SQLiteDatabase database = this.getWritableDatabase();
