@@ -43,7 +43,7 @@ public class ManageGalleryFragment extends Fragment implements View.OnClickListe
             GalleryId = bundle.getInt("selected_gallery_key", -1);
         }
 
-        TextView galleryNameTextView = rootView.findViewById(R.id.textViewGalleryNameDisplayManageGallery);
+        TextView galleryNameTextView = rootView.findViewById(R.id.textViewGalleryNameManageGallery);
 
         Button deleteGalleryButton = rootView.findViewById(R.id.buttonDeleteGalleryManageGallery);
         Button editGalleryButton = rootView.findViewById(R.id.buttonEditGalleryManageGallery);

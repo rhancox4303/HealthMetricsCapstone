@@ -1105,7 +1105,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         String galleryIdString = String.valueOf(galleryId);
 
         Cursor cursor = readableDatabase.query(
-                HealthMetricContract.Prescriptions.TABLE_NAME,
+                HealthMetricContract.Galleries.TABLE_NAME,
                 projection,
                 selection,
                 new String[]{galleryIdString},
@@ -1115,7 +1115,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         if (cursor != null && cursor.moveToFirst()) {
 
-            String galleryName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH));
+            String galleryName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
             int isAddedToProfile = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE));
 
             PhotoGallery photoGallery = new PhotoGallery(galleryName,isAddedToProfile);
@@ -1547,6 +1547,19 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         return database.update(HealthMetricContract.PhotoEntries.TABLE_NAME, values, HealthMetricContract.PhotoEntries._ID + " = " + photoEntry.Id,
                 null) > 0;
+    }
+
+    public boolean updateGallery(PhotoGallery gallery) {
+
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, gallery.Name);
+
+        return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + gallery.Id,
+                null) > 0;
+
     }
 }
 

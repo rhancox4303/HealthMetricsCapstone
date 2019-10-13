@@ -71,7 +71,7 @@ public class ViewPhotoGalleryFragment extends Fragment implements View.OnClickLi
         if (v.getId() == R.id.buttonAddEntryViewPhotoGallery) {
             destinationFragment = new AddPhotoEntryFragment();
         } else if (v.getId() == R.id.buttonManageGalleryViewPhotoGallery) {
-            destinationFragment = new AddPhotoEntryFragment();
+            destinationFragment = new ManageGalleryFragment();
         }
         Bundle galleryBundle = new Bundle();
         galleryBundle.putInt("selected_gallery_key", GalleryId);
