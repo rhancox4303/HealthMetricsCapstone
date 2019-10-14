@@ -1536,11 +1536,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.delete(HealthMetricContract.MetricDataEntries.TABLE_NAME, HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID + "=?", new String[]{Integer.toString(metricId)}) > 0;
     }
 
-    public boolean deleteGalleryById(int galleryId) {
+    public boolean deleteGallery(int galleryId) {
         List<PhotoEntry> photos = getPhotoEntriesByGalleryId(galleryId);
 
         for (PhotoEntry photoEntry : photos) {
-            if (photoEntry.IsFromGallery == 1) {
+            if (photoEntry.IsFromGallery == 0) {
+                Log.d("PATHTEST",photoEntry.PhotoEntryPath);
                 File file = new File(photoEntry.PhotoEntryPath);
                 file.delete();
             }
