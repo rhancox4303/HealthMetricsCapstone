@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -92,10 +93,10 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         if (bundle != null) {
             PhotoId = bundle.getInt("selected_photo_key", -1);
         }
-
+        Toast.makeText(getActivity(), PhotoId + "", Toast.LENGTH_SHORT).show();
         PhotoEntry photoEntry = healthMetricsDbHelper.getPhotoEntryById(PhotoId);
+        currentPhotoPath = photoEntry.PhotoEntryPath;
 
-        previousPhotoPath = photoEntry.PhotoEntryPath;
         GalleryId = photoEntry.PhotoGalleryId;
         dateOfEntryEditText.setText(photoEntry.DateOfEntry);
         isFromGallery = photoEntry.IsFromGallery;
@@ -131,6 +132,8 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
                         .commit();
                 break;
             case R.id.buttonUploadImageEditPhotoEntry:
+                previousPhotoPath = currentPhotoPath;
+                Log.d("DELETEPATH",previousPhotoPath);
                 showImageDialog();
                 break;
         }
@@ -139,8 +142,11 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
     private void editPhotoEntry() {
         if (validateUserInput()) {
             String date = dateOfEntryEditText.getText().toString();
-            PhotoEntry photoEntry = new PhotoEntry(GalleryId, currentPhotoPath, date,isFromGallery);
-            healthMetricsDbHelper.updatePhotoEntry(photoEntry);
+
+            PhotoEntry photoEntry = new PhotoEntry(PhotoId, GalleryId, currentPhotoPath, date,isFromGallery);
+            boolean test = healthMetricsDbHelper.updatePhotoEntry(photoEntry);
+
+            Toast.makeText(getContext(), String.valueOf(test), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -262,7 +268,7 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
     }
 
     private void deleteImageFile(String path) {
-        Log.d("PATH", path.toString());
+        Log.d("PATH", path);
         File file = new File(path);
         file.delete();
     }
@@ -296,6 +302,7 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         }
 
         if (previousPhotoPath != null) {
+            Log.d("DELETEPATH", previousPhotoPath);
             deleteImageFile(previousPhotoPath);
         }
     }
