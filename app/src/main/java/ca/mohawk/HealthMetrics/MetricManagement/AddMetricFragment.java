@@ -130,11 +130,9 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.spinnerMetricAddMetric && addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
-
             int unitCategoryId = ((MetricSpinnerObject) parent.getSelectedItem()).getUnitCategoryId();
             MetricId = ((MetricSpinnerObject) parent.getSelectedItem()).getMetridId();
             LoadUnitSpinner(unitCategoryId);
-
         } else if (parent.getId() == R.id.spinnerMetricAddMetric && addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonGalleryAddMetric) {
             MetricId = ((PhotoGallerySpinnerObject) parent.getSelectedItem()).getId();
         } else if (parent.getId() == R.id.spinnerUnitAddMetric) {

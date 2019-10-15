@@ -1,12 +1,17 @@
 package ca.mohawk.HealthMetrics.Notification;
 
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +22,21 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.Models.Notification;
 import ca.mohawk.HealthMetrics.Models.Prescription;
+import ca.mohawk.HealthMetrics.NotificationReceiver;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.TimePickerFragment;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +51,15 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
     Spinner notificationTargetSpinner;
     EditText dateEditText;
     private String time;
+    private String NotificationType;
+    private int TargetId;
+
+    private int Minute;
+    private int Hour;
+    private int Day;
+    private int Month;
+    private int Year;
+
 
     public CreateNotificationFragment() {
         // Required empty public constructor
@@ -88,12 +105,23 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.spinnerNotificationType) {
             String type = parent.getSelectedItem().toString();
-            populateTargetSpinner(type);
+            NotificationType = type;
+            populateTargetSpinner(NotificationType);
+        } else {
+            switch (NotificationType) {
+                case "Enter Metric Data":
+                case "Enter Gallery Data":
+                    TargetId = ((MetricDisplayObject) parent.getSelectedItem()).Id;
+                    break;
+                case "Refill Prescription":
+                case "Take Prescription":
+                    TargetId = ((PrescriptionDisplayObject) parent.getSelectedItem()).Id;
+                    break;
+            }
         }
     }
 
     private void populateTargetSpinner(String type) {
-        notificationTargetSpinner.setAdapter(null);
         switch (type) {
             case "Enter Metric Data":
                 ArrayAdapter<MetricDisplayObject> metricDisplayObjectArrayAdapter = new ArrayAdapter<>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, metricArrayList);
@@ -121,22 +149,64 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.editTextDateCreateNotification) {
+        if (v.getId() == R.id.editTextDateCreateNotification) {
             TimePickerFragment timePickerFragment = new TimePickerFragment();
             timePickerFragment.setOnTimeSetListener(this);
             timePickerFragment.show(getFragmentManager().beginTransaction(), "timePicker");
-        }else{
+        } else {
+            createNotification();
+        }
+    }
+
+    private void createNotification() {
+        if (validateUserInput()) {
+            String dateTime = dateEditText.getText().toString();
+
+            Notification notification = new Notification(TargetId, NotificationType, dateTime);
+            startAlarm();
 
         }
     }
 
+    private void startAlarm() {
+
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        // Specify the date/time to trigger the alarm
+        calendar.set(Calendar.YEAR, Year);
+        calendar.set(Calendar.MONTH, Month);
+        calendar.set(Calendar.DAY_OF_MONTH, Day);
+        calendar.set(Calendar.HOUR_OF_DAY, Hour);
+        calendar.set(Calendar.MINUTE, Minute);
+        calendar.set(Calendar.SECOND, 0);
+        Log.d("TESTTIME", calendar.getTimeInMillis() + "");
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pendingIntent);
+    }
+
+    private boolean validateUserInput() {
+        if (dateEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if(minute < 10) {
+        Minute = minute;
+        Hour = hourOfDay;
+        if (minute < 10) {
             time = hourOfDay + ":0" + minute;
-        }else{
+        } else {
             time = hourOfDay + ":" + minute;
         }
+
         dateEditText.setText(time);
 
         DatePickerFragment datePickerFragment = new DatePickerFragment();
@@ -146,11 +216,13 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            Year = year;
+            Month = month;
+            Day = dayOfMonth;
         if (dayOfMonth < 10) {
             dateEditText.setText(time + " " + (month + 1) + "-0" + dayOfMonth + "-" + year);
-        }else{
+        } else {
             dateEditText.setText(time + " " + (month + 1) + "-" + dayOfMonth + "-" + year);
         }
     }
-
 }
