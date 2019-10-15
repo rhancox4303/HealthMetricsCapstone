@@ -116,15 +116,13 @@ public final class HealthMetricContract {
     }
 
     /**
-     * The Notifications class implements BaseColumns.
+     * The Notification class implements BaseColumns.
      * It represents the notifications table.
      */
     public static abstract class Notifications implements BaseColumns {
 
-        public static final String TABLE_NAME = "Notifications";
-        public static final String COLUMN_NAME_PRESCRIPTIONID = "PrescriptionID";
-        public static final String COLUMN_NAME_GALLERYID = "GalleryID";
-        public static final String COLUMN_NAME_METRICID = "MetricID";
+        public static final String TABLE_NAME = "Notification";
+        public static final String COLUMN_NAME_TARGETID = "TargetId";
         public static final String COLUMN_NAME_TYPE = "Type";
         public static final String COLUMN_NAME_TARGETDATETIME = "TargetDateAndTime";
 
@@ -132,14 +130,9 @@ public final class HealthMetricContract {
         public static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME +
                 "(" + _ID + " INTEGER PRIMARY KEY," +
-                COLUMN_NAME_PRESCRIPTIONID + " INTEGER," +
-                COLUMN_NAME_GALLERYID + " INTEGER," +
-                COLUMN_NAME_METRICID + " INTEGER," +
+                COLUMN_NAME_TARGETID + " INTEGER," +
                 COLUMN_NAME_TYPE + " TEXT," +
-                COLUMN_NAME_TARGETDATETIME + " TEXT," +
-                "FOREIGN KEY (" + COLUMN_NAME_PRESCRIPTIONID + ") REFERENCES " + Prescriptions.TABLE_NAME + "(_ID)" +
-                "FOREIGN KEY (" +  COLUMN_NAME_GALLERYID + ") REFERENCES " + Galleries.TABLE_NAME + "(_ID)" +
-                "FOREIGN KEY (" + COLUMN_NAME_METRICID + ") REFERENCES " + Metrics.TABLE_NAME + "(_ID));";
+                COLUMN_NAME_TARGETDATETIME + " TEXT);";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
