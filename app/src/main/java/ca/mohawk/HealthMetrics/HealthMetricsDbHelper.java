@@ -19,6 +19,7 @@ import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.DataEntry;
 import ca.mohawk.HealthMetrics.Models.Note;
+import ca.mohawk.HealthMetrics.Models.Notification;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.Models.Prescription;
@@ -267,6 +268,27 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             writableDatabase.close();
         }
     }
+
+    public void addNotification(Notification notification) {
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.TargetDateTime);
+            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.TargetId);
+            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.NotificationType);
+
+            writableDatabase.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.d("TAG", "Error while trying to add notification to database");
+        } finally {
+            writableDatabase.endTransaction();
+            writableDatabase.close();
+        }
+    }
+
 
     /**
      * The addUnit method adds the unit to the database.
@@ -1541,7 +1563,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         for (PhotoEntry photoEntry : photos) {
             if (photoEntry.IsFromGallery == 0) {
-                Log.d("PATHTEST",photoEntry.PhotoEntryPath);
+                Log.d("PATHTEST", photoEntry.PhotoEntryPath);
                 File file = new File(photoEntry.PhotoEntryPath);
                 file.delete();
             }
@@ -1568,7 +1590,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.DateOfEntry);
         values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY, photoEntry.IsFromGallery);
         values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.PhotoEntryPath);
-        Log.d("PHOTOID",photoEntry.Id+"");
+        Log.d("PHOTOID", photoEntry.Id + "");
         return database.update(HealthMetricContract.PhotoEntries.TABLE_NAME, values, HealthMetricContract.PhotoEntries._ID + "=?", new String[]{Integer.toString(photoEntry.Id)}) > 0;
     }
 
@@ -1584,5 +1606,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null) > 0;
 
     }
+
+
 }
 

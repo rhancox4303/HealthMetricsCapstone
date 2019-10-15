@@ -163,6 +163,7 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
             String dateTime = dateEditText.getText().toString();
 
             Notification notification = new Notification(TargetId, NotificationType, dateTime);
+            healthMetricsDbHelper.addNotification(notification);
             startAlarm();
 
         }
@@ -185,7 +186,7 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
         calendar.set(Calendar.HOUR_OF_DAY, Hour);
         calendar.set(Calendar.MINUTE, Minute);
         calendar.set(Calendar.SECOND, 0);
-        Log.d("TESTTIME", calendar.getTimeInMillis() + "");
+
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pendingIntent);
     }
 
