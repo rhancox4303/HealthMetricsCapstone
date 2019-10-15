@@ -269,17 +269,17 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addNotification(Notification notification) {
+    public int addNotification(Notification notification) {
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
-
+        Long id = new Long(-1);
         try {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.TargetDateTime);
             values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.TargetId);
             values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.NotificationType);
 
-            writableDatabase.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
+            id = writableDatabase.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add notification to database");
@@ -287,6 +287,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
+
+        return id.intValue();
     }
 
 
@@ -1290,6 +1292,46 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
+    public Notification getNotificationById(int notificationId) {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Notifications.COLUMN_NAME_TARGETID,
+                HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME,
+                HealthMetricContract.Notifications.COLUMN_NAME_TYPE
+        };
+
+        String selection = HealthMetricContract.Notifications._ID + "=?";
+        String notificationIdString = String.valueOf(notificationId);
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Notifications.TABLE_NAME,
+                projection,
+                selection,
+                new String[]{notificationIdString},
+                null,
+                null,
+                null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+            String targetDateTime = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME));
+            int targetId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID));
+            String type = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Notifications.COLUMN_NAME_TYPE));
+
+            Notification notification = new Notification(notificationId,targetId,type,targetDateTime);
+
+            cursor.close();
+            readableDatabase.close();
+            return notification;
+        } else {
+            Log.d("ERROR", "No notifications found." + notificationId);
+            cursor.close();
+            readableDatabase.close();
+            return null;
+        }
+    }
+
     /**
      * The getAllUnitCategories method returns all unit categories from the database
      *
@@ -1543,6 +1585,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     public boolean deletePrescription(int id) {
         SQLiteDatabase database = this.getWritableDatabase();
         return database.delete(HealthMetricContract.Prescriptions.TABLE_NAME, HealthMetricContract.Prescriptions._ID + "=" + id, null) > 0;
+    }
+
+    public boolean deleteNotification(int id) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        return database.delete(HealthMetricContract.Notifications.TABLE_NAME, HealthMetricContract.Notifications._ID + "=?", new String[]{Integer.toString(id)}) > 0;
+
     }
 
     public boolean deleteMetric(int id) {

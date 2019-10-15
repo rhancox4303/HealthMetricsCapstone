@@ -163,16 +163,17 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
             String dateTime = dateEditText.getText().toString();
 
             Notification notification = new Notification(TargetId, NotificationType, dateTime);
-            healthMetricsDbHelper.addNotification(notification);
-            startAlarm();
-
+            int id = healthMetricsDbHelper.addNotification(notification);
+            startAlarm(id);
         }
     }
 
-    private void startAlarm() {
+    private void startAlarm(int id) {
 
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), NotificationReceiver.class);
+        intent.putExtra("id",id);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, 0);
 
         Calendar calendar = Calendar.getInstance();
@@ -187,7 +188,7 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
         calendar.set(Calendar.MINUTE, Minute);
         calendar.set(Calendar.SECOND, 0);
 
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     private boolean validateUserInput() {
@@ -217,9 +218,9 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            Year = year;
-            Month = month;
-            Day = dayOfMonth;
+        Year = year;
+        Month = month;
+        Day = dayOfMonth;
         if (dayOfMonth < 10) {
             dateEditText.setText(time + " " + (month + 1) + "-0" + dayOfMonth + "-" + year);
         } else {
