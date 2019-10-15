@@ -10,10 +10,6 @@ public class UnitSpinnerObject {
         UnitId = unitId;
     }
 
-    public String getUnitName() {
-        return UnitName;
-    }
-
     public int getUnitId() {
         return UnitId;
     }

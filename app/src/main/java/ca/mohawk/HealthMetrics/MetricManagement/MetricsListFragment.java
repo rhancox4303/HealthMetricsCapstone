@@ -8,24 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.Adapaters.MetricRecyclerViewAdapter;
-import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.R;
-import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MetricsListFragment extends Fragment implements View.OnClickListener{
 
-    private List<MetricRecyclerViewObject> addedMetricsList;
+    private List<MetricDisplayObject> addedMetricsList;
     HealthMetricsDbHelper healthMetricsDbHelper;
 
     public MetricsListFragment() {

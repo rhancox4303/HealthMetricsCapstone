@@ -1,12 +1,12 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
-public class MetricRecyclerViewObject {
+public class MetricDisplayObject {
     public int Id;
     public String Name;
     public String Entry;
     public String Category;
 
-    public MetricRecyclerViewObject(int id, String name, String entry, String category) {
+    public MetricDisplayObject(int id, String name, String entry, String category) {
         Id = id;
         Name = name;
         Entry = entry;
@@ -19,5 +19,10 @@ public class MetricRecyclerViewObject {
 
     public String getEntry(){
         return Entry;
+    }
+
+    @Override
+    public String toString() {
+        return Name;
     }
 }

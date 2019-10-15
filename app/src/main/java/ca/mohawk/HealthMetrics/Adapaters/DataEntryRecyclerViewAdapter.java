@@ -11,12 +11,9 @@ import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
 import ca.mohawk.HealthMetrics.DataEntry.ViewDataEntryFragment;
 import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
 import ca.mohawk.HealthMetrics.MainActivity;
-import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.R;
 
 public class DataEntryRecyclerViewAdapter extends

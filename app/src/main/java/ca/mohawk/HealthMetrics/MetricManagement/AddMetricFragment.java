@@ -56,10 +56,10 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         addMetricRadioGroup = view.findViewById(R.id.radioGroupAddMetric);
-        metricSpinner = (Spinner) view.findViewById(R.id.spinnerMetricAddMetric);
+        metricSpinner = view.findViewById(R.id.spinnerMetricAddMetric);
         textViewDisplay = view.findViewById(R.id.textViewDisplayAddMetric);
         unitDisplaytextView = view.findViewById(R.id.textViewUnitAddMetric);
-        unitSpinner = (Spinner) view.findViewById(R.id.spinnerUnitAddMetric);
+        unitSpinner = view.findViewById(R.id.spinnerUnitAddMetric);
 
         metricSpinner.setOnItemSelectedListener(this);
         unitSpinner.setOnItemSelectedListener(this);
@@ -172,7 +172,6 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
             metricSpinner.setAdapter(metricSpinnerObjectArrayAdapter);
             unitSpinner.setVisibility(View.VISIBLE);
             unitDisplaytextView.setVisibility(View.VISIBLE);
-
         }
     }
 }

@@ -7,13 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.Collections;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
-import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.Note.ViewNoteFragment;
 import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
@@ -21,7 +20,7 @@ import ca.mohawk.HealthMetrics.R;
 
 /**
  * The MetricRecyclerViewAdapter is a custom adapater to display
- * MetricRecyclerViewObject objects in the Metrics View Recycler View.
+ * MetricDisplayObject objects in the Metrics View Recycler View.
  */
 
 public class MetricRecyclerViewAdapter extends
@@ -30,10 +29,10 @@ public class MetricRecyclerViewAdapter extends
     private Context context;
 
     //The list of metrics to be displayed in the recycler view.
-    private List<MetricRecyclerViewObject> metricRecyclerViewObjectList;
+    private List<MetricDisplayObject> metricDisplayObjectList;
     
-    public MetricRecyclerViewAdapter(List<MetricRecyclerViewObject> metricRecyclerViewObjectList, Context context) {
-        this.metricRecyclerViewObjectList = metricRecyclerViewObjectList;
+    public MetricRecyclerViewAdapter(List<MetricDisplayObject> metricDisplayObjectList, Context context) {
+        this.metricDisplayObjectList = metricDisplayObjectList;
         this.context = context;
     }
     
@@ -72,12 +71,12 @@ public class MetricRecyclerViewAdapter extends
 
      /**
      * The onBindViewHolder method is used to set the item views in the recycler
-     * view using the metricRecyclerViewObjectList and the view holder.
+     * view using the metricDisplayObjectList and the view holder.
      */
     @Override
     public void onBindViewHolder(MetricRecyclerViewAdapter.ViewHolder viewHolder, int position) {
         //Get data object
-        final MetricRecyclerViewObject metric = metricRecyclerViewObjectList.get(position);
+        final MetricDisplayObject metric = metricDisplayObjectList.get(position);
 
         // Set item views
         TextView metricTextView = viewHolder.textViewMetricName;
@@ -96,10 +95,10 @@ public class MetricRecyclerViewAdapter extends
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return metricRecyclerViewObjectList.size();
+        return metricDisplayObjectList.size();
     }
 
-    private void changeFragment(MetricRecyclerViewObject itemSelected) {
+    private void changeFragment(MetricDisplayObject itemSelected) {
         Fragment fragment = null;
         if(itemSelected.Category.equals("Quantitative")){
             fragment = new MetricDataViewFragment();

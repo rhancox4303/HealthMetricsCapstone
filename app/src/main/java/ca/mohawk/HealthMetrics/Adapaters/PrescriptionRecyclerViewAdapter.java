@@ -5,18 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
 import ca.mohawk.HealthMetrics.MainActivity;
-import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.Prescription.ViewPrescriptionFragment;
 import ca.mohawk.HealthMetrics.R;
 
@@ -26,9 +23,9 @@ public class PrescriptionRecyclerViewAdapter
     private Context context;
 
     //The list of prescription to be displayed in the recycler view.
-    private List<PrescriptionRecyclerViewObject> prescriptionList = new ArrayList<>();
+    private List<PrescriptionDisplayObject> prescriptionList = new ArrayList<>();
 
-    public PrescriptionRecyclerViewAdapter(List<PrescriptionRecyclerViewObject> prescriptionList, Context context) {
+    public PrescriptionRecyclerViewAdapter(List<PrescriptionDisplayObject> prescriptionList, Context context) {
         this.prescriptionList = prescriptionList;
         this.context = context;
     }
@@ -72,7 +69,7 @@ public class PrescriptionRecyclerViewAdapter
     @Override
     public void onBindViewHolder(PrescriptionRecyclerViewAdapter.ViewHolder viewHolder, int position) {
         //Get data object
-        final PrescriptionRecyclerViewObject prescription = prescriptionList.get(position);
+        final PrescriptionDisplayObject prescription = prescriptionList.get(position);
         String prescriptionInformation = prescription.getName();
         String frequency = prescription.getDosageAmount() + " " + prescription.getDosageMeasurement() + " " + prescription.getFrequency();
 
@@ -94,7 +91,7 @@ public class PrescriptionRecyclerViewAdapter
 
     }
 
-    private void changeFragment(PrescriptionRecyclerViewObject itemSelected) {
+    private void changeFragment(PrescriptionDisplayObject itemSelected) {
         Fragment fragment = new ViewPrescriptionFragment();
 
         Bundle prescriptionBundle = new Bundle();

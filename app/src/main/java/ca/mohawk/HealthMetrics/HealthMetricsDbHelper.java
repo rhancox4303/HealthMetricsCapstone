@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.MetricRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
 import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.DataEntry;
@@ -617,9 +617,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      *
      * @return A list of MetricRecyclerViewObjects is returned.
      */
-    public List<MetricRecyclerViewObject> getAddedMetricsAndGalleries() {
+    public List<MetricDisplayObject> getAddedMetricsAndGalleries() {
 
-        List<MetricRecyclerViewObject> recyclerViewObjects = new ArrayList<MetricRecyclerViewObject>();
+        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<MetricDisplayObject>();
         recyclerViewObjects = getAddedMetrics(recyclerViewObjects);
         recyclerViewObjects = getAddedPhotoGalleries(recyclerViewObjects);
         recyclerViewObjects = getAllNotes(recyclerViewObjects);
@@ -632,7 +632,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param recyclerViewObjects represents the list that will be returned.
      * @return A list of MetricRecyclerViewObjects is returned.
      */
-    public List<MetricRecyclerViewObject> getAddedMetrics(List<MetricRecyclerViewObject> recyclerViewObjects) {
+    public List<MetricDisplayObject> getAddedMetrics(List<MetricDisplayObject> recyclerViewObjects) {
 
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
@@ -670,7 +670,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 Unit unit = getUnitById(unitId);
                 dataEntry = dataEntry + " " + unit.UnitAbbreviation;
             }
-            recyclerViewObjects.add(new MetricRecyclerViewObject(metricId, metricName, dataEntry, "Quantitative"));
+            recyclerViewObjects.add(new MetricDisplayObject(metricId, metricName, dataEntry, "Quantitative"));
         }
 
         cursor.close();
@@ -684,7 +684,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param recyclerViewObjects represents the list that will be returned.
      * @return A list of MetricRecyclerViewObjects is returned.
      */
-    public List<MetricRecyclerViewObject> getAddedPhotoGalleries(List<MetricRecyclerViewObject> recyclerViewObjects) {
+    public List<MetricDisplayObject> getAddedPhotoGalleries(List<MetricDisplayObject> recyclerViewObjects) {
 
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
@@ -712,7 +712,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String galleryName = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
 
-            recyclerViewObjects.add(new MetricRecyclerViewObject(galleryId, galleryName, "Photo Gallery", "Gallery"));
+            recyclerViewObjects.add(new MetricDisplayObject(galleryId, galleryName, "Photo Gallery", "Gallery"));
         }
 
         cursor.close();
@@ -720,7 +720,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return recyclerViewObjects;
     }
 
-    public List<MetricRecyclerViewObject> getAllNotes(List<MetricRecyclerViewObject> recyclerViewObjects) {
+    public List<MetricDisplayObject> getAllNotes(List<MetricDisplayObject> recyclerViewObjects) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -745,7 +745,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String content = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT));
 
-            recyclerViewObjects.add(new MetricRecyclerViewObject(noteId, "Note", content, "Note"));
+            recyclerViewObjects.add(new MetricDisplayObject(noteId, "Note", content, "Note"));
         }
 
         cursor.close();
@@ -1183,10 +1183,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public List<PrescriptionRecyclerViewObject> getAllPrescriptions() {
+    public List<PrescriptionDisplayObject> getAllPrescriptions() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
-        List<PrescriptionRecyclerViewObject> prescriptionRecyclerViewObjects = new ArrayList<>();
+        List<PrescriptionDisplayObject> prescriptionDisplayObjects = new ArrayList<>();
 
 
         String[] projection = {
@@ -1219,13 +1219,13 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             DosageMeasurement dosageMeasurement = getDosageMeasurementById(dosageMeasurementId);
 
-            prescriptionRecyclerViewObjects.add(new PrescriptionRecyclerViewObject(id, name, dosageAmount, dosageMeasurement.DosageMeasurement, frequency, amount));
+            prescriptionDisplayObjects.add(new PrescriptionDisplayObject(id, name, dosageAmount, dosageMeasurement.DosageMeasurement, frequency, amount));
 
         }
 
         cursor.close();
         readableDatabase.close();
-        return prescriptionRecyclerViewObjects;
+        return prescriptionDisplayObjects;
     }
 
 

@@ -1,6 +1,6 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
-public class PrescriptionRecyclerViewObject {
+public class PrescriptionDisplayObject {
     public int Id;
     public String Name;
     public String DosageAmount;
@@ -8,7 +8,7 @@ public class PrescriptionRecyclerViewObject {
     public String Frequency;
     public double Amount;
 
-    public PrescriptionRecyclerViewObject(int id, String name, String dosageAmount, String dosageMeasurement, String frequency, double amount) {
+    public PrescriptionDisplayObject(int id, String name, String dosageAmount, String dosageMeasurement, String frequency, double amount) {
         Id = id;
         Name = name;
         DosageAmount = dosageAmount;
@@ -35,5 +35,10 @@ public class PrescriptionRecyclerViewObject {
 
     public double getAmount() {
         return Amount;
+    }
+
+    @Override
+    public String toString() {
+        return Name;
     }
 }
