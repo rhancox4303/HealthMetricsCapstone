@@ -64,6 +64,7 @@ public class NotificationBuilder extends ContextWrapper {
                 message = "Reminder to take your " + prescriptionTake.Name;
                 break;
         }
+
         healthMetricsDbHelper.deleteNotification(notification.Id);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,

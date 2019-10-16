@@ -23,7 +23,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import ca.mohawk.HealthMetrics.DataEntry.DeleteDataEntryDialog;
-import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
+import ca.mohawk.HealthMetrics.DataEntry.DataEntryListFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.RemoveMetricDialog;
@@ -180,16 +180,16 @@ public class MainActivity extends AppCompatActivity
     public void onDeleteDataEntryDialogPositiveClick(DeleteDataEntryDialog dialog) {
         boolean deleteSuccessful = false;
 
-        MetricDataViewFragment metricDataViewFragment = new MetricDataViewFragment();
+        DataEntryListFragment dataEntryListFragment = new DataEntryListFragment();
         deleteSuccessful = healthMetricsDbHelper.deleteDataEntry(dialog.getDataEntryId());
 
         Bundle metricBundle = new Bundle();
         metricBundle.putInt("selected_item_key", dialog.getMetricId());
 
-        metricDataViewFragment.setArguments(metricBundle);
+        dataEntryListFragment.setArguments(metricBundle);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, metricDataViewFragment)
+                .replace(R.id.fragmentContainer, dataEntryListFragment)
                 .addToBackStack(null)
                 .commit();
 

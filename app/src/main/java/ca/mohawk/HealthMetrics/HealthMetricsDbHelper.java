@@ -279,7 +279,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.TargetId);
             values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.NotificationType);
 
-            id = writableDatabase.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
+            id = writableDatabase.insertOrThrow(HealthMetricContract.Notifications.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add notification to database");
@@ -775,6 +775,39 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         cursor.close();
         readableDatabase.close();
         return recyclerViewObjects;
+    }
+
+    public ArrayList<Notification> getAllNotifications() {
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+        ArrayList<Notification> notificationArrayList = new ArrayList<>();
+        String[] projection = {
+                HealthMetricContract.Notifications._ID,
+                HealthMetricContract.Notifications.COLUMN_NAME_TYPE,
+                HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME,
+                HealthMetricContract.Notifications.COLUMN_NAME_TARGETID
+        };
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Notifications.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(HealthMetricContract.Notifications._ID));
+            int targetId = cursor.getInt(cursor.getColumnIndexOrThrow(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID));
+            String type = cursor.getString(cursor.getColumnIndexOrThrow(HealthMetricContract.Notifications.COLUMN_NAME_TYPE));
+            String targetDateTime = cursor.getString(cursor.getColumnIndexOrThrow(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME));
+
+            notificationArrayList.add(new Notification(id, targetId, type, targetDateTime));
+        }
+
+        cursor.close();
+        readableDatabase.close();
+        return notificationArrayList;
     }
 
     /**
@@ -1319,7 +1352,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             int targetId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID));
             String type = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Notifications.COLUMN_NAME_TYPE));
 
-            Notification notification = new Notification(notificationId,targetId,type,targetDateTime);
+            Notification notification = new Notification(notificationId, targetId, type, targetDateTime);
 
             cursor.close();
             readableDatabase.close();

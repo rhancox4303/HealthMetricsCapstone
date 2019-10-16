@@ -155,6 +155,13 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
             timePickerFragment.show(getFragmentManager().beginTransaction(), "timePicker");
         } else {
             createNotification();
+
+            NotificationListFragment notificationListFragment = new NotificationListFragment();
+
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, notificationListFragment)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 
@@ -165,6 +172,8 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
             Notification notification = new Notification(TargetId, NotificationType, dateTime);
             int id = healthMetricsDbHelper.addNotification(notification);
             startAlarm(id);
+        }else{
+            Toast.makeText(getActivity(), "Errot adding Notification", Toast.LENGTH_SHORT).show();
         }
     }
 

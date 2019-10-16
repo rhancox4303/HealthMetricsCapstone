@@ -102,7 +102,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         } else if(v.getId() == R.id.ButtonEditDataEntry && validateUserInput()){
             editDataEntry();
 
-            MetricDataViewFragment dataViewFragment = new MetricDataViewFragment();
+            DataEntryListFragment dataViewFragment = new DataEntryListFragment();
 
             Bundle metricBundle = new Bundle();
             metricBundle.putInt("selected_item_key", MetricId);

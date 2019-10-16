@@ -11,7 +11,7 @@ import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import ca.mohawk.HealthMetrics.DataEntry.MetricDataViewFragment;
+import ca.mohawk.HealthMetrics.DataEntry.DataEntryListFragment;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.Note.ViewNoteFragment;
@@ -101,7 +101,7 @@ public class MetricRecyclerViewAdapter extends
     private void changeFragment(MetricDisplayObject itemSelected) {
         Fragment fragment = null;
         if(itemSelected.Category.equals("Quantitative")){
-            fragment = new MetricDataViewFragment();
+            fragment = new DataEntryListFragment();
         }else if(itemSelected.Category.equals("Gallery")){
             fragment = new ViewPhotoGalleryFragment();
         }else if(itemSelected.Category.equals("Note")){

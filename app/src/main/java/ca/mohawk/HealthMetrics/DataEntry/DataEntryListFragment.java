@@ -40,14 +40,14 @@ import ca.mohawk.HealthMetrics.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MetricDataViewFragment extends Fragment implements View.OnClickListener {
+public class DataEntryListFragment extends Fragment implements View.OnClickListener {
 
     private List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjectList;
     HealthMetricsDbHelper healthMetricsDbHelper;
 
     int MetricId;
     LineChart chart;
-    public MetricDataViewFragment() {
+    public DataEntryListFragment() {
         // Required empty public constructor
     }
 

@@ -8,13 +8,6 @@
     tools:context=".Notification.NotificationListFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline120"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline121"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +25,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline121"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline120" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonCreateNotificationNotificationList"

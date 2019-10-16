@@ -6,7 +6,7 @@
     android:background="@drawable/recycler_view_border">
 
     <TextView
-        android:id="@+id/textViewDataEntryRecyclerView"
+        android:id="@+id/textViewNotificationInformation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
@@ -18,7 +18,7 @@
         android:layout_weight="1" />
 
     <TextView
-        android:id="@+id/textViewDateOfEntryRecyclerView"
+        android:id="@+id/textViewNotificationDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"

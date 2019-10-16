@@ -95,7 +95,7 @@ public class AddDataEntryFragment extends Fragment implements View.OnClickListen
         } else if(v.getId() == R.id.buttonAddEntryAddDataEntry && validateUserInput()){
             addDataEntry();
 
-            MetricDataViewFragment dataViewFragment = new MetricDataViewFragment();
+            DataEntryListFragment dataViewFragment = new DataEntryListFragment();
 
             Bundle metricBundle = new Bundle();
             metricBundle.putInt("selected_item_key", MetricId);
