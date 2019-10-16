@@ -157,7 +157,6 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
             createNotification();
 
             NotificationListFragment notificationListFragment = new NotificationListFragment();
-
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, notificationListFragment)
                     .addToBackStack(null)
