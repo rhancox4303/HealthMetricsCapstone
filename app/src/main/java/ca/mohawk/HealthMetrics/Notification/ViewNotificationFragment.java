@@ -74,6 +74,7 @@ public class ViewNotificationFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-
+        DeleteNotificationDialog deleteNotificationDialog = DeleteNotificationDialog.newInstance(NotificationId);
+        deleteNotificationDialog.show(getFragmentManager(), "dialog");
     }
 }

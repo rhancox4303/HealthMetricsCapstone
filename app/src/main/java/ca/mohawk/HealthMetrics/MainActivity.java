@@ -1,5 +1,9 @@
 package ca.mohawk.HealthMetrics;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -27,7 +31,9 @@ import ca.mohawk.HealthMetrics.DataEntry.DataEntryListFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.RemoveMetricDialog;
+import ca.mohawk.HealthMetrics.Models.Notification;
 import ca.mohawk.HealthMetrics.Note.DeleteNoteDialog;
+import ca.mohawk.HealthMetrics.Notification.DeleteNotificationDialog;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.PhotoGallery.DeleteGalleryDialog;
 import ca.mohawk.HealthMetrics.PhotoGallery.DeletePhotoEntryDialog;
@@ -42,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         DeleteMetricDialog.DeleteMetricDialogListener, DeleteDataEntryDialog.DeleteDataEntryDialogListener,
         DeletePrescriptionDialog.DeletePrescriptionDialogListener, RemoveMetricDialog.RemoveMetricDialogListener,
         DeleteNoteDialog.DeleteNoteDialogListener, DeletePhotoEntryDialog.DeletePhotoEntryDialogListener,
-        DeleteGalleryDialog.DeleteGalleryDialogListener {
+        DeleteGalleryDialog.DeleteGalleryDialogListener, DeleteNotificationDialog.DeleteNotificationDialogListener {
 
     private static final int CAMERA_REQUEST_CODE = 2000;
     private static final int CAMERA_PERMISSION_CODE = 100;
@@ -327,6 +333,33 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDeleteGalleryDialogNegativeClick(DeleteGalleryDialog dialog) {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onDeleteNotificationDialogPositiveClick(DeleteNotificationDialog dialog) {
+        int id = dialog.getNotificationId();
+
+        Notification notification = healthMetricsDbHelper.getNotificationById(id);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("id",id);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, 0);
+        alarmManager.cancel(pendingIntent);
+
+        boolean deleteSuccessful = healthMetricsDbHelper.deleteNotification(dialog.getNotificationId());
+
+        if (deleteSuccessful) {
+            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDeleteNotificationDialogNegativeClick(DeleteNotificationDialog dialog)  {
         dialog.dismiss();
     }
 }

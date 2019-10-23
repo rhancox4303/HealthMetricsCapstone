@@ -30,6 +30,11 @@ public class DeleteNotificationDialog extends DialogFragment {
         DeleteNotificationDialog dialog = new DeleteNotificationDialog();
         return dialog;
     }
+
+    public int getNotificationId() {
+        return NotificationId;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

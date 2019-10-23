@@ -172,7 +172,7 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
             int id = healthMetricsDbHelper.addNotification(notification);
             startAlarm(id);
         }else{
-            Toast.makeText(getActivity(), "Errot adding Notification", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Error adding Notification", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -182,8 +182,7 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
         Intent intent = new Intent(getActivity(), NotificationReceiver.class);
         intent.putExtra("id",id);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 1, intent, 0);
-
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTimeInMillis(System.currentTimeMillis());
