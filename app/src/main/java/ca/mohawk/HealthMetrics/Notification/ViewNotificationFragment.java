@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
@@ -19,7 +20,7 @@ import ca.mohawk.HealthMetrics.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewNotificationFragment extends Fragment {
+public class ViewNotificationFragment extends Fragment implements View.OnClickListener {
 
     private int NotificationId;
     private HealthMetricsDbHelper healthMetricsDbHelper;
@@ -39,6 +40,9 @@ public class ViewNotificationFragment extends Fragment {
         TextView targetTextView = rootView.findViewById(R.id.textViewTargetViewNotification);
         TextView dateTimeTextView = rootView.findViewById(R.id.textViewDateTimeViewNotification);
 
+        Button deleteButton = rootView.findViewById(R.id.buttonDeleteNotificationViewNotification);
+
+        deleteButton.setOnClickListener(this);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -64,6 +68,12 @@ public class ViewNotificationFragment extends Fragment {
                 targetTextView.setText(prescription.Name);
                 break;
         }
+        
         return rootView;
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
