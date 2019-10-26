@@ -42,13 +42,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.4" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline127"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
-
     <TextView
         android:id="@+id/textViewDisplayNotificationTypeCreateNotification"
         android:layout_width="wrap_content"
@@ -126,14 +119,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:hint="Insert Date"
         android:clickable="true"
+        android:ems="10"
         android:focusable="false"
+        android:hint="Insert Date"
         android:inputType="none"
         app:layout_constraintBottom_toTopOf="@+id/guideline125"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline127" />
+        app:layout_constraintTop_toTopOf="@+id/guideline124" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

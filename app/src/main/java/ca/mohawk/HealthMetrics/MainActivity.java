@@ -339,7 +339,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDeleteNotificationDialogPositiveClick(DeleteNotificationDialog dialog) {
         int id = dialog.getNotificationId();
-
+        NotificationListFragment notificationListFragment = new NotificationListFragment();
         Notification notification = healthMetricsDbHelper.getNotificationById(id);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -351,6 +351,10 @@ public class MainActivity extends AppCompatActivity
 
         boolean deleteSuccessful = healthMetricsDbHelper.deleteNotification(dialog.getNotificationId());
 
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, notificationListFragment)
+                .addToBackStack(null)
+                .commit();
         if (deleteSuccessful) {
             Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
         } else {
