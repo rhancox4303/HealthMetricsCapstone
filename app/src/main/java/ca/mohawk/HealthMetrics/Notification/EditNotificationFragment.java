@@ -14,10 +14,10 @@ import ca.mohawk.HealthMetrics.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditNotification extends Fragment {
+public class EditNotificationFragment extends Fragment {
 
 
-    public EditNotification() {
+    public EditNotificationFragment() {
         // Required empty public constructor
     }
 
