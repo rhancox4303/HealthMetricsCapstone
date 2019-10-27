@@ -41,13 +41,13 @@ import ca.mohawk.HealthMetrics.TimePickerFragment;
  */
 public class CreateNotificationFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    HealthMetricsDbHelper healthMetricsDbHelper;
-    List<MetricDisplayObject> metricArrayList = new ArrayList<>();
+    private HealthMetricsDbHelper healthMetricsDbHelper;
+    private List<MetricDisplayObject> metricArrayList = new ArrayList<>();
 
-    List<MetricDisplayObject> galleryArrayList = new ArrayList<>();
-    List<PrescriptionDisplayObject> prescriptionArrayList;
-    Spinner notificationTargetSpinner;
-    EditText dateEditText;
+    private List<MetricDisplayObject> galleryArrayList = new ArrayList<>();
+    private List<PrescriptionDisplayObject> prescriptionArrayList;
+    private Spinner notificationTargetSpinner;
+    private EditText dateEditText;
     private String time;
     private String NotificationType;
     private int TargetId;

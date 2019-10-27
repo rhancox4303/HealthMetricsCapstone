@@ -1,6 +1,12 @@
 package ca.mohawk.HealthMetrics.Notification;
 
 
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,20 +15,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import org.w3c.dom.NamedNodeMap;
+
+import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.Notification;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.Models.Prescription;
+import ca.mohawk.HealthMetrics.NotificationReceiver;
 import ca.mohawk.HealthMetrics.R;
+import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditNotificationFragment extends Fragment implements View.OnClickListener {
+public class EditNotificationFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
 
     private int NotificationId;
@@ -31,8 +45,10 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
     private int Day;
     private int Month;
     private int Year;
-
+    private EditText DateTimeEditText;
     HealthMetricsDbHelper healthMetricsDbHelper;
+    private String time;
+    private Notification notification;
 
     public EditNotificationFragment() {
         // Required empty public constructor
@@ -51,15 +67,15 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
             NotificationId = bundle.getInt("notification_selected_key", -1);
         }
 
-        Notification notification = healthMetricsDbHelper.getNotificationById(NotificationId);
+        notification = healthMetricsDbHelper.getNotificationById(NotificationId);
 
         TextView typeTextView = rootView.findViewById(R.id.textViewTypeEditNotification);
         TextView targetTextView = rootView.findViewById(R.id.textViewTargetEditNotification);
 
-        EditText dateTimeEditText = rootView.findViewById(R.id.editTextDateTimeEditNotification);
+        DateTimeEditText = rootView.findViewById(R.id.editTextDateTimeEditNotification);
         Button editNotificationButton = rootView.findViewById(R.id.buttonEditNotification);
 
-        dateTimeEditText.setOnClickListener(this);
+        DateTimeEditText.setOnClickListener(this);
         editNotificationButton.setOnClickListener(this);
 
         typeTextView.setText(notification.NotificationType);
@@ -86,6 +102,66 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+        if(v.getId() == R.id.editTextDateTimeEditNotification){
+            TimePickerFragment timePickerFragment = new TimePickerFragment();
+            timePickerFragment.setOnTimeSetListener(this);
+            timePickerFragment.show(getFragmentManager().beginTransaction(), "timePicker");
+        }else if(v.getId() == R.id.buttonEditNotification){
+            editNotification();
+        }
+    }
 
+    private boolean validateUserInput() {
+        if (DateTimeEditText.getText().toString().trim().equals("") ||
+                DateTimeEditText.getText().toString().trim().equals(notification.TargetDateTime) ) {
+            Toast.makeText(getActivity(), "Please enter a new non-empty date and time.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void editNotification(){
+        if(validateUserInput()){
+            cancelNotification();
+
+        }
+    }
+
+    private void cancelNotification(){
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), NotificationReceiver.class);
+        intent.putExtra("id",NotificationId);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), NotificationId, intent, 0);
+        alarmManager.cancel(pendingIntent);
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Minute = minute;
+        Hour = hourOfDay;
+        if (minute < 10) {
+            time = hourOfDay + ":0" + minute;
+        } else {
+            time = hourOfDay + ":" + minute;
+        }
+
+        DateTimeEditText.setText(time);
+
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setOnDateSetListener(this);
+        datePickerFragment.show(getFragmentManager().beginTransaction(), "datePicker");
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Year = year;
+        Month = month;
+        Day = dayOfMonth;
+        if (dayOfMonth < 10) {
+            DateTimeEditText.setText(time + " " + (month + 1) + "-0" + dayOfMonth + "-" + year);
+        } else {
+            DateTimeEditText.setText(time + " " + (month + 1) + "-" + dayOfMonth + "-" + year);
+        }
     }
 }
