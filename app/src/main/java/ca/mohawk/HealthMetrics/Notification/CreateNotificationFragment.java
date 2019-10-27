@@ -11,7 +11,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Notification;
-import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.NotificationReceiver;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.TimePickerFragment;

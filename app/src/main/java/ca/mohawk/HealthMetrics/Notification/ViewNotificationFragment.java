@@ -93,6 +93,5 @@ public class ViewNotificationFragment extends Fragment implements View.OnClickLi
                     .addToBackStack(null)
                     .commit();
         }
-
     }
 }
