@@ -1672,7 +1672,21 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY, photoEntry.IsFromGallery);
         values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.PhotoEntryPath);
         Log.d("PHOTOID", photoEntry.Id + "");
+
         return database.update(HealthMetricContract.PhotoEntries.TABLE_NAME, values, HealthMetricContract.PhotoEntries._ID + "=?", new String[]{Integer.toString(photoEntry.Id)}) > 0;
+    }
+
+    public boolean updateNotification(Notification notification){
+
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.NotificationType);
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.TargetDateTime);
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID ,notification.TargetId);
+
+        return database.update(HealthMetricContract.Notifications.TABLE_NAME, values, HealthMetricContract.Notifications._ID + "=?", new String[]{Integer.toString(notification.Id)}) > 0;
     }
 
     public boolean updateGallery(PhotoGallery gallery) {
@@ -1687,7 +1701,5 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null) > 0;
 
     }
-
-
 }
 
