@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.NamedNodeMap;
 
+import java.util.Calendar;
+
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
@@ -123,8 +125,32 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
     private void editNotification(){
         if(validateUserInput()){
             cancelNotification();
-
+            notification.TargetDateTime = DateTimeEditText.toString();
+            healthMetricsDbHelper.updateNotification(notification);
+            startAlarm(notification.Id);
         }
+    }
+
+    private void startAlarm(int id) {
+
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), NotificationReceiver.class);
+        intent.putExtra("id",id);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        // Specify the date/time to trigger the alarm
+        calendar.set(Calendar.YEAR, Year);
+        calendar.set(Calendar.MONTH, Month);
+        calendar.set(Calendar.DAY_OF_MONTH, Day);
+        calendar.set(Calendar.HOUR_OF_DAY, Hour);
+        calendar.set(Calendar.MINUTE, Minute);
+        calendar.set(Calendar.SECOND, 0);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     private void cancelNotification(){
