@@ -44,7 +44,9 @@ public class ViewNotificationFragment extends Fragment implements View.OnClickLi
         TextView dateTimeTextView = rootView.findViewById(R.id.textViewDateTimeViewNotification);
 
         Button deleteButton = rootView.findViewById(R.id.buttonDeleteNotificationViewNotification);
+        Button editButton = rootView.findViewById(R.id.buttonEditNotificationViewNotification);
 
+        editButton.setOnClickListener(this);
         deleteButton.setOnClickListener(this);
 
         Bundle bundle = this.getArguments();

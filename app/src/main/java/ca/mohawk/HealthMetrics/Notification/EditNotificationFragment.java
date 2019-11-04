@@ -78,12 +78,13 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
         Button editNotificationButton = rootView.findViewById(R.id.buttonEditNotification);
 
         DateTimeEditText.setOnClickListener(this);
+        DateTimeEditText.setText(notification.TargetDateTime);
         editNotificationButton.setOnClickListener(this);
+
 
         typeTextView.setText(notification.NotificationType);
 
         switch (notification.NotificationType) {
-
             case "Enter Metric Data":
                 Metric targetMetric = healthMetricsDbHelper.getMetricById(notification.TargetId);
                 targetTextView.setText(targetMetric.Name);
@@ -125,9 +126,16 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
     private void editNotification(){
         if(validateUserInput()){
             cancelNotification();
-            notification.TargetDateTime = DateTimeEditText.toString();
+            notification.TargetDateTime = DateTimeEditText.getText().toString();
             healthMetricsDbHelper.updateNotification(notification);
             startAlarm(notification.Id);
+
+            Fragment notificationList = new NotificationListFragment();
+
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, notificationList)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 
