@@ -74,7 +74,8 @@ public class NotificationBuilder extends ContextWrapper {
                 .setContentTitle(notification.NotificationType)
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_alert)
-                .setContentIntent(contentIntent);
+                .setContentIntent(contentIntent)
+                .setAutoCancel(true);
 
     }
 }
