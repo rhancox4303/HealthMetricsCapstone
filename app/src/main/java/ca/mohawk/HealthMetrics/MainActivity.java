@@ -157,7 +157,6 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-
     @Override
     public void onDeleteMetricDialogPositiveClick(DeleteMetricDialog dialog) {
         boolean deleteSuccessful = false;
@@ -214,6 +213,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDeletePrescriptionDialogPositiveClick(DeletePrescriptionDialog dialog) {
 
+        boolean deleteSuccessful = false;
+
+        PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
+        deleteSuccessful = healthMetricsDbHelper.deletePrescription(dialog.getPrescriptionId());
+
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, prescriptionListFragment)
+                .addToBackStack(null)
+                .commit();
+
+        if (deleteSuccessful) {
+            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -344,7 +359,7 @@ public class MainActivity extends AppCompatActivity
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, NotificationReceiver.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, 0);
         alarmManager.cancel(pendingIntent);
@@ -363,7 +378,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDeleteNotificationDialogNegativeClick(DeleteNotificationDialog dialog)  {
+    public void onDeleteNotificationDialogNegativeClick(DeleteNotificationDialog dialog) {
         dialog.dismiss();
     }
 }
