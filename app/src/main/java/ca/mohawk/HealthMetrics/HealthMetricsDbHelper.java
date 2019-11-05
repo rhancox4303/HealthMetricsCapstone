@@ -1222,12 +1222,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             int dosageMeasurement = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT));
             double amount = cursor.getDouble(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT));
             String frequency = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY));
-            String dosageAmount = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT));
+            double dosageAmount = cursor.getDouble(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT));
             String form = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM));
             String reason = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON));
             String strength = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH));
 
-            Prescription prescription = new Prescription(dosageMeasurement, name, form, strength, dosageAmount, frequency, amount, reason);
+            Prescription prescription = new Prescription(prescriptionId,dosageMeasurement, name, form, strength, dosageAmount, frequency, amount, reason);
             cursor.close();
             readableDatabase.close();
             return prescription;
@@ -1270,7 +1270,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             int dosageMeasurementId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT));
             Log.d("TEST", " G" + dosageMeasurementId);
             String name = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME));
-            String dosageAmount = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT));
+            double dosageAmount = cursor.getDouble(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT));
             String frequency = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY));
             double amount = cursor.getDouble(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT));
 
@@ -1582,7 +1582,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null);
     }
 
-    public int updatePrescription(Prescription prescription) {
+    public boolean updatePrescription(Prescription prescription) {
 
         SQLiteDatabase database = this.getWritableDatabase();
 
@@ -1597,7 +1597,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.getAmount());
 
         return database.update(HealthMetricContract.Prescriptions.TABLE_NAME, values, HealthMetricContract.Prescriptions._ID + " = " + prescription.getId(),
-                null);
+                null) > 0;
     }
 
     public boolean deleteDataEntry(int id) {

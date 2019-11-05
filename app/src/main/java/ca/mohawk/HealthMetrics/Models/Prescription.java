@@ -6,12 +6,12 @@ public class Prescription {
     public String Name;
     public String Form;
     public String Strength;
-    public String DosageAmount;
+    public double DosageAmount;
     public String Frequency;
     public double Amount;
     public String Reason;
 
-    public Prescription(int id, int dosageMeasurementId, String name, String form, String strength, String dosageAmount, String frequency, double amount, String reason) {
+    public Prescription(int id, int dosageMeasurementId, String name, String form, String strength, double dosageAmount, String frequency, double amount, String reason) {
         Id = id;
         DosageMeasurementId = dosageMeasurementId;
         Name = name;
@@ -23,7 +23,7 @@ public class Prescription {
         Reason = reason;
     }
 
-    public Prescription(int dosageMeasurementId, String name, String form, String strength, String dosageAmount, String frequency, double amount, String reason) {
+    public Prescription(int dosageMeasurementId, String name, String form, String strength, double dosageAmount, String frequency, double amount, String reason) {
         DosageMeasurementId = dosageMeasurementId;
         Name = name;
         Form = form;
@@ -74,12 +74,8 @@ public class Prescription {
         Strength = strength;
     }
 
-    public String getDosageAmount() {
+    public double getDosageAmount() {
         return DosageAmount;
-    }
-
-    public void setDosageAmount(String dosageAmount) {
-        DosageAmount = dosageAmount;
     }
 
     public String getFrequency() {

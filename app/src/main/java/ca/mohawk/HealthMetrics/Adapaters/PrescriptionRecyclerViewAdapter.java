@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +15,19 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
+import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MainActivity;
+import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.Prescription.ViewPrescriptionFragment;
 import ca.mohawk.HealthMetrics.R;
+import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 
 public class PrescriptionRecyclerViewAdapter
         extends RecyclerView.Adapter<PrescriptionRecyclerViewAdapter.ViewHolder> {
+
     private Context context;
+    HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(context);
 
     //The list of prescription to be displayed in the recycler view.
     private List<PrescriptionDisplayObject> prescriptionList = new ArrayList<>();
@@ -30,19 +37,20 @@ public class PrescriptionRecyclerViewAdapter
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView prescriptionInformationTextView;
-        public TextView prescriptionFrequencyTextView;
-       // public Button incrementAmountButton;
-       // public Button decrementAmountButton;
+        public TextView prescriptionAmountTextView;
+
+        public Button incrementAmountButton;
+        public Button decrementAmountButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             prescriptionInformationTextView = (TextView) itemView.findViewById(R.id.textViewPrescriptionInformation);
-            prescriptionFrequencyTextView = (TextView) itemView.findViewById(R.id.textViewPrescriptionFrequency);
-           // incrementAmountButton = (Button) itemView.findViewById(R.id.buttonIncrementAmount);
-           // decrementAmountButton = (Button) itemView.findViewById(R.id.buttonDecrementAmount);
+            prescriptionAmountTextView = (TextView) itemView.findViewById(R.id.textViewPrescriptionAmount);
+            incrementAmountButton = (Button) itemView.findViewById(R.id.buttonIncrementPrescriptionAmount);
+            decrementAmountButton = (Button) itemView.findViewById(R.id.buttonDecrementPrescriptionAmount);
         }
     }
 
@@ -67,28 +75,58 @@ public class PrescriptionRecyclerViewAdapter
      * view using the metricRecyclerViewObjectList and the view holder.
      */
     @Override
-    public void onBindViewHolder(PrescriptionRecyclerViewAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final PrescriptionRecyclerViewAdapter.ViewHolder viewHolder, final int position) {
+
         //Get data object
-        final PrescriptionDisplayObject prescription = prescriptionList.get(position);
-        String prescriptionInformation = prescription.getName();
-        String frequency = prescription.getDosageAmount() + " " + prescription.getDosageMeasurement() + " " + prescription.getFrequency();
+        final PrescriptionDisplayObject prescriptionDisplayObject = prescriptionList.get(position);
 
+        final String prescriptionInformation = prescriptionDisplayObject.getName();
+
+        String frequency = "\n" + prescriptionDisplayObject.getDosageAmount() + " " + prescriptionDisplayObject.getDosageMeasurement() + " " + prescriptionDisplayObject.getFrequency();
+        String amount = prescriptionDisplayObject.Amount + "\n" + prescriptionDisplayObject.DosageMeasurement;
+
+        String information = prescriptionInformation + frequency;
         TextView informationTextView = viewHolder.prescriptionInformationTextView;
-        TextView frequencyTextView = viewHolder.prescriptionFrequencyTextView;
+        TextView amountTextView = viewHolder.prescriptionAmountTextView;
 
-        informationTextView.setText(prescriptionInformation);
-        frequencyTextView.setText(frequency);
+        final Button incrementAmountButton = viewHolder.incrementAmountButton;
+        Button decrementAmountButton = viewHolder.decrementAmountButton;
+
+        amountTextView.setText(amount);
+        informationTextView.setText(information);
+
+        incrementAmountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Prescription prescription = healthMetricsDbHelper.getPrescriptionById(prescriptionDisplayObject.Id);
+                prescription.Amount += prescription.DosageAmount;
+                healthMetricsDbHelper.updatePrescription(prescription);
+                updatePrescriptionList();
+            }
+        });
+
+        decrementAmountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Prescription prescription = healthMetricsDbHelper.getPrescriptionById(prescriptionDisplayObject.Id);
+                prescription.Amount -= prescription.DosageAmount;
+                healthMetricsDbHelper.updatePrescription(prescription);
+                updatePrescriptionList();
+            }
+        });
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeFragment(prescription);
+                changeFragment(prescriptionDisplayObject);
             }
         });
+    }
 
-//        fre.setText(prescriptionAmount);
-        // Set item views
-
+    public void updatePrescriptionList(){
+        prescriptionList.clear();
+        prescriptionList = healthMetricsDbHelper.getAllPrescriptions();
+        notifyDataSetChanged();
     }
 
     private void changeFragment(PrescriptionDisplayObject itemSelected) {
@@ -109,6 +147,7 @@ public class PrescriptionRecyclerViewAdapter
             mainActivity.switchContent(fragment);
         }
     }
+
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {

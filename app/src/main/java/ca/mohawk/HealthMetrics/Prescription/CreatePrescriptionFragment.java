@@ -110,7 +110,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
         String name = nameEditText.getText().toString();
         String form = formEditText.getText().toString();
         String strength= strengthEditText.getText().toString();
-        String dose = doseEditText.getText().toString();
+        double dose = Double.parseDouble(doseEditText.getText().toString());
         String frequency = frequencyEditText.getText().toString();
         double amount = Double.parseDouble(amountEditText.getText().toString());
         String reason = reasonEditText.getText().toString();

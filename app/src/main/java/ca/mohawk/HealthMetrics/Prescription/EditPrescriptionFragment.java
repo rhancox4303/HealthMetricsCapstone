@@ -78,7 +78,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
         nameEditText.setText(prescription.getName());
         formEditText.setText(prescription.getForm());
         strengthEditText.setText(prescription.getStrength());
-        dosageEditText.setText(prescription.getDosageAmount());
+        dosageEditText.setText(String.valueOf(prescription.DosageAmount));
         frequencyEditText.setText(prescription.getFrequency());
         amountEditText.setText(String.valueOf(prescription.getAmount()));
         reasonEditText.setText(prescription.getReason());
@@ -130,14 +130,13 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
         String name = nameEditText.getText().toString();
         String form = formEditText.getText().toString();
         String strength= strengthEditText.getText().toString();
-        String dose = dosageEditText.getText().toString();
+        double dose = Double.parseDouble(dosageEditText.getText().toString());
         String frequency = frequencyEditText.getText().toString();
         double amount = Double.parseDouble(amountEditText.getText().toString());
         String reason = reasonEditText.getText().toString();
 
         Prescription newPrescription = new Prescription(PrescriptionId,DosageMeasurementId,name,form,strength,dose,frequency,amount,reason);
-        int i = healthMetricsDbHelper.updatePrescription(newPrescription);
-        Log.d("TEST", i + " ");
+        healthMetricsDbHelper.updatePrescription(newPrescription);
     }
 
     @Override

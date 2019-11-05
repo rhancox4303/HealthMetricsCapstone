@@ -3,12 +3,12 @@ package ca.mohawk.HealthMetrics.DisplayObjects;
 public class PrescriptionDisplayObject {
     public int Id;
     public String Name;
-    public String DosageAmount;
+    public double DosageAmount;
     public String DosageMeasurement;
     public String Frequency;
     public double Amount;
 
-    public PrescriptionDisplayObject(int id, String name, String dosageAmount, String dosageMeasurement, String frequency, double amount) {
+    public PrescriptionDisplayObject(int id, String name, double dosageAmount, String dosageMeasurement, String frequency, double amount) {
         Id = id;
         Name = name;
         DosageAmount = dosageAmount;
@@ -21,7 +21,7 @@ public class PrescriptionDisplayObject {
         return Name;
     }
 
-    public String getDosageAmount() {
+    public double getDosageAmount() {
         return DosageAmount;
     }
 
