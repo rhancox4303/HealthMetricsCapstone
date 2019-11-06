@@ -19,6 +19,9 @@
     <string name="add_metric">Add Metric</string>
     <string name="gallery">Gallery</string>
     <string name="metric">Metric</string>
+    <string name="unit">Unit</string>
+    <string name="create_metric">Create Metric</string>
+    <string name="type">Type</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string-array name="notification_type_array">

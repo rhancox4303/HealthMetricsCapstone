@@ -32,17 +32,22 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
 
     // The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
     private HealthMetricsDbHelper healthMetricsDbHelper;
+
     // Instantiate the unit and metric spinners.
     private Spinner unitSpinner;
     private Spinner metricSpinner;
+
     // Instantiate the selected Unit and Metric Ids to -1.
     private int selectedUnitId = -1;
     private int selectedMetricId = -1;
+
     // Instantiate the Unit and Metric text views.
     private TextView unitDisplayTextView;
     private TextView metricTypeDisplayTextView;
+
     // Instantiate the addMetricRadioGroup.
     private RadioGroup addMetricRadioGroup;
+
     // Instantiate the metric and photo gallery adapters.
     private ArrayAdapter<MetricSpinnerObject> metricSpinnerObjectArrayAdapter;
     private ArrayAdapter<PhotoGallerySpinnerObject> photoGallerySpinnerObjectArrayAdapter;
