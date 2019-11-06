@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -13,11 +14,13 @@ import java.util.List;
 
 import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
+import ca.mohawk.HealthMetrics.Models.DataEntry;
 import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Metric;
-import ca.mohawk.HealthMetrics.Models.DataEntry;
 import ca.mohawk.HealthMetrics.Models.Note;
 import ca.mohawk.HealthMetrics.Models.Notification;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
@@ -26,8 +29,6 @@ import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.Models.UnitCategory;
 import ca.mohawk.HealthMetrics.Models.User;
-import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
 
 /**
  * The HealthMetricsDbHelper class extends the SQLiteOpenHelper Class.
@@ -1449,28 +1450,39 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @return The user is returned.
      */
     public User getUser() {
-
+        User user = null;
+        Cursor cursor = null;
         SQLiteDatabase database = getReadableDatabase();
         String selectQuery = "SELECT * FROM " + HealthMetricContract.Users.TABLE_NAME + " WHERE _ID = 1";
-        Cursor cursor = database.rawQuery(selectQuery, null);
-        cursor.moveToFirst();
 
-        if (cursor != null) {
-            String firstName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME));
-            String lastName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_LASTNAME));
-            String gender = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_GENDER));
-            String dateOfBirth = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH));
+        try {
+            cursor = database.rawQuery(selectQuery, null);
+            if (cursor != null) {
+                try {
+                    if (cursor.moveToFirst()) {
+                        String firstName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME));
+                        String lastName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_LASTNAME));
+                        String gender = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_GENDER));
+                        String dateOfBirth = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH));
 
-            User user = new User(firstName, lastName, gender, dateOfBirth);
-            cursor.close();
-            database.close();
-            return user;
-        } else {
-            Log.d("ERROR", "No user found.");
-            cursor.close();
-            database.close();
-            return null;
+                        user = new User(firstName, lastName, gender, dateOfBirth);
+
+                    } else {
+                        Log.e("SQLite ERROR", "User not found.");
+                        cursor.close();
+                        return null;
+                    }
+                } finally {
+                    cursor.close();
+                    database.close();
+                }
+            }
+
+        } catch (SQLiteException e) {
+            Log.e("SQLite ERROR", e.getMessage());
         }
+
+        return user;
     }
 
     /**

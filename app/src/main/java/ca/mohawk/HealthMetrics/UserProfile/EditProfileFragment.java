@@ -100,9 +100,9 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             if (updateStatus != 1) {
                 Toast.makeText(getActivity(), "Error updating profile.", Toast.LENGTH_SHORT).show();
             } else {
-                //Launch the ViewProfileFragment
+                //Launch the ViewUserFragment
                 Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
-                ViewProfileFragment viewProfileFragment = new ViewProfileFragment();
+                ViewUserFragment viewProfileFragment = new ViewUserFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, viewProfileFragment)
                         .addToBackStack(null)

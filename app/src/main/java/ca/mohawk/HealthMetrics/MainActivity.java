@@ -41,7 +41,7 @@ import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.Prescription.DeletePrescriptionDialog;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
 import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
-import ca.mohawk.HealthMetrics.UserProfile.ViewProfileFragment;
+import ca.mohawk.HealthMetrics.UserProfile.ViewUserFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            ViewProfileFragment profileFragment = new ViewProfileFragment();
+            ViewUserFragment profileFragment = new ViewUserFragment();
             fragmentTransaction.replace(R.id.fragmentContainer, profileFragment);
 
         } else if (id == R.id.nav_metrics) {
