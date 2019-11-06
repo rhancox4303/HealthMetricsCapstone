@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserProfile.CreateUserFragment">
+
     <EditText
-        android:id="@+id/editTextFirstName"
+        android:id="@+id/editTextFirstNameCreateUser"
         android:layout_width="0dp"
         android:layout_height="61dp"
         android:layout_marginStart="8dp"
@@ -37,7 +38,7 @@
         app:layout_constraintGuide_percent="0.10259918" />
 
     <EditText
-        android:id="@+id/editTextLastName"
+        android:id="@+id/editTextLastNameCreateUser"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -53,7 +54,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <RadioGroup
-        android:id="@+id/radioGroupGender"
+        android:id="@+id/radioGroupGenderCreateUser"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -88,7 +89,7 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textViewGender"
+        android:id="@+id/textViewGenderCreateUser"
         android:layout_width="wrap_content"
         android:layout_height="34dp"
         android:layout_marginStart="8dp"
@@ -157,7 +158,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline135" />
 
     <EditText
-        android:id="@+id/editTextDateOfBirthUserCreation"
+        android:id="@+id/editTextDateOfBirthCreateUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

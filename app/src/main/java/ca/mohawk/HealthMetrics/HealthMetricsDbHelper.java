@@ -123,8 +123,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      *
      * @param user represents the user to be added to the database.
      */
-    public void addUser(User user) {
-
+    public boolean addUser(User user) {
+        long id = 0;
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
 
@@ -135,14 +135,17 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.DateOfBirth);
             values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
 
-            writableDatabase.insertOrThrow(HealthMetricContract.Users.TABLE_NAME, null, values);
+            id = writableDatabase.insertOrThrow(HealthMetricContract.Users.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
+
         } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add user to database");
+            Log.e("SQL Error", "Error while trying to add the user to the database." + e);
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
+            return id > 0;
         }
+
     }
 
     public void addPrescription(Prescription prescription) {
@@ -1227,7 +1230,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String reason = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON));
             String strength = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH));
 
-            Prescription prescription = new Prescription(prescriptionId,dosageMeasurement, name, form, strength, dosageAmount, frequency, amount, reason);
+            Prescription prescription = new Prescription(prescriptionId, dosageMeasurement, name, form, strength, dosageAmount, frequency, amount, reason);
             cursor.close();
             readableDatabase.close();
             return prescription;
@@ -1676,7 +1679,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.PhotoEntries.TABLE_NAME, values, HealthMetricContract.PhotoEntries._ID + "=?", new String[]{Integer.toString(photoEntry.Id)}) > 0;
     }
 
-    public boolean updateNotification(Notification notification){
+    public boolean updateNotification(Notification notification) {
 
         SQLiteDatabase database = this.getWritableDatabase();
 
@@ -1684,7 +1687,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.NotificationType);
         values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.TargetDateTime);
-        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID ,notification.TargetId);
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.TargetId);
 
         return database.update(HealthMetricContract.Notifications.TABLE_NAME, values, HealthMetricContract.Notifications._ID + "=?", new String[]{Integer.toString(notification.Id)}) > 0;
     }
