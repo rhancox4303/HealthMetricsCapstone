@@ -59,11 +59,10 @@
         android:clickable="true"
         android:ems="10"
         android:focusable="false"
-        android:hint="@string/date_of_birth"
         android:inputType="none"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toTopOf="@+id/guideline135"
         tools:ignore="TextFields" />
 
@@ -155,6 +154,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.43" />
+
+    <TextView
+        android:id="@+id/textViewDateOfBirthDisplayCreateUser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/date_of_birth"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline135" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

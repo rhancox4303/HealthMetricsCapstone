@@ -3,9 +3,6 @@ package ca.mohawk.HealthMetrics.UserProfile;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.User;
@@ -22,58 +20,74 @@ import ca.mohawk.HealthMetrics.R;
 
 
 /**
- * The EditProfileFragment class is an extension of the Fragment class.
+ * The EditUserFragment class is an extension of the Fragment class.
  * It is used to edit the user's profile.
  */
-public class EditProfileFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class EditUserFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
+    //The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
     private HealthMetricsDbHelper healthMetricsDbHelper;
+
+    //The layout elements that are accessed throughout the fragment.
     private EditText firstNameEditText;
     private EditText lastNameEditText;
     private RadioGroup radioGroupGender;
     private EditText dateOfBirthEditText;
 
-    public EditProfileFragment() {
+    public EditUserFragment() {
         // Required empty public constructor
     }
 
     /**
      * The onCreateView method initializes the view variables with the user profile
-     * information feteched from the database using the HealthMetricsDbHelper object.
+     * information fetched from the database using the HealthMetricsDbHelper object.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        
+
         // Inflate the layout for this fragment.
-        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_edit_user, container, false);
+
+        //Instantiate healthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        Button editProfileButton = view.findViewById(R.id.buttonEditProfile);
-        editProfileButton.setOnClickListener(this);
+        //Instantiate editUserButton.
+        Button editUserButton = rootView.findViewById(R.id.buttonEditProfile);
 
-        firstNameEditText = view.findViewById(R.id.editTextFirstNameEditProfile);
-        lastNameEditText = view.findViewById(R.id.editTextLastNameEditProfile);
-        radioGroupGender = view.findViewById(R.id.radioGroupGenderEditProfile);
-        dateOfBirthEditText = view.findViewById(R.id.editTextDateOfBirthEditProfile);
+        //Set the editUserButton onClickListener
+        editUserButton.setOnClickListener(this);
 
+        //Instantiate the form elements.
+        firstNameEditText = rootView.findViewById(R.id.editTextFirstNameEditUser);
+        lastNameEditText = rootView.findViewById(R.id.editTextLastNameEditUser);
+        radioGroupGender = rootView.findViewById(R.id.radioGroupGenderEditProfile);
+        dateOfBirthEditText = rootView.findViewById(R.id.editTextDateOfBirthEditUser);
+
+        //Set the dateOfBirthEditText onClickListener.
         dateOfBirthEditText.setOnClickListener(this);
-        
-        //Fetch the user fom the database.
+
+        //Get the user fom the database.
         User user = healthMetricsDbHelper.getUser();
 
-        //Populate the fields with the user's information.
-        firstNameEditText.setText(user.FirstName);
-        lastNameEditText.setText(user.LastName);
-        dateOfBirthEditText.setText(user.DateOfBirth);
-        
-        if (user.Gender.equals("Female")) {
-            radioGroupGender.check(R.id.radioButtonFemaleEditProfile);
+        // If the returned user is null then display a message to the user.
+        if (user == null) {
+            Toast.makeText(getActivity(), "User not found.", Toast.LENGTH_SHORT).show();
         } else {
-            radioGroupGender.check(R.id.radioButtonMaleEditProfile);
+            //Populate the fields with the user's information.
+            firstNameEditText.setText(user.FirstName);
+            lastNameEditText.setText(user.LastName);
+            dateOfBirthEditText.setText(user.DateOfBirth);
+
+            if (user.Gender.equals("Female")) {
+                radioGroupGender.check(R.id.radioButtonFemaleEditUser);
+            } else {
+                radioGroupGender.check(R.id.radioButtonMaleEditUser);
+            }
         }
 
-        return view;
+        //Return rootView.
+        return rootView;
     }
 
     /**
@@ -87,10 +101,10 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         String dateOfBirth = dateOfBirthEditText.getText().toString();
         String gender = "Female";
 
-        if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMaleEditProfile) {
+        if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMaleEditUser) {
             gender = "Male";
         }
-        
+
         //Validate the user input.
         if (firstName.matches("") || lastName.matches("") | dateOfBirth.matches("")) {
             Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
@@ -110,7 +124,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             }
         }
     }
-    
+
     /**
      * The onClick method runs when the a view's onClickListener is activated.
      * It runs the editProfile method or opens the DatePickerFragment depending on what was clicked.
@@ -119,13 +133,13 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         if (v.getId() == R.id.buttonEditProfile) {
             editUserProfile();
-        } else if (v.getId() == R.id.editTextDateOfBirthEditProfile) {
+        } else if (v.getId() == R.id.editTextDateOfBirthEditUser) {
             DatePickerFragment datePickerFragment = new DatePickerFragment();
             datePickerFragment.setOnDateSetListener(this);
             datePickerFragment.show(getFragmentManager().beginTransaction(), "datePicker");
         }
     }
-    
+
     /**
      * The onDateSet method is ran when a date is selected from the datepicker dialog.
      * The date of birth field is set to the date that was selected.
@@ -134,7 +148,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if (dayOfMonth < 10) {
             dateOfBirthEditText.setText((month + 1) + "-0" + dayOfMonth + "-" + year);
-        }else{
+        } else {
             dateOfBirthEditText.setText((month + 1) + "-" + dayOfMonth + "-" + year);
         }
     }

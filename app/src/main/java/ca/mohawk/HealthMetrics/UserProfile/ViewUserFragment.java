@@ -75,13 +75,13 @@ public class ViewUserFragment extends Fragment implements View.OnClickListener {
 
     /**
      * The onClick method runs when the a view's onClickListener is activated.
-     * It displays the EditProfileFragment when the method is run.
+     * It displays the EditUserFragment when the method is run.
      */
     @Override
     public void onClick(View v) {
-        EditProfileFragment editProfileFragment = new EditProfileFragment();
+        EditUserFragment editUserFragment = new EditUserFragment();
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, editProfileFragment)
+                .replace(R.id.fragmentContainer, editUserFragment)
                 .addToBackStack(null)
                 .commit();
     }
