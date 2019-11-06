@@ -22,6 +22,14 @@
     <string name="unit">Unit</string>
     <string name="create_metric">Create Metric</string>
     <string name="type">Type</string>
+    <string name="metric_type">Metric Type</string>
+    <string name="quantitative">Quantitative</string>
+    <string name="photo_galley">Photo Galley</string>
+    <string name="note">Note</string>
+    <string name="unit_category">Unit Category</string>
+    <string name="metric_name">Metric Name</string>
+    <string name="create_gallery">Create Gallery</string>
+    <string name="gallery_name">Gallery Name</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string-array name="notification_type_array">

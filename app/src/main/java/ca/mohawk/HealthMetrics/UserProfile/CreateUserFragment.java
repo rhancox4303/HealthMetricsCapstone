@@ -31,7 +31,7 @@ import ca.mohawk.HealthMetrics.R;
 public class CreateUserFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
 
-    //The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
+    // The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
     //The layout elements that are accessed throughout the fragment.
@@ -61,7 +61,7 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
         //Set the rootView.
         View rootView = inflater.inflate(R.layout.fragment_create_user, container, false);
 
-        //Instantiate the healthMetricsDbHelper
+        // Instantiate the healthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         //Instantiate the layout elements from the fragment_create_user layout.
@@ -85,7 +85,7 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
      * The createUser method gets the user inputted values, creates the user and uses the
      * healthMetricsDbHelper object to add the created user to the database.
      */
-    public void createUser() {
+    private void createUser() {
 
         //If the call to validateUserInput returns true then proceed to create the user.
         if (validateUserInput()) {

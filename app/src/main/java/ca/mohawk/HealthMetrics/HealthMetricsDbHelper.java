@@ -181,16 +181,17 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      *
      * @param photoGallery represents the gallery to be added to the database.
      */
-    public void addPhotoGallery(PhotoGallery photoGallery) {
+    public boolean addPhotoGallery(PhotoGallery photoGallery) {
 
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
+        long id = 0;
         try {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, photoGallery.Name);
             values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE, photoGallery.IsAddedToProfile);
 
-            writableDatabase.insertOrThrow(HealthMetricContract.Galleries.TABLE_NAME, null, values);
+            id = writableDatabase.insertOrThrow(HealthMetricContract.Galleries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add gallery to database");
@@ -198,6 +199,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
+
+        return id > 0;
     }
 
     /**
@@ -205,10 +208,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      *
      * @param metric represents the metric to be added to the database.
      */
-    public void addMetric(Metric metric) {
+    public boolean addMetric(Metric metric) {
 
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
+        long id = 0;
 
         try {
             ContentValues values = new ContentValues();
@@ -217,7 +221,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID, metric.UnitCategoryId);
             values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.IsAddedToProfile);
 
-            writableDatabase.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME, null, values);
+            id = writableDatabase.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add metric to database");
@@ -225,6 +229,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
+        return id > 0;
     }
 
     public void addPhotoEntry(PhotoEntry photoEntry) {
@@ -1715,6 +1720,64 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + gallery.Id,
                 null) > 0;
 
+    }
+
+    public ArrayList<String> getAllMetricNames() {
+
+        ArrayList<String> metricNameList = new ArrayList<>();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME
+        };
+
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Metrics.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null);
+
+        while (cursor.moveToNext()) {
+            String metricName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME));
+            metricNameList.add(metricName.toLowerCase());
+        }
+        cursor.close();
+        readableDatabase.close();
+
+        return metricNameList;
+    }
+
+    public ArrayList<String> getAllGalleryNames() {
+
+        ArrayList<String> galleryNameList = new ArrayList<>();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME
+        };
+
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Galleries.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null);
+
+        while (cursor.moveToNext()) {
+            String galleryName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME));
+            galleryNameList.add(galleryName.toLowerCase());
+        }
+        cursor.close();
+        readableDatabase.close();
+
+        return galleryNameList;
     }
 }
 

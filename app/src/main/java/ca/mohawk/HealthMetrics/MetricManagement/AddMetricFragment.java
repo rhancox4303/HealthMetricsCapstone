@@ -250,6 +250,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
      */
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+
         // If the radioButtonGalleryAddMetric is checked then...
         if (checkedId == R.id.radioButtonGalleryAddMetric) {
 
@@ -301,9 +302,9 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
             return false;
         }
 
-        // If the a unit or metric is not selected and the Metric radio button is checked then
+        // If the a unit is not selected and the Metric radio button is checked then
         // inform the user and return false.
-        if ((selectedUnitId == -1 || selectedMetricId == -1) && addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
+        if ((selectedUnitId == -1) && addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
             Toast.makeText(getContext(), "Please select a unit and metric. ", Toast.LENGTH_SHORT).show();
             return false;
         }
