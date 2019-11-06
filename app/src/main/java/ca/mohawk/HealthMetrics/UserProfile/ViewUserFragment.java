@@ -36,7 +36,7 @@ public class ViewUserFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment.
-        View rootView = inflater.inflate(R.layout.fragment_view_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_view_user, container, false);
 
         // Instantiate the HealthMetricsDbHelper object.
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
@@ -48,10 +48,10 @@ public class ViewUserFragment extends Fragment implements View.OnClickListener {
         editUserButton.setOnClickListener(this);
 
         // Instantiate the layout elements.
-        TextView firstNameView = rootView.findViewById(R.id.textViewFirstNameDisplay);
-        TextView lastNameView = rootView.findViewById(R.id.textViewLastNameDisplay);
-        TextView genderView = rootView.findViewById(R.id.textViewGenderDisplay);
-        TextView dateOfBirthView = rootView.findViewById(R.id.textViewBirthDateDisplay);
+        TextView firstNameView = rootView.findViewById(R.id.textViewFirstNameDisplayViewUser);
+        TextView lastNameView = rootView.findViewById(R.id.textViewLastNameDisplayViewUser);
+        TextView genderView = rootView.findViewById(R.id.textViewGenderDisplayViewUser);
+        TextView dateOfBirthView = rootView.findViewById(R.id.textViewBirthDateDisplayViewUser);
 
         // Get the user from the database.
         User user = healthMetricsDbHelper.getUser();
