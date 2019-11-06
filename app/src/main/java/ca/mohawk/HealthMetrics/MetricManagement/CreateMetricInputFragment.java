@@ -127,7 +127,6 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
         return true;
     }
 
-
     /**
      * The createMetric method creates the metric if the user input is valid.
      */

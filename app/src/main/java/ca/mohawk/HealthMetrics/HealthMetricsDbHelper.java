@@ -99,17 +99,18 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addNote(Note note) {
+    public boolean addNote(Note note) {
 
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
+        long id = 0;
 
         try {
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.NoteContent);
             values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.DateOfEntry);
 
-            writableDatabase.insertOrThrow(HealthMetricContract.Notes.TABLE_NAME, null, values);
+            id = writableDatabase.insertOrThrow(HealthMetricContract.Notes.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add notes to database");
@@ -117,6 +118,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
+        return id > 0;
     }
 
     /**
@@ -144,9 +146,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
-            return id > 0;
         }
-
+        return id > 0;
     }
 
     public void addPrescription(Prescription prescription) {
