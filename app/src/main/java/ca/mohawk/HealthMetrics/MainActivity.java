@@ -50,9 +50,6 @@ public class MainActivity extends AppCompatActivity
         DeleteNoteDialog.DeleteNoteDialogListener, DeletePhotoEntryDialog.DeletePhotoEntryDialogListener,
         DeleteGalleryDialog.DeleteGalleryDialogListener, DeleteNotificationDialog.DeleteNotificationDialogListener {
 
-    private static final int CAMERA_REQUEST_CODE = 2000;
-    private static final int CAMERA_PERMISSION_CODE = 100;
-
     HealthMetricsDbHelper healthMetricsDbHelper;
     FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -84,10 +81,6 @@ public class MainActivity extends AppCompatActivity
             MetricsListFragment metricsListFragment = new MetricsListFragment();
             fragmentTransaction.add(R.id.fragmentContainer, metricsListFragment);
         } else {
-
-            //seed the DB
-            healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
-            healthMetricsDbHelper.seedDatabase();
 
             CreateUserFragment createUserFragment = new CreateUserFragment();
             fragmentTransaction.add(R.id.fragmentContainer, createUserFragment);

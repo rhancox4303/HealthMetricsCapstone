@@ -112,6 +112,8 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
                 //Call storeLoggedInState.
                 storeLoggedInState();
 
+                //Seed the database.
+                healthMetricsDbHelper.seedDatabase();
                 //Create metricsListFragment.
                 MetricsListFragment metricsListFragment = new MetricsListFragment();
 

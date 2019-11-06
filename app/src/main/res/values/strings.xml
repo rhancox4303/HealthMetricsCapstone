@@ -17,6 +17,8 @@
     <string name="gender">Gender</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="add_metric">Add Metric</string>
+    <string name="gallery">Gallery</string>
+    <string name="metric">Metric</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string-array name="notification_type_array">

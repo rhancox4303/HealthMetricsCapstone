@@ -1559,7 +1559,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param metricId The id of the metric that is being updated.
      * @return An integer value indicating if the update is successful.
      */
-    public int addMetricToProfile(int unitId, int metricId) {
+    public boolean addMetricToProfile(int unitId, int metricId) {
         Log.d("TEST", String.valueOf(unitId));
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -1567,7 +1567,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, 1);
 
         return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Units._ID + " = " + metricId,
-                null);
+                null) > 0;
     }
 
     public boolean removeMetricFromProfile(int metricId) {
@@ -1587,14 +1587,14 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param galleryId The id of the gallery that is being updated.
      * @return An integer value indicating if the update is successful.
      */
-    public int addGalleryToProfile(int galleryId) {
+    public boolean addGalleryToProfile(int galleryId) {
 
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE, 1);
 
         return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + galleryId,
-                null);
+                null) > 0;
     }
 
     public boolean updatePrescription(Prescription prescription) {
