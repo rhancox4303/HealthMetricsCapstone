@@ -42,7 +42,7 @@ public class MetricsListFragment extends Fragment implements View.OnClickListene
         Objects.requireNonNull(((MainActivity) getActivity()).getSupportActionBar()).setTitle("Health Metrics");
 
         // Inflate the layout for this fragment.
-        View rootView = inflater.inflate(R.layout.fragment_metrics_view, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_metrics_list, container, false);
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         //Instantiate the addMetricButton and set the OnClickListener.
