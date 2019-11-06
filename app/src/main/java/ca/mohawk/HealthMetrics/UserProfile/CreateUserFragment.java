@@ -190,7 +190,7 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     * The onClick method runs when the a view's onClickListener is activated.
+     * The onClick method runs when the view's onClickListener is activated.
      * It runs the createUser method or opens the DatePickerFragment depending on what was clicked.
      */
     @Override
