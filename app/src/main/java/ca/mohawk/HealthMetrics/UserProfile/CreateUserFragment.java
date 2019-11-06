@@ -202,7 +202,7 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
         } else if (v.getId() == R.id.editTextDateOfBirthCreateUser) {
             DatePickerFragment datePickerFragment = new DatePickerFragment();
             datePickerFragment.setOnDateSetListener(this);
-            datePickerFragment.show(getFragmentManager(), "datePicker");
+            datePickerFragment.show(Objects.requireNonNull(getFragmentManager()), "datePicker");
         }
     }
 }

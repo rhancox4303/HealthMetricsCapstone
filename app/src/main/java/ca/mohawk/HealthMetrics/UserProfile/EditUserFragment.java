@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
@@ -91,37 +93,77 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
     }
 
     /**
-     * The editUserProfile method gets the user inputed values, creates the new user and uses the healthMetricsDbHelper
+     * The editUser method gets the user inputted values and uses the healthMetricsDbHelper
      * object to update the user profile already in the database.
      */
-    public void editUserProfile() {
+    private void editUser() {
 
-        String firstName = firstNameEditText.getText().toString();
-        String lastName = lastNameEditText.getText().toString();
-        String dateOfBirth = dateOfBirthEditText.getText().toString();
-        String gender = "Female";
+        //If the call to validateUserInput returns true then proceed to create the user.
+        if (validateUserInput()) {
 
-        if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMaleEditUser) {
-            gender = "Male";
-        }
+            //Get the user inputs.
+            String firstName = firstNameEditText.getText().toString();
+            String lastName = lastNameEditText.getText().toString();
+            String dateOfBirth = dateOfBirthEditText.getText().toString();
+            String gender;
 
-        //Validate the user input.
-        if (firstName.matches("") || lastName.matches("") | dateOfBirth.matches("")) {
-            Toast.makeText(getActivity(), "Please fill in all fields.", Toast.LENGTH_SHORT).show();
-        } else {
-            //Update the user in the database.
-            int updateStatus = healthMetricsDbHelper.updateUser(new User(firstName, lastName, gender, dateOfBirth));
-            if (updateStatus != 1) {
-                Toast.makeText(getActivity(), "Error updating profile.", Toast.LENGTH_SHORT).show();
+            //Get the user's selected gender.
+            if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMale) {
+                gender = "Male";
             } else {
-                //Launch the ViewUserFragment
-                Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
-                ViewUserFragment viewProfileFragment = new ViewUserFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, viewProfileFragment)
+                gender = "Female";
+            }
+
+            //Use the healthMetricsDbHelper to update the user in the database and verify it was successful.
+            if (healthMetricsDbHelper.updateUser(new User(firstName, lastName, gender, dateOfBirth))) {
+
+                //Send message to user.
+                Toast.makeText(getActivity(), "User updated.", Toast.LENGTH_SHORT).show();
+
+                //Create viewUserFragment.
+                ViewUserFragment viewUserFragment = new ViewUserFragment();
+
+                //Insert viewUserFragment into activity.
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, viewUserFragment)
                         .addToBackStack(null)
                         .commit();
+
+                //Else then inform the user.
+            } else {
+                Toast.makeText(getActivity(), "Unable to update user.", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    /**
+     * The validateUserInput methods validates the user input.
+     *
+     * @return A boolean value is returned based on whether the user input is valid.
+     */
+    private boolean validateUserInput() {
+
+        //If any of the fields are empty, inform the user and return false.
+        if (firstNameEditText.getText().toString().trim().equals("") ||
+                lastNameEditText.getText().toString().trim().equals("") ||
+                dateOfBirthEditText.getText().toString().trim().equals("")) {
+
+            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+
+            return false;
+
+            //Else if the first name or last name contain digits, inform the user  and return false
+        } else if (firstNameEditText.getText().toString().matches(".*\\d+.*") ||
+                lastNameEditText.getText().toString().matches(".*\\d+.*")) {
+
+            Toast.makeText(getActivity(), "Please remove digits from first and last name",
+                    Toast.LENGTH_SHORT).show();
+
+            return false;
+
+            //Else the input is valid and true is returned.
+        } else {
+            return true;
         }
     }
 
@@ -132,24 +174,27 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.buttonEditProfile) {
-            editUserProfile();
+            editUser();
         } else if (v.getId() == R.id.editTextDateOfBirthEditUser) {
             DatePickerFragment datePickerFragment = new DatePickerFragment();
             datePickerFragment.setOnDateSetListener(this);
-            datePickerFragment.show(getFragmentManager().beginTransaction(), "datePicker");
+            datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
         }
     }
 
     /**
-     * The onDateSet method is ran when a date is selected from the datepicker dialog.
+     * The onDateSet method is ran when a date is selected from the date picker dialog.
      * The date of birth field is set to the date that was selected.
      */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        //Add a 0 to the day if it less than 10 and then insert the date in dateOfBirthEditText.
         if (dayOfMonth < 10) {
-            dateOfBirthEditText.setText((month + 1) + "-0" + dayOfMonth + "-" + year);
+            dateOfBirthEditText.setText(new StringBuilder().append(month + 1).append("-0")
+                    .append(dayOfMonth).append("-").append(year).toString());
         } else {
-            dateOfBirthEditText.setText((month + 1) + "-" + dayOfMonth + "-" + year);
+            dateOfBirthEditText.setText(new StringBuilder().append(month + 1).append("-")
+                    .append(dayOfMonth).append("-").append(year).toString());
         }
     }
 }

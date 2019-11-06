@@ -1491,7 +1491,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param user The user that will be updated.
      * @return An integer value indicating if the update is successful.
      */
-    public int updateUser(User user) {
+    public boolean updateUser(User user) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -1501,7 +1501,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
 
         return database.update(HealthMetricContract.Users.TABLE_NAME, values, HealthMetricContract.Users._ID + " = 1",
-                null);
+                null) > 0;
     }
 
     /**
