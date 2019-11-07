@@ -144,15 +144,15 @@ public class MetricRecyclerViewAdapter extends
         // Pass the bundle into the fragment.
         fragment.setArguments(metricBundle);
 
-        // Call the switchContent method with the fragment passed in.
+        // Call the switchFragment method with the fragment passed in.
         switchContent(fragment);
     }
 
     /**
-     * The switchContent method instantiates a MainActivity object
-     * and calls it's switchContent method.
+     * The switchFragment method instantiates a MainActivity object
+     * and calls it's switchFragment method.
      *
-     * @param fragment The fragment that will be passed to switchContent.
+     * @param fragment The fragment that will be passed to switchFragment.
      */
     private void switchContent(Fragment fragment) {
 
@@ -165,8 +165,8 @@ public class MetricRecyclerViewAdapter extends
             // Instantiate a mainActivity object.
             MainActivity mainActivity = (MainActivity) context;
 
-            // Call switchContent with fragment passed in.
-            mainActivity.switchContent(fragment);
+            // Call switchFragment with fragment passed in.
+            mainActivity.switchFragment(fragment);
         }
     }
 

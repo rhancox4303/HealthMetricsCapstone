@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -125,7 +124,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
             return;
         if (context instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) context;
-            mainActivity.switchContent(fragment);
+            mainActivity.switchFragment(fragment);
         }
     }
 

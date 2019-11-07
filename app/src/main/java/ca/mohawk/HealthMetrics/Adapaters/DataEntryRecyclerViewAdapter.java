@@ -17,97 +17,125 @@ import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.R;
 
+/**
+ * Acts as a custom adapter for the Data entry objects
+ * in the recyclerViewDataEntryList.
+ */
 public class DataEntryRecyclerViewAdapter extends
         RecyclerView.Adapter<DataEntryRecyclerViewAdapter.ViewHolder> {
 
-    private Context Context;
-    private List<DataEntryRecyclerViewObject> DataEntryRecyclerViewObjects ;
+    // Instantiate the context variable.
+    private Context context;
 
+    // Instantiate the list of DataEntryRecyclerViewObjects to use in the adapter.
+    private List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjects;
+
+    /**
+     * Constructs the DataEntryRecyclerViewAdapter.
+     *
+     * @param dataEntryRecyclerViewObjects Represents the list of DataEntryRecyclerViewObjects.
+     * @param context                      Represents the application context.
+     */
     public DataEntryRecyclerViewAdapter(List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjects, Context context) {
-        DataEntryRecyclerViewObjects= dataEntryRecyclerViewObjects;
-        Context = context;
+        this.dataEntryRecyclerViewObjects = dataEntryRecyclerViewObjects;
+        this.context = context;
     }
 
     /**
-     * The ViewHolder class describes the item view and
-     * metadata about it's place within the RecyclerView.
+     * Creates the View Holder.
+     *
+     * @param parent   Represents the parent view group.
+     * @param viewType Represents the view type.
+     * @return A created view holder is returned.
+     */
+    @NonNull
+    @Override
+    public DataEntryRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        // Get the context.
+        Context context = parent.getContext();
+
+        // Inflate the the view.
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View contactView = inflater.inflate(R.layout.data_entry_recyclerview_layout, parent, false);
+
+        // Return the View Holder.
+        return new ViewHolder(contactView);
+    }
+
+    /**
+     * Sets the item views in the recycler view.
+     */
+    @Override
+    public void onBindViewHolder(DataEntryRecyclerViewAdapter.ViewHolder viewHolder, int position) {
+
+        // Get DataEntryRecyclerViewObject object.
+        final DataEntryRecyclerViewObject dataEntry = dataEntryRecyclerViewObjects.get(position);
+
+        // Display the data entry in the recycler view.
+        TextView textViewDataEntry = viewHolder.textViewDataEntry;
+        textViewDataEntry.setText(dataEntry.getDataEntry());
+
+        // Display the date of entry in the recycler view.
+        TextView textViewDateOfEntry = viewHolder.textViewDateOfEntry;
+        textViewDateOfEntry.setText(dataEntry.getDateOfEntryString());
+
+        // Set the setOnClickListener for the item view.
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // Call the switchFragment method with dataEntry passed in.
+                switchFragment(dataEntry);
+            }
+        });
+    }
+
+    /**
+     * Creates the new fragment and calls switch fragment on the main activity.
+     *
+     * @param selectedDataEntry Represents the selected data entry.
+     */
+    private void switchFragment(DataEntryRecyclerViewObject selectedDataEntry) {
+
+        // Create the destination fragment.
+        Fragment destinationFragment = new ViewDataEntryFragment();
+
+        // Create and the data entry to a bundle.
+        Bundle dataEntryBundle = new Bundle();
+        dataEntryBundle.putInt("data_entry_selected_key", selectedDataEntry.Id);
+
+        // Set the bundle to the destination fragment.
+        destinationFragment.setArguments(dataEntryBundle);
+
+        // If the context is an instance of MainActivity then call switchFragment.
+        if (context instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) context;
+            mainActivity.switchFragment(destinationFragment);
+        }
+    }
+
+    /**
+     * Defines the view of a row inside the recycler view.
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        // Initialize the data entry and the date of entry text views.
         TextView textViewDataEntry;
         TextView textViewDateOfEntry;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            textViewDataEntry = (TextView) itemView.findViewById(R.id.textViewDataEntryRecyclerView);
-            textViewDateOfEntry = (TextView) itemView.findViewById(R.id.textViewDateOfEntryRecyclerView);
+            // Get the text views from the Data Entry Recycler View layout.
+            textViewDataEntry = itemView.findViewById(R.id.textViewDataEntryRecyclerView);
+            textViewDateOfEntry = itemView.findViewById(R.id.textViewDateOfEntryRecyclerView);
         }
     }
 
-    /**
-     * The onCreateViewHolder method is used to inflate
-     * the custom layout and create the viewholder.
-     */
-    @NonNull
-    @Override
-    public DataEntryRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        View contactView = inflater.inflate(R.layout.data_entry_recyclerview_layout, parent, false);
-
-        return new ViewHolder(contactView);
-    }
-
-    /**
-     * The onBindViewHolder method is used to set the item views in the recycler
-     * view using the metricRecyclerViewObjectList and the view holder.
-     */
-    @Override
-    public void onBindViewHolder(DataEntryRecyclerViewAdapter.ViewHolder viewHolder, int position) {
-        //Get data object
-        final DataEntryRecyclerViewObject dataEntry = DataEntryRecyclerViewObjects.get(position);
-
-        // Set item views
-        TextView textViewDataEntry = viewHolder.textViewDataEntry;
-        textViewDataEntry.setText(dataEntry.getDataEntry());
-
-        TextView textViewDateOfEntry = viewHolder.textViewDateOfEntry;
-        textViewDateOfEntry.setText(dataEntry.getDateOfEntryString());
-
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeFragment(dataEntry);
-            }
-        });
-    }
-
-    // Returns the total count of items in the list
+    // Get the size of dataEntryRecyclerViewObjects.
     @Override
     public int getItemCount() {
-        return DataEntryRecyclerViewObjects.size();
-    }
-
-    private void changeFragment(DataEntryRecyclerViewObject itemSelected) {
-
-        Fragment fragment = new ViewDataEntryFragment();
-
-        Bundle dataEntryBundle = new Bundle();
-        dataEntryBundle.putInt("data_entry_selected_key", itemSelected.Id);
-
-        fragment.setArguments(dataEntryBundle);
-        switchContent(fragment);
-    }
-
-    public void switchContent(Fragment fragment) {
-        if (Context == null)
-            return;
-        if (Context instanceof MainActivity) {
-            MainActivity mainActivity = (MainActivity) Context;
-            mainActivity.switchContent(fragment);
-        }
+        return dataEntryRecyclerViewObjects.size();
     }
 }

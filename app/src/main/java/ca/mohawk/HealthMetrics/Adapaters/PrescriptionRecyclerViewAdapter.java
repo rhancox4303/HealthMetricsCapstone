@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,6 @@ import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.Prescription.ViewPrescriptionFragment;
 import ca.mohawk.HealthMetrics.R;
-import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 
 public class PrescriptionRecyclerViewAdapter
@@ -145,7 +143,7 @@ public class PrescriptionRecyclerViewAdapter
             return;
         if (context instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) context;
-            mainActivity.switchContent(fragment);
+            mainActivity.switchFragment(fragment);
         }
     }
 

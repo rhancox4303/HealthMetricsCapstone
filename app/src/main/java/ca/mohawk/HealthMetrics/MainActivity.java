@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void switchContent(Fragment fragment) {
+    public void switchFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, fragment);
         fragmentTransaction.commit();

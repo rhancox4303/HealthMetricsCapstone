@@ -55,7 +55,7 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_metric_data_view, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_data_entry_list, container, false);
         setHasOptionsMenu(true);
 
         chart = rootView.findViewById(R.id.chartMetricDataView);
@@ -73,7 +73,7 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         Button manageMetricButton = rootView.findViewById(R.id.buttonManageMetricMetricDataView);
         manageMetricButton.setOnClickListener(this);
 
-        RecyclerView dataEntryRecyclerView = rootView.findViewById(R.id.recyclerviewMetricDataView);
+        RecyclerView dataEntryRecyclerView = rootView.findViewById(R.id.recyclerViewDataEntryList);
 
         dataEntryRecyclerViewObjectList = healthMetricsDbHelper.getDataEntriesByMetricId(MetricId);
         DataEntryRecyclerViewAdapter adapter = new DataEntryRecyclerViewAdapter(dataEntryRecyclerViewObjectList,getActivity());

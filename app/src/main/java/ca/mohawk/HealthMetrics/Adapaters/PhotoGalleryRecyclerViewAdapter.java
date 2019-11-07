@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
 import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoEntryFragment;
-import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.R;
 
 public class PhotoGalleryRecyclerViewAdapter extends
@@ -99,7 +98,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
             return;
         if (context instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) context;
-            mainActivity.switchContent(fragment);
+            mainActivity.switchFragment(fragment);
         }
     }
 }
