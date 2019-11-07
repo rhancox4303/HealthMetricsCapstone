@@ -97,8 +97,8 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
 
         if (validateUserInput()) {
 
-            String noteContent = noteContentEditText.getText().toString();
-            String dateOfEntry = dateOfEntryEditText.getText().toString();
+            String noteContent = noteContentEditText.getText().toString().trim();
+            String dateOfEntry = dateOfEntryEditText.getText().toString().trim();
 
             if (healthMetricsDbHelper.addNote(new Note(dateOfEntry, noteContent))) {
                 Toast.makeText(getActivity(), "Note created.", Toast.LENGTH_SHORT).show();
