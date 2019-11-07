@@ -1,7 +1,5 @@
 package ca.mohawk.HealthMetrics.Models;
 
-import java.util.Date;
-
 public class User {
     public int Id;
     public String FirstName;

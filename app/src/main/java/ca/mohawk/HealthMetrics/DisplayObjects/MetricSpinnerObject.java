@@ -1,5 +1,7 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
+import androidx.annotation.NonNull;
+
 public class MetricSpinnerObject {
 
     private int UnitCategoryId;
@@ -16,14 +18,11 @@ public class MetricSpinnerObject {
         return UnitCategoryId;
     }
 
-    public String getValue () {
-        return MetricName;
-    }
-
-    public int getMetridId(){
+    public int getMetricId(){
         return  MetridId;
     }
 
+    @NonNull
     @Override
     public String toString () {
         return MetricName;

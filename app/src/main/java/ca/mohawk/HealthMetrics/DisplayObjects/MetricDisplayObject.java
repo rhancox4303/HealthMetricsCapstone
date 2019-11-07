@@ -1,5 +1,7 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
+import androidx.annotation.NonNull;
+
 public class MetricDisplayObject {
     public int Id;
     public String Name;
@@ -21,6 +23,7 @@ public class MetricDisplayObject {
         return Entry;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return Name;

@@ -196,7 +196,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
             int unitCategoryId = ((MetricSpinnerObject) parent.getSelectedItem()).getUnitCategoryId();
 
             // Get the selectedMetricId.
-            selectedMetricId = ((MetricSpinnerObject) parent.getSelectedItem()).getMetridId();
+            selectedMetricId = ((MetricSpinnerObject) parent.getSelectedItem()).getMetricId();
 
             // Call the loadUnitSpinner method with the unitCategoryId passed in.
             loadUnitSpinner(unitCategoryId);

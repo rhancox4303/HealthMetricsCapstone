@@ -64,9 +64,10 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
         }
 
         Note note = healthMetricsDbHelper.getNoteById(NoteId);
-
-        noteContentEditText.setText(note.NoteContent);
-        dateOfEntryEditText.setText(note.DateOfEntry);
+        if (note != null) {
+            noteContentEditText.setText(note.NoteContent);
+            dateOfEntryEditText.setText(note.DateOfEntry);
+        }
 
         return rootView;
     }

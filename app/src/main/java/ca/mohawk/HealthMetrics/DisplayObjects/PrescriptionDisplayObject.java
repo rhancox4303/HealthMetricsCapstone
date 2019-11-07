@@ -1,11 +1,13 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
+import androidx.annotation.NonNull;
+
 public class PrescriptionDisplayObject {
     public int Id;
     public String Name;
-    public double DosageAmount;
+    private double DosageAmount;
     public String DosageMeasurement;
-    public String Frequency;
+    private String Frequency;
     public double Amount;
 
     public PrescriptionDisplayObject(int id, String name, double dosageAmount, String dosageMeasurement, String frequency, double amount) {
@@ -37,6 +39,7 @@ public class PrescriptionDisplayObject {
         return Amount;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return Name;

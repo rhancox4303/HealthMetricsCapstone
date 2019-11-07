@@ -2,16 +2,16 @@ package ca.mohawk.HealthMetrics.MetricManagement;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Objects;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.Unit;
@@ -24,8 +24,6 @@ import ca.mohawk.HealthMetrics.R;
 public class ManageMetricFragment extends Fragment implements View.OnClickListener {
 
     private int MetricId;
-    private int UnitId;
-    HealthMetricsDbHelper healthMetricsDbHelper;
 
     public ManageMetricFragment() {
         // Required empty public constructor
@@ -38,7 +36,7 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_manage_metric, container, false);
 
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         TextView metricNameTextView = rootView.findViewById(R.id.textViewMetricNameManageMetric);
         TextView unitTextView = rootView.findViewById(R.id.textViewUnitManageMetric);
@@ -58,18 +56,23 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
         }
 
         Metric metric = healthMetricsDbHelper.getMetricById(MetricId);
-        UnitId = metric.UnitId;
 
-        Unit unit = healthMetricsDbHelper.getUnitById(UnitId);
+        if (metric != null) {
+            metricNameTextView.setText(metric.Name);
+            int unitId = metric.UnitId;
+            Unit unit = healthMetricsDbHelper.getUnitById(unitId);
 
-        metricNameTextView.setText(metric.Name);
-        unitTextView.setText(unit.UnitName);
+            if (unit != null) {
+                unitTextView.setText(unit.UnitName);
+            }
+        }
+
         return rootView;
     }
 
     @Override
     public void onClick(View v) {
-        Fragment destinationFragment = new Fragment();
+        Fragment destinationFragment;
 
         switch (v.getId()) {
             case R.id.buttonEditManageMetric:
@@ -79,18 +82,18 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
                 bundle.putInt("metric_id_key", MetricId);
                 destinationFragment.setArguments(bundle);
 
-                getActivity().getSupportFragmentManager().beginTransaction()
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, destinationFragment)
                         .addToBackStack(null)
                         .commit();
                 break;
             case R.id.buttonDeleteManageMetric:
                 DialogFragment newFragment = DeleteMetricDialog.newInstance(MetricId);
-                newFragment.show(getFragmentManager(), "dialog");
+                newFragment.show(Objects.requireNonNull(getFragmentManager()), "dialog");
                 break;
             case R.id.buttonRemoveManageMetric:
                 DialogFragment removeDialog = RemoveMetricDialog.newInstance(MetricId);
-                removeDialog.show(getFragmentManager(), "dialog");
+                removeDialog.show(Objects.requireNonNull(getFragmentManager()), "dialog");
                 break;
         }
     }

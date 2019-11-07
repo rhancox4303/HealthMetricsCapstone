@@ -1,5 +1,7 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
+import androidx.annotation.NonNull;
+
 public class UnitSpinnerObject {
 
     private String UnitName;
@@ -14,6 +16,7 @@ public class UnitSpinnerObject {
         return UnitId;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return UnitName ;

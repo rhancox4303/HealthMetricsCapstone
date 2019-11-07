@@ -1,8 +1,10 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
+import androidx.annotation.NonNull;
+
 public class PhotoGallerySpinnerObject {
-    String GalleryName;
-    int Id;
+    private String GalleryName;
+    private int Id;
 
     public PhotoGallerySpinnerObject(String galleryName, int id) {
         GalleryName = galleryName;
@@ -13,6 +15,7 @@ public class PhotoGallerySpinnerObject {
         return Id;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return GalleryName;

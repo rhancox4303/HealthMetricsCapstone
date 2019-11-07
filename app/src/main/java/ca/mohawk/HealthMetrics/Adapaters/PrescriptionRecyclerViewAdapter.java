@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
@@ -27,7 +28,7 @@ public class PrescriptionRecyclerViewAdapter
         extends RecyclerView.Adapter<PrescriptionRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(context);
+    private HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(context);
 
     //The list of prescription to be displayed in the recycler view.
     private List<PrescriptionDisplayObject> prescriptionList = new ArrayList<>();
@@ -37,14 +38,14 @@ public class PrescriptionRecyclerViewAdapter
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView prescriptionInformationTextView;
-        public TextView prescriptionAmountTextView;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView prescriptionInformationTextView;
+        TextView prescriptionAmountTextView;
 
-        public Button incrementAmountButton;
-        public Button decrementAmountButton;
+        Button incrementAmountButton;
+        Button decrementAmountButton;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             prescriptionInformationTextView = (TextView) itemView.findViewById(R.id.textViewPrescriptionInformation);
@@ -56,8 +57,9 @@ public class PrescriptionRecyclerViewAdapter
 
     /**
      * The onCreateViewHolder method is used to inflate
-     * the custom layout and create the viewholder.
+     * the custom layout and create the view holder.
      */
+    @NonNull
     @Override
     public PrescriptionRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -66,8 +68,7 @@ public class PrescriptionRecyclerViewAdapter
 
         View contactView = inflater.inflate(R.layout.prescription_recyclerview_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        return new ViewHolder(contactView);
     }
 
     /**
@@ -123,7 +124,7 @@ public class PrescriptionRecyclerViewAdapter
         });
     }
 
-    public void updatePrescriptionList(){
+    private void updatePrescriptionList(){
         prescriptionList.clear();
         prescriptionList = healthMetricsDbHelper.getAllPrescriptions();
         notifyDataSetChanged();
@@ -139,7 +140,7 @@ public class PrescriptionRecyclerViewAdapter
         switchContent(fragment);
     }
 
-    public void switchContent(Fragment fragment) {
+    private void switchContent(Fragment fragment) {
         if (context == null)
             return;
         if (context instanceof MainActivity) {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
@@ -33,13 +34,13 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView notificationInformationTextView;
-        public TextView notificationDateTextView;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView notificationInformationTextView;
+        TextView notificationDateTextView;
         // public Button incrementAmountButton;
         // public Button decrementAmountButton;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             notificationInformationTextView = itemView.findViewById(R.id.textViewNotificationInformation);
@@ -51,6 +52,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
      * The onCreateViewHolder method is used to inflate
      * the custom layout and create the viewholder.
      */
+    @NonNull
     @Override
     public NotificationRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -59,8 +61,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
 
         View contactView = inflater.inflate(R.layout.notification_list_recycler_view_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        return new ViewHolder(contactView);
     }
 
     /**
@@ -68,11 +69,14 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
      * view using the metricRecyclerViewObjectList and the view holder.
      */
     @Override
-    public void onBindViewHolder(NotificationRecyclerViewAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull NotificationRecyclerViewAdapter.ViewHolder viewHolder, int position) {
         //Get data object
         final Notification notification = notificationList.get(position);
+
         String information = "";
+
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(context);
+
         switch (notification.NotificationType) {
             case "Enter Metric Data":
                 Metric metric = healthMetricsDbHelper.getMetricById(notification.TargetId);
@@ -116,7 +120,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
         switchContent(fragment);
     }
 
-    public void switchContent(Fragment fragment) {
+    private void switchContent(Fragment fragment) {
         if (context == null)
             return;
         if (context instanceof MainActivity) {

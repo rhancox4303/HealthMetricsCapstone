@@ -2,9 +2,6 @@ package ca.mohawk.HealthMetrics.Prescription;
 
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +13,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Prescription;
@@ -39,7 +39,6 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
     private EditText frequencyEditText;
     private EditText amountEditText;
     private EditText reasonEditText;
-    private Spinner dosageMeasurementSpinner;
 
     public EditPrescriptionFragment() {
         // Required empty public constructor
@@ -47,7 +46,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
@@ -57,7 +56,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
         }
 
         Prescription prescription = healthMetricsDbHelper.getPrescriptionById(PrescriptionId);
-        DosageMeasurement dosageMeasurement = healthMetricsDbHelper.getDosageMeasurementById(prescription.getDosageMeasurementId());
+        DosageMeasurement dosageMeasurement = healthMetricsDbHelper.getDosageMeasurementById(prescription.DosageMeasurementId);
 
         List<DosageMeasurement> dosageMeasurementList = healthMetricsDbHelper.getAllDosageMeasurements();
         // Inflate the layout for this fragment
@@ -73,17 +72,17 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
         frequencyEditText = rootView.findViewById(R.id.editTextFrequencyEditPrescription);
         amountEditText = rootView.findViewById(R.id.editTextAmountEditPrescription);
         reasonEditText = rootView.findViewById(R.id.editTextReasonEditPrescription);
-        dosageMeasurementSpinner = rootView.findViewById(R.id.spinnerDosageMeasurementEditPrescription);
+        Spinner dosageMeasurementSpinner = rootView.findViewById(R.id.spinnerDosageMeasurementEditPrescription);
 
-        nameEditText.setText(prescription.getName());
-        formEditText.setText(prescription.getForm());
-        strengthEditText.setText(prescription.getStrength());
+        nameEditText.setText(prescription.Name);
+        formEditText.setText(prescription.Form);
+        strengthEditText.setText(prescription.Strength);
         dosageEditText.setText(String.valueOf(prescription.DosageAmount));
-        frequencyEditText.setText(prescription.getFrequency());
-        amountEditText.setText(String.valueOf(prescription.getAmount()));
-        reasonEditText.setText(prescription.getReason());
+        frequencyEditText.setText(prescription.Frequency);
+        amountEditText.setText(String.valueOf(prescription.Amount));
+        reasonEditText.setText(prescription.Reason);
 
-        ArrayAdapter<DosageMeasurement> dosageMeasurementArrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, dosageMeasurementList);
+        ArrayAdapter<DosageMeasurement> dosageMeasurementArrayAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, dosageMeasurementList);
         dosageMeasurementSpinner.setAdapter(dosageMeasurementArrayAdapter);
         dosageMeasurementSpinner.setOnItemSelectedListener(this);
 
@@ -93,55 +92,147 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
     }
 
     public boolean validateUserInput() {
-
-        boolean isValidInput = true;
-
-        if (nameEditText.getText().toString().trim().length() == 0) {
-            isValidInput = false;
+        if (!validateNameInput()) {
+            return false;
         }
-        if (formEditText.getText().toString().trim().length() == 0) {
-            isValidInput = false;
+        if (!validateFormInput()) {
+            return false;
         }
-        if (strengthEditText.getText().toString().trim().length() == 0) {
-            isValidInput = false;
+        if (!validateStrengthInput()) {
+            return false;
         }
-        if (dosageEditText.getText().toString().trim().length() == 0) {
-            isValidInput = false;
+        if (!validateDosageInput()) {
+            return false;
         }
-        if (frequencyEditText.getText().toString().trim().length() == 0) {
-            isValidInput = false;
+        if (!validateFrequencyInput()) {
+            return false;
         }
-        if (amountEditText.getText().toString().trim().length() == 0) {
-            isValidInput = false;
-        }
-        if (reasonEditText.getText().toString().trim().length() == 0) {
-            isValidInput = false;
+        if (!validateAmountInput()) {
+            return false;
         }
 
-        if (!isValidInput) {
-            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
-        }
-
-        return isValidInput;
+        return validateReasonInput();
     }
 
-    public void editPrescription() {
+    private boolean validateFormInput() {
+
+        if (formEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "Form cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (formEditText.getText().toString().trim().length() > 25) {
+            Toast.makeText(getActivity(), "Please enter a form 25 character or less.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateNameInput() {
+        if (nameEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "Name cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (nameEditText.getText().toString().trim().length() > 25) {
+            Toast.makeText(getActivity(), "Please enter a name 25 character or less.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateStrengthInput() {
+        if (strengthEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "Strength cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (strengthEditText.getText().toString().trim().length() > 25) {
+            Toast.makeText(getActivity(), "Please enter a strength 25 character or less.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateDosageInput() {
+        if (dosageEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "Dosage cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (Double.parseDouble(dosageEditText.getText().toString().trim()) <= 0) {
+            Toast.makeText(getActivity(), "Please enter a dosage greater than 0.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateFrequencyInput() {
+        if (frequencyEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "Frequency cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (frequencyEditText.getText().toString().trim().length() > 25) {
+            Toast.makeText(getActivity(), "Please enter a frequency 25 character or less.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateAmountInput() {
+        if (amountEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "Amount cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (Double.parseDouble(amountEditText.getText().toString().trim()) <= 0) {
+            Toast.makeText(getActivity(), "Please enter an amount greater than 0.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateReasonInput() {
+        if (reasonEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "Reason cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (reasonEditText.getText().toString().trim().length() > 25) {
+            Toast.makeText(getActivity(), "Please enter a reason 25 character or less.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void editPrescription() {
 
         String name = nameEditText.getText().toString();
         String form = formEditText.getText().toString();
-        String strength= strengthEditText.getText().toString();
+        String strength = strengthEditText.getText().toString();
         double dose = Double.parseDouble(dosageEditText.getText().toString());
         String frequency = frequencyEditText.getText().toString();
         double amount = Double.parseDouble(amountEditText.getText().toString());
         String reason = reasonEditText.getText().toString();
 
-        Prescription newPrescription = new Prescription(PrescriptionId,DosageMeasurementId,name,form,strength,dose,frequency,amount,reason);
-        healthMetricsDbHelper.updatePrescription(newPrescription);
+        Prescription newPrescription = new Prescription(PrescriptionId, DosageMeasurementId, name, form, strength, dose, frequency, amount, reason);
+
+        if (healthMetricsDbHelper.updatePrescription(newPrescription)) {
+            PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
+
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, prescriptionListFragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            Toast.makeText(getActivity(), "Failed to update prescription in database.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        DosageMeasurementId = ((DosageMeasurement)parent.getSelectedItem()).getId();
+        DosageMeasurementId = ((DosageMeasurement) parent.getSelectedItem()).getId();
     }
 
     @Override
@@ -152,14 +243,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.buttonEditPrescription && validateUserInput()) {
-
             editPrescription();
-            PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
-
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, prescriptionListFragment)
-                    .addToBackStack(null)
-                    .commit();
         }
     }
 }

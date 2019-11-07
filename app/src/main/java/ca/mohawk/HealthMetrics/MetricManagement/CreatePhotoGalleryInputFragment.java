@@ -108,7 +108,6 @@ public class CreatePhotoGalleryInputFragment extends Fragment implements View.On
             Toast.makeText(getActivity(), galleryName + " already exists.", Toast.LENGTH_SHORT).show();
             return false;
         }
-
         return true;
     }
 

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.DataEntry.ViewDataEntryFragment;
@@ -31,12 +32,12 @@ public class DataEntryRecyclerViewAdapter extends
      * The ViewHolder class describes the item view and
      * metadata about it's place within the RecyclerView.
      */
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textViewDataEntry;
-        public TextView textViewDateOfEntry;
+        TextView textViewDataEntry;
+        TextView textViewDateOfEntry;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             textViewDataEntry = (TextView) itemView.findViewById(R.id.textViewDataEntryRecyclerView);
@@ -48,6 +49,7 @@ public class DataEntryRecyclerViewAdapter extends
      * The onCreateViewHolder method is used to inflate
      * the custom layout and create the viewholder.
      */
+    @NonNull
     @Override
     public DataEntryRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -56,8 +58,7 @@ public class DataEntryRecyclerViewAdapter extends
 
         View contactView = inflater.inflate(R.layout.data_entry_recyclerview_layout, parent, false);
 
-        DataEntryRecyclerViewAdapter.ViewHolder viewHolder = new DataEntryRecyclerViewAdapter.ViewHolder(contactView);
-        return viewHolder;
+        return new ViewHolder(contactView);
     }
 
     /**
@@ -83,6 +84,7 @@ public class DataEntryRecyclerViewAdapter extends
             }
         });
     }
+
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {

@@ -29,6 +29,7 @@ public class DataEntryRecyclerViewObject {
     public String getDataEntry() {
         return DataEntry + " " + UnitAbbreviation;
     }
+
     public float getNumericDataEntry(){
         return Float.valueOf(DataEntry);
     }

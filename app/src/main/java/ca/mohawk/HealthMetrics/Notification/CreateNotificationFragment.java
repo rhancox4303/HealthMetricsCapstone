@@ -8,9 +8,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +23,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
@@ -46,11 +45,12 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
 
     private List<MetricDisplayObject> galleryArrayList = new ArrayList<>();
     private List<PrescriptionDisplayObject> prescriptionArrayList;
+
     private Spinner notificationTargetSpinner;
     private EditText dateEditText;
     private String time;
     private String NotificationType;
-    private int TargetId;
+    private int TargetId = -1;
 
     private int Minute;
     private int Hour;
@@ -62,7 +62,6 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
     public CreateNotificationFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,9 +101,10 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.spinnerNotificationType) {
-            String type = parent.getSelectedItem().toString();
-            NotificationType = type;
+
+            NotificationType = parent.getSelectedItem().toString();
             populateTargetSpinner(NotificationType);
+
         } else {
             switch (NotificationType) {
                 case "Enter Metric Data":
@@ -120,21 +120,38 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
     }
 
     private void populateTargetSpinner(String type) {
+        TargetId = -1;
         switch (type) {
+
             case "Enter Metric Data":
-                ArrayAdapter<MetricDisplayObject> metricDisplayObjectArrayAdapter = new ArrayAdapter<>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, metricArrayList);
+                ArrayAdapter<MetricDisplayObject> metricDisplayObjectArrayAdapter =
+                        new ArrayAdapter<>(Objects.requireNonNull(getActivity()).getBaseContext(),
+                                android.R.layout.simple_spinner_item, metricArrayList);
+
                 metricDisplayObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 notificationTargetSpinner.setAdapter(metricDisplayObjectArrayAdapter);
+
                 break;
+
             case "Enter Gallery Data":
-                ArrayAdapter<MetricDisplayObject> galleryDisplayObjectArrayAdapter = new ArrayAdapter<>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, galleryArrayList);
+                ArrayAdapter<MetricDisplayObject> galleryDisplayObjectArrayAdapter =
+                        new ArrayAdapter<>(Objects.requireNonNull(getActivity()).getBaseContext(),
+                                android.R.layout.simple_spinner_item, galleryArrayList);
+
                 galleryDisplayObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
                 notificationTargetSpinner.setAdapter(galleryDisplayObjectArrayAdapter);
+
                 break;
             case "Refill Prescription":
             case "Take Prescription":
-                ArrayAdapter<PrescriptionDisplayObject> prescriptionDisplayObjectArrayAdapter = new ArrayAdapter<>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, prescriptionArrayList);
+
+                ArrayAdapter<PrescriptionDisplayObject> prescriptionDisplayObjectArrayAdapter =
+                        new ArrayAdapter<>(Objects.requireNonNull(getActivity()).getBaseContext(),
+                                android.R.layout.simple_spinner_item, prescriptionArrayList);
+
                 prescriptionDisplayObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
                 notificationTargetSpinner.setAdapter(prescriptionDisplayObjectArrayAdapter);
                 break;
         }
@@ -142,7 +159,6 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     @Override
@@ -150,35 +166,42 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
         if (v.getId() == R.id.editTextDateCreateNotification) {
             TimePickerFragment timePickerFragment = new TimePickerFragment();
             timePickerFragment.setOnTimeSetListener(this);
-            timePickerFragment.show(getFragmentManager().beginTransaction(), "timePicker");
+            timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(),
+                    "timePicker");
         } else {
             createNotification();
-
-            NotificationListFragment notificationListFragment = new NotificationListFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, notificationListFragment)
-                    .addToBackStack(null)
-                    .commit();
         }
     }
 
     private void createNotification() {
+
         if (validateUserInput()) {
             String dateTime = dateEditText.getText().toString();
 
             Notification notification = new Notification(TargetId, NotificationType, dateTime);
             int id = healthMetricsDbHelper.addNotification(notification);
-            startAlarm(id);
-        }else{
-            Toast.makeText(getActivity(), "Error adding Notification", Toast.LENGTH_SHORT).show();
+            if (id > 0) {
+                startAlarm(id);
+
+                NotificationListFragment notificationListFragment = new NotificationListFragment();
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, notificationListFragment)
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                Toast.makeText(getActivity(), "Unable to add notification to database.",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     private void startAlarm(int id) {
 
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity())
+                .getSystemService(Context.ALARM_SERVICE);
+
         Intent intent = new Intent(getActivity(), NotificationReceiver.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
         Calendar calendar = Calendar.getInstance();
@@ -198,7 +221,17 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
 
     private boolean validateUserInput() {
         if (dateEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Date and time of notification cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TargetId == -1) {
+            Toast.makeText(getActivity(), "Select a notification target.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!dateEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")){
+            Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -218,7 +251,7 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
 
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.setOnDateSetListener(this);
-        datePickerFragment.show(getFragmentManager().beginTransaction(), "datePicker");
+        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
     }
 
     @Override
@@ -227,9 +260,11 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
         Month = month;
         Day = dayOfMonth;
         if (dayOfMonth < 10) {
-            dateEditText.setText(time + " " + (month + 1) + "-0" + dayOfMonth + "-" + year);
+            dateEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
+                    .append("-0").append(dayOfMonth).append("-").append(year).toString());
         } else {
-            dateEditText.setText(time + " " + (month + 1) + "-" + dayOfMonth + "-" + year);
+            dateEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
+                    .append("-").append(dayOfMonth).append("-").append(year).toString());
         }
     }
 }

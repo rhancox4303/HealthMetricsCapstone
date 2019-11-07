@@ -6,15 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
-import ca.mohawk.HealthMetrics.R;
 
 
 /**
@@ -22,8 +20,8 @@ import ca.mohawk.HealthMetrics.R;
  */
 public class DeletePhotoEntryDialog extends DialogFragment {
 
-    private DeletePhotoEntryDialogListener listener;
     private static PhotoEntry PhotoEntry;
+    private DeletePhotoEntryDialogListener listener;
 
     public static DeletePhotoEntryDialog newInstance(PhotoEntry photoEntry) {
         DeletePhotoEntryDialog dialog = new DeletePhotoEntryDialog();
@@ -48,7 +46,7 @@ public class DeletePhotoEntryDialog extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // Verify that the host activity implements the callback interface
         try {
@@ -57,14 +55,15 @@ public class DeletePhotoEntryDialog extends DialogFragment {
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
-                    + " must implement NoticeDialogListener");
+                    + " must implement DeletePhotoEntryDialogListener");
         }
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
         builder.setTitle("Delete Photo Entry");
         builder.setMessage("The photo entry will be deleted.");
@@ -86,8 +85,8 @@ public class DeletePhotoEntryDialog extends DialogFragment {
     }
 
     public interface DeletePhotoEntryDialogListener {
-        public void onDeletePhotoEntryDialogPositiveClick(DeletePhotoEntryDialog dialog);
+        void onDeletePhotoEntryDialogPositiveClick(DeletePhotoEntryDialog dialog);
 
-        public void onDeletePhotoEntryDialogNegativeClick(DeletePhotoEntryDialog dialog);
+        void onDeletePhotoEntryDialogNegativeClick(DeletePhotoEntryDialog dialog);
     }
 }

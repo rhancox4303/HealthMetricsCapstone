@@ -88,7 +88,6 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
             timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "timePicker");
 
         } else if (v.getId() == R.id.buttonAddNoteCreateNoteInput) {
-
             createNote();
         }
     }

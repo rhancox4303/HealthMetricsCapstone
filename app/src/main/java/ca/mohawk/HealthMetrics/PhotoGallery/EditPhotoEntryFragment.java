@@ -6,13 +6,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.net.Uri;
-
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -28,12 +23,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
@@ -69,10 +68,10 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
@@ -93,47 +92,41 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         if (bundle != null) {
             PhotoId = bundle.getInt("selected_photo_key", -1);
         }
-        Toast.makeText(getActivity(), PhotoId + "", Toast.LENGTH_SHORT).show();
+
         PhotoEntry photoEntry = healthMetricsDbHelper.getPhotoEntryById(PhotoId);
-        currentPhotoPath = photoEntry.PhotoEntryPath;
 
-        GalleryId = photoEntry.PhotoGalleryId;
-        dateOfEntryEditText.setText(photoEntry.DateOfEntry);
-        isFromGallery = photoEntry.IsFromGallery;
+        if (photoEntry != null) {
+            currentPhotoPath = photoEntry.PhotoEntryPath;
 
-        Glide.with(getActivity())
-                .load(photoEntry.PhotoEntryPath)
-                .fitCenter()
-                .into(imageView);
+            GalleryId = photoEntry.PhotoGalleryId;
+            dateOfEntryEditText.setText(photoEntry.DateOfEntry);
+            isFromGallery = photoEntry.IsFromGallery;
+
+            Glide.with(Objects.requireNonNull(getActivity()))
+                    .load(photoEntry.PhotoEntryPath)
+                    .fitCenter()
+                    .into(imageView);
+        } else {
+
+            // Leave fragment
+        }
 
         return rootView;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.editTextDateOfEntryEditPhotoEntry:
                 TimePickerFragment timePickerFragment = new TimePickerFragment();
                 timePickerFragment.setOnTimeSetListener(this);
-                timePickerFragment.show(getFragmentManager().beginTransaction(), "timePicker");
+                timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "timePicker");
                 break;
             case R.id.buttonEditPhotoEntry:
                 editPhotoEntry();
-
-                ViewPhotoEntryFragment viewPhotoEntryFragment = new ViewPhotoEntryFragment();
-
-                Bundle metricBundle = new Bundle();
-                metricBundle.putInt("selected_photo_key", PhotoId);
-                viewPhotoEntryFragment.setArguments(metricBundle);
-
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, viewPhotoEntryFragment)
-                        .addToBackStack(null)
-                        .commit();
                 break;
             case R.id.buttonUploadImageEditPhotoEntry:
                 previousPhotoPath = currentPhotoPath;
-                Log.d("DELETEPATH",previousPhotoPath);
                 showImageDialog();
                 break;
         }
@@ -141,18 +134,40 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
 
     private void editPhotoEntry() {
         if (validateUserInput()) {
+            
             String date = dateOfEntryEditText.getText().toString();
 
-            PhotoEntry photoEntry = new PhotoEntry(PhotoId, GalleryId, currentPhotoPath, date,isFromGallery);
-            boolean test = healthMetricsDbHelper.updatePhotoEntry(photoEntry);
+            PhotoEntry photoEntry = new PhotoEntry(PhotoId, GalleryId, currentPhotoPath, date, isFromGallery);
+            if (healthMetricsDbHelper.updatePhotoEntry(photoEntry)) {
+                ViewPhotoEntryFragment viewPhotoEntryFragment = new ViewPhotoEntryFragment();
 
-            Toast.makeText(getContext(), String.valueOf(test), Toast.LENGTH_SHORT).show();
+                Bundle metricBundle = new Bundle();
+                metricBundle.putInt("selected_photo_key", PhotoId);
+                viewPhotoEntryFragment.setArguments(metricBundle);
+
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, viewPhotoEntryFragment)
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                Toast.makeText(getActivity(), "Unable to update the photo entry.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     private boolean validateUserInput() {
-        if (dateOfEntryEditText.getText().toString().trim().equals("") || currentPhotoPath == null) {
-            Toast.makeText(getActivity(), "Please enter all fields.", Toast.LENGTH_SHORT).show();
+        if (dateOfEntryEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "The date of entry cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!dateOfEntryEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")) {
+            Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (currentPhotoPath == null) {
+            Toast.makeText(getActivity(), "Please enter a photo.", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -177,12 +192,14 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
             }
         });
 
-        dialog.show(getFragmentManager().beginTransaction(), "imagePicker");
+        dialog.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "imagePicker");
     }
+
     private void checkPermissions(int permissionCode) {
         switch (permissionCode) {
             case CAMERA_PERMISSION_CODE:
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(
                             new String[]{Manifest.permission.CAMERA},
                             CAMERA_PERMISSION_CODE);
@@ -191,7 +208,8 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
                 }
                 break;
             case GALLERY_PERMISSION_CODE:
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             GALLERY_PERMISSION_CODE);
@@ -203,7 +221,7 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (requestCode) {
             case CAMERA_PERMISSION_CODE: {
@@ -225,13 +243,12 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
                 }
             }
         }
-        return;
     }
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
             try {
@@ -255,7 +272,7 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = Objects.requireNonNull(getActivity()).getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -276,18 +293,18 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
     private void dispatchPickFromGalleryIntent() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        if (galleryIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+        if (galleryIntent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
             startActivityForResult(galleryIntent, GALLERY_INTENT_CODE);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+        Fragment currentFragment = Objects.requireNonNull(getActivity()).getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
         if (requestCode == CAMERA_INTENT_CODE && resultCode == RESULT_OK) {
             isFromGallery = 0;
-            Glide.with(currentFragment)
+            Glide.with(Objects.requireNonNull(currentFragment))
                     .load(currentPhotoUri)
                     .into(imageView);
         }
@@ -295,8 +312,8 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         if (requestCode == GALLERY_INTENT_CODE && resultCode == RESULT_OK) {
             isFromGallery = 1;
             currentPhotoUri = data.getData();
-            currentPhotoPath = currentPhotoUri.toString();
-            Glide.with(currentFragment)
+            currentPhotoPath = Objects.requireNonNull(currentPhotoUri).toString();
+            Glide.with(Objects.requireNonNull(currentFragment))
                     .load(currentPhotoUri)
                     .into(imageView);
         }
@@ -318,15 +335,17 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
 
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.setOnDateSetListener(this);
-        datePickerFragment.show(getFragmentManager().beginTransaction(), "datePicker");
+        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if (dayOfMonth < 10) {
-            dateOfEntryEditText.setText(time + " " + (month + 1) + "-0" + dayOfMonth + "-" + year);
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
+                    .append("-0").append(dayOfMonth).append("-").append(year).toString());
         } else {
-            dateOfEntryEditText.setText(time + " " + (month + 1) + "-" + dayOfMonth + "-" + year);
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ")
+                    .append(month + 1).append("-").append(dayOfMonth).append("-").append(year).toString());
         }
     }
 }

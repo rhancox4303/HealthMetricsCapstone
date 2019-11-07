@@ -2,6 +2,8 @@ package ca.mohawk.HealthMetrics.Models;
 
 import android.text.GetChars;
 
+import androidx.annotation.NonNull;
+
 public class DosageMeasurement {
 
     public int Id;
@@ -19,6 +21,7 @@ public class DosageMeasurement {
         UnitAbbreviation = unitAbbreviation;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return DosageMeasurement + " (" + UnitAbbreviation+ ")";

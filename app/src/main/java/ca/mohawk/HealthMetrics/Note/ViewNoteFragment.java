@@ -59,6 +59,7 @@ public class ViewNoteFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+
         if(v.getId() == R.id.buttonDeleteNoteViewNote){
             DialogFragment deleteNoteDialog = DeleteNoteDialog.newInstance(NoteId);
             deleteNoteDialog.show(Objects.requireNonNull(getFragmentManager()), "deleteNoteDialog");

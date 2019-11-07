@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,18 +26,15 @@ import ca.mohawk.HealthMetrics.R;
  */
 public class NotificationListFragment extends Fragment implements View.OnClickListener {
 
-    private HealthMetricsDbHelper healthMetricsDbHelper;
-
     public NotificationListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_notification_list, container, false);
         Button createNotificationButton = rootView.findViewById(R.id.buttonCreateNotificationNotificationList);
@@ -49,6 +47,7 @@ public class NotificationListFragment extends Fragment implements View.OnClickLi
         NotificationRecyclerViewAdapter adapter = new NotificationRecyclerViewAdapter(notificationArrayList,getActivity());
         notificationRecyclerView.setAdapter(adapter);
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         return rootView;
     }
 
@@ -56,7 +55,7 @@ public class NotificationListFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
 
         CreateNotificationFragment createNotificationFragment = new CreateNotificationFragment();
-        getActivity().getSupportFragmentManager().beginTransaction()
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, createNotificationFragment)
                 .addToBackStack(null)
                 .commit();

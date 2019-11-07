@@ -1,7 +1,5 @@
 package ca.mohawk.HealthMetrics.Models;
 
-import java.util.Date;
-
 public class Notification {
     public int Id;
     public int TargetId;

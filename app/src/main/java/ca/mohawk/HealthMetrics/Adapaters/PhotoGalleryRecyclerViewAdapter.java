@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.MainActivity;
@@ -32,12 +33,12 @@ public class PhotoGalleryRecyclerViewAdapter extends
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView imageViewPhotoEntry;
-        public TextView textViewDateOfEntry;
+        ImageView imageViewPhotoEntry;
+        TextView textViewDateOfEntry;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             imageViewPhotoEntry = (ImageView) itemView.findViewById(R.id.image_view_gallery);
@@ -45,6 +46,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
         }
     }
 
+    @NonNull
     @Override
     public PhotoGalleryRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -53,8 +55,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
 
         View contactView = inflater.inflate(R.layout.photo_gallery_recycler_view_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        return new ViewHolder(contactView);
     }
 
     @Override
@@ -93,7 +94,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
         switchContent(fragment);
     }
 
-    public void switchContent(Fragment fragment) {
+    private void switchContent(Fragment fragment) {
         if (context == null)
             return;
         if (context instanceof MainActivity) {

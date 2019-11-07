@@ -8,9 +8,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +18,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.w3c.dom.NamedNodeMap;
-
 import java.util.Calendar;
+import java.util.Objects;
 
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
@@ -40,7 +37,6 @@ import ca.mohawk.HealthMetrics.TimePickerFragment;
  */
 public class EditNotificationFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-
     private int NotificationId;
     private int Minute;
     private int Hour;
@@ -48,7 +44,9 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
     private int Month;
     private int Year;
     private EditText DateTimeEditText;
-    HealthMetricsDbHelper healthMetricsDbHelper;
+
+    private HealthMetricsDbHelper healthMetricsDbHelper;
+
     private String time;
     private Notification notification;
 
@@ -64,13 +62,6 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_edit_notification, container, false);
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            NotificationId = bundle.getInt("notification_selected_key", -1);
-        }
-
-        notification = healthMetricsDbHelper.getNotificationById(NotificationId);
-
         TextView typeTextView = rootView.findViewById(R.id.textViewTypeEditNotification);
         TextView targetTextView = rootView.findViewById(R.id.textViewTargetEditNotification);
 
@@ -78,26 +69,34 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
         Button editNotificationButton = rootView.findViewById(R.id.buttonEditNotification);
 
         DateTimeEditText.setOnClickListener(this);
-        DateTimeEditText.setText(notification.TargetDateTime);
+
         editNotificationButton.setOnClickListener(this);
 
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            NotificationId = bundle.getInt("notification_selected_key", -1);
+        }
 
-        typeTextView.setText(notification.NotificationType);
+        notification = healthMetricsDbHelper.getNotificationById(NotificationId);
 
-        switch (notification.NotificationType) {
-            case "Enter Metric Data":
-                Metric targetMetric = healthMetricsDbHelper.getMetricById(notification.TargetId);
-                targetTextView.setText(targetMetric.Name);
-                break;
-            case "Enter Gallery Data":
-                PhotoGallery targetGallery = healthMetricsDbHelper.getPhotoGalleryById(notification.TargetId);
-                targetTextView.setText(targetGallery.Name);
-                break;
-            case "Refill Prescription":
-            case "Take Prescription":
-                Prescription targetPrescription = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                targetTextView.setText(targetPrescription.Name);
-                break;
+        if (notification != null) {
+            typeTextView.setText(notification.NotificationType);
+            DateTimeEditText.setText(notification.TargetDateTime);
+            switch (notification.NotificationType) {
+                case "Enter Metric Data":
+                    Metric targetMetric = healthMetricsDbHelper.getMetricById(notification.TargetId);
+                    targetTextView.setText(targetMetric.Name);
+                    break;
+                case "Enter Gallery Data":
+                    PhotoGallery targetGallery = healthMetricsDbHelper.getPhotoGalleryById(notification.TargetId);
+                    targetTextView.setText(targetGallery.Name);
+                    break;
+                case "Refill Prescription":
+                case "Take Prescription":
+                    Prescription targetPrescription = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
+                    targetTextView.setText(targetPrescription.Name);
+                    break;
+            }
         }
 
         return rootView;
@@ -105,26 +104,17 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.editTextDateTimeEditNotification){
+        if (v.getId() == R.id.editTextDateTimeEditNotification) {
             TimePickerFragment timePickerFragment = new TimePickerFragment();
             timePickerFragment.setOnTimeSetListener(this);
-            timePickerFragment.show(getFragmentManager().beginTransaction(), "timePicker");
-        }else if(v.getId() == R.id.buttonEditNotification){
+            timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "timePicker");
+        } else if (v.getId() == R.id.buttonEditNotification) {
             editNotification();
         }
     }
 
-    private boolean validateUserInput() {
-        if (DateTimeEditText.getText().toString().trim().equals("") ||
-                DateTimeEditText.getText().toString().trim().equals(notification.TargetDateTime) ) {
-            Toast.makeText(getActivity(), "Please enter a new non-empty date and time.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-
-    private void editNotification(){
-        if(validateUserInput()){
+    private void editNotification() {
+        if (validateUserInput()) {
             cancelNotification();
             notification.TargetDateTime = DateTimeEditText.getText().toString();
             healthMetricsDbHelper.updateNotification(notification);
@@ -132,18 +122,37 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
 
             Fragment notificationList = new NotificationListFragment();
 
-            getActivity().getSupportFragmentManager().beginTransaction()
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, notificationList)
                     .addToBackStack(null)
                     .commit();
         }
     }
 
+    private boolean validateUserInput() {
+        if (DateTimeEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "The date and time cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (DateTimeEditText.getText().toString().trim().equals(notification.TargetDateTime)) {
+            Toast.makeText(getActivity(), "Please enter a new date and time.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!DateTimeEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")){
+            Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+
     private void startAlarm(int id) {
 
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity()).getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), NotificationReceiver.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
         Calendar calendar = Calendar.getInstance();
@@ -161,10 +170,10 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-    private void cancelNotification(){
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+    private void cancelNotification() {
+        AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity()).getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), NotificationReceiver.class);
-        intent.putExtra("id",NotificationId);
+        intent.putExtra("id", NotificationId);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), NotificationId, intent, 0);
         alarmManager.cancel(pendingIntent);
@@ -184,7 +193,7 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
 
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.setOnDateSetListener(this);
-        datePickerFragment.show(getFragmentManager().beginTransaction(), "datePicker");
+        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
     }
 
     @Override
@@ -193,9 +202,11 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
         Month = month;
         Day = dayOfMonth;
         if (dayOfMonth < 10) {
-            DateTimeEditText.setText(time + " " + (month + 1) + "-0" + dayOfMonth + "-" + year);
+            DateTimeEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
+                    .append("-0").append(dayOfMonth).append("-").append(year).toString());
         } else {
-            DateTimeEditText.setText(time + " " + (month + 1) + "-" + dayOfMonth + "-" + year);
+            DateTimeEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
+                    .append("-").append(dayOfMonth).append("-").append(year).toString());
         }
     }
 }

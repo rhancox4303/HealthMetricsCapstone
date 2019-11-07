@@ -4,7 +4,6 @@ package ca.mohawk.HealthMetrics.DataEntry;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.Objects;
+
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
-import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.DataEntry;
+import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.TimePickerFragment;
@@ -27,7 +29,7 @@ import ca.mohawk.HealthMetrics.TimePickerFragment;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditDataEntryFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
+public class EditDataEntryFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     private EditText dateOfEntryEditText;
     private EditText dataEntryEditText;
@@ -35,7 +37,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
     private int DataEntryId;
     private int MetricId;
     private String time;
-    HealthMetricsDbHelper healthMetricsDbHelper;
+    private HealthMetricsDbHelper healthMetricsDbHelper;
 
     public EditDataEntryFragment() {
         // Required empty public constructor
@@ -60,6 +62,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         Bundle bundle = this.getArguments();
+
         if (bundle != null) {
             DataEntryId = bundle.getInt("data_entry_selected_key", -1);
         }
@@ -78,63 +81,84 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         return rootView;
     }
 
-    public Boolean validateUserInput(){
-        if(dateOfEntryEditText.getText().toString().equals("") || dataEntryEditText.getText().toString().equals("")){
-            Toast.makeText(getActivity(), "Please enter all fields.", Toast.LENGTH_SHORT).show();
+    public boolean validateUserInput() {
+        if (dateOfEntryEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "The date of entry field cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
-        }else{
-            return true;
         }
+
+        if (dataEntryEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "The data entry field cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!dataEntryEditText.getText().toString().trim().matches("^[1-9]\\d*(\\.\\d+)?$")) {
+            Toast.makeText(getActivity(), "The data entry field can only contain digits.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
-    public void editDataEntry(){
-        String date = dateOfEntryEditText.getText().toString();
-        String entry = dataEntryEditText.getText().toString();
-        healthMetricsDbHelper.updateDataEntry(new DataEntry(DataEntryId,MetricId,entry,date));
+    private void editDataEntry() {
+
+        if (validateUserInput()) {
+            String date = dateOfEntryEditText.getText().toString();
+            String entry = dataEntryEditText.getText().toString();
+
+            if (healthMetricsDbHelper.updateDataEntry(new DataEntry(DataEntryId, MetricId, entry, date))) {
+                Toast.makeText(getActivity(), "Data entry updated.", Toast.LENGTH_SHORT).show();
+                Bundle metricBundle = new Bundle();
+                metricBundle.putInt("selected_item_key", MetricId);
+
+                DataEntryListFragment dataViewFragment = new DataEntryListFragment();
+                dataViewFragment.setArguments(metricBundle);
+
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, dataViewFragment)
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                Toast.makeText(getActivity(), "Unable to update data entry.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.editTextDateOfEntryEditDataEntry) {
+        if (v.getId() == R.id.editTextDateOfEntryEditDataEntry) {
             TimePickerFragment timePickerFragment = new TimePickerFragment();
             timePickerFragment.setOnTimeSetListener(this);
-            timePickerFragment.show(getFragmentManager().beginTransaction(), "timePicker");
-        } else if(v.getId() == R.id.ButtonEditDataEntry && validateUserInput()){
+            timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "timePicker");
+        } else if (v.getId() == R.id.ButtonEditDataEntry) {
+
             editDataEntry();
-
-            DataEntryListFragment dataViewFragment = new DataEntryListFragment();
-
-            Bundle metricBundle = new Bundle();
-            metricBundle.putInt("selected_item_key", MetricId);
-            dataViewFragment.setArguments(metricBundle);
-
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, dataViewFragment)
-                    .addToBackStack(null)
-                    .commit();
         }
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if(minute < 10) {
+        if (minute < 10) {
             time = hourOfDay + ":0" + minute;
-        }else{
+        } else {
             time = hourOfDay + ":" + minute;
         }
         dateOfEntryEditText.setText(time);
 
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.setOnDateSetListener(this);
-        datePickerFragment.show(getFragmentManager().beginTransaction(), "datePicker");
+        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if (dayOfMonth < 10) {
-            dateOfEntryEditText.setText(time + " " + (month + 1) + "-0" + dayOfMonth + "-" + year);
-        }else{
-            dateOfEntryEditText.setText(time + " " + (month + 1) + "-" + dayOfMonth + "-" + year);
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ")
+                    .append(month + 1).append("-0").append(dayOfMonth).append("-")
+                    .append(year).toString());
+        } else {
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ")
+                    .append(month + 1).append("-").append(dayOfMonth)
+                    .append("-").append(year).toString());
         }
     }
 }

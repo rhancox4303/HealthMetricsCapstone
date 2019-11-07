@@ -11,9 +11,4 @@ public class Unit {
         UnitAbbreviation = unitAbbreviation;
         UnitCategoryId = unitCategoryId;
     }
-
-    @Override
-    public String toString() {
-        return UnitName;
-    }
 }
