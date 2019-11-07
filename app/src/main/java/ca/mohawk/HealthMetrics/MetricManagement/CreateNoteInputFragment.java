@@ -60,11 +60,11 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
 
         // If metricName is empty then inform the user and return false.
         if (noteContents.equals("")) {
-            Toast.makeText(getActivity(), "The note contents cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The note content cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If metricName is greater than 25 then inform the user and return false.
+        // If metricName is greater than 140 then inform the user and return false.
         if (noteContents.length() > 140) {
             Toast.makeText(getActivity(), "Enter a note 140 characters or less.", Toast.LENGTH_SHORT).show();
             return false;

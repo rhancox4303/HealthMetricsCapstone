@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import ca.mohawk.HealthMetrics.DataEntry.DeleteDataEntryDialog;
+import java.util.Objects;
+
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Note;
 import ca.mohawk.HealthMetrics.R;
@@ -22,7 +22,7 @@ import ca.mohawk.HealthMetrics.R;
  * A simple {@link Fragment} subclass.
  */
 public class ViewNoteFragment extends Fragment implements View.OnClickListener {
-    private HealthMetricsDbHelper healthMetricsDbHelper;
+
     private int NoteId;
     public ViewNoteFragment() {
         // Required empty public constructor
@@ -33,7 +33,7 @@ public class ViewNoteFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        healthMetricsDbHelper = healthMetricsDbHelper.getInstance(getActivity());
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
         View rootView = inflater.inflate(R.layout.fragment_view_note, container, false);
 
         Button editNoteButton = rootView.findViewById(R.id.buttonEditNoteViewNote);
@@ -46,6 +46,7 @@ public class ViewNoteFragment extends Fragment implements View.OnClickListener {
         TextView dateOfEntryTextView = rootView.findViewById(R.id.textViewDateOfEntryDisplayViewNote);
 
         Bundle bundle = this.getArguments();
+
         if (bundle != null) {
             NoteId = bundle.getInt("selected_item_key", -1);
         }
@@ -60,7 +61,8 @@ public class ViewNoteFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v.getId() == R.id.buttonDeleteNoteViewNote){
             DialogFragment deleteNoteDialog = DeleteNoteDialog.newInstance(NoteId);
-            deleteNoteDialog.show(getFragmentManager(), "dialog");
+            deleteNoteDialog.show(Objects.requireNonNull(getFragmentManager()), "deleteNoteDialog");
+
         }else if(v.getId() == R.id.buttonEditNoteViewNote){
 
             Bundle bundle = new Bundle();
@@ -68,7 +70,7 @@ public class ViewNoteFragment extends Fragment implements View.OnClickListener {
             Fragment fragment = new EditNoteFragment();
             fragment.setArguments(bundle);
 
-            getActivity().getSupportFragmentManager().beginTransaction()
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, fragment)
                     .addToBackStack(null)
                     .commit();
