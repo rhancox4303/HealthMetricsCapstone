@@ -1,7 +1,6 @@
 package ca.mohawk.HealthMetrics.DataEntry;
 
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,41 +10,50 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The DeleteDataEntryDialog extends the DialogFragment.
+ * Presents a dialog to the user indicating data deletion options.
  */
 public class DeleteDataEntryDialog extends DialogFragment {
 
-    private static int DataEntryId;
-    private static int MetricId;
+    // Initialize the dataEntryId.
+    private static int dataEntryId;
+
+    // Initialize the metricId.
+    private static int metricId;
+
+    // Initialize the listener.
     private DeleteDataEntryDialogListener listener;
 
+    /**
+     * Creates a new instance of the DeleteDataEntryDialog.
+     *
+     * @param dataEntryId Represents the dataEntryId.
+     * @param metricId    Represents the metricId
+     * @return A DeleteDataEntryDialog is returned.
+     */
     public static DeleteDataEntryDialog newInstance(int dataEntryId, int metricId) {
-        MetricId = metricId;
-        DataEntryId = dataEntryId;
+        DeleteDataEntryDialog.metricId = metricId;
+        DeleteDataEntryDialog.dataEntryId = dataEntryId;
         return new DeleteDataEntryDialog();
     }
 
     public int getDataEntryId() {
-        return DataEntryId;
+        return dataEntryId;
     }
 
     public int getMetricId() {
-        return MetricId;
+        return metricId;
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
 
         super.onAttach(context);
-        // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
             listener = (DeleteDataEntryDialogListener) context;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
                     + " must implement DeleteDataEntryDialogListener");
         }
@@ -53,30 +61,40 @@ public class DeleteDataEntryDialog extends DialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public AlertDialog onCreateDialog(Bundle savedInstanceState) {
 
+        // Create a new AlertDialog Builder.
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
+        // Set the title and message.
         builder.setTitle("Delete Data Entry");
         builder.setMessage("The data entry will be deleted.");
 
+        // Set the PositiveButton.
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Send the positive button event back to the host activity
+                // Send the positive button event back to the main activity.
                 listener.onDeleteDataEntryDialogPositiveClick(DeleteDataEntryDialog.this);
             }
-        })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Send the negative button event back to the host activity
-                        listener.onDeleteDataEntryDialogNegativeClick(DeleteDataEntryDialog.this);
-                    }
-                });
+        });
 
+        // Set the NegativeButton.
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Send the negative button event back to the main activity.
+                listener.onDeleteDataEntryDialogNegativeClick(DeleteDataEntryDialog.this);
+            }
+        });
+
+        // Return the created Alert Dialog.
         return builder.create();
     }
 
+    /**
+     * The DeleteDataEntryDialogListener will handle the button clicks.
+     */
     public interface DeleteDataEntryDialogListener {
+
         void onDeleteDataEntryDialogPositiveClick(DeleteDataEntryDialog dialog);
 
         void onDeleteDataEntryDialogNegativeClick(DeleteDataEntryDialog dialog);
