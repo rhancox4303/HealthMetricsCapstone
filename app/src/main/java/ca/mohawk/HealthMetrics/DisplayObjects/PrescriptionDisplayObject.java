@@ -1,44 +1,92 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
+import androidx.annotation.NonNull;
+
+
+/**
+ * Represents a display object that represents a prescription object.
+ * <p>
+ * It used to display the prescriptions to the user.
+ */
+
 public class PrescriptionDisplayObject {
-    public int Id;
-    public String Name;
-    public double DosageAmount;
-    public String DosageMeasurement;
-    public String Frequency;
-    public double Amount;
 
+    // Represents the prescription id.
+    public int id;
+
+    // Represents the name of the prescription.
+    public String name;
+
+    // Represents the frequency of the prescription.
+    public String frequency;
+
+    // Represents the prescription amount.
+    public double amount;
+
+    // Represents the dosage amount.
+    private double dosageAmount;
+
+    // Represent the dosage measurement.
+    private String dosageMeasurement;
+
+    /**
+     * Constructs a PrescriptionDisplayObject.
+     *
+     * @param id                Represents the prescription id.
+     * @param name              Represents the name of the prescription.
+     * @param dosageAmount      Represents the dosage amount.
+     * @param dosageMeasurement Represent the dosage measurement.
+     * @param frequency         Represents the frequency of the prescription.
+     * @param amount            Represents the dosage amount.
+     */
     public PrescriptionDisplayObject(int id, String name, double dosageAmount, String dosageMeasurement, String frequency, double amount) {
-        Id = id;
-        Name = name;
-        DosageAmount = dosageAmount;
-        DosageMeasurement = dosageMeasurement;
-        Frequency = frequency;
-        Amount = amount;
+        this.id = id;
+        this.name = name;
+        this.dosageAmount = dosageAmount;
+        this.dosageMeasurement = dosageMeasurement;
+        this.frequency = frequency;
+        this.amount = amount;
     }
 
-    public String getName() {
-        return Name;
+    /**
+     * Concatenates the dosageAmount and the dosageMeasurement.
+     *
+     * @return returns the concatenated string.
+     */
+    private String getDosageAmount() {
+        return dosageAmount + " " + dosageMeasurement;
     }
 
-    public double getDosageAmount() {
-        return DosageAmount;
-    }
-
-    public String getDosageMeasurement() {
-        return DosageMeasurement;
-    }
-
+    /**
+     * Concatenates the dosageAmount and the frequency.
+     *
+     * @return returns the concatenated string.
+     */
     public String getFrequency() {
-        return Frequency;
+        return getDosageAmount() + " " + frequency;
     }
 
-    public double getAmount() {
-        return Amount;
+    /**
+     * Concatenates the amount and the dosageMeasurement.
+     *
+     * @return returns the concatenated string.
+     */
+    public String getAmount() {
+        return amount + " " + dosageMeasurement;
     }
 
+    /**
+     * Concatenates the name and the frequency.
+     *
+     * @return returns the concatenated string.
+     */
+    public String getInformation() {
+        return name + " " + getFrequency();
+    }
+
+    @NonNull
     @Override
     public String toString() {
-        return Name;
+        return name;
     }
 }

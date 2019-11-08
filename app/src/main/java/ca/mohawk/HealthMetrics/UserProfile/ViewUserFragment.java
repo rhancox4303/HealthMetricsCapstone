@@ -63,10 +63,10 @@ public class ViewUserFragment extends Fragment implements View.OnClickListener {
             // Else then display the user's information.
         } else {
             // Fill the fields with the user data.
-            firstNameView.setText(user.FirstName);
-            lastNameView.setText(user.LastName);
-            genderView.setText(user.Gender);
-            dateOfBirthView.setText(user.DateOfBirth);
+            firstNameView.setText(user.firstName);
+            lastNameView.setText(user.lastName);
+            genderView.setText(user.gender);
+            dateOfBirthView.setText(user.dateOfBirth);
         }
 
         //Return the rootView.

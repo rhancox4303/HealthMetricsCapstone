@@ -13,10 +13,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.AddMetricSpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.AddMetricPhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
 import ca.mohawk.HealthMetrics.Models.DataEntry;
@@ -107,13 +107,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         try {
             // Create content values.
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT, dosageMeasurement.DosageMeasurement);
-            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION, dosageMeasurement.UnitAbbreviation);
+            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT, dosageMeasurement.dosageMeasurement);
+            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION, dosageMeasurement.unitAbbreviation);
 
             // Insert the values into the database.
             writableDatabase.insertOrThrow(HealthMetricContract.DosageMeasurements.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
-
         } catch (SQLException e) {
             Log.e("SQLException:", e.getMessage());
         } finally {
@@ -128,11 +127,13 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param note Represents the note to be added to the database.
      * @return Return a boolean value indicating if the note was added successfully.
      */
+
     public boolean addNote(Note note) {
 
         // Get database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
+        long id = 0;
 
         //Initialize id.
         long id = -1;
@@ -140,9 +141,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         try {
             // Create content values.
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.NoteContent);
-            values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.DateOfEntry);
-
+            values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.noteContent);
+            values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.dateOfEntry);
+          
             // Insert the values into database.
             id = writableDatabase.insertOrThrow(HealthMetricContract.Notes.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -174,10 +175,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         try {
             // Create content values.
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.FirstName);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.LastName);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.DateOfBirth);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
+            values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.firstName);
+            values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.lastName);
+            values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.dateOfBirth);
+            values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.gender);
 
             // Add values to database.
             id = writableDatabase.insertOrThrow(HealthMetricContract.Users.TABLE_NAME, null, values);
@@ -193,7 +194,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         // Validate the insert was successful.
         return id > 0;
     }
-
+  
     /**
      * Adds a prescription to the database.
      *
@@ -205,6 +206,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         // Get the database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
+        long id = -1;
 
         // Initialize id.
         long id = -1;
@@ -233,7 +235,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
-
         //  Validate the insert was successful.
         return id > 0;
     }
@@ -252,14 +253,14 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         // Initialize id.
         long id = -1;
-
+      
         try {
 
             // Create content values.
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, photoGallery.Name);
-            values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE, photoGallery.IsAddedToProfile);
-
+            values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, photoGallery.name);
+            values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE, photoGallery.isAddedToProfile);
+          
             // Insert the gallery.
             id = writableDatabase.insertOrThrow(HealthMetricContract.Galleries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -285,9 +286,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         // Get the database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
+        long id = 0;
 
         // Initialize the id.
         long id = -1;
+      
         try {
             // Create content values.
             ContentValues values = new ContentValues();
@@ -309,7 +312,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return id > 0;
     }
 
-
     /**
      * Adds a photo entry to the database.
      *
@@ -324,7 +326,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         // Initialize the id.
         long id = -1;
-
         try {
 
             // Create content values.
@@ -352,7 +353,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     /**
      * Adds the data entry to the database.
      *
-     * @param dataEntry represents the data entry to be added to the database.
+     * @param dataEntry Represents the data entry to be added to the database.
      * @return Returns a boolean value indicating if the insert was successful.
      */
     public boolean addDataEntry(DataEntry dataEntry) {
@@ -360,7 +361,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         // Get database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
-
+  
         // Initialize id variable.
         long id = -1;
 
@@ -368,9 +369,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             // Create content values.
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.DataEntry);
-            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.DateOfEntry);
-            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.MetricId);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.dataEntry);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.dateOfEntry);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.metricId);
 
             // Insert data entry.
             id = writableDatabase.insertOrThrow(HealthMetricContract.MetricDataEntries.TABLE_NAME, null, values);
@@ -404,9 +405,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         try {
             // Create content values.
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.TargetDateTime);
-            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.TargetId);
-            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.NotificationType);
+            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.targetDateTime);
+            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.targetId);
+            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.notificationType);
 
             // Insert notification.
             id = writableDatabase.insertOrThrow(HealthMetricContract.Notifications.TABLE_NAME, null, values);
@@ -437,9 +438,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         try {
             // Create content values.
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITNAME, unit.UnitName);
-            values.put(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION, unit.UnitAbbreviation);
-            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID, unit.UnitCategoryId);
+            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITNAME, unit.unitName);
+            values.put(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION, unit.unitAbbreviation);
+            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID, unit.unitCategoryId);
 
             // Insert the unit in to the database.
             writableDatabase.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
@@ -467,11 +468,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             // Create content values.
             ContentValues values = new ContentValues();
 
-            if (unitCategory.Id != 0) {
-                values.put(HealthMetricContract.UnitCategories._ID, unitCategory.Id);
+            if (unitCategory.id != 0) {
+                values.put(HealthMetricContract.UnitCategories._ID, unitCategory.id);
             }
 
-            values.put(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY, unitCategory.UnitCategory);
+            values.put(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY, unitCategory.unitCategory);
 
             // Insert unit category to database.
             writableDatabase.insertOrThrow(HealthMetricContract.UnitCategories.TABLE_NAME, null, values);
@@ -696,7 +697,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      */
     public List<MetricSpinnerObject> getAllMetrics() {
 
-        // Get the database.
+        // Get the datab
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         // Instantiate the array of metric spinner objects.
@@ -731,7 +732,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             int id = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics._ID));
-
+          
             metricSpinnerObjects.add(new MetricSpinnerObject(unitCategoryId, metricName, id));
         }
 
@@ -910,9 +911,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             if (!dataEntry.equals("No Data Available")) {
                 Unit unit = getUnitById(unitId);
+
                 if (unit != null) {
                     dataEntry += " " + unit.UnitAbbreviation;
                 }
+
             }
 
             recyclerViewObjects.add(new MetricDisplayObject(metricId, metricName, dataEntry, "Quantitative"));
@@ -1067,8 +1070,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     public List<PhotoGallerySpinnerObject> getAllPhotoGalleries() {
 
         // Get the database.
-        SQLiteDatabase readableDatabase = getReadableDatabase();
-
+    SQLiteDatabase readableDatabase = getReadableDatabase();
+      
         // Create the list of photoGallerySpinnerObjects.
         List<PhotoGallerySpinnerObject> photoGallerySpinnerObjects = new ArrayList<>();
 
@@ -1088,7 +1091,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 sortOrder);
-
+  
         // Loop through the results and add the created PhotoGallerySpinnerObject to the list.
         while (cursor.moveToNext()) {
             int id = cursor.getInt(
@@ -1096,7 +1099,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String galleryName = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
 
-            photoGallerySpinnerObjects.add(new PhotoGallerySpinnerObject(galleryName, id));
+            photoGallerySpinnerObjects.add(new AddMetricPhotoGallerySpinnerObject(galleryName, id));
         }
 
         cursor.close();
@@ -1212,9 +1215,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param metricId Represents the id of the metric of the data entries retrieved.
      * @return Returns a list of the data entries.
      */
-    public List<DataEntryRecyclerViewObject> getDataEntriesByMetricId(int metricId) {
+    public List<DataEntryDisplayObject> getDataEntriesByMetricId(int metricId) {
 
         Metric metric = getMetricById(metricId);
+      
         String unitAbbreviation = "";
 
         if (metric != null) {
@@ -1225,6 +1229,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         }
 
         List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjectList = new ArrayList<>();
+
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -1252,19 +1257,19 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY));
 
-            dataEntryRecyclerViewObjectList.add(new DataEntryRecyclerViewObject(id, dateOfEntry, dataEntry, unitAbbreviation));
+           dataEntryRecyclerViewObjectList.add(new DataEntryRecyclerViewObject(id, dateOfEntry, dataEntry, unitAbbreviation));r
         }
 
         cursor.close();
         readableDatabase.close();
-        return dataEntryRecyclerViewObjectList;
+        return dataEntryDisplayObjectList;
     }
 
     /**
-     * The getDataEntryById retrieves a data entry based on it's id.
+     * The getDataEntryById retrieves a data latestDataEntry based on it's id.
      *
-     * @param dataEntryId The id of the entry that will be returned.
-     * @return The entry with the id specified.
+     * @param dataEntryId The id of the latestDataEntry that will be returned.
+     * @return The latestDataEntry with the id specified.
      */
     public DataEntry getDataEntryById(int dataEntryId) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -1340,6 +1345,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             cursor.close();
             readableDatabase.close();
             return unit;
+
         } else {
             cursor.close();
             readableDatabase.close();
@@ -1430,7 +1436,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             readableDatabase.close();
             return photoEntry;
         } else {
-            Log.d("ERROR", "No photo entry found." + photoId);
+            Log.d("ERROR", "No photo latestDataEntry found." + photoId);
             cursor.close();
             readableDatabase.close();
             return null;
@@ -1468,7 +1474,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             readableDatabase.close();
             return photoGallery;
         } else {
-            Log.d("ERROR", "No photo entry found." + galleryId);
+            Log.d("ERROR", "No photo latestDataEntry found." + galleryId);
             cursor.close();
             readableDatabase.close();
             return null;
@@ -1562,7 +1568,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             DosageMeasurement dosageMeasurement = getDosageMeasurementById(dosageMeasurementId);
 
-            prescriptionDisplayObjects.add(new PrescriptionDisplayObject(id, name, dosageAmount, dosageMeasurement.DosageMeasurement, frequency, amount));
+            prescriptionDisplayObjects.add(new PrescriptionDisplayObject(id, name, dosageAmount, dosageMeasurement.dosageMeasurement, frequency, amount));
 
         }
 
@@ -1777,31 +1783,31 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.FirstName);
-        values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.LastName);
-        values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.DateOfBirth);
-        values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.firstName);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.lastName);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.dateOfBirth);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.gender);
 
         return database.update(HealthMetricContract.Users.TABLE_NAME, values, HealthMetricContract.Users._ID + " = 1",
                 null) > 0;
     }
 
     /**
-     * The updateDataEntry method updates the data entry profile in the database.
+     * The updateDataEntry method updates the data latestDataEntry profile in the database.
      *
      * @param dataEntry The user that will be updated.
      * @return An integer value indicating if the update is successful.
      */
-    public int updateDataEntry(DataEntry dataEntry) {
+    public boolean updateDataEntry(DataEntry dataEntry) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.MetricId);
-        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.DateOfEntry);
-        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.DataEntry);
+        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.metricId);
+        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.dateOfEntry);
+        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.dataEntry);
 
-        return database.update(HealthMetricContract.MetricDataEntries.TABLE_NAME, values, HealthMetricContract.MetricDataEntries._ID + " = " + dataEntry.Id,
-                null);
+        return database.update(HealthMetricContract.MetricDataEntries.TABLE_NAME, values, HealthMetricContract.MetricDataEntries._ID + " = " + dataEntry.id,
+                null) > 0;
     }
 
     /**
@@ -1810,15 +1816,15 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param metric The metric that will be updated.
      * @return An integer value indicating if the update is successful.
      */
-    public int updateMetric(Metric metric) {
+    public boolean updateMetric(Metric metric) {
         SQLiteDatabase database = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.Name);
+        values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.name);
 
-        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Metrics._ID + " = " + metric.Id,
-                null);
+        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Metrics._ID + " = " + metric.id,
+                null) > 0;
     }
 
     public boolean updateNote(Note note) {
@@ -1826,10 +1832,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.DateOfEntry);
-        values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.NoteContent);
+        values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.dateOfEntry);
+        values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.noteContent);
 
-        return database.update(HealthMetricContract.Notes.TABLE_NAME, values, HealthMetricContract.Notes._ID + " = " + note.Id,
+        return database.update(HealthMetricContract.Notes.TABLE_NAME, values, HealthMetricContract.Notes._ID + " = " + note.id,
                 null) > 0;
     }
 
@@ -1840,7 +1846,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param metricId The id of the metric that is being updated.
      * @return An integer value indicating if the update is successful.
      */
-    public int addMetricToProfile(int unitId, int metricId) {
+    public boolean addMetricToProfile(int unitId, int metricId) {
         Log.d("TEST", String.valueOf(unitId));
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -1848,7 +1854,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, 1);
 
         return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Units._ID + " = " + metricId,
-                null);
+                null) > 0;
     }
 
     public boolean removeMetricFromProfile(int metricId) {
@@ -1868,14 +1874,14 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param galleryId The id of the gallery that is being updated.
      * @return An integer value indicating if the update is successful.
      */
-    public int addGalleryToProfile(int galleryId) {
+    public boolean addGalleryToProfile(int galleryId) {
 
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE, 1);
 
         return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + galleryId,
-                null);
+                null) > 0;
     }
 
     public boolean updatePrescription(Prescription prescription) {
@@ -1884,15 +1890,15 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.getName());
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.getReason());
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.getFrequency());
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.getStrength());
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.getDosageMeasurementId());
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.getForm());
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.getAmount());
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.name);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.reason);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.frequency);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.strength);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.dosageMeasurementId);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.form);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.amount);
 
-        return database.update(HealthMetricContract.Prescriptions.TABLE_NAME, values, HealthMetricContract.Prescriptions._ID + " = " + prescription.getId(),
+        return database.update(HealthMetricContract.Prescriptions.TABLE_NAME, values, HealthMetricContract.Prescriptions._ID + " = " + prescription.id,
                 null) > 0;
     }
 
@@ -1939,9 +1945,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         List<PhotoEntry> photos = getPhotoEntriesByGalleryId(galleryId);
 
         for (PhotoEntry photoEntry : photos) {
-            if (photoEntry.IsFromGallery == 0) {
-                Log.d("PATHTEST", photoEntry.PhotoEntryPath);
-                File file = new File(photoEntry.PhotoEntryPath);
+            if (photoEntry.isFromGallery == 0) {
+                Log.d("PATHTEST", photoEntry.photoEntryPath);
+                File file = new File(photoEntry.photoEntryPath);
                 file.delete();
             }
         }
@@ -1964,12 +1970,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.DateOfEntry);
-        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY, photoEntry.IsFromGallery);
-        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.PhotoEntryPath);
-        Log.d("PHOTOID", photoEntry.Id + "");
+        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.dateOfEntry);
+        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY, photoEntry.isFromGallery);
+        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.photoEntryPath);
+        Log.d("PHOTOID", photoEntry.id + "");
 
-        return database.update(HealthMetricContract.PhotoEntries.TABLE_NAME, values, HealthMetricContract.PhotoEntries._ID + "=?", new String[]{Integer.toString(photoEntry.Id)}) > 0;
+        return database.update(HealthMetricContract.PhotoEntries.TABLE_NAME, values, HealthMetricContract.PhotoEntries._ID + "=?", new String[]{Integer.toString(photoEntry.id)}) > 0;
     }
 
     public boolean updateNotification(Notification notification) {
@@ -1978,11 +1984,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.NotificationType);
-        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.TargetDateTime);
-        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.TargetId);
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.notificationType);
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.targetDateTime);
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.targetId);
 
-        return database.update(HealthMetricContract.Notifications.TABLE_NAME, values, HealthMetricContract.Notifications._ID + "=?", new String[]{Integer.toString(notification.Id)}) > 0;
+        return database.update(HealthMetricContract.Notifications.TABLE_NAME, values, HealthMetricContract.Notifications._ID + "=?", new String[]{Integer.toString(notification.id)}) > 0;
     }
 
     public boolean updateGallery(PhotoGallery gallery) {
@@ -1991,12 +1997,71 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, gallery.Name);
+        values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, gallery.name);
 
-        return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + gallery.Id,
+        return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + gallery.id,
                 null) > 0;
 
     }
+
+    public ArrayList<String> getAllMetricNames() {
+
+        ArrayList<String> metricNameList = new ArrayList<>();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME
+        };
+
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Metrics.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null);
+
+        while (cursor.moveToNext()) {
+            String metricName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME));
+            metricNameList.add(metricName.toLowerCase());
+        }
+        cursor.close();
+        readableDatabase.close();
+
+        return metricNameList;
+    }
+
+    public ArrayList<String> getAllGalleryNames() {
+
+        ArrayList<String> galleryNameList = new ArrayList<>();
+        SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        String[] projection = {
+                HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME
+        };
+
+
+        Cursor cursor = readableDatabase.query(
+                HealthMetricContract.Galleries.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null);
+
+        while (cursor.moveToNext()) {
+            String galleryName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
+            galleryNameList.add(galleryName.toLowerCase());
+        }
+        cursor.close();
+        readableDatabase.close();
+
+        return galleryNameList;
+    }
+}
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -1,23 +1,47 @@
 package ca.mohawk.HealthMetrics.Models;
 
-import java.util.Date;
-
+/**
+ * Models a notification from the database.
+ */
 public class Notification {
-    public int Id;
-    public int TargetId;
-    public String NotificationType;
-    public String TargetDateTime;
 
+    // Represents the notification id.
+    public int id;
+
+    // Represents the notification target id.
+    public int targetId;
+
+    // Represents the notification type.
+    public String notificationType;
+
+    // Represents the notification target date time.
+    public String targetDateTime;
+
+    /**
+     * Constructs a notification.
+     *
+     * @param targetId         Represents the notification target id.
+     * @param notificationType Represents the notification type.
+     * @param targetDateTime   Represents the notification target date time.
+     */
     public Notification(int targetId, String notificationType, String targetDateTime) {
-        TargetId = targetId;
-        NotificationType = notificationType;
-        TargetDateTime = targetDateTime;
+        this.targetId = targetId;
+        this.notificationType = notificationType;
+        this.targetDateTime = targetDateTime;
     }
 
+    /**
+     * Constructs a notification.
+     *
+     * @param id               Represents the notification id.
+     * @param targetId         Represents the notification target id.
+     * @param notificationType Represents the notification type.
+     * @param targetDateTime   Represents the notification target date time.
+     */
     public Notification(int id, int targetId, String notificationType, String targetDateTime) {
-        Id = id;
-        TargetId = targetId;
-        NotificationType = notificationType;
-        TargetDateTime = targetDateTime;
+        this.id = id;
+        this.targetId = targetId;
+        this.notificationType = notificationType;
+        this.targetDateTime = targetDateTime;
     }
 }

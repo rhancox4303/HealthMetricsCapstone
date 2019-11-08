@@ -6,16 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import androidx.appcompat.app.AlertDialog;
-import ca.mohawk.HealthMetrics.R;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,8 +24,7 @@ public class DeleteMetricDialog extends DialogFragment {
 
     public static DeleteMetricDialog newInstance(int metricId) {
         MetricId = metricId;
-        DeleteMetricDialog frag = new DeleteMetricDialog();
-        return frag;
+        return new DeleteMetricDialog();
     }
 
     public int getMetricId() {
@@ -36,7 +32,7 @@ public class DeleteMetricDialog extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // Verify that the host activity implements the callback interface
         try {
@@ -45,14 +41,15 @@ public class DeleteMetricDialog extends DialogFragment {
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
-                    + " must implement NoticeDialogListener");
+                    + " must implement DeleteMetricDialogListener");
         }
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
         builder.setTitle("Delete Metric");
         builder.setMessage("The metric will be deleted. All data entries for this metric will be deleted.");
@@ -74,8 +71,7 @@ public class DeleteMetricDialog extends DialogFragment {
     }
 
     public interface DeleteMetricDialogListener {
-        public void onDeleteMetricDialogPositiveClick(DeleteMetricDialog dialog);
-
-        public void onDeleteMetricDialogNegativeClick(DeleteMetricDialog dialog);
+         void onDeleteMetricDialogPositiveClick(DeleteMetricDialog dialog);
+         void onDeleteMetricDialogNegativeClick(DeleteMetricDialog dialog);
     }
 }

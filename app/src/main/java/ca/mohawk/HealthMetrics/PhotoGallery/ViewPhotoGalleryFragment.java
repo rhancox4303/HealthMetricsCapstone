@@ -3,6 +3,7 @@ package ca.mohawk.HealthMetrics.PhotoGallery;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,8 +30,6 @@ import ca.mohawk.HealthMetrics.R;
 public class ViewPhotoGalleryFragment extends Fragment implements View.OnClickListener {
 
     private int GalleryId;
-    private HealthMetricsDbHelper healthMetricsDbHelper;
-    private List<PhotoEntry> photoEntryList;
 
     public ViewPhotoGalleryFragment() {
         // Required empty public constructor
@@ -37,10 +37,10 @@ public class ViewPhotoGalleryFragment extends Fragment implements View.OnClickLi
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -55,9 +55,9 @@ public class ViewPhotoGalleryFragment extends Fragment implements View.OnClickLi
         Button manageGalleryButton = rootView.findViewById(R.id.buttonManageGalleryViewPhotoGallery);
         manageGalleryButton.setOnClickListener(this);
 
-        RecyclerView photoGalleryRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewPhotoGallery);
+        RecyclerView photoGalleryRecyclerView = rootView.findViewById(R.id.recyclerviewPhotoGallery);
 
-        photoEntryList = healthMetricsDbHelper.getPhotoEntriesByGalleryId(GalleryId);
+        List<PhotoEntry> photoEntryList = healthMetricsDbHelper.getPhotoEntriesByGalleryId(GalleryId);
         PhotoGalleryRecyclerViewAdapter adapter = new PhotoGalleryRecyclerViewAdapter(photoEntryList, getActivity());
         photoGalleryRecyclerView.setAdapter(adapter);
         photoGalleryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -77,7 +77,7 @@ public class ViewPhotoGalleryFragment extends Fragment implements View.OnClickLi
         galleryBundle.putInt("selected_gallery_key", GalleryId);
         destinationFragment.setArguments(galleryBundle);
 
-        getActivity().getSupportFragmentManager().beginTransaction()
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, destinationFragment)
                 .addToBackStack(null)
                 .commit();

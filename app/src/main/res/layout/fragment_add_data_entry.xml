@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout11"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DataEntry.AddDataEntryFragment">
+    tools:context=".DataEntry.CreateDataEntryFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline47"

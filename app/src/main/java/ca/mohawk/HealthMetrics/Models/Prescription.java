@@ -1,104 +1,82 @@
 package ca.mohawk.HealthMetrics.Models;
 
+/**
+ * Models a Prescription from the database.
+ */
 public class Prescription {
-    public int Id;
-    public int DosageMeasurementId;
-    public String Name;
-    public String Form;
-    public String Strength;
-    public double DosageAmount;
-    public String Frequency;
-    public double Amount;
-    public String Reason;
 
+    // Represents the prescription id.
+    public int id;
+
+    // Represents the prescription id.
+    public int dosageMeasurementId;
+
+    // Represents the prescription name.
+    public String name;
+
+    // Represents the prescription form.
+    public String form;
+
+    // Represents the prescription strength.
+    public String strength;
+
+    // Represents the prescription dosage amount.
+    public double dosageAmount;
+
+    // Represents the prescription frequency.
+    public String frequency;
+
+    // Represents the prescription amount.
+    public double amount;
+
+    // Represents the prescription reason.
+    public String reason;
+
+    /**
+     * Constructs the prescription.
+     *
+     * @param id                  Represents the prescription id.
+     * @param dosageMeasurementId Represents the prescription id.
+     * @param name                Represents the prescription name.
+     * @param form                Represents the prescription form.
+     * @param strength            Represents the prescription strength.
+     * @param dosageAmount        Represents the prescription dosage amount.
+     * @param frequency           Represents the prescription frequency.
+     * @param amount              Represents the prescription amount.
+     * @param reason              Represents the prescription reason.
+     */
     public Prescription(int id, int dosageMeasurementId, String name, String form, String strength, double dosageAmount, String frequency, double amount, String reason) {
-        Id = id;
-        DosageMeasurementId = dosageMeasurementId;
-        Name = name;
-        Form = form;
-        Strength = strength;
-        DosageAmount = dosageAmount;
-        Frequency = frequency;
-        Amount = amount;
-        Reason = reason;
+        this.id = id;
+        this.dosageMeasurementId = dosageMeasurementId;
+        this.name = name;
+        this.form = form;
+        this.strength = strength;
+        this.dosageAmount = dosageAmount;
+        this.frequency = frequency;
+        this.amount = amount;
+        this.reason = reason;
     }
 
+    /**
+     * Constructs the prescription.
+     *
+     * @param dosageMeasurementId Represents the prescription id.
+     * @param name                Represents the prescription name.
+     * @param form                Represents the prescription form.
+     * @param strength            Represents the prescription strength.
+     * @param dosageAmount        Represents the prescription dosage amount.
+     * @param frequency           Represents the prescription frequency.
+     * @param amount              Represents the prescription amount.
+     * @param reason              Represents the prescription reason.
+     */
     public Prescription(int dosageMeasurementId, String name, String form, String strength, double dosageAmount, String frequency, double amount, String reason) {
-        DosageMeasurementId = dosageMeasurementId;
-        Name = name;
-        Form = form;
-        Strength = strength;
-        DosageAmount = dosageAmount;
-        Frequency = frequency;
-        Amount = amount;
-        Reason = reason;
-    }
-
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int id) {
-        Id = id;
-    }
-
-    public int getDosageMeasurementId() {
-        return DosageMeasurementId;
-    }
-
-    public void setDosageMeasurementId(int dosageMeasurementId) {
-        DosageMeasurementId = dosageMeasurementId;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getForm() {
-        return Form;
-    }
-
-    public void setForm(String form) {
-        Form = form;
-    }
-
-    public String getStrength() {
-        return Strength;
-    }
-
-    public void setStrength(String strength) {
-        Strength = strength;
-    }
-
-    public double getDosageAmount() {
-        return DosageAmount;
-    }
-
-    public String getFrequency() {
-        return Frequency;
-    }
-
-    public void setFrequency(String frequency) {
-        Frequency = frequency;
-    }
-
-    public double getAmount() {
-        return Amount;
-    }
-
-    public void setAmount(double amount) {
-        Amount = amount;
-    }
-
-    public String getReason() {
-        return Reason;
-    }
-
-    public void setReason(String reason) {
-        Reason = reason;
+        this.dosageMeasurementId = dosageMeasurementId;
+        this.name = name;
+        this.form = form;
+        this.strength = strength;
+        this.dosageAmount = dosageAmount;
+        this.frequency = frequency;
+        this.amount = amount;
+        this.reason = reason;
     }
 }

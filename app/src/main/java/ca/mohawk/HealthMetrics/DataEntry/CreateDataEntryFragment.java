@@ -28,21 +28,18 @@ import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 
 /**
- * The EditDataEntryFragment class is an extension of the Fragment class.
- * Allows the user to edit a specified data entry.
+ * The CreateDataEntryFragment class is an extension of the Fragment class.
+ * Allows the user to create data entries for metrics.
  */
-public class EditDataEntryFragment extends Fragment implements View.OnClickListener,
+public class CreateDataEntryFragment extends Fragment implements View.OnClickListener,
         TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    // Instantiate the HealthMetricsDbHelper variable.
+    // Instantiate healthMetricsDbHelper.
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
     // Instantiate the EditText variables.
     private EditText dateOfEntryEditText;
     private EditText dataEntryEditText;
-
-    // Instantiate the dataEntryId variable.
-    private int dataEntryId = -1;
 
     // Instantiate the metricId variable.
     private int metricId = -1;
@@ -50,86 +47,61 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
     // Instantiate the time variable.
     private String time;
 
-    public EditDataEntryFragment() {
+    public CreateDataEntryFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_edit_data_entry, container,
+
+
+        View rootView = inflater.inflate(R.layout.fragment_add_data_entry, container,
                 false);
 
         // Get the views.
-        TextView metricNameTextView = rootView.findViewById(R.id.textViewMetricDisplayEditDataEntry);
-        TextView unitAbbreviationTextView = rootView.findViewById(R.id.textViewUnitAbbreviationEditDataEntry);
-
-        Button editDataEntryButton = rootView.findViewById(R.id.ButtonEditDataEntry);
-
-        dataEntryEditText = rootView.findViewById(R.id.editTextDataEntryEditDataEntry);
-        dateOfEntryEditText = rootView.findViewById(R.id.editTextDateOfEntryEditDataEntry);
+        TextView unitTextView = rootView.findViewById(R.id.textViewUnitAddDataEntry);
+        TextView metricNameTextView = rootView.findViewById(R.id.textViewMetricDisplayAddDataEntry);
+        Button addDataEntryButton = rootView.findViewById(R.id.buttonAddEntryAddDataEntry);
+        dataEntryEditText = rootView.findViewById(R.id.editTextDataEntryAddDataEntry);
+        dateOfEntryEditText = rootView.findViewById(R.id.editTextDateOfEntryAddDataEntry);
 
         dateOfEntryEditText.setOnClickListener(this);
-        editDataEntryButton.setOnClickListener(this);
+        addDataEntryButton.setOnClickListener(this);
 
-        // Get the healthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        // Get the data latestDataEntry id from the passed bundle.
+        // Get the metric id from the passed bundle.
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            dataEntryId = bundle.getInt("data_entry_selected_key", -1);
-        }
-
-        // Get the data from the database.
-        DataEntry dataEntry = healthMetricsDbHelper.getDataEntryById(dataEntryId);
-
-        // Validate the data latestDataEntry is not null.
-        if (dataEntry == null) {
-            // Inform the user of the error and call the navigateToMetricsListFragment method.
-            Toast.makeText(getActivity(), "Cannot load data latestDataEntry from database.",
-                    Toast.LENGTH_SHORT).show();
-            navigateToMetricsListFragment();
-
-        } else {
-            // Display the date of latestDataEntry and the data latestDataEntry.
-            dateOfEntryEditText.setText(dataEntry.dateOfEntry);
-            dataEntryEditText.setText(dataEntry.dataEntry);
-
-            // Set the metricId.
-            metricId = dataEntry.metricId;
+            metricId = bundle.getInt("metric_id_key", -1);
         }
 
         // Get the metric from the database.
         Metric metric = healthMetricsDbHelper.getMetricById(metricId);
 
-        Unit unit = null;
-
         // Validate the metric is not null.
-        if (metric == null) {
+        if (metric != null) {
+            // Get the unit from the database.
+            Unit unit = healthMetricsDbHelper.getUnitById(metric.unitId);
+            // Validate the unit is not null.
+            if (unit != null) {
+                // Display the unit abbreviation and the metric name.
+                unitTextView.setText(unit.unitAbbreviation);
+                metricNameTextView.setText(metric.name);
+            } else {
+                // Inform the user of the error and call the navigateToMetricsListFragment method.
+                Toast.makeText(getActivity(), "Cannot load unit from database.",
+                        Toast.LENGTH_SHORT).show();
+
+                navigateToMetricsListFragment();
+            }
+        } else {
             // Inform the user of the error and call the navigateToMetricsListFragment method.
             Toast.makeText(getActivity(), "Cannot load metric from database.",
                     Toast.LENGTH_SHORT).show();
             navigateToMetricsListFragment();
-        } else {
-
-            // Display the metric name.
-            metricNameTextView.setText(metric.name);
-
-            // Get the unit from the database.
-            unit = healthMetricsDbHelper.getUnitById(metric.unitId);
-        }
-
-        // Validate the unit is not null.
-        if (unit == null) {
-            // Inform the user of the error and call the navigateToMetricsListFragment method.
-            Toast.makeText(getActivity(), "Cannot load unit from database.",
-                    Toast.LENGTH_SHORT).show();
-            navigateToMetricsListFragment();
-        } else {
-            // Display the unit abbreviation.
-            unitAbbreviationTextView.setText(unit.unitAbbreviation);
         }
 
         // Return rootView.
@@ -175,9 +147,9 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
     }
 
     /**
-     * Updates the data latestDataEntry in the database.
+     * Create a new data entry and add it to the database.
      */
-    private void editDataEntry() {
+    private void createDataEntry() {
 
         // Validate the user input.
         if (validateUserInput()) {
@@ -186,29 +158,27 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
             String date = dateOfEntryEditText.getText().toString();
             String entry = dataEntryEditText.getText().toString();
 
-            // Validate the data latestDataEntry was updated in the database successfully.
-            if (healthMetricsDbHelper.updateDataEntry(new DataEntry(dataEntryId, metricId, entry,
-                    date))) {
+            // Validate the data latestDataEntry was added to the database successfully.
+            if (healthMetricsDbHelper.addDataEntry(new DataEntry(metricId, entry, date))) {
 
-                // Create a new viewDataEntryFragment Fragment.
-                ViewDataEntryFragment viewDataEntryFragment = new ViewDataEntryFragment();
+                // Create a new dataEntryList Fragment.
+                DataEntryListFragment dataEntryListFragment = new DataEntryListFragment();
 
-                // Create a bundle and set the data latestDataEntry id.
-                Bundle dataEntryBundle = new Bundle();
-                dataEntryBundle.putInt("data_entry_selected_key", dataEntryId);
-
-                // Set the bundle to the viewDataEntryFragment fragment.
-                viewDataEntryFragment.setArguments(dataEntryBundle);
+                // Create a bundle and set the metric id.
+                Bundle metricBundle = new Bundle();
+                metricBundle.putInt("selected_item_key", metricId);
+                dataEntryListFragment.setArguments(metricBundle);
 
                 // Replace the current fragment with the dataEntryListFragment.
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, viewDataEntryFragment)
+                        .replace(R.id.fragmentContainer, dataEntryListFragment)
                         .addToBackStack(null)
                         .commit();
 
-                // Else, inform the user of the error
+                // Else, inform the user of the error.
             } else {
-                Toast.makeText(getActivity(), "Unable to update data latestDataEntry.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Unable to add data latestDataEntry to database.",
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -234,16 +204,17 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        // If the view id is editTextDateOfEntryEditDataEntry then display the TimePickerFragment.
-        if (v.getId() == R.id.editTextDateOfEntryEditDataEntry) {
+        // If the view id is editTextDateOfEntryAddDataEntry then display the TimePickerFragment.
+        if (v.getId() == R.id.editTextDateOfEntryAddDataEntry) {
 
             TimePickerFragment timePickerFragment = new TimePickerFragment();
             timePickerFragment.setOnTimeSetListener(this);
             timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(),
                     "timePicker");
-            // Else if the view id is buttonEditDataEntry call the editDataEntry method.
-        } else if (v.getId() == R.id.ButtonEditDataEntry) {
-            editDataEntry();
+
+            // Else if the view id is buttonAddEntryAddDataEntry call the createDataEntry method.
+        } else if (v.getId() == R.id.buttonAddEntryAddDataEntry) {
+            createDataEntry();
         }
     }
 
@@ -265,7 +236,8 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         // Create and show the DatePickerFragment.
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.setOnDateSetListener(this);
-        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
+        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(),
+                "datePicker");
     }
 
     /**
@@ -279,13 +251,9 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if (dayOfMonth < 10) {
-            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ")
-                    .append(month + 1).append("-0").append(dayOfMonth).append("-")
-                    .append(year).toString());
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1).append("-0").append(dayOfMonth).append("-").append(year).toString());
         } else {
-            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ")
-                    .append(month + 1).append("-").append(dayOfMonth)
-                    .append("-").append(year).toString());
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1).append("-").append(dayOfMonth).append("-").append(year).toString());
         }
     }
 }

@@ -9,14 +9,14 @@
 
     <TextView
         android:id="@+id/textViewMetricTypeCreateMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Metric Type"
-        android:textSize="24sp"
+        android:text="@string/metric_type"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline18"
         app:layout_constraintEnd_toStartOf="@+id/guideline16"
         app:layout_constraintHorizontal_bias="0.515"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.3502052" />
 
     <RadioGroup
         android:id="@+id/radioGroupMetricTypeCreateMetric"
@@ -65,25 +65,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Quantitative" />
+            android:text="@string/quantitative" />
 
         <RadioButton
             android:id="@+id/radioButtonGalleryCreateMetric"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Photo Galley" />
+            android:text="@string/photo_galley" />
 
         <RadioButton
             android:id="@+id/radioButtonNoteCreateMetric"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Note" />
+            android:text="@string/note" />
     </RadioGroup>
 
     <FrameLayout
-        android:id="@+id/CreateMetricFragmentContainer"
+        android:id="@+id/createMetricFragmentContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

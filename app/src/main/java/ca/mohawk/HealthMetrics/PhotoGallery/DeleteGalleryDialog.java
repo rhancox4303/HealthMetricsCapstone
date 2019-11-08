@@ -6,15 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import ca.mohawk.HealthMetrics.R;
 
 
 /**
@@ -35,7 +32,7 @@ public class DeleteGalleryDialog extends DialogFragment {
         return GalleryId;
     }
 
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // Verify that the host activity implements the callback interface
         try {
@@ -44,14 +41,15 @@ public class DeleteGalleryDialog extends DialogFragment {
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
-                    + " must implement NoticeDialogListener");
+                    + " must implement DeleteGalleryDialogListener");
         }
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
         builder.setTitle("Delete Gallery");
         builder.setMessage("The gallery will be deleted.");
@@ -73,8 +71,8 @@ public class DeleteGalleryDialog extends DialogFragment {
     }
 
     public interface DeleteGalleryDialogListener {
-        public void onDeleteGalleryDialogPositiveClick(DeleteGalleryDialog dialog);
+        void onDeleteGalleryDialogPositiveClick(DeleteGalleryDialog dialog);
 
-        public void onDeleteGalleryDialogNegativeClick(DeleteGalleryDialog dialog);
+        void onDeleteGalleryDialogNegativeClick(DeleteGalleryDialog dialog);
     }
 }

@@ -2,22 +2,20 @@ package ca.mohawk.HealthMetrics.PhotoGallery;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
+import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
 import ca.mohawk.HealthMetrics.R;
@@ -27,10 +25,9 @@ import ca.mohawk.HealthMetrics.R;
  * A simple {@link Fragment} subclass.
  */
 public class ViewPhotoEntryFragment extends Fragment implements View.OnClickListener {
-    private HealthMetricsDbHelper healthMetricsDbHelper;
+
     private int PhotoId;
     private PhotoEntry PhotoEntry;
-
 
     public ViewPhotoEntryFragment() {
         // Required empty public constructor
@@ -38,11 +35,11 @@ public class ViewPhotoEntryFragment extends Fragment implements View.OnClickList
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+        View rootView = inflater.inflate(R.layout.fragment_view_photo_entry, container, false);
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -51,22 +48,26 @@ public class ViewPhotoEntryFragment extends Fragment implements View.OnClickList
 
         PhotoEntry = healthMetricsDbHelper.getPhotoEntryById(PhotoId);
 
-        View rootView = inflater.inflate(R.layout.fragment_view_photo_entry, container, false);
-        ImageView imageView = rootView.findViewById(R.id.imageViewPhotoEntry);
-        TextView dateOfEntryTextView = rootView.findViewById(R.id.textViewDateOfEntryViewPhotoEntry);
+        if (PhotoEntry != null) {
+            ImageView imageView = rootView.findViewById(R.id.imageViewPhotoEntry);
+            TextView dateOfEntryTextView = rootView.findViewById(R.id.textViewDateOfEntryViewPhotoEntry);
 
-        Button deleteEntryButton = rootView.findViewById(R.id.buttonDeleteEntryViewPhotoEntry);
-        Button editEntryButton = rootView.findViewById(R.id.buttonEditEntryViewPhotoEntry);
+            Button deleteEntryButton = rootView.findViewById(R.id.buttonDeleteEntryViewPhotoEntry);
+            Button editEntryButton = rootView.findViewById(R.id.buttonEditEntryViewPhotoEntry);
 
-        deleteEntryButton.setOnClickListener(this);
-        editEntryButton.setOnClickListener(this);
+            deleteEntryButton.setOnClickListener(this);
+            editEntryButton.setOnClickListener(this);
 
-        dateOfEntryTextView.setText(PhotoEntry.DateOfEntry);
+            dateOfEntryTextView.setText(PhotoEntry.dateOfEntry);
 
-        Glide.with(getActivity())
-                .load(PhotoEntry.PhotoEntryPath)
-                .fitCenter()
-                .into(imageView);
+            Glide.with(Objects.requireNonNull(getActivity()))
+                    .load(PhotoEntry.photoEntryPath)
+                    .fitCenter()
+                    .into(imageView);
+        } else {
+
+            //Go to fragment.
+        }
 
         return rootView;
     }
@@ -79,14 +80,14 @@ public class ViewPhotoEntryFragment extends Fragment implements View.OnClickList
             galleryBundle.putInt("selected_photo_key", PhotoId);
             destinationFragment.setArguments(galleryBundle);
 
-            getActivity().getSupportFragmentManager().beginTransaction()
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, destinationFragment)
                     .addToBackStack(null)
                     .commit();
 
-        } else if(v.getId() == R.id.buttonDeleteEntryViewPhotoEntry){
-            DialogFragment newFragment = DeletePhotoEntryDialog.newInstance(PhotoEntry);
-            newFragment.show(getFragmentManager(), "dialog");
+        } else if (v.getId() == R.id.buttonDeleteEntryViewPhotoEntry) {
+            DialogFragment deletePhotoEntryDialog = DeletePhotoEntryDialog.newInstance(PhotoEntry);
+            deletePhotoEntryDialog.show(Objects.requireNonNull(getFragmentManager()), "deletePhotoEntryDialog");
         }
     }
 }

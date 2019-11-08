@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 
 /**
@@ -25,25 +23,25 @@ public class InsertPhotoDialog extends DialogFragment {
 
     public static InsertPhotoDialog newInstance() {
 
-        InsertPhotoDialog dialog = new InsertPhotoDialog();
-        return dialog;
+        return new InsertPhotoDialog();
     }
 
-    public void setListener(insertPhotoDialogListener listener) {
+    void setListener(insertPhotoDialogListener listener) {
         this.listener = listener;
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
-        builder.setTitle("Insert Photo Entry");
+        builder.setTitle("Insert Photo latestDataEntry");
 
         builder.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -68,10 +66,10 @@ public class InsertPhotoDialog extends DialogFragment {
     }
 
     public interface insertPhotoDialogListener {
-        public void onInsertPhotoDialogPositiveClick(InsertPhotoDialog dialog);
+        void onInsertPhotoDialogPositiveClick(InsertPhotoDialog dialog);
 
-        public void onInsertPhotoDialogNeutralClick(InsertPhotoDialog dialog);
+        void onInsertPhotoDialogNeutralClick(InsertPhotoDialog dialog);
 
-        public void onInsertPhotoDialogNegativeClick(InsertPhotoDialog dialog);
+        void onInsertPhotoDialogNegativeClick(InsertPhotoDialog dialog);
     }
 }

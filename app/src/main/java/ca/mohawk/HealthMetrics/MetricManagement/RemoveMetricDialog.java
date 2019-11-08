@@ -6,27 +6,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import ca.mohawk.HealthMetrics.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RemoveMetricDialog extends DialogFragment {
-    private RemoveMetricDialogListener listener;
     private static int MetricId;
+    private RemoveMetricDialogListener listener;
 
     public static RemoveMetricDialog newInstance(int metricId) {
         MetricId = metricId;
-        RemoveMetricDialog frag = new RemoveMetricDialog();
-        return frag;
+        return new RemoveMetricDialog();
     }
 
     public int getMetricId() {
@@ -34,7 +31,7 @@ public class RemoveMetricDialog extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // Verify that the host activity implements the callback interface
         try {
@@ -43,14 +40,15 @@ public class RemoveMetricDialog extends DialogFragment {
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
-                    + " must implement Listener");
+                    + " must implement RemoveMetricDialogListener");
         }
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
         builder.setTitle("Remove Metric");
         builder.setMessage("The metric will be removed from your profile. All data entries for this metric will be deleted.");
@@ -72,8 +70,8 @@ public class RemoveMetricDialog extends DialogFragment {
     }
 
     public interface RemoveMetricDialogListener {
-        public void onRemoveMetricDialogPositiveClick(RemoveMetricDialog dialog);
+        void onRemoveMetricDialogPositiveClick(RemoveMetricDialog dialog);
 
-        public void onRemoveMetricDialogNegativeClick(RemoveMetricDialog dialog);
+        void onRemoveMetricDialogNegativeClick(RemoveMetricDialog dialog);
     }
 }

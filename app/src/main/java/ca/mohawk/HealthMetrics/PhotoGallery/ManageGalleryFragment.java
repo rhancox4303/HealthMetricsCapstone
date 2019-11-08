@@ -2,16 +2,15 @@ package ca.mohawk.HealthMetrics.PhotoGallery;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Objects;
+
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.R;
@@ -24,7 +23,6 @@ public class ManageGalleryFragment extends Fragment implements View.OnClickListe
 
 
     private int GalleryId;
-    private HealthMetricsDbHelper healthMetricsDbHelper;
 
     public ManageGalleryFragment() {
         // Required empty public constructor
@@ -36,7 +34,7 @@ public class ManageGalleryFragment extends Fragment implements View.OnClickListe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_manage_gallery, container, false);
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -52,7 +50,12 @@ public class ManageGalleryFragment extends Fragment implements View.OnClickListe
         editGalleryButton.setOnClickListener(this);
 
         PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(GalleryId);
-        galleryNameTextView.setText(gallery.Name);
+
+        if (gallery != null) {
+            galleryNameTextView.setText(gallery.name);
+        } else {
+            //Leave fragment
+        }
 
         return rootView;
     }
@@ -62,16 +65,16 @@ public class ManageGalleryFragment extends Fragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.buttonDeleteGalleryManageGallery:
                 DeleteGalleryDialog deleteGalleryDialog = DeleteGalleryDialog.newInstance(GalleryId);
-                deleteGalleryDialog.show(getFragmentManager(), "dialog");
+                deleteGalleryDialog.show(Objects.requireNonNull(getFragmentManager()), "deleteGalleryDialog");
                 break;
-            case R.id.buttonEditGalleryManageGallery:
 
+            case R.id.buttonEditGalleryManageGallery:
                 Fragment destinationFragment = new EditGalleryFragment();
                 Bundle galleryBundle = new Bundle();
                 galleryBundle.putInt("selected_gallery_key", GalleryId);
                 destinationFragment.setArguments(galleryBundle);
 
-                getActivity().getSupportFragmentManager().beginTransaction()
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, destinationFragment)
                         .addToBackStack(null)
                         .commit();

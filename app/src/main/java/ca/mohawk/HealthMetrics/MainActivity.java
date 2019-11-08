@@ -50,9 +50,6 @@ public class MainActivity extends AppCompatActivity
         DeleteNoteDialog.DeleteNoteDialogListener, DeletePhotoEntryDialog.DeletePhotoEntryDialogListener,
         DeleteGalleryDialog.DeleteGalleryDialogListener, DeleteNotificationDialog.DeleteNotificationDialogListener {
 
-    private static final int CAMERA_REQUEST_CODE = 2000;
-    private static final int CAMERA_PERMISSION_CODE = 100;
-
     HealthMetricsDbHelper healthMetricsDbHelper;
     FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -66,7 +63,6 @@ public class MainActivity extends AppCompatActivity
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
 
         SharedPreferences userInfo = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = userInfo.edit();
         boolean loggedIn = userInfo.getBoolean("loggedIn", false);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -84,10 +80,6 @@ public class MainActivity extends AppCompatActivity
             MetricsListFragment metricsListFragment = new MetricsListFragment();
             fragmentTransaction.add(R.id.fragmentContainer, metricsListFragment);
         } else {
-
-            //seed the DB
-            healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
-            healthMetricsDbHelper.seedDatabase();
 
             CreateUserFragment createUserFragment = new CreateUserFragment();
             fragmentTransaction.add(R.id.fragmentContainer, createUserFragment);
@@ -118,7 +110,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -151,7 +142,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void switchContent(Fragment fragment) {
+    public void switchFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, fragment);
         fragmentTransaction.commit();
@@ -159,10 +150,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDeleteMetricDialogPositiveClick(DeleteMetricDialog dialog) {
-        boolean deleteSuccessful = false;
 
         MetricsListFragment metricsListFragment = new MetricsListFragment();
-        deleteSuccessful = healthMetricsDbHelper.deleteMetric(dialog.getMetricId());
+        boolean deleteSuccessful = healthMetricsDbHelper.deleteMetric(dialog.getMetricId());
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, metricsListFragment)
@@ -183,10 +173,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDeleteDataEntryDialogPositiveClick(DeleteDataEntryDialog dialog) {
-        boolean deleteSuccessful = false;
 
         DataEntryListFragment dataEntryListFragment = new DataEntryListFragment();
-        deleteSuccessful = healthMetricsDbHelper.deleteDataEntry(dialog.getDataEntryId());
+        boolean deleteSuccessful = healthMetricsDbHelper.deleteDataEntry(dialog.getDataEntryId());
 
         Bundle metricBundle = new Bundle();
         metricBundle.putInt("selected_item_key", dialog.getMetricId());
@@ -213,10 +202,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDeletePrescriptionDialogPositiveClick(DeletePrescriptionDialog dialog) {
 
-        boolean deleteSuccessful = false;
-
         PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
-        deleteSuccessful = healthMetricsDbHelper.deletePrescription(dialog.getPrescriptionId());
+        boolean deleteSuccessful = healthMetricsDbHelper.deletePrescription(dialog.getPrescriptionId());
 
 
         getSupportFragmentManager().beginTransaction()
@@ -268,10 +255,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDeleteNoteDialogPositiveClick(DeleteNoteDialog dialog) {
-        boolean deleteSuccessful = false;
 
         MetricsListFragment metricsListFragment = new MetricsListFragment();
-        deleteSuccessful = healthMetricsDbHelper.deleteNoteById(dialog.getNoteId());
+        boolean deleteSuccessful = healthMetricsDbHelper.deleteNoteById(dialog.getNoteId());
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, metricsListFragment)
@@ -293,11 +279,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDeletePhotoEntryDialogPositiveClick(DeletePhotoEntryDialog dialog) {
 
-        boolean deleteSuccessful = false;
-
         ViewPhotoGalleryFragment viewPhotoGalleryFragment = new ViewPhotoGalleryFragment();
 
-        deleteSuccessful = healthMetricsDbHelper.deletePhotoEntryById(dialog.getPhotoEntryId());
+        boolean deleteSuccessful = healthMetricsDbHelper.deletePhotoEntryById(dialog.getPhotoEntryId());
 
         Bundle photoEntryBundle = new Bundle();
         photoEntryBundle.putInt("selected_item_key", dialog.getGalleryId());
@@ -328,11 +312,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDeleteGalleryDialogPositiveClick(DeleteGalleryDialog dialog) {
-        boolean deleteSuccessful = false;
 
         MetricsListFragment metricsListFragment = new MetricsListFragment();
 
-        deleteSuccessful = healthMetricsDbHelper.deleteGallery(dialog.getGalleryId());
+        boolean deleteSuccessful = healthMetricsDbHelper.deleteGallery(dialog.getGalleryId());
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, metricsListFragment)
@@ -355,7 +338,6 @@ public class MainActivity extends AppCompatActivity
     public void onDeleteNotificationDialogPositiveClick(DeleteNotificationDialog dialog) {
         int id = dialog.getNotificationId();
         NotificationListFragment notificationListFragment = new NotificationListFragment();
-        Notification notification = healthMetricsDbHelper.getNotificationById(id);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, NotificationReceiver.class);

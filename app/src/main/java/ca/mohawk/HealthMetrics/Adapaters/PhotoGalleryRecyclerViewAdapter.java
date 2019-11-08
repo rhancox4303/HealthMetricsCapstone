@@ -12,93 +12,136 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
 import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoEntryFragment;
-import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.R;
 
+/**
+ * Acts as a custom adapter to display
+ * the photo entries in the photo latestDataEntry list recycler view.
+ */
 public class PhotoGalleryRecyclerViewAdapter extends
         RecyclerView.Adapter<PhotoGalleryRecyclerViewAdapter.ViewHolder> {
+
+    // Instantiate the context variable.
     private Context context;
 
-    //The list of metrics to be displayed in the recycler view.
-    private List<PhotoEntry> photoEntryList;
+    // Instantiate the list of photo entries to use in the adapter.
+    private List<PhotoEntry> photoEntries;
 
-    public PhotoGalleryRecyclerViewAdapter(List<PhotoEntry> photoEntryList, Context context) {
-        this.photoEntryList = photoEntryList;
+    /**
+     * Creates the adapter.
+     *
+     * @param photoEntries Represents the list of photo entries.
+     * @param context      Represents the application context.
+     */
+    public PhotoGalleryRecyclerViewAdapter(List<PhotoEntry> photoEntries, Context context) {
+        this.photoEntries = photoEntries;
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ImageView imageViewPhotoEntry;
-        public TextView textViewDateOfEntry;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            imageViewPhotoEntry = (ImageView) itemView.findViewById(R.id.image_view_gallery);
-            textViewDateOfEntry = (TextView) itemView.findViewById(R.id.date_gallery);
-        }
-    }
-
+    /**
+     * Creates the View Holder.
+     *
+     * @param parent   Represents the parent view group.
+     * @param viewType Represents the view type.
+     * @return A created view holder is returned.
+     */
+    @NonNull
     @Override
     public PhotoGalleryRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        // Get the context.
         Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
 
+        // Inflate the view.
+        LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = inflater.inflate(R.layout.photo_gallery_recycler_view_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        // Return the View Holder.
+        return new ViewHolder(contactView);
     }
 
+    /**
+     * Sets the item views in the view holder.
+     *
+     * @param viewHolder Represents the view holder.
+     * @param position   Represents the position of the photo latestDataEntry that is being displayed.
+     */
     @Override
     public void onBindViewHolder(PhotoGalleryRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
-        //Get data object
-        final PhotoEntry photoEntry = photoEntryList.get(position);
+        // Get photo latestDataEntry.
+        final PhotoEntry photoEntry = photoEntries.get(position);
 
-        // Set item views
+        // Display the date of latestDataEntry in the recycler view.
         TextView dateOfEntryTextView = viewHolder.textViewDateOfEntry;
-        dateOfEntryTextView.setText(photoEntry.DateOfEntry);
+        dateOfEntryTextView.setText(photoEntry.dateOfEntry);
 
+        // Use Glide to load the photo into the view holder's image view.
         Glide.with(context)
-                .load(photoEntry.PhotoEntryPath)
+                .load(photoEntry.photoEntryPath)
                 .centerCrop()
                 .into(viewHolder.imageViewPhotoEntry);
 
+        // Set the itemView onCLickListener.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeFragment(photoEntry);
+                // Call the switchFragment method with the photo latestDataEntry passed in.
+                switchFragment(photoEntry);
             }
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return photoEntryList.size();
-    }
+    /**
+     * Gets the new fragment and calls switch fragment on the main activity.
+     *
+     * @param photoEntrySelected Represents the selected notification.
+     */
+    private void switchFragment(PhotoEntry photoEntrySelected) {
 
-    private void changeFragment(PhotoEntry itemSelected) {
-        ViewPhotoEntryFragment fragment = new ViewPhotoEntryFragment();
+        // Create ViewPhotoEntry Fragment.
+        ViewPhotoEntryFragment destinationFragment = new ViewPhotoEntryFragment();
+
+        // Create bundle and add the photo latestDataEntry id.
         Bundle galleryBundle = new Bundle();
-        galleryBundle.putInt("selected_photo_key", itemSelected.Id);
-        fragment.setArguments(galleryBundle);
-        switchContent(fragment);
-    }
+        galleryBundle.putInt("selected_photo_key", photoEntrySelected.id);
 
-    public void switchContent(Fragment fragment) {
-        if (context == null)
-            return;
+        // Set the bundle to the destination fragment.
+        destinationFragment.setArguments(galleryBundle);
+
+        // If the context is an instance of MainActivity then call switchFragment.
         if (context instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) context;
-            mainActivity.switchContent(fragment);
+            mainActivity.switchFragment(destinationFragment);
+        }
+    }
+
+    // Returns the size of photoEntries.
+    @Override
+    public int getItemCount() {
+        return photoEntries.size();
+    }
+
+    /**
+     * Defines the view of a row inside the recycler view.
+     */
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        // Initialize the image view and the date of latestDataEntry text view.
+        ImageView imageViewPhotoEntry;
+        TextView textViewDateOfEntry;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+
+            // Get the views from the photo entries list recycler view layout.
+            imageViewPhotoEntry = itemView.findViewById(R.id.image_view_gallery);
+            textViewDateOfEntry = itemView.findViewById(R.id.date_gallery);
         }
     }
 }

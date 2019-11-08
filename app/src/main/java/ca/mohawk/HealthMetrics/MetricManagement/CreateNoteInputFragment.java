@@ -3,9 +3,6 @@ package ca.mohawk.HealthMetrics.MetricManagement;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +12,31 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.Objects;
+
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
-import ca.mohawk.HealthMetrics.HealthMetricContract;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Note;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The CreateMetricInputFragment class is an extension of the Fragment class.
+ * <p>
+ * Allows the user create notes.
  */
-public class CreateNoteInputFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class CreateNoteInputFragment extends Fragment implements View.OnClickListener,
+        TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+
+    // Initialize the healthMetricsDbHelper.
     private HealthMetricsDbHelper healthMetricsDbHelper;
+
+    // Initialize the edit texts.
     private EditText dateOfEntryEditText;
     private EditText noteContentEditText;
+
+    // Initialize the time variable.
     private String time;
 
     public CreateNoteInputFragment() {
@@ -39,8 +47,9 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
         View rootView = inflater.inflate(R.layout.fragment_create_note_input, container, false);
+
+        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         dateOfEntryEditText = rootView.findViewById(R.id.editTextDateOfEntryCreateNoteInput);
         dateOfEntryEditText.setOnClickListener(this);
@@ -51,41 +60,79 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
         noteContentEditText = rootView.findViewById(R.id.editTextNoteCreateNoteInput);
         return rootView;
     }
-    public boolean validateUserInput(){
-        if(noteContentEditText.getText().toString().trim().equals("") || dateOfEntryEditText.getText().toString().equals("")){
-            Toast.makeText(getActivity(), "Please fill in all field", Toast.LENGTH_SHORT).show();
-            return false;
-        }else{
-            return true;
-        }
-    }
+
+    /**
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
+     */
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.editTextDateOfEntryCreateNoteInput){
+
+        if (v.getId() == R.id.editTextDateOfEntryCreateNoteInput) {
+
             TimePickerFragment timePickerFragment = new TimePickerFragment();
             timePickerFragment.setOnTimeSetListener(this);
-            timePickerFragment.show(getFragmentManager().beginTransaction(), "timePicker");
-        }else if(v.getId() == R.id.buttonAddNoteCreateNoteInput && validateUserInput() ){
+            timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "timePicker");
 
-            String noteContent = noteContentEditText.getText().toString();
-            String dateOfEntry = dateOfEntryEditText.getText().toString();
-            healthMetricsDbHelper.addNote(new Note(dateOfEntry,noteContent));
+        } else if (v.getId() == R.id.buttonAddNoteCreateNoteInput) {
+            createNote();
+        }
+    }
 
-            Toast.makeText(getActivity(), "Note created.", Toast.LENGTH_SHORT).show();
+    private boolean validateUserInput() {
 
-            MetricsListFragment metricsListFragment = new MetricsListFragment();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, metricsListFragment)
-                    .addToBackStack(null)
-                    .commit();
+        String noteContents = noteContentEditText.getText().toString().trim();
+
+        // If metricName is empty then inform the user and return false.
+        if (noteContents.equals("")) {
+            Toast.makeText(getActivity(), "The note content cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // If metricName is greater than 140 then inform the user and return false.
+        if (noteContents.length() > 140) {
+            Toast.makeText(getActivity(), "Enter a note 140 characters or less.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (dateOfEntryEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "The date of latestDataEntry cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Return true.
+        return true;
+    }
+
+
+    private void createNote() {
+
+        if (validateUserInput()) {
+
+            String noteContent = noteContentEditText.getText().toString().trim();
+            String dateOfEntry = dateOfEntryEditText.getText().toString().trim();
+
+            if (healthMetricsDbHelper.addNote(new Note(dateOfEntry, noteContent))) {
+                Toast.makeText(getActivity(), "Note created.", Toast.LENGTH_SHORT).show();
+
+                MetricsListFragment metricsListFragment = new MetricsListFragment();
+
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, metricsListFragment)
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                Toast.makeText(getActivity(), "Failed to create note.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if(minute < 10) {
+        if (minute < 10) {
             time = hourOfDay + ":0" + minute;
-        }else{
+        } else {
             time = hourOfDay + ":" + minute;
         }
 
@@ -93,15 +140,18 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
 
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.setOnDateSetListener(this);
-        datePickerFragment.show(getFragmentManager().beginTransaction(), "datePicker");
+        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
         if (dayOfMonth < 10) {
-            dateOfEntryEditText.setText(time + " " + (month + 1) + "-0" + dayOfMonth + "-" + year);
-        }else{
-            dateOfEntryEditText.setText(time + " " + (month + 1) + "-" + dayOfMonth + "-" + year);
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ")
+                    .append(month + 1).append("-0").append(dayOfMonth).append("-").append(year).toString());
+        } else {
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ")
+                    .append(month + 1).append("-").append(dayOfMonth).append("-").append(year).toString());
         }
     }
 }

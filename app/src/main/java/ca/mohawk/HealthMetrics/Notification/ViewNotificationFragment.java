@@ -2,15 +2,15 @@ package ca.mohawk.HealthMetrics.Notification;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Objects;
+
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.Notification;
@@ -25,7 +25,6 @@ import ca.mohawk.HealthMetrics.R;
 public class ViewNotificationFragment extends Fragment implements View.OnClickListener {
 
     private int NotificationId;
-    private HealthMetricsDbHelper healthMetricsDbHelper;
 
     public ViewNotificationFragment() {
         // Required empty public constructor
@@ -36,7 +35,7 @@ public class ViewNotificationFragment extends Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         View rootView = inflater.inflate(R.layout.fragment_view_notification, container, false);
         TextView typeTextView = rootView.findViewById(R.id.textViewTypeViewNotification);
@@ -55,25 +54,26 @@ public class ViewNotificationFragment extends Fragment implements View.OnClickLi
         }
 
         Notification notification = healthMetricsDbHelper.getNotificationById(NotificationId);
-        typeTextView.setText(notification.NotificationType);
-        dateTimeTextView.setText(notification.TargetDateTime);
 
-        switch (notification.NotificationType) {
-            case "Enter Metric Data":
-                Metric metric = healthMetricsDbHelper.getMetricById(notification.TargetId);
-                targetTextView.setText(metric.Name);
-                break;
-            case "Enter Gallery Data":
-                PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.TargetId);
-                targetTextView.setText(gallery.Name);
-                break;
-            case "Refill Prescription":
-            case "Take Prescription":
-                Prescription prescription = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                targetTextView.setText(prescription.Name);
-                break;
+        if (notification != null) {
+            typeTextView.setText(notification.notificationType);
+            dateTimeTextView.setText(notification.targetDateTime);
+            switch (notification.notificationType) {
+                case "Enter Metric Data":
+                    Metric metric = healthMetricsDbHelper.getMetricById(notification.targetId);
+                    targetTextView.setText(metric.name);
+                    break;
+                case "Enter Gallery Data":
+                    PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.targetId);
+                    targetTextView.setText(gallery.name);
+                    break;
+                case "Refill Prescription":
+                case "Take Prescription":
+                    Prescription prescription = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
+                    targetTextView.setText(prescription.name);
+                    break;
+            }
         }
-
         return rootView;
     }
 
@@ -81,7 +81,7 @@ public class ViewNotificationFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         if (v.getId() == R.id.buttonDeleteNotificationViewNotification) {
             DeleteNotificationDialog deleteNotificationDialog = DeleteNotificationDialog.newInstance(NotificationId);
-            deleteNotificationDialog.show(getFragmentManager(), "dialog");
+            deleteNotificationDialog.show(Objects.requireNonNull(getFragmentManager()), "dialog");
         } else if (v.getId() == R.id.buttonEditNotificationViewNotification) {
 
             EditNotificationFragment editNotificationFragment = new EditNotificationFragment();
@@ -90,7 +90,7 @@ public class ViewNotificationFragment extends Fragment implements View.OnClickLi
             bundle.putInt("notification_selected_key", NotificationId);
             editNotificationFragment.setArguments(bundle);
 
-            getActivity().getSupportFragmentManager().beginTransaction()
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, editNotificationFragment)
                     .addToBackStack(null)
                     .commit();

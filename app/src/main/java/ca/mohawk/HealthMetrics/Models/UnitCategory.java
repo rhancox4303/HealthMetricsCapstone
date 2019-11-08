@@ -1,27 +1,33 @@
 package ca.mohawk.HealthMetrics.Models;
 
+import androidx.annotation.NonNull;
+
+/**
+ * Models a unit category from the database.
+ */
 public class UnitCategory {
 
-    public int Id;
-    public String UnitCategory;
+    // Represents the unit category id.
+    public int id;
 
+    // Represents the unit category.
+    public String unitCategory;
+
+    /**
+     * Constructs the unit category.
+     *
+     * @param id           Represents the unit category id.
+     * @param unitCategory Represents the unit category.
+     */
     public UnitCategory(int id, String unitCategory) {
-        Id = id;
-        UnitCategory = unitCategory;
+        this.id = id;
+        this.unitCategory = unitCategory;
 
     }
 
-    public UnitCategory(String unitCategory) {
-        UnitCategory = unitCategory;
-        Id = 0;
-    }
-
-    public int getId() {
-        return Id;
-    }
-
+    @NonNull
     @Override
     public String toString() {
-        return UnitCategory;
+        return unitCategory;
     }
 }

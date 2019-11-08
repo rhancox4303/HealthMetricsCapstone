@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
@@ -21,113 +21,153 @@ import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.Notification.ViewNotificationFragment;
 import ca.mohawk.HealthMetrics.R;
 
+/**
+ * Acts as a custom adapter to display
+ * the notifications in the notification list Recycler View.
+ */
 public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<NotificationRecyclerViewAdapter.ViewHolder> {
 
+    // Instantiate the context variable.
     private Context context;
 
-    //The list of prescription to be displayed in the recycler view.
-    private ArrayList<Notification> notificationList;
+    // Instantiate the list of notifications to use in the adapter.
+    private ArrayList<Notification> notifications;
 
-    public NotificationRecyclerViewAdapter(ArrayList<Notification> notificationList, Context context) {
-        this.notificationList = notificationList;
+    /**
+     * Creates the adapter.
+     *
+     * @param notifications Represents the list of notifications.
+     * @param context       Represents the application context.
+     */
+    public NotificationRecyclerViewAdapter(ArrayList<Notification> notifications, Context context) {
+        this.notifications = notifications;
         this.context = context;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView notificationInformationTextView;
-        public TextView notificationDateTextView;
-        // public Button incrementAmountButton;
-        // public Button decrementAmountButton;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            notificationInformationTextView = itemView.findViewById(R.id.textViewNotificationInformation);
-            notificationDateTextView = itemView.findViewById(R.id.textViewNotificationDate);
-        }
-    }
-
     /**
-     * The onCreateViewHolder method is used to inflate
-     * the custom layout and create the viewholder.
+     * Creates the View Holder.
+     *
+     * @param parent   Represents the parent view group.
+     * @param viewType Represents the view type.
+     * @return A created view holder is returned.
      */
+    @NonNull
     @Override
     public NotificationRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        // Get the context.
         Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
 
+        // Inflate the view.
+        LayoutInflater inflater = LayoutInflater.from(context);
         View contactView = inflater.inflate(R.layout.notification_list_recycler_view_layout, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        // Return the View Holder.
+        return new ViewHolder(contactView);
     }
 
     /**
-     * The onBindViewHolder method is used to set the item views in the recycler
-     * view using the metricRecyclerViewObjectList and the view holder.
+     * Sets the item views in the view holder.
+     *
+     * @param viewHolder Represents the view holder.
+     * @param position   Represents the position of the notification that is being displayed.
      */
     @Override
-    public void onBindViewHolder(NotificationRecyclerViewAdapter.ViewHolder viewHolder, int position) {
-        //Get data object
-        final Notification notification = notificationList.get(position);
+    public void onBindViewHolder(@NonNull NotificationRecyclerViewAdapter.ViewHolder viewHolder, int position) {
+
+        // Get notification object.
+        final Notification notification = notifications.get(position);
+
+        // Instantiate the information variable.
         String information = "";
+
+        // Instantiate the healthMetricsDbHelper.
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(context);
-        switch (notification.NotificationType) {
+
+        // Create the information variable based on the type of notification.
+        // Verify that the data gotten from the database is not null.
+        switch (notification.notificationType) {
             case "Enter Metric Data":
-                Metric metric = healthMetricsDbHelper.getMetricById(notification.TargetId);
-                information = "Input " + metric.Name;
+                Metric metric = healthMetricsDbHelper.getMetricById(notification.targetId);
+                information = metric != null ? "Input " + metric.name : "";
                 break;
             case "Enter Gallery Data":
-                PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.TargetId);
-                information = "Input " + gallery.Name;
+                PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.targetId);
+                information = gallery != null ? "Input " + gallery.name : "";
                 break;
             case "Refill Prescription":
-                Prescription prescriptionRefill = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                information = "Refill " + prescriptionRefill.Name;
+                Prescription prescriptionRefill = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
+                information = prescriptionRefill != null ? "Refill " + prescriptionRefill.name : "";
                 break;
             case "Take Prescription":
-                Prescription prescriptionTake = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                information = "Take " + prescriptionTake.Name;
+                Prescription prescriptionTake = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
+                information = prescriptionTake != null ? "Take " + prescriptionTake.name : "";
                 break;
         }
 
+        // Display the information in the recycler view.
         TextView notificationInformationTextView = viewHolder.notificationInformationTextView;
-        TextView notificationDateTextView = viewHolder.notificationDateTextView;
-
         notificationInformationTextView.setText(information);
-        notificationDateTextView.setText(notification.TargetDateTime);
 
+        // Display the target date time in the recycler view.
+        TextView notificationDateTextView = viewHolder.notificationDateTextView;
+        notificationDateTextView.setText(notification.targetDateTime);
+
+        // Set the itemView onCLickListener.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeFragment(notification);
+                switchFragment(notification);
             }
         });
     }
 
-    private void changeFragment(Notification itemSelected) {
-        Fragment fragment = new ViewNotificationFragment();
+    /**
+     * Gets the new fragment and calls switch fragment on the main activity.
+     *
+     * @param selectedNotification Represents the selected notification.
+     */
+    private void switchFragment(Notification selectedNotification) {
 
+        // Create ViewNotificationFragment.
+        Fragment destinationFragment = new ViewNotificationFragment();
+
+        // Create and the notification id to a bundle.
         Bundle prescriptionBundle = new Bundle();
-        prescriptionBundle.putInt("notification_selected_key", itemSelected.Id);
+        prescriptionBundle.putInt("notification_selected_key", selectedNotification.id);
 
-        fragment.setArguments(prescriptionBundle);
-        switchContent(fragment);
-    }
+        // Set the bundle to the destination fragment.
+        destinationFragment.setArguments(prescriptionBundle);
 
-    public void switchContent(Fragment fragment) {
-        if (context == null)
-            return;
+        // If the context is an instance of MainActivity then call switchFragment.
         if (context instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) context;
-            mainActivity.switchContent(fragment);
+            mainActivity.switchFragment(destinationFragment);
         }
     }
 
-    // Returns the total count of items in the list
+    // Returns the size of notifications.
     @Override
     public int getItemCount() {
-        return notificationList.size();
+        return notifications.size();
+    }
+
+
+    /**
+     * Defines the view of a row inside the recycler view.
+     */
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        // Initialize the information and the date text views.
+        TextView notificationInformationTextView;
+        TextView notificationDateTextView;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+
+            // Get the text views from the notifications list recycler view layout.
+            notificationInformationTextView = itemView.findViewById(R.id.textViewNotificationInformation);
+            notificationDateTextView = itemView.findViewById(R.id.textViewNotificationDate);
+        }
     }
 }

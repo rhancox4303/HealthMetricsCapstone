@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,9 +24,6 @@ import ca.mohawk.HealthMetrics.R;
  */
 public class PrescriptionListFragment extends Fragment implements View.OnClickListener {
 
-    private List<PrescriptionDisplayObject> prescriptionDisplayObjectList;
-    HealthMetricsDbHelper healthMetricsDbHelper;
-
     public PrescriptionListFragment() {
         // Required empty public constructor
     }
@@ -34,9 +32,9 @@ public class PrescriptionListFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
-        prescriptionDisplayObjectList = healthMetricsDbHelper.getAllPrescriptions();
-        //Toast.makeText(getActivity(), prescriptionDisplayObjectList.get(0).Name, Toast.LENGTH_SHORT).show();
+
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+        List<PrescriptionDisplayObject> prescriptionDisplayObjectList = healthMetricsDbHelper.getAllPrescriptions();
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_prescription_list, container, false);
 
@@ -57,7 +55,7 @@ public class PrescriptionListFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
 
         CreatePrescriptionFragment createPrescriptionFragment= new CreatePrescriptionFragment();
-        getActivity().getSupportFragmentManager().beginTransaction()
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, createPrescriptionFragment)
                 .addToBackStack(null)
                 .commit();
