@@ -3,6 +3,7 @@ package ca.mohawk.HealthMetrics;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -32,33 +33,53 @@ import ca.mohawk.HealthMetrics.Models.User;
 
 /**
  * The HealthMetricsDbHelper class extends the SQLiteOpenHelper Class.
- * It contains helper methods for interacting with the HealthMetrics Database.
+ * Contains helper methods for interacting with the HealthMetrics Database.
+ * <p>
+ * Implements a singleton pattern.
  */
 public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "HealthMetrics.db";
-    private static HealthMetricsDbHelper sInstance;
+    // Initialize the DATABASE_VERSION variable.
+    private static final int DATABASE_VERSION = 1;
 
+    // Initialize the DATABASE_NAME variable.
+    private static final String DATABASE_NAME = "HealthMetrics.db";
+
+    // Initialize the a static instance of HealthMetricsDbHelper
+    private static HealthMetricsDbHelper helpInstance;
+
+    /**
+     * Constructs the HealthMetricDatabase.
+     *
+     * @param context Represents the application context.
+     */
     private HealthMetricsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Creates a new HealthMetricsDbHelper instance if helpInstance is null.
+     *
+     * @param context Represents the application context.
+     * @return Return the helpInstance.
+     */
     public static synchronized HealthMetricsDbHelper getInstance(Context context) {
-        if (sInstance == null) {
-            sInstance = new HealthMetricsDbHelper(context.getApplicationContext());
+        if (helpInstance == null) {
+            helpInstance = new HealthMetricsDbHelper(context.getApplicationContext());
         }
-        return sInstance;
+        return helpInstance;
     }
 
     /**
-     * The onCreate method runs when the database is created.
-     * It executes the Create statments from HealthMetricContract.
+     * Runs when the database is created.
+     * It executes the Create statements from HealthMetricContract.
      *
      * @param db represents the database.
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        //Create the tables.
         db.execSQL(HealthMetricContract.DosageMeasurements.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Prescriptions.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Users.CREATE_TABLE);
@@ -72,184 +93,218 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         db.execSQL(HealthMetricContract.Notifications.CREATE_TABLE);
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    /**
+     * Adds a dosage measurement to the database.
+     *
+     * @param dosageMeasurement Represents the dosage measurement to be added.
+     */
+    private void addDosageMeasurement(DosageMeasurement dosageMeasurement) {
 
-    }
-
-    public void addDosageMeasurement(DosageMeasurement dosageMeasurement) {
-
+        // Get database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
 
         try {
+            // Create content values.
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT, dosageMeasurement.dosageMeasurement);
             values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION, dosageMeasurement.unitAbbreviation);
 
+            // Insert the values into the database.
             writableDatabase.insertOrThrow(HealthMetricContract.DosageMeasurements.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
-            Log.d("TEST add", dosageMeasurement.dosageMeasurement);
-
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add dosage measurement to database");
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
     }
 
+    /**
+     * Adds a note to database.
+     *
+     * @param note Represents the note to be added to the database.
+     * @return Return a boolean value indicating if the note was added successfully.
+     */
+
     public boolean addNote(Note note) {
 
+        // Get database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
         long id = 0;
 
+        //Initialize id.
+        long id = -1;
+
         try {
+            // Create content values.
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.noteContent);
             values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.dateOfEntry);
-
+          
+            // Insert the values into database.
             id = writableDatabase.insertOrThrow(HealthMetricContract.Notes.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add notes to database");
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
+
+        // Validate the insert was successful.
         return id > 0;
     }
 
     /**
-     * The addUser method adds the user to the database.
+     * Adds the user to the database.
      *
-     * @param user represents the user to be added to the database.
+     * @param user Represents the user to be added to the database.
+     * @return Return a boolean value indicating if the user was added successfully.
      */
     public boolean addUser(User user) {
-        long id = 0;
+
+        // Get the database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
 
+        // Initialize id.
+        long id = -1;
         try {
+            // Create content values.
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.firstName);
             values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.lastName);
             values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.dateOfBirth);
             values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.gender);
 
+            // Add values to database.
             id = writableDatabase.insertOrThrow(HealthMetricContract.Users.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
 
-        } catch (Exception e) {
-            Log.e("SQL Error", "Error while trying to add the user to the database." + e);
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
+
+        // Validate the insert was successful.
         return id > 0;
     }
-
+  
+    /**
+     * Adds a prescription to the database.
+     *
+     * @param prescription Represents the prescription to be added to the database.
+     * @return Return a boolean value indicating if the prescription was added successfully.
+     */
     public boolean addPrescription(Prescription prescription) {
 
+        // Get the database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
         long id = -1;
 
-        try {
-            ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.name);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.amount);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT, prescription.dosageAmount);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.dosageMeasurementId);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.form);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.frequency);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.strength);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.reason);
+        // Initialize id.
+        long id = -1;
 
-           id = writableDatabase.insertOrThrow(HealthMetricContract.Prescriptions.TABLE_NAME, null, values);
+        try {
+
+            // Create content values.
+            ContentValues values = new ContentValues();
+
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.Name);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.Amount);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT, prescription.DosageAmount);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.DosageMeasurementId);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.Form);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.Frequency);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.Strength);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.Reason);
+
+            // Add values to database.
+            id = writableDatabase.insertOrThrow(HealthMetricContract.Prescriptions.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
 
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add prescription to database");
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
+        //  Validate the insert was successful.
         return id > 0;
     }
 
     /**
-     * The addPhotoGallery method adds the gallery to the database.
+     * Adds the gallery to the database.
      *
-     * @param photoGallery represents the gallery to be added to the database.
+     * @param photoGallery Represents the gallery to be added to the database.
+     * @return Return a boolean value indicating if the gallery was added successfully.
      */
     public boolean addPhotoGallery(PhotoGallery photoGallery) {
 
+        // Get the database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
-        long id = 0;
+
+        // Initialize id.
+        long id = -1;
+      
         try {
+
+            // Create content values.
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, photoGallery.name);
             values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE, photoGallery.isAddedToProfile);
-
+          
+            // Insert the gallery.
             id = writableDatabase.insertOrThrow(HealthMetricContract.Galleries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add gallery to database");
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
 
+        // Validate the insert was successful.
         return id > 0;
     }
 
     /**
-     * The addMetric method adds the metric to the database.
+     * Adds the metric to the database.
      *
-     * @param metric represents the metric to be added to the database.
+     * @param metric Represents the metric to be added to the database.
+     * @return Return a boolean value indicating if the gallery was added successfully.
      */
     public boolean addMetric(Metric metric) {
 
+        // Get the database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
         long id = 0;
 
+        // Initialize the id.
+        long id = -1;
+      
         try {
+            // Create content values.
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.name);
-            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, metric.unitId);
-            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID, metric.unitCategoryId);
-            values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.isAddedToProfile);
 
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.Name);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, metric.UnitId);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID, metric.UnitCategoryId);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.IsAddedToProfile);
+
+            // Insert values.
             id = writableDatabase.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add metric to database");
-        } finally {
-            writableDatabase.endTransaction();
-            writableDatabase.close();
-        }
-        return id > 0;
-    }
-
-    public boolean addPhotoEntry(PhotoEntry photoEntry) {
-
-        SQLiteDatabase writableDatabase = getWritableDatabase();
-        writableDatabase.beginTransaction();
-        long id = 0;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.dateOfEntry);
-            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID, photoEntry.photoGalleryId);
-            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.photoEntryPath);
-
-            id = writableDatabase.insertOrThrow(HealthMetricContract.PhotoEntries.TABLE_NAME, null, values);
-            writableDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add metric to database");
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
@@ -258,75 +313,140 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * The addDataEntry adds the metric to the database.
+     * Adds a photo entry to the database.
      *
-     * @param dataEntry represents the metric data latestDataEntry to be added to the database.
+     * @param photoEntry Represents the photo entry to be added to the database.
+     * @return Returns a boolean value indicating if the insert was successful.
      */
-    public boolean addDataEntry(DataEntry dataEntry) {
+    public boolean addPhotoEntry(PhotoEntry photoEntry) {
+
+        // Get database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
+
+        // Initialize the id.
+        long id = -1;
+        try {
+
+            // Create content values.
+            ContentValues values = new ContentValues();
+
+            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.DateOfEntry);
+            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID, photoEntry.PhotoGalleryId);
+            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.PhotoEntryPath);
+
+            // Insert photo entry into database.
+            id = writableDatabase.insertOrThrow(HealthMetricContract.PhotoEntries.TABLE_NAME, null, values);
+            writableDatabase.setTransactionSuccessful();
+
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
+        } finally {
+            writableDatabase.endTransaction();
+            writableDatabase.close();
+        }
+
+        // Validate insert was successful.
+        return id > 0;
+    }
+
+    /**
+     * Adds the data entry to the database.
+     *
+     * @param dataEntry Represents the data entry to be added to the database.
+     * @return Returns a boolean value indicating if the insert was successful.
+     */
+    public boolean addDataEntry(DataEntry dataEntry) {
+
+        // Get database.
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.beginTransaction();
+  
+        // Initialize id variable.
         long id = -1;
 
         try {
+
+            // Create content values.
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.dataEntry);
             values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.dateOfEntry);
             values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.metricId);
 
+            // Insert data entry.
             id = writableDatabase.insertOrThrow(HealthMetricContract.MetricDataEntries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add data latestDataEntry to database");
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
+
+        // Validate the insert was successful.
         return id > 0;
     }
 
+
+    /**
+     * Adds a notification to the database.
+     *
+     * @param notification Represents the notification to add to the database.
+     * @return Returns the id of inserted row.
+     */
     public int addNotification(Notification notification) {
+
+        // Get database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
-        Long id = new Long(-1);
+
+        // Initialize id variable.
+        long id = (long) -1;
         try {
+            // Create content values.
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.targetDateTime);
             values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.targetId);
             values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.notificationType);
 
+            // Insert notification.
             id = writableDatabase.insertOrThrow(HealthMetricContract.Notifications.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add notification to database");
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
 
-        return id.intValue();
+        // Return the id.
+        return (int) id;
     }
 
 
     /**
-     * The addUnit method adds the unit to the database.
+     * Adds the unit to the database.
      *
-     * @param unit represents the unit to be added to the database.
+     * @param unit Represents the unit to be added to the database.
      */
-    public void addUnit(Unit unit) {
+    private void addUnit(Unit unit) {
 
+        // Get the database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
 
         try {
+            // Create content values.
             ContentValues values = new ContentValues();
             values.put(HealthMetricContract.Units.COLUMN_NAME_UNITNAME, unit.unitName);
             values.put(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION, unit.unitAbbreviation);
             values.put(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID, unit.unitCategoryId);
 
+            // Insert the unit in to the database.
             writableDatabase.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add unit to database");
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
@@ -334,16 +454,18 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * The addUnitCategory method adds the unitcategory to the database.
+     * Adds the unit category to the database.
      *
-     * @param unitCategory represents the unit category to be added to the database.
+     * @param unitCategory Represents the unit category to be added to the database.
      */
-    public void addUnitCategory(UnitCategory unitCategory) {
+    private void addUnitCategory(UnitCategory unitCategory) {
 
+        // Get the database.
         SQLiteDatabase writableDatabase = getWritableDatabase();
         writableDatabase.beginTransaction();
 
         try {
+            // Create content values.
             ContentValues values = new ContentValues();
 
             if (unitCategory.id != 0) {
@@ -352,54 +474,69 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             values.put(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY, unitCategory.unitCategory);
 
+            // Insert unit category to database.
             writableDatabase.insertOrThrow(HealthMetricContract.UnitCategories.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
 
-        } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add unit category to database");
+        } catch (SQLException e) {
+            Log.e("SQLException:", e.getMessage());
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
     }
 
-    public void seedDatabase() {
+    /**
+     * Seeds the database with the starting data.
+     */
+    void seedDatabase() {
+
+        // Call the seed methods.
         seedUnitCategories();
         seedUnits();
         seedMetrics();
         seedDosageMeasurements();
+        seedPhotoGalleries();
     }
 
+    /**
+     * Seed the database dosage measurement values.
+     */
     private void seedDosageMeasurements() {
-        List<DosageMeasurement> dosageMeasurementList = new ArrayList<>();
+
+        // Create list of dosage measurements.
+        List<DosageMeasurement> dosageMeasurements = new ArrayList<>();
 
         DosageMeasurement milliliters = new DosageMeasurement("Milliliters", "ml");
-        dosageMeasurementList.add(milliliters);
+        dosageMeasurements.add(milliliters);
 
         DosageMeasurement teaspoon = new DosageMeasurement("Teaspoons", "tsp");
-        dosageMeasurementList.add(teaspoon);
+        dosageMeasurements.add(teaspoon);
 
         DosageMeasurement gram = new DosageMeasurement("Grams", "tsp");
-        dosageMeasurementList.add(gram);
+        dosageMeasurements.add(gram);
 
         DosageMeasurement milligram = new DosageMeasurement("Milligrams", "mg");
-        dosageMeasurementList.add(milligram);
+        dosageMeasurements.add(milligram);
 
         DosageMeasurement tablet = new DosageMeasurement("Tablets", "tab");
-        dosageMeasurementList.add(tablet);
+        dosageMeasurements.add(tablet);
 
         DosageMeasurement capsule = new DosageMeasurement("Capsule", "cap");
-        dosageMeasurementList.add(capsule);
+        dosageMeasurements.add(capsule);
 
-        for (DosageMeasurement dosageMeasurement : dosageMeasurementList) {
+        // Add all the dosage measurements to the database.
+        for (DosageMeasurement dosageMeasurement : dosageMeasurements) {
             addDosageMeasurement(dosageMeasurement);
         }
     }
 
     /**
-     * The seedUnitCategories method seeds unit categories for the database.
+     * Seed database unit categories .
      */
     private void seedUnitCategories() {
+
+        // Create the list of unit categories.
         List<UnitCategory> unitCategories = new ArrayList<>();
 
         UnitCategory length = new UnitCategory(1, "Length");
@@ -417,45 +554,47 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         UnitCategory bloodPressure = new UnitCategory(5, "Blood Pressure");
         unitCategories.add(bloodPressure);
 
+        // Add all the unit categories to the database.
         for (UnitCategory unitCategory : unitCategories) {
             addUnitCategory(unitCategory);
         }
     }
 
     /**
-     * The seedUnits method seeds units for the database.
+     * Seeds units for the database.
      */
     private void seedUnits() {
 
-        ArrayList<Unit> unitArrayList = new ArrayList<Unit>();
+        // Create the list of units.
+        ArrayList<Unit> units = new ArrayList<>();
 
         Unit centimeters = new Unit("Centimeters", "cm", 1);
         Unit meters = new Unit("Meters", "m", 1);
         Unit inches = new Unit("Inches", "in", 1);
         Unit feet = new Unit("Feet", "ft", 1);
 
-        unitArrayList.add(centimeters);
-        unitArrayList.add(meters);
-        unitArrayList.add(inches);
-        unitArrayList.add(feet);
+        units.add(centimeters);
+        units.add(meters);
+        units.add(inches);
+        units.add(feet);
 
         Unit kilograms = new Unit("Kilograms", "kg", 2);
         Unit grams = new Unit("Grams", "g", 2);
         Unit milligrams = new Unit("Milligrams", "mg", 2);
         Unit pounds = new Unit("Pounds", "lb", 2);
 
-        unitArrayList.add(kilograms);
-        unitArrayList.add(grams);
-        unitArrayList.add(milligrams);
-        unitArrayList.add(pounds);
+        units.add(kilograms);
+        units.add(grams);
+        units.add(milligrams);
+        units.add(pounds);
 
         Unit hours = new Unit("Hours", "hrs", 3);
         Unit minutes = new Unit("Minutes", "min", 3);
         Unit seconds = new Unit("Seconds", "s", 3);
 
-        unitArrayList.add(hours);
-        unitArrayList.add(minutes);
-        unitArrayList.add(seconds);
+        units.add(hours);
+        units.add(minutes);
+        units.add(seconds);
 
         Unit litres = new Unit("Litres", "l", 4);
         Unit milliliter = new Unit("Milliliters", "ml", 4);
@@ -463,71 +602,106 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         Unit cupMilliliter = new Unit("Cup(240ml)", "Cups", 4);
         Unit cupOunce = new Unit("Cup(8.4 fl oz)", "Cups", 4);
 
-        unitArrayList.add(litres);
-        unitArrayList.add(milliliter);
-        unitArrayList.add(ounce);
-        unitArrayList.add(cupMilliliter);
-        unitArrayList.add(cupOunce);
+        units.add(litres);
+        units.add(milliliter);
+        units.add(ounce);
+        units.add(cupMilliliter);
+        units.add(cupOunce);
 
         Unit systolicBloodPressure = new Unit("Systolic Blood Pressure", "mmHg", 5);
         Unit diastolicBloodPressure = new Unit("Diastolic Blood Pressure", "mmHg", 5);
 
-        unitArrayList.add(systolicBloodPressure);
-        unitArrayList.add(diastolicBloodPressure);
+        units.add(systolicBloodPressure);
+        units.add(diastolicBloodPressure);
 
-        for (Unit unit : unitArrayList) {
+        // Adds the units to the database.
+        for (Unit unit : units) {
             addUnit(unit);
         }
     }
 
     /**
-     * The seedMetrics method seeds netrics for the database.
+     * Seeds metrics for the database.
      */
     private void seedMetrics() {
-        ArrayList<Metric> metricArrayList = new ArrayList<Metric>();
+
+        // Create the list of metrics.
+        ArrayList<Metric> metrics = new ArrayList<>();
 
         Metric leftBicepSize = new Metric(0, "Left Bicep Size", 1, 0);
         Metric rightBicepSize = new Metric(0, "Right Bicep Size", 1, 0);
 
-        metricArrayList.add(leftBicepSize);
-        metricArrayList.add(rightBicepSize);
+        metrics.add(leftBicepSize);
+        metrics.add(rightBicepSize);
 
         Metric bloodPressure = new Metric(0, "Blood Pressure", 5, 0);
-        metricArrayList.add(bloodPressure);
+        metrics.add(bloodPressure);
 
         Metric bodyHeight = new Metric(0, "Body Height", 1, 0);
-        metricArrayList.add(bodyHeight);
+        metrics.add(bodyHeight);
 
         Metric leftCalfSize = new Metric(0, "Left Calf Size", 1, 0);
         Metric rightCalfSize = new Metric(0, "Right Calf Size", 1, 0);
 
-        metricArrayList.add(leftCalfSize);
-        metricArrayList.add(rightCalfSize);
+        metrics.add(leftCalfSize);
+        metrics.add(rightCalfSize);
 
         Metric chestSize = new Metric(0, "Chest Size", 1, 0);
-        metricArrayList.add(chestSize);
+        metrics.add(chestSize);
 
         Metric sleepDuration = new Metric(0, "Sleep Duration", 3, 0);
-        metricArrayList.add(sleepDuration);
+        metrics.add(sleepDuration);
 
         Metric waistSize = new Metric(0, "Waist Size", 1, 0);
-        metricArrayList.add(waistSize);
+        metrics.add(waistSize);
 
         Metric waterIntake = new Metric(0, "Water Intake", 4, 0);
-        metricArrayList.add(waterIntake);
+        metrics.add(waterIntake);
 
-        for (Metric metric : metricArrayList) {
+        // Adds the metrics to the database.
+        for (Metric metric : metrics) {
             addMetric(metric);
         }
     }
 
     /**
-     * The getAllMetrics method get all Metrics from the database.
+     * Seeds the photo galleries for the database.
+     */
+    private void seedPhotoGalleries() {
+
+        // Create the list of photo galleries.
+        List<PhotoGallery> photoGalleries = new ArrayList<>();
+
+        PhotoGallery sunBurnGallery = new PhotoGallery("Sunburn", 0);
+        photoGalleries.add(sunBurnGallery);
+
+        PhotoGallery rashGallery = new PhotoGallery("Rash", 0);
+        photoGalleries.add(rashGallery);
+
+        PhotoGallery coldSoreGallery = new PhotoGallery("Cold Sore", 0);
+        photoGalleries.add(coldSoreGallery);
+
+        PhotoGallery bruiseGallery = new PhotoGallery("Bruise", 0);
+        photoGalleries.add(bruiseGallery);
+
+        // Adds the galleries to the database.
+        for (PhotoGallery gallery : photoGalleries) {
+            addPhotoGallery(gallery);
+        }
+    }
+
+    /**
+     * Gets all metrics from the database and converts them into spinner object.
      *
      * @return A list of MetricSpinnerObjects is returned.
      */
-    public List<AddMetricSpinnerObject> getAllMetrics() {
+    public List<MetricSpinnerObject> getAllMetrics() {
+
+        // Get the datab
         SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        // Instantiate the array of metric spinner objects.
+        List<MetricSpinnerObject> metricSpinnerObjects = new ArrayList<>();
 
         String[] projection = {
                 HealthMetricContract.Metrics._ID,
@@ -535,6 +709,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID
         };
 
+        // Sort the metrics by the metric name.
         String sortOrder = HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME + " ASC";
 
         Cursor cursor = readableDatabase.query(
@@ -546,9 +721,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 sortOrder);
 
-        List metrics = new ArrayList<AddMetricSpinnerObject>();
-
+        // Get the query results.
         while (cursor.moveToNext()) {
+
             String metricName = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME));
 
@@ -557,17 +732,29 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             int id = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics._ID));
-            metrics.add(new AddMetricSpinnerObject(unitCategoryId, metricName, id));
+          
+            metricSpinnerObjects.add(new MetricSpinnerObject(unitCategoryId, metricName, id));
         }
 
         cursor.close();
         readableDatabase.close();
-        return metrics;
+
+        // Return the list of metrics
+        return metricSpinnerObjects;
     }
 
+    /**
+     * Gets all dosage measurements from the database.
+     *
+     * @return Return a list of dosage measurements.
+     */
     public List<DosageMeasurement> getAllDosageMeasurements() {
 
+        // Get database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        // Instantiate the list of dosage measurements.
+        List<DosageMeasurement> dosageMeasurements = new ArrayList<>();
 
         String[] projection = {
                 HealthMetricContract.DosageMeasurements._ID,
@@ -575,6 +762,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION
         };
 
+        // Sort by the measurement.
         String sortOrder = HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT + " ASC";
 
         Cursor cursor = readableDatabase.query(
@@ -586,8 +774,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 sortOrder);
 
-        List dosageMeasurements = new ArrayList<HealthMetricContract.DosageMeasurements>();
-
+        // Loop through cursor and add each dosage measurement to dosageMeasurements.
         while (cursor.moveToNext()) {
             String dosageMeasurement = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT));
@@ -597,33 +784,43 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             int id = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.DosageMeasurements._ID));
-            Log.d("TEST", id + " ID");
 
             dosageMeasurements.add(new DosageMeasurement(id, unitAbbreviation, dosageMeasurement));
         }
 
         cursor.close();
         readableDatabase.close();
+
+        // Return the list of dosageMeasurements.
         return dosageMeasurements;
     }
 
     /**
-     * The getAllSpinnerUnits method gets units based on the unit category id.
+     * Gets units based on the unit category id and convert them to unit spinner objects
      *
-     * @param unitCategoryId is the unit category id of units that will be returned.
-     * @return A list of UnitSpinner objects is returned.
+     * @param unitCategoryId Represents the unit category id of units that will be returned.
+     * @return Return a list of unit spinner objects.
      */
     public List<UnitSpinnerObject> getAllSpinnerUnits(int unitCategoryId) {
+
+        // Get the readable database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        // Create the list of unit spinner objects.
+        List<UnitSpinnerObject> unitSpinnerObjects = new ArrayList<>();
 
         String[] projection = {
                 HealthMetricContract.Units._ID,
                 HealthMetricContract.Units.COLUMN_NAME_UNITNAME
         };
 
+        // Get the string value of the unit category id.
         String unitCategoryIdString = String.valueOf(unitCategoryId);
+
+        // Sort by the unit name.
         String sortOrder = HealthMetricContract.Units.COLUMN_NAME_UNITNAME + " ASC";
 
+        // Create the selection string.
         String selection = HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID + "=?";
 
         Cursor cursor = readableDatabase.query(
@@ -635,14 +832,15 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 sortOrder);
 
-        List unitSpinnerObjects = new ArrayList<UnitSpinnerObject>();
-
+        // Loop through cursor results and add the unit to unitSpinnerObjects.
         while (cursor.moveToNext()) {
+
             String unitName = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Units.COLUMN_NAME_UNITNAME));
 
             int id = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Units._ID));
+
             unitSpinnerObjects.add(new UnitSpinnerObject(unitName, id));
         }
 
@@ -652,27 +850,32 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * The getAddedMetricsAndGalleries method retrieves the added metrics and galleries.
+     * Gets metrics, galleries and notes that user has added to their profile.
      *
-     * @return A list of MetricRecyclerViewObjects is returned.
+     * @return Returns a list of MetricRecyclerViewObjects.
      */
-    public List<MetricDisplayObject> getAddedMetricsAndGalleries() {
+    public List<MetricDisplayObject> getAddedValues() {
 
-        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<MetricDisplayObject>();
-        recyclerViewObjects = getAddedMetrics(recyclerViewObjects);
-        recyclerViewObjects = getAddedPhotoGalleries(recyclerViewObjects);
-        recyclerViewObjects = getAllNotes(recyclerViewObjects);
+        // Build the recyclerViewObjects.
+        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<>(getAddedMetrics());
+        recyclerViewObjects.addAll(getAddedPhotoGalleries());
+        recyclerViewObjects.addAll(getAllNotes());
+
+        // Return the built list.
         return recyclerViewObjects;
     }
 
     /**
-     * The getAddedMetrics method queries the database for added metrics.
+     * Gets metrics added to the user profile.
      *
-     * @param recyclerViewObjects represents the list that will be returned.
-     * @return A list of MetricRecyclerViewObjects is returned.
+     * @return Returns a list of MetricRecyclerViewObjects.
      */
-    public List<MetricDisplayObject> getAddedMetrics(List<MetricDisplayObject> recyclerViewObjects) {
+    public List<MetricDisplayObject> getAddedMetrics() {
 
+        // Create the list of recyclerViewObjects.
+        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<>();
+
+        // Get the database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -681,6 +884,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 HealthMetricContract.Metrics.COLUMN_NAME_UNITID
         };
 
+        // Set selection string.
         String selection = HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE + "=?";
 
         Cursor cursor = readableDatabase.query(
@@ -692,10 +896,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);
 
+        // Loop through results and add the created MetricDisplayObject to the list.
         while (cursor.moveToNext()) {
             String metricName = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME));
-            Log.d("TEST", metricName);
+
             int metricId = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics._ID));
 
@@ -704,11 +909,15 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             String dataEntry = getLatestDataEntryValue(metricId);
 
-
             if (!dataEntry.equals("No Data Available")) {
                 Unit unit = getUnitById(unitId);
-                dataEntry = dataEntry + " " + unit.unitAbbreviation;
+
+                if (unit != null) {
+                    dataEntry += " " + unit.UnitAbbreviation;
+                }
+
             }
+
             recyclerViewObjects.add(new MetricDisplayObject(metricId, metricName, dataEntry, "Quantitative"));
         }
 
@@ -718,13 +927,16 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * The getAddedPhotoGalleries method queries the database for added photo galleries.
+     * Gets added photo galleries from the database and converts them to MetricDisplayObject.
      *
-     * @param recyclerViewObjects represents the list that will be returned.
-     * @return A list of MetricRecyclerViewObjects is returned.
+     * @return Returns a list of MetricRecyclerViewObjects.
      */
-    public List<MetricDisplayObject> getAddedPhotoGalleries(List<MetricDisplayObject> recyclerViewObjects) {
+    public List<MetricDisplayObject> getAddedPhotoGalleries() {
 
+        // Create a the MetricDisplayObject list.
+        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<>();
+
+        // Get database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -732,6 +944,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME
         };
 
+
+        // Set the selection string
         String selection = HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE + "=?";
 
         Cursor cursor = readableDatabase.query(
@@ -743,6 +957,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);
 
+        // Loop through results and add the MetricDisplayObject to the recyclerViewObjects list.
         while (cursor.moveToNext()) {
 
             int galleryId = cursor.getInt(
@@ -759,7 +974,17 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return recyclerViewObjects;
     }
 
-    public List<MetricDisplayObject> getAllNotes(List<MetricDisplayObject> recyclerViewObjects) {
+    /**
+     * Get all notes from the database and convert them to MetricDisplayObjects.
+     *
+     * @return Returns the list of MetricDisplayObjects.
+     */
+    private List<MetricDisplayObject> getAllNotes() {
+
+        // Create the list of MetricDisplayObjects.
+        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<>();
+
+        // Get the database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -776,6 +1001,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);
 
+        // Loop through results and add the MetricDisplayObject to the recyclerViewObjects list.
         while (cursor.moveToNext()) {
 
             int noteId = cursor.getInt(
@@ -792,9 +1018,19 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return recyclerViewObjects;
     }
 
+    /**
+     * Gets all the notifications from the database.
+     *
+     * @return Return the list of notifications.
+     */
     public ArrayList<Notification> getAllNotifications() {
+
+        // Create the list of notifications.
+        ArrayList<Notification> notifications = new ArrayList<>();
+
+        // Get the database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
-        ArrayList<Notification> notificationArrayList = new ArrayList<>();
+
         String[] projection = {
                 HealthMetricContract.Notifications._ID,
                 HealthMetricContract.Notifications.COLUMN_NAME_TYPE,
@@ -811,33 +1047,40 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);
 
+        // Loop through the results and add each notification to the notifications list.
         while (cursor.moveToNext()) {
             int id = cursor.getInt(cursor.getColumnIndexOrThrow(HealthMetricContract.Notifications._ID));
             int targetId = cursor.getInt(cursor.getColumnIndexOrThrow(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID));
             String type = cursor.getString(cursor.getColumnIndexOrThrow(HealthMetricContract.Notifications.COLUMN_NAME_TYPE));
             String targetDateTime = cursor.getString(cursor.getColumnIndexOrThrow(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME));
 
-            notificationArrayList.add(new Notification(id, targetId, type, targetDateTime));
+            notifications.add(new Notification(id, targetId, type, targetDateTime));
         }
 
         cursor.close();
         readableDatabase.close();
-        return notificationArrayList;
+        return notifications;
     }
 
     /**
-     * The getAllPhotoGalleries method gets all photo galleries.
+     * Get all photo galleries and convert them to photo gallery spinner objects.
      *
-     * @return The list of PhotoGallerySpinnerObjects.
+     * @return Return the list of PhotoGallerySpinnerObjects.
      */
-    public List<AddMetricPhotoGallerySpinnerObject> getAllPhotoGalleries() {
-        SQLiteDatabase readableDatabase = getReadableDatabase();
+    public List<PhotoGallerySpinnerObject> getAllPhotoGalleries() {
+
+        // Get the database.
+    SQLiteDatabase readableDatabase = getReadableDatabase();
+      
+        // Create the list of photoGallerySpinnerObjects.
+        List<PhotoGallerySpinnerObject> photoGallerySpinnerObjects = new ArrayList<>();
 
         String[] projection = {
                 HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME,
                 HealthMetricContract.Galleries._ID
         };
 
+        // Set the sort order string.
         String sortOrder = HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME + " ASC";
 
         Cursor cursor = readableDatabase.query(
@@ -848,9 +1091,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 sortOrder);
-
-        List photoGallerySpinnerObjects = new ArrayList<AddMetricPhotoGallerySpinnerObject>();
-
+  
+        // Loop through the results and add the created PhotoGallerySpinnerObject to the list.
         while (cursor.moveToNext()) {
             int id = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries._ID));
@@ -866,46 +1108,66 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * The getLatestDataEntryValue method retrieves the latest data latestDataEntry for a specified metric.
+     * Gets the latest data entry for a specified metric.
      *
-     * @param metricId The id of the metric of the data latestDataEntry retrieved.
-     * @return The value of the latest data latestDataEntry retrieved.
+     * @param metricId Represents the id of the metric.
+     * @return Return the value of the latest data entry.
      */
-    public String getLatestDataEntryValue(int metricId) {
+    private String getLatestDataEntryValue(int metricId) {
+
+        // Get the database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
                 HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY
         };
 
+        // Set the selection string.
         String selection = HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID + "=?";
+
+        // Set the sort order.
         String sortOrder =
                 HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY + " ASC";
+
         Cursor cursor = readableDatabase.query(
-                HealthMetricContract.MetricDataEntries.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                new String[]{String.valueOf(metricId)},          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
+                HealthMetricContract.MetricDataEntries.TABLE_NAME,
+                projection,
+                selection,
+                new String[]{String.valueOf(metricId)},
+                null,
+                null,
                 sortOrder);
 
-        if (cursor != null && cursor.moveToFirst()) {
+        // Get the first data entry from the results.
+        if (cursor.moveToFirst()) {
+
             String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
             cursor.close();
             readableDatabase.close();
+
             return dataEntry;
         } else {
+
+            // Return No Data Available if nothing was found.
             cursor.close();
             readableDatabase.close();
             return "No Data Available";
         }
     }
 
+    /**
+     * Get the photo entries from the database that has the specified photo gallery id.
+     *
+     * @param photoGalleryId Represents the photo gallery id that will be returned.
+     * @return Returns a list of photo entry objects.
+     */
     public List<PhotoEntry> getPhotoEntriesByGalleryId(int photoGalleryId) {
 
-        List<PhotoEntry> photoEntriesList = new ArrayList<>();
+        // Get the database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
+
+        // Create the list of PhotoEntry objects.
+        List<PhotoEntry> photoEntries = new ArrayList<>();
 
         String[] projection = {
                 HealthMetricContract.PhotoEntries._ID,
@@ -914,45 +1176,60 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY,
         };
 
+        // Set the selection string.
         String selection = HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID + "=?";
 
+        // Sort by the date of entry.
         String sortOrder =
                 HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY + " ASC";
 
         Cursor cursor = readableDatabase.query(
-                HealthMetricContract.PhotoEntries.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                new String[]{String.valueOf(photoGalleryId)},          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
+                HealthMetricContract.PhotoEntries.TABLE_NAME,
+                projection,
+                selection,
+                new String[]{String.valueOf(photoGalleryId)},
+                null,
+                null,
                 sortOrder);
 
+        // Loop through the results and add each PhotoEntry object to the photoEntries list.
         while (cursor.moveToNext()) {
+
             int id = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries._ID));
             String photoEntryPath = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH));
             int galleryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID));
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY));
 
-            photoEntriesList.add(new PhotoEntry(id, galleryId, photoEntryPath, dateOfEntry));
+            photoEntries.add(new PhotoEntry(id, galleryId, photoEntryPath, dateOfEntry));
         }
+
         cursor.close();
         readableDatabase.close();
-        return photoEntriesList;
+
+        return photoEntries;
     }
 
     /**
-     * The getDataEntriesByMetricId method retrieves the data entries for a specified metric.
+     * Gets the data entries that have a specified metric id.
      *
-     * @param metricId The id of the metric of the data entries retrieved.
-     * @return The list of the data entries retrieved.
+     * @param metricId Represents the id of the metric of the data entries retrieved.
+     * @return Returns a list of the data entries.
      */
     public List<DataEntryDisplayObject> getDataEntriesByMetricId(int metricId) {
 
         Metric metric = getMetricById(metricId);
-        Unit unit = getUnitById(metric.unitId);
+      
+        String unitAbbreviation = "";
 
-        List<DataEntryDisplayObject> dataEntryDisplayObjectList = new ArrayList<DataEntryDisplayObject>();
+        if (metric != null) {
+            Unit unit = getUnitById(metric.UnitId);
+            if (unit != null) {
+                unitAbbreviation = unit.UnitAbbreviation;
+            }
+        }
+
+        List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjectList = new ArrayList<>();
+
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -967,20 +1244,22 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY + " ASC";
 
         Cursor cursor = readableDatabase.query(
-                HealthMetricContract.MetricDataEntries.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                new String[]{String.valueOf(metricId)},          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
+                HealthMetricContract.MetricDataEntries.TABLE_NAME,
+                projection,
+                selection,
+                new String[]{String.valueOf(metricId)},
+                null,
+                null,
                 sortOrder);
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries._ID));
             String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY));
-            dataEntryDisplayObjectList.add(new DataEntryDisplayObject(id, dateOfEntry, dataEntry, unit.unitAbbreviation));
+
+           dataEntryRecyclerViewObjectList.add(new DataEntryRecyclerViewObject(id, dateOfEntry, dataEntry, unitAbbreviation));r
         }
+
         cursor.close();
         readableDatabase.close();
         return dataEntryDisplayObjectList;
@@ -1014,7 +1293,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);                      // don't filter by row groups
 
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY));
             int metricId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID));
             String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
@@ -1024,7 +1303,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             readableDatabase.close();
             return dataEntryObject;
         } else {
-            Log.d("ERROR", "No data latestDataEntry found.");
             cursor.close();
             readableDatabase.close();
             return null;
@@ -1058,7 +1336,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);                      // don't filter by row groups
 
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             String unitName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITNAME));
             int unitCategoryId = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID));
             String unitAbbreviation = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION));
@@ -1069,7 +1347,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             return unit;
 
         } else {
-            Log.d("ERROR", "No unit found.");
             cursor.close();
             readableDatabase.close();
             return null;
@@ -1115,7 +1392,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             readableDatabase.close();
             return metric;
         } else {
-            Log.d("ERROR", "No metric found." + metricID);
             cursor.close();
             readableDatabase.close();
             return null;
@@ -1534,7 +1810,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null) > 0;
     }
 
-
     /**
      * The updateMetric method updates the metric in the database.
      *
@@ -1788,3 +2063,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 }
 
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+}

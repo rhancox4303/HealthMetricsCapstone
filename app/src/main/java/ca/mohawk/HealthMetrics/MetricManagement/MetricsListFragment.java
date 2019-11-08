@@ -53,7 +53,7 @@ public class MetricsListFragment extends Fragment implements View.OnClickListene
         RecyclerView metricRecyclerView = rootView.findViewById(R.id.recyclerViewMetrics);
 
         // Get the list of added metrics from the database.
-        List<MetricDisplayObject> addedMetricsList = healthMetricsDbHelper.getAddedMetricsAndGalleries();
+        List<MetricDisplayObject> addedMetricsList = healthMetricsDbHelper.getAddedValues();
 
         // Create a new MetricRecyclerViewAdapter and apply it to the metricRecyclerView.
         MetricRecyclerViewAdapter adapter = new MetricRecyclerViewAdapter(addedMetricsList,getActivity());
