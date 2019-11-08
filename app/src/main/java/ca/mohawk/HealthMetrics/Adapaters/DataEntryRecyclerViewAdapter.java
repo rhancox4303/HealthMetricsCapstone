@@ -77,18 +77,18 @@ public class DataEntryRecyclerViewAdapter extends
 
         // Display the data entry in the recycler view.
         TextView textViewDataEntry = viewHolder.textViewDataEntry;
-        textViewDataEntry.setText(dataEntry.getDataEntry());
+        textViewDataEntry.setText(dataEntry.getData());
 
         // Display the date of entry in the recycler view.
         TextView textViewDateOfEntry = viewHolder.textViewDateOfEntry;
-        textViewDateOfEntry.setText(dataEntry.DateOfEntry);
+        textViewDateOfEntry.setText(dataEntry.dateOfEntry);
 
         // Set the setOnClickListener for the item view.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                // Call the switchFragment method with dataEntry passed in.
+                // Call the switchFragment method with data passed in.
                 switchFragment(dataEntry);
             }
         });
@@ -106,7 +106,7 @@ public class DataEntryRecyclerViewAdapter extends
 
         // Create and set the data entry id to a bundle.
         Bundle dataEntryBundle = new Bundle();
-        dataEntryBundle.putInt("data_entry_selected_key", selectedDataEntry.Id);
+        dataEntryBundle.putInt("data_entry_selected_key", selectedDataEntry.id);
 
         // Set the bundle to the destination fragment.
         destinationFragment.setArguments(dataEntryBundle);

@@ -186,7 +186,7 @@ public class EmailShareFragment extends Fragment implements View.OnClickListener
 
         // Add each data entry to the message.
         for (DataEntryDisplayObject dataEntry : dataEntries) {
-            builder.append(String.format("%s : %s %s\n", dataEntry.DateOfEntry, dataEntry.DataEntry, dataEntry.UnitAbbreviation));
+            builder.append(String.format("%s : %s %s\n", dataEntry.dateOfEntry, dataEntry.data, dataEntry.unitAbbreviation));
         }
 
         // Display the message.

@@ -19,7 +19,7 @@ public final class HealthMetricContract {
 
         static final String TABLE_NAME = "DosageMeasurements";
         static final String COLUMN_NAME_DOSAGEMEASUREMENT = "DosageMeasurement";
-        static final String COLUMN_NAME_UNITABBREVIATION = "UnitAbbreviation";
+        static final String COLUMN_NAME_UNITABBREVIATION = "unitAbbreviation";
 
         static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME +
@@ -53,8 +53,8 @@ public final class HealthMetricContract {
 
         static final String TABLE_NAME = "MetricsDataEntries";
         static final String COLUMN_NAME_METRICID = "MetricID";
-        static final String COLUMN_NAME_DATAENTRY = "DataEntry";
-        static final String COLUMN_NAME_DATEOFENTRY = "DateOfEntry";
+        static final String COLUMN_NAME_DATAENTRY = "data";
+        static final String COLUMN_NAME_DATEOFENTRY = "dateOfEntry";
 
         static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME +
@@ -97,7 +97,7 @@ public final class HealthMetricContract {
 
         static final String TABLE_NAME = "Notes";
         static final String COLUMN_NAME_NOTECONTENT = "NoteContent";
-        static final String COLUMN_NAME_DATEOFENTRY = "DateOfEntry";
+        static final String COLUMN_NAME_DATEOFENTRY = "dateOfEntry";
 
         static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME +
@@ -207,7 +207,7 @@ public final class HealthMetricContract {
 
         static final String TABLE_NAME = "Units";
         static final String COLUMN_NAME_UNITNAME = "UnitName";
-        static final String COLUMN_NAME_ABBREVIATION = "UnitAbbreviation";
+        static final String COLUMN_NAME_ABBREVIATION = "unitAbbreviation";
         static final String COLUMN_NAME_UNITCATEGORYID = "UnitCategoryId";
 
         static final String CREATE_TABLE = "CREATE TABLE "

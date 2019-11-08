@@ -67,7 +67,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
             dataEntryId = bundle.getInt("data_entry_selected_key", -1);
         }
 
-        // Get the dataEntry from the database.
+        // Get the data from the database.
         DataEntry dataEntry = healthMetricsDbHelper.getDataEntryById(dataEntryId);
 
         String dataEntryString = "";

@@ -117,7 +117,7 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         for (DataEntryDisplayObject dataEntry : dataEntryDisplayObjects) {
 
             // Create a Entry with the numeric data entry data and the date and time of entry.
-            entries.add(new Entry(dataEntry.getDateOfEntry().getTime(), dataEntry.getNumericDataEntry()));
+            entries.add(new Entry(dataEntry.getDateOfEntry().getTime(), dataEntry.getNumericData()));
         }
 
         // Get the XAxis and set the axis view.
