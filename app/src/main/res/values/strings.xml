@@ -30,6 +30,7 @@
     <string name="metric_name">Metric Name</string>
     <string name="create_gallery">Create Gallery</string>
     <string name="gallery_name">Gallery Name</string>
+    <string name="space" />
 
     <!-- TODO: Remove or change this placeholder text -->
     <string-array name="notification_type_array">

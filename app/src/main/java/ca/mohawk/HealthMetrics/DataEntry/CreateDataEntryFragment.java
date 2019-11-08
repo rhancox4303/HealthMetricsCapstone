@@ -56,7 +56,7 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment.
+
         View rootView = inflater.inflate(R.layout.fragment_add_data_entry, container,
                 false);
 
