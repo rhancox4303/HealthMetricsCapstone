@@ -118,7 +118,7 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         int id = v.getId();
 
         if (id == R.id.buttonAddEntryMetricDataView) {
-            destinationFragment = new AddDataEntryFragment();
+            destinationFragment = new CreateDataEntryFragment();
 
         } else if (id == R.id.buttonManageMetricMetricDataView) {
             destinationFragment = new ManageMetricFragment();

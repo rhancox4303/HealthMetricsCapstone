@@ -18,8 +18,8 @@ import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.R;
 
 /**
- * Acts as a custom adapter for the Data entry objects
- * in the recyclerViewDataEntryList.
+ * Acts as a custom adapter for the data entry objects
+ * in the data entry list recycler view.
  */
 public class DataEntryRecyclerViewAdapter extends
         RecyclerView.Adapter<DataEntryRecyclerViewAdapter.ViewHolder> {
@@ -64,7 +64,10 @@ public class DataEntryRecyclerViewAdapter extends
     }
 
     /**
-     * Sets the item views in the recycler view.
+     * Sets the item views in the view holder.
+     *
+     * @param viewHolder Represents the view holder.
+     * @param position   Represents the position of the DataEntryRecyclerViewObject that is being displayed.
      */
     @Override
     public void onBindViewHolder(DataEntryRecyclerViewAdapter.ViewHolder viewHolder, int position) {
@@ -101,7 +104,7 @@ public class DataEntryRecyclerViewAdapter extends
         // Create the destination fragment.
         Fragment destinationFragment = new ViewDataEntryFragment();
 
-        // Create and the data entry to a bundle.
+        // Create and set the data entry id to a bundle.
         Bundle dataEntryBundle = new Bundle();
         dataEntryBundle.putInt("data_entry_selected_key", selectedDataEntry.Id);
 
@@ -113,6 +116,12 @@ public class DataEntryRecyclerViewAdapter extends
             MainActivity mainActivity = (MainActivity) context;
             mainActivity.switchFragment(destinationFragment);
         }
+    }
+
+    // Get the size of dataEntryRecyclerViewObjects.
+    @Override
+    public int getItemCount() {
+        return dataEntryRecyclerViewObjects.size();
     }
 
     /**
@@ -127,15 +136,9 @@ public class DataEntryRecyclerViewAdapter extends
         ViewHolder(View itemView) {
             super(itemView);
 
-            // Get the text views from the Data Entry Recycler View layout.
+            // Get the text views from the data entry recycler view layout.
             textViewDataEntry = itemView.findViewById(R.id.textViewDataEntryRecyclerView);
             textViewDateOfEntry = itemView.findViewById(R.id.textViewDateOfEntryRecyclerView);
         }
-    }
-
-    // Get the size of dataEntryRecyclerViewObjects.
-    @Override
-    public int getItemCount() {
-        return dataEntryRecyclerViewObjects.size();
     }
 }

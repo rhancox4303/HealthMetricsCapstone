@@ -1,13 +1,14 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
 import androidx.annotation.NonNull;
+import ca.mohawk.HealthMetrics.Models.Notification;
 
 public class PrescriptionDisplayObject {
     public int Id;
     public String Name;
-    private double DosageAmount;
+    public double DosageAmount;
     public String DosageMeasurement;
-    private String Frequency;
+    public String Frequency;
     public double Amount;
 
     public PrescriptionDisplayObject(int id, String name, double dosageAmount, String dosageMeasurement, String frequency, double amount) {
@@ -23,20 +24,20 @@ public class PrescriptionDisplayObject {
         return Name;
     }
 
-    public double getDosageAmount() {
-        return DosageAmount;
-    }
-
-    public String getDosageMeasurement() {
-        return DosageMeasurement;
+    private String getDosageAmount() {
+        return DosageAmount + " " + DosageMeasurement;
     }
 
     public String getFrequency() {
-        return Frequency;
+        return getDosageAmount() + " " + Frequency;
     }
 
-    public double getAmount() {
-        return Amount;
+    public String getAmount(){
+        return Amount + " " + DosageMeasurement;
+    }
+
+    public String getInformation(){
+        return Name + " " + getFrequency();
     }
 
     @NonNull

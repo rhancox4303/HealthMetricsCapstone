@@ -20,35 +20,36 @@ import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
 import ca.mohawk.HealthMetrics.R;
 
 /**
- * The MetricRecyclerViewAdapter is a custom adapter to display
- * MetricDisplayObject objects in the Metrics List Recycler View.
+ * Acts as a custom adapter to display
+ * the user added metric objects in the metrics list recycler view.
  */
-
 public class MetricRecyclerViewAdapter extends
         RecyclerView.Adapter<MetricRecyclerViewAdapter.ViewHolder> {
+
+    // Instantiate the context variable.
     private Context context;
 
-    //The list of metrics to be displayed in the recycler view.
-    private List<MetricDisplayObject> metricDisplayObjectList;
+    // Instantiate the list of MetricDisplayObjects to use in the adapter.
+    private List<MetricDisplayObject> metricDisplayObjects;
+
 
     /**
-     * The MetricRecyclerViewAdapter constructor instantiates the adapter.
+     * Creates the adapter.
      *
-     * @param metricDisplayObjectList The metricDisplayObjectList is a list of metrics the user is tracking.
-     * @param context                 The context contains the application context.
+     * @param metricDisplayObjects Represents the list of metricDisplayObjects.
+     * @param context              Represents the application context.
      */
-    public MetricRecyclerViewAdapter(List<MetricDisplayObject> metricDisplayObjectList, Context context) {
-        this.metricDisplayObjectList = metricDisplayObjectList;
+    public MetricRecyclerViewAdapter(List<MetricDisplayObject> metricDisplayObjects, Context context) {
+        this.metricDisplayObjects = metricDisplayObjects;
         this.context = context;
     }
 
     /**
-     * The onCreateViewHolder method inflates the view holder.
+     * Creates the View Holder.
      *
-     * @param parent The parent view group.
-     * @param viewType The view type.
-     *
-     * @return The view holder is returned.
+     * @param parent   Represents the parent view group.
+     * @param viewType Represents the view type.
+     * @return A created view holder is returned.
      */
     @NonNull
     @Override
@@ -57,10 +58,8 @@ public class MetricRecyclerViewAdapter extends
         // Get the context.
         Context context = parent.getContext();
 
-        // Inflate the layout.
+        // Inflate the view.
         LayoutInflater inflater = LayoutInflater.from(context);
-
-        // Inflate the view with the recycler view layout.
         View contactView = inflater.inflate(R.layout.metrics_view_recyclerview_layout, parent, false);
 
         // Return the View Holder.
@@ -68,24 +67,23 @@ public class MetricRecyclerViewAdapter extends
     }
 
     /**
-     * The onBindViewHolder method binds the view holder.
+     * Sets the item views in the view holder.
      *
-     * @param viewHolder The view holder.
-     *
-     * @param position The position of the metricDisplayObjectList object that is being displayed.
+     * @param viewHolder Represents the view holder.
+     * @param position   Represents the position of the metricDisplayObject that is being displayed.
      */
     @Override
     public void onBindViewHolder(MetricRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
-        // Get data object
-        final MetricDisplayObject metric = metricDisplayObjectList.get(position);
+        // Get MetricDisplayObject from the metricDisplayObjects list
+        final MetricDisplayObject metric = metricDisplayObjects.get(position);
 
-        // Set item text views.
+        // Display the metric name in the recycler view.
         TextView metricTextView = viewHolder.textViewMetricName;
-        TextView latestDataEntryTextView = viewHolder.latestMetricDataEntry;
-
-        // Set the metric's name and the latest data entry the user inserted.
         metricTextView.setText(metric.getName());
+
+        // Display the latest data entry in the recycler view.
+        TextView latestDataEntryTextView = viewHolder.latestMetricDataEntry;
         latestDataEntryTextView.setText(metric.getEntry());
 
         // Set the itemView onCLickListener.
@@ -93,33 +91,24 @@ public class MetricRecyclerViewAdapter extends
             @Override
             public void onClick(View view) {
 
-                // Call the changeFragment method.
-                changeFragment(metric);
+                // Call the switchFragment method with the metrics passed in.
+                switchFragment(metric);
             }
         });
     }
 
     /**
-     * The getItemCount method gets the size of the metricDisplayObjectList.
+     * Creates and returns a fragment based on the selectedMetric's category.
      *
-     * @return the size of the metricDisplayObjectList.
+     * @param selectedMetric Represents the selected metric.
+     * @return the created fragment is returned.
      */
-    @Override
-    public int getItemCount() {
-        return metricDisplayObjectList.size();
-    }
-
-    /**
-     * The changeFragment method loads a fragment based on the selected metric.
-     *
-     * @param selectedMetric is the selected MetricDisplayObject.
-     */
-    private void changeFragment(MetricDisplayObject selectedMetric) {
+    private Fragment getFragment(MetricDisplayObject selectedMetric) {
 
         // Instantiate the fragment.
         Fragment fragment = new Fragment();
 
-        // Switch statement with the selected Metric's Category
+        // Switch statement with the selected metric's category.
         switch (selectedMetric.Category) {
             case "Quantitative":
                 //Set fragment to a DataEntryListFragment.
@@ -135,53 +124,53 @@ public class MetricRecyclerViewAdapter extends
                 break;
         }
 
-        // Create a new Bundle object.
+        // Create and the metric id to a bundle.
         Bundle metricBundle = new Bundle();
-
-        // Put the selected metric id into the bundle.
         metricBundle.putInt("selected_item_key", selectedMetric.Id);
 
         // Pass the bundle into the fragment.
         fragment.setArguments(metricBundle);
 
-        // Call the switchFragment method with the fragment passed in.
-        switchContent(fragment);
+        // Return the fragment.
+        return fragment;
     }
 
     /**
-     * The switchFragment method instantiates a MainActivity object
-     * and calls it's switchFragment method.
+     * Gets the new fragment and calls switch fragment on the main activity.
      *
-     * @param fragment The fragment that will be passed to switchFragment.
+     * @param selectedMetric Represents the selected metric.
      */
-    private void switchContent(Fragment fragment) {
+    private void switchFragment(MetricDisplayObject selectedMetric) {
 
-        // If the context is null then return.
-        if (context == null)
-            return;
+        // Get the fragment from the getFragment method with the selectedMetric passed in.
+        Fragment destinationFragment = getFragment(selectedMetric);
 
-        // If the context is an instance of MainActivity...
+        // If the context is an instance of MainActivity then call switchFragment.
         if (context instanceof MainActivity) {
-            // Instantiate a mainActivity object.
             MainActivity mainActivity = (MainActivity) context;
-
-            // Call switchFragment with fragment passed in.
-            mainActivity.switchFragment(fragment);
+            mainActivity.switchFragment(destinationFragment);
         }
     }
 
+    // Get the size of dataEntryRecyclerViewObjects.
+    @Override
+    public int getItemCount() {
+        return metricDisplayObjects.size();
+    }
+
     /**
-     * The ViewHolder class describes the item view and
-     * metadata about it's place within the RecyclerView.
+     * Defines the view of a row inside the recycler view.
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        // Initialize the metric name and the latest data entry text views.
         TextView textViewMetricName;
         TextView latestMetricDataEntry;
 
         ViewHolder(View itemView) {
             super(itemView);
 
+            // Get the text views from the metrics list recycler view layout.
             textViewMetricName = itemView.findViewById(R.id.textViewMetricName);
             latestMetricDataEntry = itemView.findViewById(R.id.textViewMetricDataEntry);
         }
