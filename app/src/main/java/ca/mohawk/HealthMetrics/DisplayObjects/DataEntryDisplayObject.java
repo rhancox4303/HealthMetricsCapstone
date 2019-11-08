@@ -6,14 +6,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DataEntryRecyclerViewObject {
+public class DataEntryDisplayObject {
 
     public int Id;
     public String DateOfEntry;
     public String DataEntry;
     public String UnitAbbreviation;
 
-    public DataEntryRecyclerViewObject(int id, String dateOfEntry, String dataEntry, String unitAbbreviation) {
+    public DataEntryDisplayObject(int id, String dateOfEntry, String dataEntry, String unitAbbreviation) {
         Id = id;
         DateOfEntry = dateOfEntry;
         DataEntry = dataEntry;

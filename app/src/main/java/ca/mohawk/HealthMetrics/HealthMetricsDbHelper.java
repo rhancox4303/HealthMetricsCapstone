@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
@@ -947,12 +947,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param metricId The id of the metric of the data entries retrieved.
      * @return The list of the data entries retrieved.
      */
-    public List<DataEntryRecyclerViewObject> getDataEntriesByMetricId(int metricId) {
+    public List<DataEntryDisplayObject> getDataEntriesByMetricId(int metricId) {
 
         Metric metric = getMetricById(metricId);
         Unit unit = getUnitById(metric.UnitId);
 
-        List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjectList = new ArrayList<DataEntryRecyclerViewObject>();
+        List<DataEntryDisplayObject> dataEntryDisplayObjectList = new ArrayList<DataEntryDisplayObject>();
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -979,11 +979,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             int id = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries._ID));
             String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY));
-            dataEntryRecyclerViewObjectList.add(new DataEntryRecyclerViewObject(id, dateOfEntry, dataEntry, unit.UnitAbbreviation));
+            dataEntryDisplayObjectList.add(new DataEntryDisplayObject(id, dateOfEntry, dataEntry, unit.UnitAbbreviation));
         }
         cursor.close();
         readableDatabase.close();
-        return dataEntryRecyclerViewObjectList;
+        return dataEntryDisplayObjectList;
     }
 
     /**

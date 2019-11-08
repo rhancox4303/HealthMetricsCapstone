@@ -29,7 +29,7 @@ import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 /**
  * The EditDataEntryFragment class is an extension of the Fragment class.
- * Allows the user to edit a specfied data entry.
+ * Allows the user to edit a specified data entry.
  */
 public class EditDataEntryFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
@@ -78,7 +78,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         // Get the healthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        // Get the data entry id from the passed bundle
+        // Get the data entry id from the passed bundle.
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             dataEntryId = bundle.getInt("data_entry_selected_key", -1);

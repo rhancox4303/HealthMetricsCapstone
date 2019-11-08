@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.DataEntry.ViewDataEntryFragment;
-import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryDisplayObject;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.R;
 
@@ -28,16 +28,16 @@ public class DataEntryRecyclerViewAdapter extends
     private Context context;
 
     // Instantiate the list of DataEntryRecyclerViewObjects to use in the adapter.
-    private List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjects;
+    private List<DataEntryDisplayObject> dataEntryDisplayObjects;
 
     /**
      * Constructs the DataEntryRecyclerViewAdapter.
      *
-     * @param dataEntryRecyclerViewObjects Represents the list of DataEntryRecyclerViewObjects.
+     * @param dataEntryDisplayObjects Represents the list of DataEntryRecyclerViewObjects.
      * @param context                      Represents the application context.
      */
-    public DataEntryRecyclerViewAdapter(List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjects, Context context) {
-        this.dataEntryRecyclerViewObjects = dataEntryRecyclerViewObjects;
+    public DataEntryRecyclerViewAdapter(List<DataEntryDisplayObject> dataEntryDisplayObjects, Context context) {
+        this.dataEntryDisplayObjects = dataEntryDisplayObjects;
         this.context = context;
     }
 
@@ -67,13 +67,13 @@ public class DataEntryRecyclerViewAdapter extends
      * Sets the item views in the view holder.
      *
      * @param viewHolder Represents the view holder.
-     * @param position   Represents the position of the DataEntryRecyclerViewObject that is being displayed.
+     * @param position   Represents the position of the DataEntryDisplayObject that is being displayed.
      */
     @Override
     public void onBindViewHolder(DataEntryRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
-        // Get DataEntryRecyclerViewObject object.
-        final DataEntryRecyclerViewObject dataEntry = dataEntryRecyclerViewObjects.get(position);
+        // Get DataEntryDisplayObject object.
+        final DataEntryDisplayObject dataEntry = dataEntryDisplayObjects.get(position);
 
         // Display the data entry in the recycler view.
         TextView textViewDataEntry = viewHolder.textViewDataEntry;
@@ -99,7 +99,7 @@ public class DataEntryRecyclerViewAdapter extends
      *
      * @param selectedDataEntry Represents the selected data entry.
      */
-    private void switchFragment(DataEntryRecyclerViewObject selectedDataEntry) {
+    private void switchFragment(DataEntryDisplayObject selectedDataEntry) {
 
         // Create the destination fragment.
         Fragment destinationFragment = new ViewDataEntryFragment();
@@ -118,10 +118,10 @@ public class DataEntryRecyclerViewAdapter extends
         }
     }
 
-    // Get the size of dataEntryRecyclerViewObjects.
+    // Get the size of dataEntryDisplayObjects.
     @Override
     public int getItemCount() {
-        return dataEntryRecyclerViewObjects.size();
+        return dataEntryDisplayObjects.size();
     }
 
     /**

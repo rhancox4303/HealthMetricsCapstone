@@ -26,7 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.Adapaters.DataEntryRecyclerViewAdapter;
-import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryRecyclerViewObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryDisplayObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MetricManagement.ManageMetricFragment;
 import ca.mohawk.HealthMetrics.R;
@@ -37,8 +37,8 @@ import ca.mohawk.HealthMetrics.R;
  */
 public class DataEntryListFragment extends Fragment implements View.OnClickListener {
 
-    // Instantiate the list of dataEntryRecyclerViewObjects.
-    private List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjects;
+    // Instantiate the list of dataEntryDisplayObjects.
+    private List<DataEntryDisplayObject> dataEntryDisplayObjects;
 
     // Instantiate the metricId variable.
     private int metricId;
@@ -85,11 +85,11 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
             metricId = bundle.getInt("selected_item_key", -1);
         }
         // Get the list of dataEntries from the database.
-        dataEntryRecyclerViewObjects = healthMetricsDbHelper.getDataEntriesByMetricId(metricId);
+        dataEntryDisplayObjects = healthMetricsDbHelper.getDataEntriesByMetricId(metricId);
 
         // Instantiate the DataEntryRecyclerViewAdapter.
         DataEntryRecyclerViewAdapter adapter = new DataEntryRecyclerViewAdapter(
-                dataEntryRecyclerViewObjects, getActivity());
+                dataEntryDisplayObjects, getActivity());
 
         // Set the dataEntryRecyclerView adapter.
         dataEntryRecyclerView.setAdapter(adapter);
@@ -114,7 +114,7 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         List<Entry> entries = new ArrayList<>();
 
         // For every data entry object in createGraphView.
-        for (DataEntryRecyclerViewObject dataEntry : dataEntryRecyclerViewObjects) {
+        for (DataEntryDisplayObject dataEntry : dataEntryDisplayObjects) {
 
             // Create a Entry with the numeric data entry data and the date and time of entry.
             entries.add(new Entry(dataEntry.getDateOfEntry().getTime(), dataEntry.getNumericDataEntry()));
