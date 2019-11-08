@@ -25,10 +25,12 @@ import ca.mohawk.HealthMetrics.R;
 
 
 /**
- * The AddMetric Fragment allows the user to add a metric to their health profile. The user
- * can also navigate to the create metric fragment.
+ * The AddMetricFragment class is an extension of the Fragment class.
+ * <p>
+ * The user add metrics or galleries to their profile.
  */
-public class AddMetricFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener {
+public class AddMetricFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener,
+        RadioGroup.OnCheckedChangeListener {
 
     // The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
     private HealthMetricsDbHelper healthMetricsDbHelper;
@@ -56,10 +58,6 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         // Required empty public constructor
     }
 
-    /**
-     * The onCreateView method initializes the view variables
-     * and the HealthMetricsDbHelper object when the Fragment view is created.
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,23 +65,21 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_add_metric, container, false);
 
-        // Initialize the healthMetricsDbHelper object.
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
-
-        // Initialize the rootView elements.
+        // Get the views.
         addMetricRadioGroup = rootView.findViewById(R.id.radioGroupAddMetric);
-        metricSpinner = rootView.findViewById(R.id.spinnerMetricAddMetric);
+
         metricTypeDisplayTextView = rootView.findViewById(R.id.textViewDisplayAddMetric);
         unitDisplayTextView = rootView.findViewById(R.id.textViewUnitAddMetric);
+
+        metricSpinner = rootView.findViewById(R.id.spinnerMetricAddMetric);
         unitSpinner = rootView.findViewById(R.id.spinnerUnitAddMetric);
+
+        Button addMetricButton = rootView.findViewById(R.id.buttonAddMetric);
+        Button createMetricButton = rootView.findViewById(R.id.buttonCreateMetricAddMetric);
 
         // Set the onItemSelectedListeners for the Metric and Unit spinners.
         metricSpinner.setOnItemSelectedListener(this);
         unitSpinner.setOnItemSelectedListener(this);
-
-        // Initialize the add Metric and create metric buttons.
-        Button addMetricButton = rootView.findViewById(R.id.buttonAddMetric);
-        Button createMetricButton = rootView.findViewById(R.id.buttonCreateMetricAddMetric);
 
         // Set the OnClickListeners for the create metric and add metric buttons.
         createMetricButton.setOnClickListener(this);
@@ -92,16 +88,23 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         // Set the OnCheckedChangeListener for the addMetricRadioGroup.
         addMetricRadioGroup.setOnCheckedChangeListener(this);
 
+        // Initialize the healthMetricsDbHelper object.
+        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+
         // Get the lists of all metrics and galleries from the database.
         List<AddMetricSpinnerObject> metrics = healthMetricsDbHelper.getAllMetrics();
         List<AddMetricPhotoGallerySpinnerObject> galleries = healthMetricsDbHelper.getAllPhotoGalleries();
 
         // Set the metric spinner array adapter.
-        metricSpinnerObjectArrayAdapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_spinner_item, metrics);
+        metricSpinnerObjectArrayAdapter = new ArrayAdapter<>(rootView.getContext(),
+                android.R.layout.simple_spinner_item, metrics);
+
         metricSpinnerObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Set the photo gallery array adapter.
-        photoGallerySpinnerObjectArrayAdapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_spinner_item, galleries);
+        photoGallerySpinnerObjectArrayAdapter = new ArrayAdapter<>(rootView.getContext(),
+                android.R.layout.simple_spinner_item, galleries);
+
         photoGallerySpinnerObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         //Set the metric spinner adapter to the photoGallerySpinnerObjectArrayAdapter.
@@ -112,12 +115,14 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     }
 
     /**
-     * The onClick method runs when the view's onClickListener is activated.
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
      */
     @Override
     public void onClick(View v) {
 
-        // If the createMetric button is pressed then...
+        // If the createMetric button is pressed.
         if (v.getId() == R.id.buttonCreateMetricAddMetric) {
 
             // Initialize the CreateMetricFragment.
@@ -129,19 +134,18 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
                     .addToBackStack(null)
                     .commit();
 
-            // Else if the buttonAddMetric is pressed then call addMetricOrGallery
+            // Else if the buttonAddMetric is pressed then call the addMetricOrGallery method.
         } else if (v.getId() == R.id.buttonAddMetric) {
             addMetricOrGallery();
         }
     }
 
     /**
-     * The addMetricOrGallery methods adds the user selected metric or gallery to their profile.
+     * Adds the user selected metric or gallery to their profile.
      */
     private void addMetricOrGallery() {
 
-        // If validateUserInput returns true then continue.
-
+        // Validate the user input.
         if (validateUserInput()) {
             // Initialize the updateStatus to false.
             boolean updateStatus = false;
@@ -158,14 +162,9 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
 
             // If the database update was not successful then inform the user.
             if (!updateStatus) {
-                Toast.makeText(getActivity(), "Error when adding metric. ", Toast.LENGTH_SHORT).show();
-
-                // Else...
+                Toast.makeText(getActivity(), "Error when adding metric. ",
+                        Toast.LENGTH_SHORT).show();
             } else {
-
-                // Inform the user.
-                Toast.makeText(getActivity(), "Metric added successfully", Toast.LENGTH_SHORT).show();
-
                 // Initialize the metricsListFragment and navigate to it.
                 MetricsListFragment metricsListFragment = new MetricsListFragment();
 
@@ -178,7 +177,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     }
 
     /**
-     * The onItemSelected method is called when a item in the spinner is selected.
+     * Runs when a item in a spinner is selected.
      *
      * @param parent   The parent adapter view.
      * @param view     The selected view.
@@ -217,9 +216,8 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-
     /**
-     * The loadUnitSpinner method loads the Unit spinner with units with the specified unit category.
+     * Loads the Unit spinner with units with the specified unit category.
      *
      * @param unitCategoryId The unit category.
      */
@@ -229,10 +227,10 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         unitSpinner.setAdapter(null);
 
         //Get the list of Units from the database that have the unitCategoryId.
-        List units = healthMetricsDbHelper.getAllSpinnerUnits(unitCategoryId);
+        List<UnitSpinnerObject> units = healthMetricsDbHelper.getAllSpinnerUnits(unitCategoryId);
 
         // Create the unitSpinnerObjectArrayAdapter.
-        ArrayAdapter<UnitSpinnerObject> unitSpinnerObjectArrayAdapter = new ArrayAdapter<>
+        ArrayAdapter unitSpinnerObjectArrayAdapter = new ArrayAdapter<>
                 (Objects.requireNonNull(getActivity()).getBaseContext(),
                         android.R.layout.simple_spinner_item, units);
 
@@ -243,7 +241,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     }
 
     /**
-     * The onCheckedChanged method is called when the radio buttons are selected.
+     * Runs when the selected radio button is changed.
      *
      * @param group     The radio group.
      * @param checkedId The id of the checked button.
@@ -267,7 +265,6 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
             unitSpinner.setVisibility(View.INVISIBLE);
             unitDisplayTextView.setVisibility(View.INVISIBLE);
 
-            // else...
         } else {
 
             // Set the metricTypeDisplayTextView to metric.
@@ -290,9 +287,9 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     }
 
     /**
-     * The validateUserInput method validates the user's input.
+     * Validates the user inputs.
      *
-     * @return A boolean value is returned based on whether the user input is valid.
+     * @return Return a boolean based on whether the user input is valid.
      */
     private boolean validateUserInput() {
 

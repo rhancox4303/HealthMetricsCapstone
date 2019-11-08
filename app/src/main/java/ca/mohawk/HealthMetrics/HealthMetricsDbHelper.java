@@ -613,7 +613,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param unitCategoryId is the unit category id of units that will be returned.
      * @return A list of UnitSpinner objects is returned.
      */
-    public List getAllSpinnerUnits(int unitCategoryId) {
+    public List<UnitSpinnerObject> getAllSpinnerUnits(int unitCategoryId) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
