@@ -34,7 +34,7 @@ import ca.mohawk.HealthMetrics.TimePickerFragment;
 public class CreateDataEntryFragment extends Fragment implements View.OnClickListener,
         TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    // Instantiate the HealthMetricsDbHelper variable.
+
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
     // Instantiate the EditText variables.
@@ -126,7 +126,7 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
             return false;
         }
 
-        // If the date of entry does contain a date and time, inform the user and return false.
+        // If the date of entry does not contain a date and time, inform the user and return false.
         if (!dateOfEntryEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")) {
             Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
             return false;
@@ -154,6 +154,7 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
      * Create a new data entry and add it to the database.
      */
     private void createDataEntry() {
+
         // Validate the user input.
         if (validateUserInput()) {
 
@@ -201,7 +202,6 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
                 .commit();
     }
 
-
     /**
      * Runs when a view's onClickListener is activated.
      *
@@ -215,7 +215,8 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
 
             TimePickerFragment timePickerFragment = new TimePickerFragment();
             timePickerFragment.setOnTimeSetListener(this);
-            timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "timePicker");
+            timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(),
+                    "timePicker");
 
             // Else if the view id is buttonAddEntryAddDataEntry call the createDataEntry method.
         } else if (v.getId() == R.id.buttonAddEntryAddDataEntry) {
@@ -241,7 +242,8 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
         // Create and show the DatePickerFragment.
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.setOnDateSetListener(this);
-        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
+        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(),
+                "datePicker");
     }
 
     /**
