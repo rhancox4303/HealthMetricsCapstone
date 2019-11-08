@@ -2,7 +2,6 @@ package ca.mohawk.HealthMetrics.MetricManagement;
 
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,14 @@ import android.widget.RadioGroup;
 
 import java.util.Objects;
 
+import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.R;
 
 
 /**
- * The CreateMetric Fragment allows the user to create custom metrics.
+ * The CreateMetricFragment class is an extension of the Fragment class.
+ * <p>
+ * Allows the user to create custom metrics, galleries and notes.
  */
 public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
 
@@ -22,15 +24,11 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
         // Required empty public constructor
     }
 
-
-    /**
-     * The onCreateView method initializes the view variables when the Fragment view is created.
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment.
         View rootView = inflater.inflate(R.layout.fragment_create_metric, container, false);
 
         // Initialize a CreateMetricInputFragment object and display it to the user.
@@ -52,7 +50,7 @@ public class CreateMetricFragment extends Fragment implements RadioGroup.OnCheck
     }
 
     /**
-     * The onCheckedChanged method is called when the radio buttons are selected.
+     * Runs when the selected radio button is changed.
      *
      * @param group     The radio group.
      * @param checkedId The id of the checked button.
