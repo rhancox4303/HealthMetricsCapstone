@@ -1,25 +1,22 @@
 package ca.mohawk.HealthMetrics;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.widget.TimePicker;
 
 import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-public class TimePickerFragment extends DialogFragment
-         {
+public class TimePickerFragment extends DialogFragment {
 
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
 
-             public void setOnTimeSetListener(TimePickerDialog.OnTimeSetListener onTimeSetListener) {
-                 this.onTimeSetListener = onTimeSetListener;
-             }
+    public void setOnTimeSetListener(TimePickerDialog.OnTimeSetListener onTimeSetListener) {
+        this.onTimeSetListener = onTimeSetListener;
+    }
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {

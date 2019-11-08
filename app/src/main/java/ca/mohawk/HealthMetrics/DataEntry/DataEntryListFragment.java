@@ -1,11 +1,6 @@
 package ca.mohawk.HealthMetrics.DataEntry;
 
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +21,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.Adapaters.DataEntryRecyclerViewAdapter;
@@ -34,15 +31,19 @@ import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MetricManagement.ManageMetricFragment;
 import ca.mohawk.HealthMetrics.R;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * The CreateDataEntryFragment class is an extension of the Fragment class.
+ * Displays all data entries for the specified metric.
  */
 public class DataEntryListFragment extends Fragment implements View.OnClickListener {
 
-    private List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjectList;
+    // Instantiate the list of dataEntryRecyclerViewObjects.
+    private List<DataEntryRecyclerViewObject> dataEntryRecyclerViewObjects;
 
-    private int MetricId;
+    // Instantiate the metricId variable.
+    private int metricId;
+
+    // Instantiate the LineChart object.
     private LineChart chart;
 
     public DataEntryListFragment() {
@@ -55,104 +56,166 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_data_entry_list, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_data_entry_list, container,
+                false);
+
+        // Turn on the options menu.
         setHasOptionsMenu(true);
 
-        chart = rootView.findViewById(R.id.chartMetricDataView);
-        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        Bundle bundle = this.getArguments();
-
-        if (bundle != null) {
-            MetricId = bundle.getInt("selected_item_key", -1);
-        }
-
-        Button addMetric = rootView.findViewById(R.id.buttonAddEntryMetricDataView);
-        addMetric.setOnClickListener(this);
-
+        // Get the views.
+        Button addMetricButton = rootView.findViewById(R.id.buttonAddEntryMetricDataView);
         Button manageMetricButton = rootView.findViewById(R.id.buttonManageMetricMetricDataView);
-        manageMetricButton.setOnClickListener(this);
-
         RecyclerView dataEntryRecyclerView = rootView.findViewById(R.id.recyclerViewDataEntryList);
 
-        dataEntryRecyclerViewObjectList = healthMetricsDbHelper.getDataEntriesByMetricId(MetricId);
-        DataEntryRecyclerViewAdapter adapter = new DataEntryRecyclerViewAdapter(dataEntryRecyclerViewObjectList,getActivity());
+        // Set the setOnClickListener for the add and manage buttons.
+        addMetricButton.setOnClickListener(this);
+        manageMetricButton.setOnClickListener(this);
 
+        // Get the line chart.
+        chart = rootView.findViewById(R.id.chartMetricDataView);
+
+        // Get the healthMetricsDbHelper.
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+
+        // Get the metric id from the passed bundle.
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            metricId = bundle.getInt("selected_item_key", -1);
+        }
+        // Get the list of dataEntries from the database.
+        dataEntryRecyclerViewObjects = healthMetricsDbHelper.getDataEntriesByMetricId(metricId);
+
+        // Instantiate the DataEntryRecyclerViewAdapter.
+        DataEntryRecyclerViewAdapter adapter = new DataEntryRecyclerViewAdapter(
+                dataEntryRecyclerViewObjects, getActivity());
+
+        // Set the dataEntryRecyclerView adapter.
         dataEntryRecyclerView.setAdapter(adapter);
+
+        // Set the dataEntryRecyclerView layout manager.
         dataEntryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        setUpGraphView();
+        // Call the createGraphView method.
+        createGraphView();
+
+        // Return the rootView.
         return rootView;
     }
 
-    private void setUpGraphView(){
+    /**
+     * Creates the line graph using the list of data entries from the database.
+     * This uses the MPAndroid chart library.
+     */
+    private void createGraphView() {
 
+        // Instantiate the list of Entries.
         List<Entry> entries = new ArrayList<>();
 
-        for (DataEntryRecyclerViewObject dataEntry : dataEntryRecyclerViewObjectList) {
+        // For every data entry object in createGraphView.
+        for (DataEntryRecyclerViewObject dataEntry : dataEntryRecyclerViewObjects) {
 
-            // turn your data into Entry objects
+            // Create a Entry with the numeric data entry data and the date and time of entry.
             entries.add(new Entry(dataEntry.getDateOfEntry().getTime(), dataEntry.getNumericDataEntry()));
         }
 
+        // Get the XAxis and set the axis view.
         XAxis xAxis = chart.getXAxis();
-
-        xAxis.setDrawLabels(false);
-        chart.getLegend().setEnabled(false);   // Hide the legend
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawLabels(false);
         xAxis.setDrawGridLines(false);
 
-        Collections.sort(entries, new EntryXComparator());
-        LineDataSet dataSet = new LineDataSet(entries, "Data Set."); // add entries to data set
+        // Disable the legend and description.
+        chart.getLegend().setEnabled(false);
+        chart.getDescription().setEnabled(false);
 
+        // Sort the entries.
+        Collections.sort(entries, new EntryXComparator());
+        LineDataSet dataSet = new LineDataSet(entries, "Data Entries");
+
+        // Create a new line data set with the list of entries.
         LineData lineData = new LineData(dataSet);
+
+        // Set the data.
         chart.setData(lineData);
-        chart.invalidate(); // refresh
+
+        // Refresh the chart.
+        chart.invalidate();
     }
 
+    /**
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
+     */
     @Override
     public void onClick(View v) {
 
+        // Initialize the destination fragment
         Fragment destinationFragment = new Fragment();
 
-        int id = v.getId();
 
-        if (id == R.id.buttonAddEntryMetricDataView) {
+        // If the id is buttonAddEntryMetricDataView assign destinationFragment to a
+        // CreateDataEntry Fragment.
+        if (v.getId() == R.id.buttonAddEntryMetricDataView) {
             destinationFragment = new CreateDataEntryFragment();
 
-        } else if (id == R.id.buttonManageMetricMetricDataView) {
+            // Else if the id is buttonManageMetricMetricDataView assign destinationFragment to a
+            // ManageMetricFragment Fragment.
+        } else if (v.getId() == R.id.buttonManageMetricMetricDataView) {
             destinationFragment = new ManageMetricFragment();
         }
 
+        // Create a bundle and set the metric id.
         Bundle bundle = new Bundle();
-        bundle.putInt("metric_id_key",MetricId);
+        bundle.putInt("metric_id_key", metricId);
 
+        // Set the bundle to the destinationFragment fragment.
         destinationFragment.setArguments(bundle);
 
+        // Replace the current fragment with the destinationFragment.
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, destinationFragment)
                 .addToBackStack(null)
                 .commit();
     }
 
+    /**
+     * Creates the Options menu.
+     *
+     * @param menu     Represents the menu.
+     * @param inflater Represents the MenuInflater.
+     */
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.email_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-    
+
+
+    /**
+     * Calls the onOptionsItemSelected method when the menu item is pressed.
+     *
+     * @param item Represents the MenuItem.
+     * @return Returns the results of super.onOptionsItemSelected.
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        Fragment destinationFragment = new EmailShareFragment();
+        // Create a EmailShareFragment.
+        Fragment emailShareFragment = new EmailShareFragment();
 
+        // Create a bundle and set the metric id.
         Bundle bundle = new Bundle();
+        bundle.putInt("metric_id_key", metricId);
 
-        bundle.putInt("metric_id_key",MetricId);
-        destinationFragment.setArguments(bundle);
+        // Set the bundle to the emailShareFragment fragment.
+        emailShareFragment.setArguments(bundle);
 
+        // Replace the current fragment with the emailShareFragment.
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, destinationFragment)
+                .replace(R.id.fragmentContainer, emailShareFragment)
                 .addToBackStack(null)
                 .commit();
 

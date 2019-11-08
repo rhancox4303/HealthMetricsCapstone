@@ -1,5 +1,7 @@
 package ca.mohawk.HealthMetrics.DisplayObjects;
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,14 +20,6 @@ public class DataEntryRecyclerViewObject {
         UnitAbbreviation = unitAbbreviation;
     }
 
-    public int getId() {
-        return Id;
-    }
-
-    public String getDateOfEntryString() {
-        return DateOfEntry;
-    }
-
     public String getDataEntry() {
         return DataEntry + " " + UnitAbbreviation;
     }
@@ -36,7 +30,7 @@ public class DataEntryRecyclerViewObject {
 
     public Date getDateOfEntry(){
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm MM-dd-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm MM-dd-yyyy");
         Date convertedDate = new Date();
 
         try {
@@ -44,7 +38,7 @@ public class DataEntryRecyclerViewObject {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return  convertedDate;
+        return convertedDate;
     }
 }
 

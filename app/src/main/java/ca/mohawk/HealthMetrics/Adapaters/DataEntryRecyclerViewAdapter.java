@@ -81,7 +81,7 @@ public class DataEntryRecyclerViewAdapter extends
 
         // Display the date of entry in the recycler view.
         TextView textViewDateOfEntry = viewHolder.textViewDateOfEntry;
-        textViewDateOfEntry.setText(dataEntry.getDateOfEntryString());
+        textViewDateOfEntry.setText(dataEntry.DateOfEntry);
 
         // Set the setOnClickListener for the item view.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

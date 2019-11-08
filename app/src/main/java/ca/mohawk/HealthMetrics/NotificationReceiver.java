@@ -14,7 +14,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(context);
         int id = intent.getIntExtra("id", -1);
         Notification notification = healthMetricsDbHelper.getNotificationById(id);
-        NotificationBuilder notificationBuilder= new NotificationBuilder(context);
+        NotificationBuilder notificationBuilder = new NotificationBuilder(context);
         NotificationCompat.Builder nb = notificationBuilder.getChannelNotification(notification);
         notificationBuilder.getManager().notify(id, nb.build());
     }
