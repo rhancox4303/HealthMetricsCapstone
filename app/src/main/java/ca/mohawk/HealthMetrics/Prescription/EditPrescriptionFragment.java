@@ -56,7 +56,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
         }
 
         Prescription prescription = healthMetricsDbHelper.getPrescriptionById(PrescriptionId);
-        DosageMeasurement dosageMeasurement = healthMetricsDbHelper.getDosageMeasurementById(prescription.DosageMeasurementId);
+        DosageMeasurement dosageMeasurement = healthMetricsDbHelper.getDosageMeasurementById(prescription.dosageMeasurementId);
 
         List<DosageMeasurement> dosageMeasurementList = healthMetricsDbHelper.getAllDosageMeasurements();
         // Inflate the layout for this fragment
@@ -74,13 +74,13 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
         reasonEditText = rootView.findViewById(R.id.editTextReasonEditPrescription);
         Spinner dosageMeasurementSpinner = rootView.findViewById(R.id.spinnerDosageMeasurementEditPrescription);
 
-        nameEditText.setText(prescription.Name);
-        formEditText.setText(prescription.Form);
-        strengthEditText.setText(prescription.Strength);
-        dosageEditText.setText(String.valueOf(prescription.DosageAmount));
-        frequencyEditText.setText(prescription.Frequency);
-        amountEditText.setText(String.valueOf(prescription.Amount));
-        reasonEditText.setText(prescription.Reason);
+        nameEditText.setText(prescription.name);
+        formEditText.setText(prescription.form);
+        strengthEditText.setText(prescription.strength);
+        dosageEditText.setText(String.valueOf(prescription.dosageAmount));
+        frequencyEditText.setText(prescription.frequency);
+        amountEditText.setText(String.valueOf(prescription.amount));
+        reasonEditText.setText(prescription.reason);
 
         ArrayAdapter<DosageMeasurement> dosageMeasurementArrayAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, dosageMeasurementList);
         dosageMeasurementSpinner.setAdapter(dosageMeasurementArrayAdapter);
@@ -117,7 +117,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
     private boolean validateFormInput() {
 
         if (formEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Form cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "form cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -143,7 +143,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
 
     private boolean validateStrengthInput() {
         if (strengthEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Strength cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "strength cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -195,7 +195,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
 
     private boolean validateReasonInput() {
         if (reasonEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Reason cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "reason cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -232,7 +232,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        DosageMeasurementId = ((DosageMeasurement) parent.getSelectedItem()).getId();
+        DosageMeasurementId = ((DosageMeasurement) parent.getSelectedItem()).id;
     }
 
     @Override

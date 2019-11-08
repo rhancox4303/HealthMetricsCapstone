@@ -55,8 +55,7 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
-
+        // Inflate the layout for this fragment.
         View rootView = inflater.inflate(R.layout.fragment_data_entry_list, container,
                 false);
 
@@ -69,7 +68,7 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         Button manageMetricButton = rootView.findViewById(R.id.buttonManageMetricMetricDataView);
         RecyclerView dataEntryRecyclerView = rootView.findViewById(R.id.recyclerViewDataEntryList);
 
-        // Set the setOnClickListener for the add and manage buttons.
+
         addMetricButton.setOnClickListener(this);
         manageMetricButton.setOnClickListener(this);
 
@@ -84,6 +83,7 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         if (bundle != null) {
             metricId = bundle.getInt("selected_item_key", -1);
         }
+
         // Get the list of dataEntries from the database.
         dataEntryDisplayObjects = healthMetricsDbHelper.getDataEntriesByMetricId(metricId);
 
@@ -209,8 +209,6 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         // Create a bundle and set the metric id.
         Bundle bundle = new Bundle();
         bundle.putInt("metric_id_key", metricId);
-
-        // Set the bundle to the emailShareFragment fragment.
         emailShareFragment.setArguments(bundle);
 
         // Replace the current fragment with the emailShareFragment.

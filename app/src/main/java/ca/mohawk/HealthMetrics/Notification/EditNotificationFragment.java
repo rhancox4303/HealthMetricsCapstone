@@ -80,21 +80,21 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
         notification = healthMetricsDbHelper.getNotificationById(NotificationId);
 
         if (notification != null) {
-            typeTextView.setText(notification.NotificationType);
-            DateTimeEditText.setText(notification.TargetDateTime);
-            switch (notification.NotificationType) {
+            typeTextView.setText(notification.notificationType);
+            DateTimeEditText.setText(notification.targetDateTime);
+            switch (notification.notificationType) {
                 case "Enter Metric Data":
-                    Metric targetMetric = healthMetricsDbHelper.getMetricById(notification.TargetId);
-                    targetTextView.setText(targetMetric.Name);
+                    Metric targetMetric = healthMetricsDbHelper.getMetricById(notification.targetId);
+                    targetTextView.setText(targetMetric.name);
                     break;
                 case "Enter Gallery Data":
-                    PhotoGallery targetGallery = healthMetricsDbHelper.getPhotoGalleryById(notification.TargetId);
-                    targetTextView.setText(targetGallery.Name);
+                    PhotoGallery targetGallery = healthMetricsDbHelper.getPhotoGalleryById(notification.targetId);
+                    targetTextView.setText(targetGallery.name);
                     break;
                 case "Refill Prescription":
                 case "Take Prescription":
-                    Prescription targetPrescription = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                    targetTextView.setText(targetPrescription.Name);
+                    Prescription targetPrescription = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
+                    targetTextView.setText(targetPrescription.name);
                     break;
             }
         }
@@ -116,9 +116,9 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
     private void editNotification() {
         if (validateUserInput()) {
             cancelNotification();
-            notification.TargetDateTime = DateTimeEditText.getText().toString();
+            notification.targetDateTime = DateTimeEditText.getText().toString();
             healthMetricsDbHelper.updateNotification(notification);
-            startAlarm(notification.Id);
+            startAlarm(notification.id);
 
             Fragment notificationList = new NotificationListFragment();
 
@@ -135,7 +135,7 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
             return false;
         }
 
-        if (DateTimeEditText.getText().toString().trim().equals(notification.TargetDateTime)) {
+        if (DateTimeEditText.getText().toString().trim().equals(notification.targetDateTime)) {
             Toast.makeText(getActivity(), "Please enter a new date and time.", Toast.LENGTH_SHORT).show();
             return false;
         }

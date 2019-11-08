@@ -22,7 +22,7 @@ public class MetricDisplayObject {
     public String category;
 
     /**
-     * Creates the MetricDisplayObject.
+     * Constructs the MetricDisplayObject.
      *
      * @param id              Represents the metric id.
      * @param name            Represents the metric name.

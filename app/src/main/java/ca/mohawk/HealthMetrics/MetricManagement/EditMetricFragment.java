@@ -54,7 +54,7 @@ public class EditMetricFragment extends Fragment implements View.OnClickListener
         metric = healthMetricsDbHelper.getMetricById(metricId);
 
         if (metric != null) {
-            metricNameEditText.setText(metric.Name);
+            metricNameEditText.setText(metric.name);
         }
 
         return rootView;
@@ -97,7 +97,7 @@ public class EditMetricFragment extends Fragment implements View.OnClickListener
     private void editMetric() {
 
         if (validateUserInput()) {
-            metric.Name = metricNameEditText.getText().toString();
+            metric.name = metricNameEditText.getText().toString();
 
             if (healthMetricsDbHelper.updateMetric(metric)) {
                 // Inform user.

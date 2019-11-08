@@ -106,7 +106,7 @@ public class PrescriptionRecyclerViewAdapter
                 Prescription prescription = healthMetricsDbHelper.getPrescriptionById(prescriptionDisplayObject.id);
 
                 // Increment the amount by the dosage amount.
-                prescription.Amount += prescription.DosageAmount;
+                prescription.amount += prescription.dosageAmount;
 
                 // If unable to update the database then notify the user.
                 if (!healthMetricsDbHelper.updatePrescription(prescription)) {
@@ -126,10 +126,10 @@ public class PrescriptionRecyclerViewAdapter
                 Prescription prescription = healthMetricsDbHelper.getPrescriptionById(prescriptionDisplayObject.id);
 
                 // Decrement the amount by the dosage amount.
-                prescription.Amount -= prescription.DosageAmount;
+                prescription.amount -= prescription.dosageAmount;
 
                 // Validate the amount is not less than 0. Notify the user if it is.
-                if (prescription.Amount < 0) {
+                if (prescription.amount < 0) {
                     Toast.makeText(context, "amount cannot be less than 0.", Toast.LENGTH_SHORT).show();
                 }
 

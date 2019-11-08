@@ -58,10 +58,10 @@ public class ViewPhotoEntryFragment extends Fragment implements View.OnClickList
             deleteEntryButton.setOnClickListener(this);
             editEntryButton.setOnClickListener(this);
 
-            dateOfEntryTextView.setText(PhotoEntry.DateOfEntry);
+            dateOfEntryTextView.setText(PhotoEntry.dateOfEntry);
 
             Glide.with(Objects.requireNonNull(getActivity()))
-                    .load(PhotoEntry.PhotoEntryPath)
+                    .load(PhotoEntry.photoEntryPath)
                     .fitCenter()
                     .into(imageView);
         } else {

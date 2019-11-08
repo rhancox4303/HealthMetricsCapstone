@@ -84,12 +84,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT, dosageMeasurement.DosageMeasurement);
-            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION, dosageMeasurement.UnitAbbreviation);
+            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_DOSAGEMEASUREMENT, dosageMeasurement.dosageMeasurement);
+            values.put(HealthMetricContract.DosageMeasurements.COLUMN_NAME_UNITABBREVIATION, dosageMeasurement.unitAbbreviation);
 
             writableDatabase.insertOrThrow(HealthMetricContract.DosageMeasurements.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
-            Log.d("TEST add", dosageMeasurement.DosageMeasurement);
+            Log.d("TEST add", dosageMeasurement.dosageMeasurement);
 
         } catch (Exception e) {
             Log.d("TAG", "Error while trying to add dosage measurement to database");
@@ -107,8 +107,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.NoteContent);
-            values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.DateOfEntry);
+            values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.noteContent);
+            values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.dateOfEntry);
 
             id = writableDatabase.insertOrThrow(HealthMetricContract.Notes.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -133,10 +133,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.FirstName);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.LastName);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.DateOfBirth);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
+            values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.firstName);
+            values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.lastName);
+            values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.dateOfBirth);
+            values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.gender);
 
             id = writableDatabase.insertOrThrow(HealthMetricContract.Users.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -158,14 +158,14 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.Name);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.Amount);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT, prescription.DosageAmount);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.DosageMeasurementId);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.Form);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.Frequency);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.Strength);
-            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.Reason);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.name);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.amount);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEAMOUNT, prescription.dosageAmount);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.dosageMeasurementId);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.form);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.frequency);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.strength);
+            values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.reason);
 
            id = writableDatabase.insertOrThrow(HealthMetricContract.Prescriptions.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -191,8 +191,8 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         long id = 0;
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, photoGallery.Name);
-            values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE, photoGallery.IsAddedToProfile);
+            values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, photoGallery.name);
+            values.put(HealthMetricContract.Galleries.COLUMN_NAME_ISADDEDTOPROFILE, photoGallery.isAddedToProfile);
 
             id = writableDatabase.insertOrThrow(HealthMetricContract.Galleries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -219,10 +219,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.Name);
-            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, metric.UnitId);
-            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID, metric.UnitCategoryId);
-            values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.IsAddedToProfile);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.name);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITID, metric.unitId);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_UNITCATEGORYID, metric.unitCategoryId);
+            values.put(HealthMetricContract.Metrics.COLUMN_NAME_ISADDEDTOPROFILE, metric.isAddedToProfile);
 
             id = writableDatabase.insertOrThrow(HealthMetricContract.Metrics.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -242,9 +242,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         long id = 0;
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.DateOfEntry);
-            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID, photoEntry.PhotoGalleryId);
-            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.PhotoEntryPath);
+            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.dateOfEntry);
+            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_GALLERYID, photoEntry.photoGalleryId);
+            values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.photoEntryPath);
 
             id = writableDatabase.insertOrThrow(HealthMetricContract.PhotoEntries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -269,9 +269,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.DataEntry);
-            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.DateOfEntry);
-            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.MetricId);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.dataEntry);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.dateOfEntry);
+            values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.metricId);
 
             id = writableDatabase.insertOrThrow(HealthMetricContract.MetricDataEntries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -290,9 +290,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         Long id = new Long(-1);
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.TargetDateTime);
-            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.TargetId);
-            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.NotificationType);
+            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.targetDateTime);
+            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.targetId);
+            values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.notificationType);
 
             id = writableDatabase.insertOrThrow(HealthMetricContract.Notifications.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -319,9 +319,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         try {
             ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITNAME, unit.UnitName);
-            values.put(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION, unit.UnitAbbreviation);
-            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID, unit.UnitCategoryId);
+            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITNAME, unit.unitName);
+            values.put(HealthMetricContract.Units.COLUMN_NAME_ABBREVIATION, unit.unitAbbreviation);
+            values.put(HealthMetricContract.Units.COLUMN_NAME_UNITCATEGORYID, unit.unitCategoryId);
 
             writableDatabase.insertOrThrow(HealthMetricContract.Units.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -346,11 +346,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         try {
             ContentValues values = new ContentValues();
 
-            if (unitCategory.Id != 0) {
-                values.put(HealthMetricContract.UnitCategories._ID, unitCategory.Id);
+            if (unitCategory.id != 0) {
+                values.put(HealthMetricContract.UnitCategories._ID, unitCategory.id);
             }
 
-            values.put(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY, unitCategory.UnitCategory);
+            values.put(HealthMetricContract.UnitCategories.COLUMN_NAME_UNITCATEGORY, unitCategory.unitCategory);
 
             writableDatabase.insertOrThrow(HealthMetricContract.UnitCategories.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
@@ -707,7 +707,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             if (!dataEntry.equals("No Data Available")) {
                 Unit unit = getUnitById(unitId);
-                dataEntry = dataEntry + " " + unit.UnitAbbreviation;
+                dataEntry = dataEntry + " " + unit.unitAbbreviation;
             }
             recyclerViewObjects.add(new MetricDisplayObject(metricId, metricName, dataEntry, "Quantitative"));
         }
@@ -950,7 +950,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     public List<DataEntryDisplayObject> getDataEntriesByMetricId(int metricId) {
 
         Metric metric = getMetricById(metricId);
-        Unit unit = getUnitById(metric.UnitId);
+        Unit unit = getUnitById(metric.unitId);
 
         List<DataEntryDisplayObject> dataEntryDisplayObjectList = new ArrayList<DataEntryDisplayObject>();
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -979,7 +979,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             int id = cursor.getInt(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries._ID));
             String dataEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY));
             String dateOfEntry = cursor.getString(cursor.getColumnIndex(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY));
-            dataEntryDisplayObjectList.add(new DataEntryDisplayObject(id, dateOfEntry, dataEntry, unit.UnitAbbreviation));
+            dataEntryDisplayObjectList.add(new DataEntryDisplayObject(id, dateOfEntry, dataEntry, unit.unitAbbreviation));
         }
         cursor.close();
         readableDatabase.close();
@@ -1292,7 +1292,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             DosageMeasurement dosageMeasurement = getDosageMeasurementById(dosageMeasurementId);
 
-            prescriptionDisplayObjects.add(new PrescriptionDisplayObject(id, name, dosageAmount, dosageMeasurement.DosageMeasurement, frequency, amount));
+            prescriptionDisplayObjects.add(new PrescriptionDisplayObject(id, name, dosageAmount, dosageMeasurement.dosageMeasurement, frequency, amount));
 
         }
 
@@ -1507,10 +1507,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.FirstName);
-        values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.LastName);
-        values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.DateOfBirth);
-        values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.Gender);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_FIRSTNAME, user.firstName);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_LASTNAME, user.lastName);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_DATEOFBIRTH, user.dateOfBirth);
+        values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.gender);
 
         return database.update(HealthMetricContract.Users.TABLE_NAME, values, HealthMetricContract.Users._ID + " = 1",
                 null) > 0;
@@ -1526,11 +1526,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.MetricId);
-        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.DateOfEntry);
-        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.DataEntry);
+        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_METRICID, dataEntry.metricId);
+        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATEOFENTRY, dataEntry.dateOfEntry);
+        values.put(HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATAENTRY, dataEntry.dataEntry);
 
-        return database.update(HealthMetricContract.MetricDataEntries.TABLE_NAME, values, HealthMetricContract.MetricDataEntries._ID + " = " + dataEntry.Id,
+        return database.update(HealthMetricContract.MetricDataEntries.TABLE_NAME, values, HealthMetricContract.MetricDataEntries._ID + " = " + dataEntry.id,
                 null) > 0;
     }
 
@@ -1546,9 +1546,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.Name);
+        values.put(HealthMetricContract.Metrics.COLUMN_NAME_METRICNAME, metric.name);
 
-        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Metrics._ID + " = " + metric.Id,
+        return database.update(HealthMetricContract.Metrics.TABLE_NAME, values, HealthMetricContract.Metrics._ID + " = " + metric.id,
                 null) > 0;
     }
 
@@ -1557,10 +1557,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.DateOfEntry);
-        values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.NoteContent);
+        values.put(HealthMetricContract.Notes.COLUMN_NAME_DATEOFENTRY, note.dateOfEntry);
+        values.put(HealthMetricContract.Notes.COLUMN_NAME_NOTECONTENT, note.noteContent);
 
-        return database.update(HealthMetricContract.Notes.TABLE_NAME, values, HealthMetricContract.Notes._ID + " = " + note.Id,
+        return database.update(HealthMetricContract.Notes.TABLE_NAME, values, HealthMetricContract.Notes._ID + " = " + note.id,
                 null) > 0;
     }
 
@@ -1615,15 +1615,15 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.Name);
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.Reason);
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.Frequency);
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.Strength);
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.DosageMeasurementId);
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.Form);
-        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.Amount);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_NAME, prescription.name);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.reason);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.frequency);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.strength);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGEMEASUREMENT, prescription.dosageMeasurementId);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.form);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.amount);
 
-        return database.update(HealthMetricContract.Prescriptions.TABLE_NAME, values, HealthMetricContract.Prescriptions._ID + " = " + prescription.Id,
+        return database.update(HealthMetricContract.Prescriptions.TABLE_NAME, values, HealthMetricContract.Prescriptions._ID + " = " + prescription.id,
                 null) > 0;
     }
 
@@ -1670,9 +1670,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         List<PhotoEntry> photos = getPhotoEntriesByGalleryId(galleryId);
 
         for (PhotoEntry photoEntry : photos) {
-            if (photoEntry.IsFromGallery == 0) {
-                Log.d("PATHTEST", photoEntry.PhotoEntryPath);
-                File file = new File(photoEntry.PhotoEntryPath);
+            if (photoEntry.isFromGallery == 0) {
+                Log.d("PATHTEST", photoEntry.photoEntryPath);
+                File file = new File(photoEntry.photoEntryPath);
                 file.delete();
             }
         }
@@ -1695,12 +1695,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.DateOfEntry);
-        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY, photoEntry.IsFromGallery);
-        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.PhotoEntryPath);
-        Log.d("PHOTOID", photoEntry.Id + "");
+        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_DATEOFENTRY, photoEntry.dateOfEntry);
+        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_ISFROMGALLERY, photoEntry.isFromGallery);
+        values.put(HealthMetricContract.PhotoEntries.COLUMN_NAME_PHOTOENTRYPATH, photoEntry.photoEntryPath);
+        Log.d("PHOTOID", photoEntry.id + "");
 
-        return database.update(HealthMetricContract.PhotoEntries.TABLE_NAME, values, HealthMetricContract.PhotoEntries._ID + "=?", new String[]{Integer.toString(photoEntry.Id)}) > 0;
+        return database.update(HealthMetricContract.PhotoEntries.TABLE_NAME, values, HealthMetricContract.PhotoEntries._ID + "=?", new String[]{Integer.toString(photoEntry.id)}) > 0;
     }
 
     public boolean updateNotification(Notification notification) {
@@ -1709,11 +1709,11 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.NotificationType);
-        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.TargetDateTime);
-        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.TargetId);
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TYPE, notification.notificationType);
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETDATETIME, notification.targetDateTime);
+        values.put(HealthMetricContract.Notifications.COLUMN_NAME_TARGETID, notification.targetId);
 
-        return database.update(HealthMetricContract.Notifications.TABLE_NAME, values, HealthMetricContract.Notifications._ID + "=?", new String[]{Integer.toString(notification.Id)}) > 0;
+        return database.update(HealthMetricContract.Notifications.TABLE_NAME, values, HealthMetricContract.Notifications._ID + "=?", new String[]{Integer.toString(notification.id)}) > 0;
     }
 
     public boolean updateGallery(PhotoGallery gallery) {
@@ -1722,9 +1722,9 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, gallery.Name);
+        values.put(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME, gallery.name);
 
-        return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + gallery.Id,
+        return database.update(HealthMetricContract.Galleries.TABLE_NAME, values, HealthMetricContract.Galleries._ID + " = " + gallery.id,
                 null) > 0;
 
     }

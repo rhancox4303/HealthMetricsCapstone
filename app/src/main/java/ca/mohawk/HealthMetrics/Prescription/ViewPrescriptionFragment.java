@@ -57,19 +57,19 @@ public class ViewPrescriptionFragment extends Fragment implements View.OnClickLi
         }
 
         Prescription prescription = healthMetricsDbHelper.getPrescriptionById(PrescriptionId);
-        DosageMeasurement dosageMeasurement = healthMetricsDbHelper.getDosageMeasurementById(prescription.DosageMeasurementId);
+        DosageMeasurement dosageMeasurement = healthMetricsDbHelper.getDosageMeasurementById(prescription.dosageMeasurementId);
 
         if (null != prescription || null != dosageMeasurement) {
-            nameTextView.setText(prescription.Name);
-            formTextView.setText(prescription.Form);
-            strengthTextView.setText(prescription.Strength);
+            nameTextView.setText(prescription.name);
+            formTextView.setText(prescription.form);
+            strengthTextView.setText(prescription.strength);
 
-            dosageTextView.setText(new StringBuilder().append(prescription.DosageAmount)
-                    .append(" ").append(dosageMeasurement.UnitAbbreviation).toString());
-            frequencyTextView.setText(prescription.Frequency);
+            dosageTextView.setText(new StringBuilder().append(prescription.dosageAmount)
+                    .append(" ").append(dosageMeasurement.unitAbbreviation).toString());
+            frequencyTextView.setText(prescription.frequency);
 
-            amountTextView.setText(String.valueOf(prescription.Amount));
-            reasonTextView.setText(prescription.Reason);
+            amountTextView.setText(String.valueOf(prescription.amount));
+            reasonTextView.setText(prescription.reason);
         } else {
             // Leave
         }

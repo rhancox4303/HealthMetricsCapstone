@@ -52,7 +52,7 @@ public class ManageGalleryFragment extends Fragment implements View.OnClickListe
         PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(GalleryId);
 
         if (gallery != null) {
-            galleryNameTextView.setText(gallery.Name);
+            galleryNameTextView.setText(gallery.name);
         } else {
             //Leave fragment
         }

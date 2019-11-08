@@ -22,15 +22,21 @@ import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The CreateMetricInputFragment class is an extension of the Fragment class.
+ * <p>
+ * Allows the user create notes.
  */
-public class CreateNoteInputFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class CreateNoteInputFragment extends Fragment implements View.OnClickListener,
+        TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
+    // Initialize the healthMetricsDbHelper.
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
+    // Initialize the edit texts.
     private EditText dateOfEntryEditText;
     private EditText noteContentEditText;
 
+    // Initialize the time variable.
     private String time;
 
     public CreateNoteInputFragment() {
@@ -41,8 +47,9 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
         View rootView = inflater.inflate(R.layout.fragment_create_note_input, container, false);
+
+        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         dateOfEntryEditText = rootView.findViewById(R.id.editTextDateOfEntryCreateNoteInput);
         dateOfEntryEditText.setOnClickListener(this);
@@ -52,6 +59,25 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
 
         noteContentEditText = rootView.findViewById(R.id.editTextNoteCreateNoteInput);
         return rootView;
+    }
+
+    /**
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
+     */
+    @Override
+    public void onClick(View v) {
+
+        if (v.getId() == R.id.editTextDateOfEntryCreateNoteInput) {
+
+            TimePickerFragment timePickerFragment = new TimePickerFragment();
+            timePickerFragment.setOnTimeSetListener(this);
+            timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "timePicker");
+
+        } else if (v.getId() == R.id.buttonAddNoteCreateNoteInput) {
+            createNote();
+        }
     }
 
     private boolean validateUserInput() {
@@ -79,18 +105,6 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.editTextDateOfEntryCreateNoteInput) {
-
-            TimePickerFragment timePickerFragment = new TimePickerFragment();
-            timePickerFragment.setOnTimeSetListener(this);
-            timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "timePicker");
-
-        } else if (v.getId() == R.id.buttonAddNoteCreateNoteInput) {
-            createNote();
-        }
-    }
 
     private void createNote() {
 

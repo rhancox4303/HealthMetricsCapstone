@@ -95,7 +95,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
     private boolean validateFormInput() {
 
         if (formEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Form cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "form cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -121,7 +121,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
 
     private boolean validateStrengthInput() {
         if (strengthEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Strength cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "strength cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -173,7 +173,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
 
     private boolean validateReasonInput() {
         if (reasonEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Reason cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "reason cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -217,7 +217,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        dosageMeasurementId = ((DosageMeasurement) parent.getSelectedItem()).getId();
+        dosageMeasurementId = ((DosageMeasurement) parent.getSelectedItem()).id;
     }
 
     @Override

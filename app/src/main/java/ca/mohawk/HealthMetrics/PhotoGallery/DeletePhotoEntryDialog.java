@@ -30,19 +30,19 @@ public class DeletePhotoEntryDialog extends DialogFragment {
     }
 
     public int getPhotoEntryId() {
-        return PhotoEntry.Id;
+        return PhotoEntry.id;
     }
 
     public int getGalleryId() {
-        return PhotoEntry.PhotoGalleryId;
+        return PhotoEntry.photoGalleryId;
     }
 
     public int getIsFromGallery() {
-        return PhotoEntry.IsFromGallery;
+        return PhotoEntry.isFromGallery;
     }
 
     public String getPhotoEntryPath() {
-        return PhotoEntry.PhotoEntryPath;
+        return PhotoEntry.photoEntryPath;
     }
 
     @Override

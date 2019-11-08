@@ -77,11 +77,11 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
             Toast.makeText(getActivity(), "User not found.", Toast.LENGTH_SHORT).show();
         } else {
             //Populate the fields with the user's information.
-            firstNameEditText.setText(user.FirstName);
-            lastNameEditText.setText(user.LastName);
-            dateOfBirthEditText.setText(user.DateOfBirth);
+            firstNameEditText.setText(user.firstName);
+            lastNameEditText.setText(user.lastName);
+            dateOfBirthEditText.setText(user.dateOfBirth);
 
-            if (user.Gender.equals("Female")) {
+            if (user.gender.equals("Female")) {
                 radioGroupGender.check(R.id.radioButtonFemaleEditUser);
             } else {
                 radioGroupGender.check(R.id.radioButtonMaleEditUser);

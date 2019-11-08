@@ -52,8 +52,6 @@ public class EmailShareFragment extends Fragment implements View.OnClickListener
         messageEditText = rootView.findViewById(R.id.editTextMessageEmailShare);
 
         Button sendButton = rootView.findViewById(R.id.buttonSendEmailShare);
-
-        // Set the sendButton OnClickListener.
         sendButton.setOnClickListener(this);
 
         // Instantiate the HealthMetricsDbHelper variable.
@@ -86,7 +84,6 @@ public class EmailShareFragment extends Fragment implements View.OnClickListener
         }
         return rootView;
     }
-
 
     /**
      * Start an email intent to with the user's inputted data passed in.
@@ -182,7 +179,7 @@ public class EmailShareFragment extends Fragment implements View.OnClickListener
         StringBuilder builder = new StringBuilder();
 
         // Add the metric name to the top of the message.
-        builder.append(String.format("%s Data\n", metric.Name));
+        builder.append(String.format("%s Data\n", metric.name));
 
         // Add each data latestDataEntry to the message.
         for (DataEntryDisplayObject dataEntry : dataEntries) {

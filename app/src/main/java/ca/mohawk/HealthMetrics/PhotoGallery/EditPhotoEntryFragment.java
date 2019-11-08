@@ -96,14 +96,14 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         PhotoEntry photoEntry = healthMetricsDbHelper.getPhotoEntryById(PhotoId);
 
         if (photoEntry != null) {
-            currentPhotoPath = photoEntry.PhotoEntryPath;
+            currentPhotoPath = photoEntry.photoEntryPath;
 
-            GalleryId = photoEntry.PhotoGalleryId;
-            dateOfEntryEditText.setText(photoEntry.DateOfEntry);
-            isFromGallery = photoEntry.IsFromGallery;
+            GalleryId = photoEntry.photoGalleryId;
+            dateOfEntryEditText.setText(photoEntry.dateOfEntry);
+            isFromGallery = photoEntry.isFromGallery;
 
             Glide.with(Objects.requireNonNull(getActivity()))
-                    .load(photoEntry.PhotoEntryPath)
+                    .load(photoEntry.photoEntryPath)
                     .fitCenter()
                     .into(imageView);
         } else {

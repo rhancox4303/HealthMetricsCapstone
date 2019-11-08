@@ -16,7 +16,7 @@ public class AddMetricPhotoGallerySpinnerObject {
     private String galleryName;
 
     /**
-     * Creates the AddMetricPhotoGallerySpinnerObject.
+     * Constructs the AddMetricPhotoGallerySpinnerObject.
      *
      * @param galleryName Represents the gallery name.
      * @param id          Represents the id of the gallery.

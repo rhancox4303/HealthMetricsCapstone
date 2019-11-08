@@ -22,7 +22,7 @@ import ca.mohawk.HealthMetrics.R;
 
 /**
  * The ViewDataEntryFragment class is an extension of the Fragment class.
- * Allows the user to view a data latestDataEntry.
+ * Allows the user to view a data entry.
  */
 public class ViewDataEntryFragment extends Fragment implements View.OnClickListener {
 
@@ -52,10 +52,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
         Button editDataEntryButton = rootView.findViewById(R.id.buttonEditEntryViewDataEntry);
         Button deleteDataEntryButton = rootView.findViewById(R.id.buttonDeleteEntryViewDataEntry);
 
-        // Set the editDataEntryButton OnClickListener.
         editDataEntryButton.setOnClickListener(this);
-
-        // Set the deleteDataEntryButton OnClickListener.
         deleteDataEntryButton.setOnClickListener(this);
 
         // Get the healthMetricsDbHelper.
@@ -81,13 +78,13 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
 
         } else {
             // Display the date of latestDataEntry and the data latestDataEntry.
-            dateOfEntryTextView.setText(dataEntry.DateOfEntry);
+            dateOfEntryTextView.setText(dataEntry.dateOfEntry);
 
             // Set the dataEntryString.
-            dataEntryString = dataEntry.DataEntry;
+            dataEntryString = dataEntry.dataEntry;
 
             // Set the metricId.
-            metricId = dataEntry.MetricId;
+            metricId = dataEntry.metricId;
         }
 
         // Get the metric from the database.
@@ -104,10 +101,10 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
         } else {
 
             // Display the metric name.
-            metricNameTextView.setText(metric.Name);
+            metricNameTextView.setText(metric.name);
 
             // Get the unit from the database.
-            unit = healthMetricsDbHelper.getUnitById(metric.UnitId);
+            unit = healthMetricsDbHelper.getUnitById(metric.unitId);
         }
 
         // Validate the unit is not null.
@@ -119,7 +116,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
         } else {
             // Display the unit abbreviation.
             dataEntryTextView.setText(new StringBuilder().append(dataEntryString)
-                    .append(" ").append(unit.UnitAbbreviation).toString());
+                    .append(" ").append(unit.unitAbbreviation).toString());
         }
 
         // Return rootView.
@@ -156,8 +153,6 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
             // Create a bundle and set the data latestDataEntry id.
             Bundle bundle = new Bundle();
             bundle.putInt("data_entry_selected_key", dataEntryId);
-
-            // Set the bundle to the destinationFragment fragment.
             destinationFragment.setArguments(bundle);
 
             // Replace the current fragment with the destinationFragment.

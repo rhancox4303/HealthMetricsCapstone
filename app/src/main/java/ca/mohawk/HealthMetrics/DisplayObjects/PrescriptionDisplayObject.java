@@ -30,7 +30,7 @@ public class PrescriptionDisplayObject {
     private String dosageMeasurement;
 
     /**
-     * Creates a PrescriptionDisplayObject.
+     * Constructs a PrescriptionDisplayObject.
      *
      * @param id                Represents the prescription id.
      * @param name              Represents the name of the prescription.
@@ -67,7 +67,7 @@ public class PrescriptionDisplayObject {
     }
 
     /**
-     * Concatenates the amount  and the dosageMeasurement.
+     * Concatenates the amount and the dosageMeasurement.
      *
      * @return returns the concatenated string.
      */

@@ -86,22 +86,22 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
 
         // Create the information variable based on the type of notification.
         // Verify that the data gotten from the database is not null.
-        switch (notification.NotificationType) {
+        switch (notification.notificationType) {
             case "Enter Metric Data":
-                Metric metric = healthMetricsDbHelper.getMetricById(notification.TargetId);
-                information = metric != null ? "Input " + metric.Name : "";
+                Metric metric = healthMetricsDbHelper.getMetricById(notification.targetId);
+                information = metric != null ? "Input " + metric.name : "";
                 break;
             case "Enter Gallery Data":
-                PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.TargetId);
-                information = gallery != null ? "Input " + gallery.Name : "";
+                PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.targetId);
+                information = gallery != null ? "Input " + gallery.name : "";
                 break;
             case "Refill Prescription":
-                Prescription prescriptionRefill = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                information = prescriptionRefill != null ? "Refill " + prescriptionRefill.Name : "";
+                Prescription prescriptionRefill = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
+                information = prescriptionRefill != null ? "Refill " + prescriptionRefill.name : "";
                 break;
             case "Take Prescription":
-                Prescription prescriptionTake = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                information = prescriptionTake != null ? "Take " + prescriptionTake.Name : "";
+                Prescription prescriptionTake = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
+                information = prescriptionTake != null ? "Take " + prescriptionTake.name : "";
                 break;
         }
 
@@ -111,7 +111,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
 
         // Display the target date time in the recycler view.
         TextView notificationDateTextView = viewHolder.notificationDateTextView;
-        notificationDateTextView.setText(notification.TargetDateTime);
+        notificationDateTextView.setText(notification.targetDateTime);
 
         // Set the itemView onCLickListener.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +134,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
 
         // Create and the notification id to a bundle.
         Bundle prescriptionBundle = new Bundle();
-        prescriptionBundle.putInt("notification_selected_key", selectedNotification.Id);
+        prescriptionBundle.putInt("notification_selected_key", selectedNotification.id);
 
         // Set the bundle to the destination fragment.
         destinationFragment.setArguments(prescriptionBundle);

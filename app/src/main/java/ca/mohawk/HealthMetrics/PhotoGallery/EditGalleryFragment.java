@@ -50,7 +50,7 @@ public class EditGalleryFragment extends Fragment implements View.OnClickListene
 
         if (Gallery != null) {
             nameEditText = rootView.findViewById(R.id.editTextGalleryNameEditGallery);
-            nameEditText.setText(Gallery.Name);
+            nameEditText.setText(Gallery.name);
 
             Button editGalleryButton = rootView.findViewById(R.id.buttonEditGallery);
             editGalleryButton.setOnClickListener(this);
@@ -97,7 +97,7 @@ public class EditGalleryFragment extends Fragment implements View.OnClickListene
         if (validateUserInput()) {
 
             String galleryName = nameEditText.getText().toString();
-            PhotoGallery gallery = new PhotoGallery(GalleryId, galleryName, Gallery.IsAddedToProfile);
+            PhotoGallery gallery = new PhotoGallery(GalleryId, galleryName, Gallery.isAddedToProfile);
 
             if (healthMetricsDbHelper.updateGallery(gallery)) {
                 Fragment destinationFragment = new ManageGalleryFragment();

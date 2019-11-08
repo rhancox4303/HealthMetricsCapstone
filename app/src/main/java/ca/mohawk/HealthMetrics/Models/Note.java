@@ -1,20 +1,40 @@
 package ca.mohawk.HealthMetrics.Models;
 
-import java.util.Date;
-
+/**
+ * Models a note from the database.
+ */
 public class Note {
-    public int Id;
-    public String DateOfEntry;
-    public String NoteContent;
 
+    // Represents a note id.
+    public int id;
+
+    // Represents date of entry.
+    public String dateOfEntry;
+
+    // Represents the note content.
+    public String noteContent;
+
+    /**
+     * Constructs note.
+     *
+     * @param dateOfEntry Represents date of entry.
+     * @param noteContent Represents the note content.
+     */
     public Note(String dateOfEntry, String noteContent) {
-        DateOfEntry = dateOfEntry;
-        NoteContent = noteContent;
+        this.dateOfEntry = dateOfEntry;
+        this.noteContent = noteContent;
     }
 
+    /**
+     * Constructs note.
+     *
+     * @param id          Represents a note id.
+     * @param dateOfEntry Represents date of entry.
+     * @param noteContent Represents the note content.
+     */
     public Note(int id, String dateOfEntry, String noteContent) {
-        Id = id;
-        DateOfEntry = dateOfEntry;
-        NoteContent = noteContent;
+        this.id = id;
+        this.dateOfEntry = dateOfEntry;
+        this.noteContent = noteContent;
     }
 }

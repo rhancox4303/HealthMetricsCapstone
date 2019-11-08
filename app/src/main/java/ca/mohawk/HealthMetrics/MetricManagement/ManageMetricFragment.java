@@ -58,12 +58,12 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
         Metric metric = healthMetricsDbHelper.getMetricById(MetricId);
 
         if (metric != null) {
-            metricNameTextView.setText(metric.Name);
-            int unitId = metric.UnitId;
+            metricNameTextView.setText(metric.name);
+            int unitId = metric.unitId;
             Unit unit = healthMetricsDbHelper.getUnitById(unitId);
 
             if (unit != null) {
-                unitTextView.setText(unit.UnitName);
+                unitTextView.setText(unit.unitName);
             }
         }
 

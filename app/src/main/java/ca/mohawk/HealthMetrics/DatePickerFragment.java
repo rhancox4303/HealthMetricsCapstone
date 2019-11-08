@@ -14,12 +14,18 @@ import java.util.Objects;
 
 /**
  * The DatePickerFragment class is an extension of the Dialog Fragment class.
- * It is used to represent a Date Picker Dialog.
+ * Creates a standardized Date Picker Dialog used across the application.
  */
 public class DatePickerFragment extends DialogFragment{
 
+    // Initialize the onDateSetListener.
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
+    /**
+     * Sets the onDateSetListener.
+     *
+     * @param onDateSetListener Represents the onDateSetListener.
+     */
     public void setOnDateSetListener(DatePickerDialog.OnDateSetListener onDateSetListener) {
         this.onDateSetListener = onDateSetListener;
     }

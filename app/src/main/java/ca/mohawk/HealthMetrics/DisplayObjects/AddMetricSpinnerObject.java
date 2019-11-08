@@ -19,7 +19,7 @@ public class AddMetricSpinnerObject {
     private String metricName;
 
     /**
-     * Creates the AddMetricSpinnerObject.
+     * Constructs the AddMetricSpinnerObject.
      *
      * @param unitCategoryId Represents the unit category id.
      * @param metricName     Represents the metric name.

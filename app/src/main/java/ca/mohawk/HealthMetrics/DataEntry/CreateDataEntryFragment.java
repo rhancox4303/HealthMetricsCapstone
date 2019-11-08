@@ -34,7 +34,7 @@ import ca.mohawk.HealthMetrics.TimePickerFragment;
 public class CreateDataEntryFragment extends Fragment implements View.OnClickListener,
         TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-
+    // Instantiate healthMetricsDbHelper.
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
     // Instantiate the EditText variables.
@@ -67,13 +67,9 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
         dataEntryEditText = rootView.findViewById(R.id.editTextDataEntryAddDataEntry);
         dateOfEntryEditText = rootView.findViewById(R.id.editTextDateOfEntryAddDataEntry);
 
-        // Set the dateOfEntryEditText OnClickListener.
         dateOfEntryEditText.setOnClickListener(this);
-
-        // Set the addDataEntryButton OnClickListener.
         addDataEntryButton.setOnClickListener(this);
 
-        // Get the healthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         // Get the metric id from the passed bundle.
@@ -88,12 +84,12 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
         // Validate the metric is not null.
         if (metric != null) {
             // Get the unit from the database.
-            Unit unit = healthMetricsDbHelper.getUnitById(metric.UnitId);
+            Unit unit = healthMetricsDbHelper.getUnitById(metric.unitId);
             // Validate the unit is not null.
             if (unit != null) {
                 // Display the unit abbreviation and the metric name.
-                unitTextView.setText(unit.UnitAbbreviation);
-                metricNameTextView.setText(metric.Name);
+                unitTextView.setText(unit.unitAbbreviation);
+                metricNameTextView.setText(metric.name);
             } else {
                 // Inform the user of the error and call the navigateToMetricsListFragment method.
                 Toast.makeText(getActivity(), "Cannot load unit from database.",
@@ -151,7 +147,7 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
     }
 
     /**
-     * Create a new data latestDataEntry and add it to the database.
+     * Create a new data entry and add it to the database.
      */
     private void createDataEntry() {
 
@@ -171,8 +167,6 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
                 // Create a bundle and set the metric id.
                 Bundle metricBundle = new Bundle();
                 metricBundle.putInt("selected_item_key", metricId);
-
-                // Set the bundle to the dataEntryList fragment.
                 dataEntryListFragment.setArguments(metricBundle);
 
                 // Replace the current fragment with the dataEntryListFragment.

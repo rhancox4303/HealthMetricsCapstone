@@ -16,7 +16,7 @@ public class UnitSpinnerObject {
     private String unitName;
 
     /**
-     * Creates the UnitSpinnerObject.
+     * Constructs the UnitSpinnerObject.
      *
      * @param unitName Represents the name of the unit.
      * @param unitId   Represents the unit id.

@@ -30,7 +30,7 @@ import ca.mohawk.HealthMetrics.R;
 public class CreateMetricInputFragment extends Fragment implements View.OnClickListener,
         AdapterView.OnItemSelectedListener {
 
-    // The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
+    // Initialize the healthMetricsDbHelper
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
     // Initialize the unitCategoryId to -1.
@@ -166,7 +166,7 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         // Get the unitCategoryId.
-        unitCategoryId = ((UnitCategory) parent.getSelectedItem()).getId();
+        unitCategoryId = ((UnitCategory) parent.getSelectedItem()).id;
     }
 
     @Override

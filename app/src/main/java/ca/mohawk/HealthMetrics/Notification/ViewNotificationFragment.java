@@ -56,21 +56,21 @@ public class ViewNotificationFragment extends Fragment implements View.OnClickLi
         Notification notification = healthMetricsDbHelper.getNotificationById(NotificationId);
 
         if (notification != null) {
-            typeTextView.setText(notification.NotificationType);
-            dateTimeTextView.setText(notification.TargetDateTime);
-            switch (notification.NotificationType) {
+            typeTextView.setText(notification.notificationType);
+            dateTimeTextView.setText(notification.targetDateTime);
+            switch (notification.notificationType) {
                 case "Enter Metric Data":
-                    Metric metric = healthMetricsDbHelper.getMetricById(notification.TargetId);
-                    targetTextView.setText(metric.Name);
+                    Metric metric = healthMetricsDbHelper.getMetricById(notification.targetId);
+                    targetTextView.setText(metric.name);
                     break;
                 case "Enter Gallery Data":
-                    PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.TargetId);
-                    targetTextView.setText(gallery.Name);
+                    PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.targetId);
+                    targetTextView.setText(gallery.name);
                     break;
                 case "Refill Prescription":
                 case "Take Prescription":
-                    Prescription prescription = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                    targetTextView.setText(prescription.Name);
+                    Prescription prescription = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
+                    targetTextView.setText(prescription.name);
                     break;
             }
         }

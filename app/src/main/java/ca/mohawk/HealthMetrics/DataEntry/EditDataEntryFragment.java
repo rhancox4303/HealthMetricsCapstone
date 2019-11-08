@@ -29,9 +29,10 @@ import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 /**
  * The EditDataEntryFragment class is an extension of the Fragment class.
- * Allows the user to edit a specified data latestDataEntry.
+ * Allows the user to edit a specified data entry.
  */
-public class EditDataEntryFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class EditDataEntryFragment extends Fragment implements View.OnClickListener,
+        TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     // Instantiate the HealthMetricsDbHelper variable.
     private HealthMetricsDbHelper healthMetricsDbHelper;
@@ -69,10 +70,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         dataEntryEditText = rootView.findViewById(R.id.editTextDataEntryEditDataEntry);
         dateOfEntryEditText = rootView.findViewById(R.id.editTextDateOfEntryEditDataEntry);
 
-        // Set the dateOfEntryEditText OnClickListener.
         dateOfEntryEditText.setOnClickListener(this);
-
-        // Set the editDataEntryButton OnClickListener.
         editDataEntryButton.setOnClickListener(this);
 
         // Get the healthMetricsDbHelper.
@@ -96,11 +94,11 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
 
         } else {
             // Display the date of latestDataEntry and the data latestDataEntry.
-            dateOfEntryEditText.setText(dataEntry.DateOfEntry);
-            dataEntryEditText.setText(dataEntry.DataEntry);
+            dateOfEntryEditText.setText(dataEntry.dateOfEntry);
+            dataEntryEditText.setText(dataEntry.dataEntry);
 
             // Set the metricId.
-            metricId = dataEntry.MetricId;
+            metricId = dataEntry.metricId;
         }
 
         // Get the metric from the database.
@@ -117,10 +115,10 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         } else {
 
             // Display the metric name.
-            metricNameTextView.setText(metric.Name);
+            metricNameTextView.setText(metric.name);
 
             // Get the unit from the database.
-            unit = healthMetricsDbHelper.getUnitById(metric.UnitId);
+            unit = healthMetricsDbHelper.getUnitById(metric.unitId);
         }
 
         // Validate the unit is not null.
@@ -131,7 +129,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
             navigateToMetricsListFragment();
         } else {
             // Display the unit abbreviation.
-            unitAbbreviationTextView.setText(unit.UnitAbbreviation);
+            unitAbbreviationTextView.setText(unit.unitAbbreviation);
         }
 
         // Return rootView.

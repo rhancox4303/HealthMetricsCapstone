@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Represents a display object that represents a data latestDataEntry object.
+ * Represents a display object that represents a data entry object.
  * <p>
  * It used to display the data entries to the user.
  */
@@ -26,11 +26,11 @@ public class DataEntryDisplayObject {
     public String unitAbbreviation;
 
     /**
-     * Creates the DataEntryDisplayObject.
+     * Constructs the DataEntryDisplayObject.
      *
      * @param id               Represents the data latestDataEntry id.
      * @param dateOfEntry      Represents the date and time of the data latestDataEntry.
-     * @param data             Represents the data of the data latestDataEntry.
+     * @param data             Represents the data of the data entry.
      * @param unitAbbreviation Represents the unit abbreviation.
      */
     public DataEntryDisplayObject(int id, String dateOfEntry, String data, String unitAbbreviation) {
@@ -50,7 +50,7 @@ public class DataEntryDisplayObject {
     }
 
     /**
-     * Convert the data latestDataEntry to a float.
+     * Convert the data entry to a float.
      *
      * @return Return a float representation of the data.
      */

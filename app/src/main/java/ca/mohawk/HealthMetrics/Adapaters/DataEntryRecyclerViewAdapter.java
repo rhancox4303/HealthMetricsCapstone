@@ -19,7 +19,7 @@ import ca.mohawk.HealthMetrics.R;
 
 /**
  * Acts as a custom adapter for the data latestDataEntry objects
- * in the data latestDataEntry list recycler view.
+ * in the data entry list recycler view.
  */
 public class DataEntryRecyclerViewAdapter extends
         RecyclerView.Adapter<DataEntryRecyclerViewAdapter.ViewHolder> {
@@ -34,7 +34,7 @@ public class DataEntryRecyclerViewAdapter extends
      * Constructs the DataEntryRecyclerViewAdapter.
      *
      * @param dataEntryDisplayObjects Represents the list of DataEntryRecyclerViewObjects.
-     * @param context                      Represents the application context.
+     * @param context                 Represents the application context.
      */
     public DataEntryRecyclerViewAdapter(List<DataEntryDisplayObject> dataEntryDisplayObjects, Context context) {
         this.dataEntryDisplayObjects = dataEntryDisplayObjects;
@@ -79,7 +79,7 @@ public class DataEntryRecyclerViewAdapter extends
         TextView textViewDataEntry = viewHolder.textViewDataEntry;
         textViewDataEntry.setText(dataEntry.getData());
 
-        // Display the date of latestDataEntry in the recycler view.
+        // Display the date of date entry in the recycler view.
         TextView textViewDateOfEntry = viewHolder.textViewDateOfEntry;
         textViewDateOfEntry.setText(dataEntry.dateOfEntry);
 
@@ -97,14 +97,14 @@ public class DataEntryRecyclerViewAdapter extends
     /**
      * Creates the new fragment and calls switch fragment on the main activity.
      *
-     * @param selectedDataEntry Represents the selected data latestDataEntry.
+     * @param selectedDataEntry Represents the selected data entry.
      */
     private void switchFragment(DataEntryDisplayObject selectedDataEntry) {
 
         // Create the destination fragment.
         Fragment destinationFragment = new ViewDataEntryFragment();
 
-        // Create and set the data latestDataEntry id to a bundle.
+        // Create and set the data id to a bundle.
         Bundle dataEntryBundle = new Bundle();
         dataEntryBundle.putInt("data_entry_selected_key", selectedDataEntry.id);
 

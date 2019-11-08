@@ -46,32 +46,32 @@ public class NotificationBuilder extends ContextWrapper {
     public NotificationCompat.Builder getChannelNotification(Notification notification) {
         String message = "";
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getApplicationContext());
-        switch (notification.NotificationType) {
+        switch (notification.notificationType) {
             case "Enter Metric Data":
-                Metric metric = healthMetricsDbHelper.getMetricById(notification.TargetId);
-                message = "Reminder to enter your " + metric.Name;
+                Metric metric = healthMetricsDbHelper.getMetricById(notification.targetId);
+                message = "Reminder to enter your " + metric.name;
                 break;
             case "Enter Gallery Data":
-                PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.TargetId);
-                message = "Reminder to enter a photo for " + gallery.Name;
+                PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.targetId);
+                message = "Reminder to enter a photo for " + gallery.name;
                 break;
             case "Refill Prescription":
-                Prescription prescriptionRefill = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                message = "Reminder to refill your " + prescriptionRefill.Name;
+                Prescription prescriptionRefill = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
+                message = "Reminder to refill your " + prescriptionRefill.name;
                 break;
             case "Take Prescription":
-                Prescription prescriptionTake = healthMetricsDbHelper.getPrescriptionById(notification.TargetId);
-                message = "Reminder to take your " + prescriptionTake.Name;
+                Prescription prescriptionTake = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
+                message = "Reminder to take your " + prescriptionTake.name;
                 break;
         }
 
-        healthMetricsDbHelper.deleteNotification(notification.Id);
+        healthMetricsDbHelper.deleteNotification(notification.id);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setContentTitle(notification.NotificationType)
+                .setContentTitle(notification.notificationType)
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_alert)
                 .setContentIntent(contentIntent)

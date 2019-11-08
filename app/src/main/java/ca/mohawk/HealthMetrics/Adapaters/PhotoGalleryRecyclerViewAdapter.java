@@ -79,11 +79,11 @@ public class PhotoGalleryRecyclerViewAdapter extends
 
         // Display the date of latestDataEntry in the recycler view.
         TextView dateOfEntryTextView = viewHolder.textViewDateOfEntry;
-        dateOfEntryTextView.setText(photoEntry.DateOfEntry);
+        dateOfEntryTextView.setText(photoEntry.dateOfEntry);
 
         // Use Glide to load the photo into the view holder's image view.
         Glide.with(context)
-                .load(photoEntry.PhotoEntryPath)
+                .load(photoEntry.photoEntryPath)
                 .centerCrop()
                 .into(viewHolder.imageViewPhotoEntry);
 
@@ -109,7 +109,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
 
         // Create bundle and add the photo latestDataEntry id.
         Bundle galleryBundle = new Bundle();
-        galleryBundle.putInt("selected_photo_key", photoEntrySelected.Id);
+        galleryBundle.putInt("selected_photo_key", photoEntrySelected.id);
 
         // Set the bundle to the destination fragment.
         destinationFragment.setArguments(galleryBundle);
