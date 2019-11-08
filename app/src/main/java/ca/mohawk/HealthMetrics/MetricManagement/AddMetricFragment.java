@@ -27,10 +27,10 @@ import ca.mohawk.HealthMetrics.R;
 /**
  * The AddMetricFragment class is an extension of the Fragment class.
  * <p>
- * The user add metrics or galleries to their profile.
+ * Allows the user add metrics or galleries to their profile.
  */
-public class AddMetricFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener,
-        RadioGroup.OnCheckedChangeListener {
+public class AddMetricFragment extends Fragment implements View.OnClickListener,
+        AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener {
 
     // The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
     private HealthMetricsDbHelper healthMetricsDbHelper;
@@ -141,6 +141,30 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     }
 
     /**
+     * Validates the user inputs.
+     *
+     * @return Return a boolean based on whether the user input is valid.
+     */
+    private boolean validateUserInput() {
+
+        // If a metric or gallery has not been selected then inform the user and return false.
+        if (selectedMetricId == -1) {
+            Toast.makeText(getContext(), "Please select a gallery or metric. ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // If the a unit is not selected and the Metric radio button is checked then
+        // inform the user and return false.
+        if ((selectedUnitId == -1) && addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
+            Toast.makeText(getContext(), "Please select a unit and metric. ", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // Return true.
+        return true;
+    }
+
+    /**
      * Adds the user selected metric or gallery to their profile.
      */
     private void addMetricOrGallery() {
@@ -173,46 +197,6 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
                         .addToBackStack(null)
                         .commit();
             }
-        }
-    }
-
-    /**
-     * Runs when a item in a spinner is selected.
-     *
-     * @param parent   The parent adapter view.
-     * @param view     The selected view.
-     * @param position The position of the selected item in the spinner.
-     * @param id       The id.
-     */
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        // If the parent is the spinnerMetricAddMetric and radioButtonMetricAddMetric is pressed.
-        if (parent.getId() == R.id.spinnerMetricAddMetric &&
-                addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
-
-            // Get the unitCategoryId.
-            int unitCategoryId = ((AddMetricSpinnerObject) parent.getSelectedItem()).unitCategoryId;
-
-            // Get the selectedMetricId.
-            selectedMetricId = ((AddMetricSpinnerObject) parent.getSelectedItem()).metricId;
-
-            // Call the loadUnitSpinner method with the unitCategoryId passed in.
-            loadUnitSpinner(unitCategoryId);
-
-            // Else if the the parent is the spinnerMetricAddMetric
-            // and the radioButtonGalleryAddMetric is checked.
-        } else if (parent.getId() == R.id.spinnerMetricAddMetric &&
-                addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonGalleryAddMetric) {
-
-            // Get the selectedMetricId.
-            selectedMetricId = ((AddMetricPhotoGallerySpinnerObject) parent.getSelectedItem()).id;
-
-            // Else if the parent is the spinnerUnitAddMetric.
-        } else if (parent.getId() == R.id.spinnerUnitAddMetric) {
-
-            // Get the selectedUnitId.
-            selectedUnitId = ((UnitSpinnerObject) parent.getSelectedItem()).unitId;
         }
     }
 
@@ -286,28 +270,45 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         selectedMetricId = -1;
     }
 
+
     /**
-     * Validates the user inputs.
+     * Runs when a item in a spinner is selected.
      *
-     * @return Return a boolean based on whether the user input is valid.
+     * @param parent   The parent adapter view.
+     * @param view     The selected view.
+     * @param position The position of the selected item in the spinner.
+     * @param id       The id.
      */
-    private boolean validateUserInput() {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        // If a metric or gallery has not been selected then inform the user and return false.
-        if (selectedMetricId == -1) {
-            Toast.makeText(getContext(), "Please select a gallery or metric. ", Toast.LENGTH_SHORT).show();
-            return false;
+        // If the parent is the spinnerMetricAddMetric and radioButtonMetricAddMetric is pressed.
+        if (parent.getId() == R.id.spinnerMetricAddMetric &&
+                addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
+
+            // Get the unitCategoryId.
+            int unitCategoryId = ((AddMetricSpinnerObject) parent.getSelectedItem()).unitCategoryId;
+
+            // Get the selectedMetricId.
+            selectedMetricId = ((AddMetricSpinnerObject) parent.getSelectedItem()).metricId;
+
+            // Call the loadUnitSpinner method with the unitCategoryId passed in.
+            loadUnitSpinner(unitCategoryId);
+
+            // Else if the the parent is the spinnerMetricAddMetric
+            // and the radioButtonGalleryAddMetric is checked.
+        } else if (parent.getId() == R.id.spinnerMetricAddMetric &&
+                addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonGalleryAddMetric) {
+
+            // Get the selectedMetricId.
+            selectedMetricId = ((AddMetricPhotoGallerySpinnerObject) parent.getSelectedItem()).id;
+
+            // Else if the parent is the spinnerUnitAddMetric.
+        } else if (parent.getId() == R.id.spinnerUnitAddMetric) {
+
+            // Get the selectedUnitId.
+            selectedUnitId = ((UnitSpinnerObject) parent.getSelectedItem()).unitId;
         }
-
-        // If the a unit is not selected and the Metric radio button is checked then
-        // inform the user and return false.
-        if ((selectedUnitId == -1) && addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
-            Toast.makeText(getContext(), "Please select a unit and metric. ", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        // Return true.
-        return true;
     }
 
     @Override

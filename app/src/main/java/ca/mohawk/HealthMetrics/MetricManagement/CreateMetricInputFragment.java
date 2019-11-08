@@ -23,9 +23,12 @@ import ca.mohawk.HealthMetrics.Models.UnitCategory;
 import ca.mohawk.HealthMetrics.R;
 
 /**
- * The CreateMetricInput Fragment allows the user to create metrics.
+ * The CreateMetricInputFragment class is an extension of the Fragment class.
+ * <p>
+ * Allows the user create metrics.
  */
-public class CreateMetricInputFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class CreateMetricInputFragment extends Fragment implements View.OnClickListener,
+        AdapterView.OnItemSelectedListener {
 
     // The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
     private HealthMetricsDbHelper healthMetricsDbHelper;
@@ -40,10 +43,6 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
         // Required empty public constructor
     }
 
-    /**
-     * The onCreateView method initializes the view variables
-     * and the HealthMetricsDbHelper object when the Fragment view is created.
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
 
         // Get the list of unit categories from the database.
         List<UnitCategory> unitCategoriesList = healthMetricsDbHelper.getAllUnitCategories();
-
 
         Button createMetricButton = rootView.findViewById(R.id.buttonCreateMetricInput);
         createMetricButton.setOnClickListener(this);
@@ -81,7 +79,9 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
     }
 
     /**
-     * The onClick method runs when the view's onClickListener is activated.
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
      */
     @Override
     public void onClick(View v) {
@@ -89,9 +89,9 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
     }
 
     /**
-     * The validateUserInput validates the user's inputs.
+     * Validates the user inputs.
      *
-     * @return A boolean value is returned based on if the user input is valid.
+     * @return Return a boolean based on whether the user input is valid.
      */
     private boolean validateUserInput() {
 
@@ -128,7 +128,7 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
     }
 
     /**
-     * The createMetric method creates the metric if the user input is valid.
+     * Creates the metric if the user input is valid.
      */
     private void createMetric() {
 
@@ -138,11 +138,8 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
             // Get the metric name.
             String metricName = metricNameEditText.getText().toString();
 
-            // Create metric in the database.
+            // Create metric in the database, verify it was successful.
             if (healthMetricsDbHelper.addMetric(new Metric(0, metricName, unitCategoryId, 0))) {
-                // Inform user.
-                Toast.makeText(getActivity(), "Metric created.", Toast.LENGTH_SHORT).show();
-
                 // Create and display addMetricFragment.
                 AddMetricFragment addMetricFragment = new AddMetricFragment();
 
@@ -150,7 +147,8 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
                         .replace(R.id.fragmentContainer, addMetricFragment)
                         .addToBackStack(null)
                         .commit();
-            }else{
+            } else {
+                // Inform user of error.
                 Toast.makeText(getActivity(), "Failed to create metric.", Toast.LENGTH_SHORT).show();
             }
         }
