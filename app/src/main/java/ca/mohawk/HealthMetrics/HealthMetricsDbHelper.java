@@ -14,8 +14,8 @@ import java.util.List;
 
 import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.AddMetricSpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.AddMetricPhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
 import ca.mohawk.HealthMetrics.Models.DataEntry;
@@ -260,7 +260,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     /**
      * The addDataEntry adds the metric to the database.
      *
-     * @param dataEntry represents the metric data entry to be added to the database.
+     * @param dataEntry represents the metric data latestDataEntry to be added to the database.
      */
     public boolean addDataEntry(DataEntry dataEntry) {
         SQLiteDatabase writableDatabase = getWritableDatabase();
@@ -276,7 +276,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             id = writableDatabase.insertOrThrow(HealthMetricContract.MetricDataEntries.TABLE_NAME, null, values);
             writableDatabase.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d("TAG", "Error while trying to add data entry to database");
+            Log.d("TAG", "Error while trying to add data latestDataEntry to database");
         } finally {
             writableDatabase.endTransaction();
             writableDatabase.close();
@@ -526,7 +526,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      *
      * @return A list of MetricSpinnerObjects is returned.
      */
-    public List<MetricSpinnerObject> getAllMetrics() {
+    public List<AddMetricSpinnerObject> getAllMetrics() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -546,7 +546,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 sortOrder);
 
-        List metrics = new ArrayList<MetricSpinnerObject>();
+        List metrics = new ArrayList<AddMetricSpinnerObject>();
 
         while (cursor.moveToNext()) {
             String metricName = cursor.getString(
@@ -557,7 +557,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
             int id = cursor.getInt(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Metrics._ID));
-            metrics.add(new MetricSpinnerObject(unitCategoryId, metricName, id));
+            metrics.add(new AddMetricSpinnerObject(unitCategoryId, metricName, id));
         }
 
         cursor.close();
@@ -613,7 +613,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      * @param unitCategoryId is the unit category id of units that will be returned.
      * @return A list of UnitSpinner objects is returned.
      */
-    public List<UnitSpinnerObject> getAllSpinnerUnits(int unitCategoryId) {
+    public List getAllSpinnerUnits(int unitCategoryId) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -830,7 +830,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
      *
      * @return The list of PhotoGallerySpinnerObjects.
      */
-    public List<PhotoGallerySpinnerObject> getAllPhotoGalleries() {
+    public List<AddMetricPhotoGallerySpinnerObject> getAllPhotoGalleries() {
         SQLiteDatabase readableDatabase = getReadableDatabase();
 
         String[] projection = {
@@ -849,7 +849,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 sortOrder);
 
-        List photoGallerySpinnerObjects = new ArrayList<PhotoGallerySpinnerObject>();
+        List photoGallerySpinnerObjects = new ArrayList<AddMetricPhotoGallerySpinnerObject>();
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(
@@ -857,7 +857,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String galleryName = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries.COLUMN_NAME_GALLERYNAME));
 
-            photoGallerySpinnerObjects.add(new PhotoGallerySpinnerObject(galleryName, id));
+            photoGallerySpinnerObjects.add(new AddMetricPhotoGallerySpinnerObject(galleryName, id));
         }
 
         cursor.close();
@@ -866,10 +866,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * The getLatestDataEntryValue method retrieves the latest data entry for a specified metric.
+     * The getLatestDataEntryValue method retrieves the latest data latestDataEntry for a specified metric.
      *
-     * @param metricId The id of the metric of the data entry retrieved.
-     * @return The value of the latest data entry retrieved.
+     * @param metricId The id of the metric of the data latestDataEntry retrieved.
+     * @return The value of the latest data latestDataEntry retrieved.
      */
     public String getLatestDataEntryValue(int metricId) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -987,10 +987,10 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * The getDataEntryById retrieves a data entry based on it's id.
+     * The getDataEntryById retrieves a data latestDataEntry based on it's id.
      *
-     * @param dataEntryId The id of the entry that will be returned.
-     * @return The entry with the id specified.
+     * @param dataEntryId The id of the latestDataEntry that will be returned.
+     * @return The latestDataEntry with the id specified.
      */
     public DataEntry getDataEntryById(int dataEntryId) {
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -1024,7 +1024,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             readableDatabase.close();
             return dataEntryObject;
         } else {
-            Log.d("ERROR", "No data entry found.");
+            Log.d("ERROR", "No data latestDataEntry found.");
             cursor.close();
             readableDatabase.close();
             return null;
@@ -1160,7 +1160,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             readableDatabase.close();
             return photoEntry;
         } else {
-            Log.d("ERROR", "No photo entry found." + photoId);
+            Log.d("ERROR", "No photo latestDataEntry found." + photoId);
             cursor.close();
             readableDatabase.close();
             return null;
@@ -1198,7 +1198,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             readableDatabase.close();
             return photoGallery;
         } else {
-            Log.d("ERROR", "No photo entry found." + galleryId);
+            Log.d("ERROR", "No photo latestDataEntry found." + galleryId);
             cursor.close();
             readableDatabase.close();
             return null;
@@ -1517,7 +1517,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * The updateDataEntry method updates the data entry profile in the database.
+     * The updateDataEntry method updates the data latestDataEntry profile in the database.
      *
      * @param dataEntry The user that will be updated.
      * @return An integer value indicating if the update is successful.

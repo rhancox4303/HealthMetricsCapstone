@@ -109,11 +109,11 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
             switch (NotificationType) {
                 case "Enter Metric Data":
                 case "Enter Gallery Data":
-                    TargetId = ((MetricDisplayObject) parent.getSelectedItem()).Id;
+                    TargetId = ((MetricDisplayObject) parent.getSelectedItem()).id;
                     break;
                 case "Refill Prescription":
                 case "Take Prescription":
-                    TargetId = ((PrescriptionDisplayObject) parent.getSelectedItem()).Id;
+                    TargetId = ((PrescriptionDisplayObject) parent.getSelectedItem()).id;
                     break;
             }
         }

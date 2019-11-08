@@ -7,30 +7,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Represents a display object that represents a data entry object.
+ * Represents a display object that represents a data latestDataEntry object.
  * <p>
  * It used to display the data entries to the user.
  */
 public class DataEntryDisplayObject {
 
-    // Represents the data entry id.
+    // Represents the data latestDataEntry id.
     public int id;
 
-    // Represents the date and time of the data entry.
+    // Represents the date and time of the data latestDataEntry.
     public String dateOfEntry;
 
-    // Represents the data of the data entry.
+    // Represents the data of the data latestDataEntry.
     public String data;
 
-    // Represent the abbreviation of the unit that the data entry uses to measure it's data.
+    // Represent the abbreviation of the unit that the data latestDataEntry uses to measure it's data.
     public String unitAbbreviation;
 
     /**
      * Creates the DataEntryDisplayObject.
      *
-     * @param id               Represents the data entry id.
-     * @param dateOfEntry      Represents the date and time of the data entry.
-     * @param data             Represents the data of the data entry.
+     * @param id               Represents the data latestDataEntry id.
+     * @param dateOfEntry      Represents the date and time of the data latestDataEntry.
+     * @param data             Represents the data of the data latestDataEntry.
      * @param unitAbbreviation Represents the unit abbreviation.
      */
     public DataEntryDisplayObject(int id, String dateOfEntry, String data, String unitAbbreviation) {
@@ -50,7 +50,7 @@ public class DataEntryDisplayObject {
     }
 
     /**
-     * Convert the data entry to a float.
+     * Convert the data latestDataEntry to a float.
      *
      * @return Return a float representation of the data.
      */
@@ -59,7 +59,7 @@ public class DataEntryDisplayObject {
     }
 
     /**
-     * Converts the date of entry to a date object.
+     * Converts the date of latestDataEntry to a date object.
      *
      * @return Returns converted dateOfEntry date object.
      */

@@ -41,7 +41,7 @@ public class InsertPhotoDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
-        builder.setTitle("Insert Photo Entry");
+        builder.setTitle("Insert Photo latestDataEntry");
 
         builder.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

@@ -119,29 +119,29 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
      */
     private boolean validateUserInput() {
 
-        // If the date of entry string is empty, inform the user and return false.
+        // If the date of latestDataEntry string is empty, inform the user and return false.
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of entry field cannot be empty.",
+            Toast.makeText(getActivity(), "The date of latestDataEntry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If the date of entry does not contain a date and time, inform the user and return false.
+        // If the date of latestDataEntry does not contain a date and time, inform the user and return false.
         if (!dateOfEntryEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")) {
             Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If the data entry string is empty, inform the user and return false.
+        // If the data latestDataEntry string is empty, inform the user and return false.
         if (dataEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The data entry field cannot be empty.",
+            Toast.makeText(getActivity(), "The data latestDataEntry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If the data entry string does not only contain digits, inform the user and return false.
+        // If the data latestDataEntry string does not only contain digits, inform the user and return false.
         if (!dataEntryEditText.getText().toString().trim().matches("^[1-9]\\d*(\\.\\d+)?$")) {
-            Toast.makeText(getActivity(), "The data entry field can only contain digits.",
+            Toast.makeText(getActivity(), "The data latestDataEntry field can only contain digits.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -151,18 +151,18 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
     }
 
     /**
-     * Create a new data entry and add it to the database.
+     * Create a new data latestDataEntry and add it to the database.
      */
     private void createDataEntry() {
 
         // Validate the user input.
         if (validateUserInput()) {
 
-            // Get the date and entry from the edit texts.
+            // Get the date and latestDataEntry from the edit texts.
             String date = dateOfEntryEditText.getText().toString();
             String entry = dataEntryEditText.getText().toString();
 
-            // Validate the data entry was added to the database successfully.
+            // Validate the data latestDataEntry was added to the database successfully.
             if (healthMetricsDbHelper.addDataEntry(new DataEntry(metricId, entry, date))) {
 
                 // Create a new dataEntryList Fragment.
@@ -183,7 +183,7 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
 
                 // Else, inform the user of the error.
             } else {
-                Toast.makeText(getActivity(), "Unable to add data entry to database.",
+                Toast.makeText(getActivity(), "Unable to add data latestDataEntry to database.",
                         Toast.LENGTH_SHORT).show();
             }
         }

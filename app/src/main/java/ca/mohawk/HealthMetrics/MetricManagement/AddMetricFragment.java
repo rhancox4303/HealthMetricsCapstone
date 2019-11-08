@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.fragment.app.Fragment;
-import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.AddMetricPhotoGallerySpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.AddMetricSpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.R;
@@ -49,8 +49,8 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     private RadioGroup addMetricRadioGroup;
 
     // Instantiate the metric and photo gallery adapters.
-    private ArrayAdapter<MetricSpinnerObject> metricSpinnerObjectArrayAdapter;
-    private ArrayAdapter<PhotoGallerySpinnerObject> photoGallerySpinnerObjectArrayAdapter;
+    private ArrayAdapter<AddMetricSpinnerObject> metricSpinnerObjectArrayAdapter;
+    private ArrayAdapter<AddMetricPhotoGallerySpinnerObject> photoGallerySpinnerObjectArrayAdapter;
 
     public AddMetricFragment() {
         // Required empty public constructor
@@ -93,8 +93,8 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         addMetricRadioGroup.setOnCheckedChangeListener(this);
 
         // Get the lists of all metrics and galleries from the database.
-        List<MetricSpinnerObject> metrics = healthMetricsDbHelper.getAllMetrics();
-        List<PhotoGallerySpinnerObject> galleries = healthMetricsDbHelper.getAllPhotoGalleries();
+        List<AddMetricSpinnerObject> metrics = healthMetricsDbHelper.getAllMetrics();
+        List<AddMetricPhotoGallerySpinnerObject> galleries = healthMetricsDbHelper.getAllPhotoGalleries();
 
         // Set the metric spinner array adapter.
         metricSpinnerObjectArrayAdapter = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_spinner_item, metrics);
@@ -193,10 +193,10 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
                 addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
 
             // Get the unitCategoryId.
-            int unitCategoryId = ((MetricSpinnerObject) parent.getSelectedItem()).getUnitCategoryId();
+            int unitCategoryId = ((AddMetricSpinnerObject) parent.getSelectedItem()).unitCategoryId;
 
             // Get the selectedMetricId.
-            selectedMetricId = ((MetricSpinnerObject) parent.getSelectedItem()).getMetricId();
+            selectedMetricId = ((AddMetricSpinnerObject) parent.getSelectedItem()).metricId;
 
             // Call the loadUnitSpinner method with the unitCategoryId passed in.
             loadUnitSpinner(unitCategoryId);
@@ -207,13 +207,13 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
                 addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonGalleryAddMetric) {
 
             // Get the selectedMetricId.
-            selectedMetricId = ((PhotoGallerySpinnerObject) parent.getSelectedItem()).getId();
+            selectedMetricId = ((AddMetricPhotoGallerySpinnerObject) parent.getSelectedItem()).id;
 
             // Else if the parent is the spinnerUnitAddMetric.
         } else if (parent.getId() == R.id.spinnerUnitAddMetric) {
 
             // Get the selectedUnitId.
-            selectedUnitId = ((UnitSpinnerObject) parent.getSelectedItem()).getUnitId();
+            selectedUnitId = ((UnitSpinnerObject) parent.getSelectedItem()).unitId;
         }
     }
 
@@ -229,7 +229,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         unitSpinner.setAdapter(null);
 
         //Get the list of Units from the database that have the unitCategoryId.
-        List<UnitSpinnerObject> units = healthMetricsDbHelper.getAllSpinnerUnits(unitCategoryId);
+        List units = healthMetricsDbHelper.getAllSpinnerUnits(unitCategoryId);
 
         // Create the unitSpinnerObjectArrayAdapter.
         ArrayAdapter<UnitSpinnerObject> unitSpinnerObjectArrayAdapter = new ArrayAdapter<>

@@ -103,7 +103,7 @@ public class PrescriptionRecyclerViewAdapter
             public void onClick(View view) {
 
                 // Get the prescription from the database.
-                Prescription prescription = healthMetricsDbHelper.getPrescriptionById(prescriptionDisplayObject.Id);
+                Prescription prescription = healthMetricsDbHelper.getPrescriptionById(prescriptionDisplayObject.id);
 
                 // Increment the amount by the dosage amount.
                 prescription.Amount += prescription.DosageAmount;
@@ -123,14 +123,14 @@ public class PrescriptionRecyclerViewAdapter
             @Override
             public void onClick(View view) {
                 // Get the prescription from the database.
-                Prescription prescription = healthMetricsDbHelper.getPrescriptionById(prescriptionDisplayObject.Id);
+                Prescription prescription = healthMetricsDbHelper.getPrescriptionById(prescriptionDisplayObject.id);
 
                 // Decrement the amount by the dosage amount.
                 prescription.Amount -= prescription.DosageAmount;
 
                 // Validate the amount is not less than 0. Notify the user if it is.
                 if (prescription.Amount < 0) {
-                    Toast.makeText(context, "Amount cannot be less than 0.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "amount cannot be less than 0.", Toast.LENGTH_SHORT).show();
                 }
 
                 // If unable to update the database then notify the user.
@@ -180,7 +180,7 @@ public class PrescriptionRecyclerViewAdapter
 
         // Create bundle and add the prescription id.
         Bundle prescriptionBundle = new Bundle();
-        prescriptionBundle.putInt("prescription_selected_key", selectedPrescription.Id);
+        prescriptionBundle.putInt("prescription_selected_key", selectedPrescription.id);
 
         // Set the bundle to the destination fragment.
         destinationFragment.setArguments(prescriptionBundle);

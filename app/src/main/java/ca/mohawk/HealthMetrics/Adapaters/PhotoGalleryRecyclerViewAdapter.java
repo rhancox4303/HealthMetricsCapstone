@@ -21,7 +21,7 @@ import ca.mohawk.HealthMetrics.R;
 
 /**
  * Acts as a custom adapter to display
- * the photo entries in the photo entry list recycler view.
+ * the photo entries in the photo latestDataEntry list recycler view.
  */
 public class PhotoGalleryRecyclerViewAdapter extends
         RecyclerView.Adapter<PhotoGalleryRecyclerViewAdapter.ViewHolder> {
@@ -69,15 +69,15 @@ public class PhotoGalleryRecyclerViewAdapter extends
      * Sets the item views in the view holder.
      *
      * @param viewHolder Represents the view holder.
-     * @param position   Represents the position of the photo entry that is being displayed.
+     * @param position   Represents the position of the photo latestDataEntry that is being displayed.
      */
     @Override
     public void onBindViewHolder(PhotoGalleryRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
-        // Get photo entry.
+        // Get photo latestDataEntry.
         final PhotoEntry photoEntry = photoEntries.get(position);
 
-        // Display the date of entry in the recycler view.
+        // Display the date of latestDataEntry in the recycler view.
         TextView dateOfEntryTextView = viewHolder.textViewDateOfEntry;
         dateOfEntryTextView.setText(photoEntry.DateOfEntry);
 
@@ -91,7 +91,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Call the switchFragment method with the photo entry passed in.
+                // Call the switchFragment method with the photo latestDataEntry passed in.
                 switchFragment(photoEntry);
             }
         });
@@ -107,7 +107,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
         // Create ViewPhotoEntry Fragment.
         ViewPhotoEntryFragment destinationFragment = new ViewPhotoEntryFragment();
 
-        // Create bundle and add the photo entry id.
+        // Create bundle and add the photo latestDataEntry id.
         Bundle galleryBundle = new Bundle();
         galleryBundle.putInt("selected_photo_key", photoEntrySelected.Id);
 
@@ -132,7 +132,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        // Initialize the image view and the date of entry text view.
+        // Initialize the image view and the date of latestDataEntry text view.
         ImageView imageViewPhotoEntry;
         TextView textViewDateOfEntry;
 

@@ -17,7 +17,7 @@ import ca.mohawk.HealthMetrics.Models.Prescription;
 
 public class NotificationBuilder extends ContextWrapper {
     public static final String channelID = "channelID";
-    public static final String channelName = "Channel Name";
+    public static final String channelName = "Channel name";
 
     private NotificationManager Manager;
 

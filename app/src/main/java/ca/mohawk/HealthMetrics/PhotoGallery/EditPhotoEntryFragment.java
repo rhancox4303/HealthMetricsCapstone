@@ -150,14 +150,14 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
                         .addToBackStack(null)
                         .commit();
             } else {
-                Toast.makeText(getActivity(), "Unable to update the photo entry.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Unable to update the photo latestDataEntry.", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private boolean validateUserInput() {
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of entry cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The date of latestDataEntry cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

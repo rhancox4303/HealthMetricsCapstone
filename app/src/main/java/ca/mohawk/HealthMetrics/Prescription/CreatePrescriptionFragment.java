@@ -108,7 +108,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
 
     private boolean validateNameInput() {
         if (nameEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Name cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "name cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -147,7 +147,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
 
     private boolean validateFrequencyInput() {
         if (frequencyEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Frequency cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "frequency cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -160,7 +160,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
 
     private boolean validateAmountInput() {
         if (amountEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "Amount cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "amount cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

@@ -116,7 +116,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
         }
 
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of entry cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The date of latestDataEntry cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

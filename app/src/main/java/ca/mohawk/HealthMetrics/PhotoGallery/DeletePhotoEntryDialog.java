@@ -65,8 +65,8 @@ public class DeletePhotoEntryDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
-        builder.setTitle("Delete Photo Entry");
-        builder.setMessage("The photo entry will be deleted.");
+        builder.setTitle("Delete Photo latestDataEntry");
+        builder.setMessage("The photo latestDataEntry will be deleted.");
 
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

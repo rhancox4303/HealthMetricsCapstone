@@ -18,8 +18,8 @@ import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.R;
 
 /**
- * Acts as a custom adapter for the data entry objects
- * in the data entry list recycler view.
+ * Acts as a custom adapter for the data latestDataEntry objects
+ * in the data latestDataEntry list recycler view.
  */
 public class DataEntryRecyclerViewAdapter extends
         RecyclerView.Adapter<DataEntryRecyclerViewAdapter.ViewHolder> {
@@ -75,11 +75,11 @@ public class DataEntryRecyclerViewAdapter extends
         // Get DataEntryDisplayObject object.
         final DataEntryDisplayObject dataEntry = dataEntryDisplayObjects.get(position);
 
-        // Display the data entry in the recycler view.
+        // Display the data latestDataEntry in the recycler view.
         TextView textViewDataEntry = viewHolder.textViewDataEntry;
         textViewDataEntry.setText(dataEntry.getData());
 
-        // Display the date of entry in the recycler view.
+        // Display the date of latestDataEntry in the recycler view.
         TextView textViewDateOfEntry = viewHolder.textViewDateOfEntry;
         textViewDateOfEntry.setText(dataEntry.dateOfEntry);
 
@@ -97,14 +97,14 @@ public class DataEntryRecyclerViewAdapter extends
     /**
      * Creates the new fragment and calls switch fragment on the main activity.
      *
-     * @param selectedDataEntry Represents the selected data entry.
+     * @param selectedDataEntry Represents the selected data latestDataEntry.
      */
     private void switchFragment(DataEntryDisplayObject selectedDataEntry) {
 
         // Create the destination fragment.
         Fragment destinationFragment = new ViewDataEntryFragment();
 
-        // Create and set the data entry id to a bundle.
+        // Create and set the data latestDataEntry id to a bundle.
         Bundle dataEntryBundle = new Bundle();
         dataEntryBundle.putInt("data_entry_selected_key", selectedDataEntry.id);
 
@@ -129,14 +129,14 @@ public class DataEntryRecyclerViewAdapter extends
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        // Initialize the data entry and the date of entry text views.
+        // Initialize the data latestDataEntry and the date of latestDataEntry text views.
         TextView textViewDataEntry;
         TextView textViewDateOfEntry;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            // Get the text views from the data entry recycler view layout.
+            // Get the text views from the data latestDataEntry recycler view layout.
             textViewDataEntry = itemView.findViewById(R.id.textViewDataEntryRecyclerView);
             textViewDateOfEntry = itemView.findViewById(R.id.textViewDateOfEntryRecyclerView);
         }

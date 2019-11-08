@@ -22,7 +22,7 @@ import ca.mohawk.HealthMetrics.R;
 
 /**
  * The ViewDataEntryFragment class is an extension of the Fragment class.
- * Allows the user to view a data entry.
+ * Allows the user to view a data latestDataEntry.
  */
 public class ViewDataEntryFragment extends Fragment implements View.OnClickListener {
 
@@ -61,7 +61,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
         // Get the healthMetricsDbHelper.
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        // Get the data entry id from the passed bundle.
+        // Get the data latestDataEntry id from the passed bundle.
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             dataEntryId = bundle.getInt("data_entry_selected_key", -1);
@@ -72,15 +72,15 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
 
         String dataEntryString = "";
 
-        // Validate the data entry is not null.
+        // Validate the data latestDataEntry is not null.
         if (dataEntry == null) {
             // Inform the user of the error and call the navigateToMetricsListFragment method.
-            Toast.makeText(getActivity(), "Cannot load data entry from database.",
+            Toast.makeText(getActivity(), "Cannot load data latestDataEntry from database.",
                     Toast.LENGTH_SHORT).show();
             navigateToMetricsListFragment();
 
         } else {
-            // Display the date of entry and the data entry.
+            // Display the date of latestDataEntry and the data latestDataEntry.
             dateOfEntryTextView.setText(dataEntry.DateOfEntry);
 
             // Set the dataEntryString.
@@ -153,7 +153,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
             // Create a new EditDataEntryFragment Fragment.
             Fragment destinationFragment = new EditDataEntryFragment();
 
-            // Create a bundle and set the data entry id.
+            // Create a bundle and set the data latestDataEntry id.
             Bundle bundle = new Bundle();
             bundle.putInt("data_entry_selected_key", dataEntryId);
 

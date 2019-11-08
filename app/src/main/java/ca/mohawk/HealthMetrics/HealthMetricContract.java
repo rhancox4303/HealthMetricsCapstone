@@ -156,12 +156,12 @@ public final class HealthMetricContract {
 
         static final String TABLE_NAME = "Prescriptions";
         static final String COLUMN_NAME_DOSAGEMEASUREMENT = "DosageMeasurement";
-        static final String COLUMN_NAME_NAME = "Name";
+        static final String COLUMN_NAME_NAME = "name";
         static final String COLUMN_NAME_FORM = "Form";
         static final String COLUMN_NAME_STRENGTH = "Strength";
-        static final String COLUMN_NAME_DOSAGEAMOUNT = "DosageAmount";
-        static final String COLUMN_NAME_FREQUENCY = "Frequency";
-        static final String COLUMN_NAME_AMOUNT = "Amount";
+        static final String COLUMN_NAME_DOSAGEAMOUNT = "dosageAmount";
+        static final String COLUMN_NAME_FREQUENCY = "frequency";
+        static final String COLUMN_NAME_AMOUNT = "amount";
         static final String COLUMN_NAME_REASON = "Reason";
 
         static final String CREATE_TABLE = "CREATE TABLE "

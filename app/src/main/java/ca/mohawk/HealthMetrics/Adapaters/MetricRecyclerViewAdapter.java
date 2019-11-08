@@ -80,11 +80,11 @@ public class MetricRecyclerViewAdapter extends
 
         // Display the metric name in the recycler view.
         TextView metricTextView = viewHolder.textViewMetricName;
-        metricTextView.setText(metric.getName());
+        metricTextView.setText(metric.name);
 
-        // Display the latest data entry in the recycler view.
+        // Display the latest data latestDataEntry in the recycler view.
         TextView latestDataEntryTextView = viewHolder.latestMetricDataEntry;
-        latestDataEntryTextView.setText(metric.getEntry());
+        latestDataEntryTextView.setText(metric.latestDataEntry);
 
         // Set the itemView onCLickListener.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +109,7 @@ public class MetricRecyclerViewAdapter extends
         Fragment fragment = new Fragment();
 
         // Switch statement with the selected metric's category.
-        switch (selectedMetric.Category) {
+        switch (selectedMetric.category) {
             case "Quantitative":
                 //Set fragment to a DataEntryListFragment.
                 fragment = new DataEntryListFragment();
@@ -126,7 +126,7 @@ public class MetricRecyclerViewAdapter extends
 
         // Create and the metric id to a bundle.
         Bundle metricBundle = new Bundle();
-        metricBundle.putInt("selected_item_key", selectedMetric.Id);
+        metricBundle.putInt("selected_item_key", selectedMetric.id);
 
         // Pass the bundle into the fragment.
         fragment.setArguments(metricBundle);
@@ -163,7 +163,7 @@ public class MetricRecyclerViewAdapter extends
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        // Initialize the metric name and the latest data entry text views.
+        // Initialize the metric name and the latest data latestDataEntry text views.
         TextView textViewMetricName;
         TextView latestMetricDataEntry;
 
