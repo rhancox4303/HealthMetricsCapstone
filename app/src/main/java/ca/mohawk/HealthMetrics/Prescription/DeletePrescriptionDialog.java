@@ -9,76 +9,92 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.Objects;
 
-import ca.mohawk.HealthMetrics.R;
-
-
 /**
- * A simple {@link Fragment} subclass.
+ * The DeletePrescriptionDialog extends the DialogFragment.
+ * Presents a dialog to the user indicating prescription deletion options.
  */
+public class DeletePrescriptionDialog extends DialogFragment {
 
-    public class DeletePrescriptionDialog extends DialogFragment {
+    // Instantiate the metricId.
+    private static int prescriptionId;
 
-        private DeletePrescriptionDialogListener listener;
-        private static int PrescriptionId;
+    // Instantiate the DeleteMetricDialogListener.
+    private DeletePrescriptionDialogListener listener;
 
-        public static DeletePrescriptionDialog newInstance(int prescriptionId) {
-            PrescriptionId = prescriptionId;
-            return new DeletePrescriptionDialog();
-        }
+    /**
+     * Create a new instance of the DeletePrescriptionDialog.
+     *
+     * @param prescriptionId Represents the prescription id.
+     * @return Returns a new DeletePrescriptionDialog.
+     */
+    public static DeletePrescriptionDialog newInstance(int prescriptionId) {
+        DeletePrescriptionDialog.prescriptionId = prescriptionId;
+        return new DeletePrescriptionDialog();
+    }
 
     public int getPrescriptionId() {
-        return PrescriptionId;
+        return prescriptionId;
     }
 
     @Override
-        public void onAttach(@NonNull Context context) {
-            super.onAttach(context);
-            // Verify that the host activity implements the callback interface
-            try {
-                // Instantiate the NoticeDialogListener so we can send events to the host
-                listener = (DeletePrescriptionDialogListener) context;
-            } catch (ClassCastException e) {
-                // The activity doesn't implement the interface, throw exception
-                throw new ClassCastException(getActivity().toString()
-                        + " must implement DeletePrescriptionDialogListener");
-            }
-        }
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
-
-            builder.setTitle("Delete Prescription");
-            builder.setMessage("The prescription will be deleted.");
-
-            builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // Send the positive button event back to the host activity
-                    listener.onDeletePrescriptionDialogPositiveClick(DeletePrescriptionDialog.this);
-                }
-            })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // Send the negative button event back to the host activity
-                            listener.onDeletePrescriptionDialogNegativeClick(DeletePrescriptionDialog.this);
-                        }
-                    });
-
-            return builder.create();
-        }
-
-        public interface DeletePrescriptionDialogListener {
-            void onDeletePrescriptionDialogPositiveClick(DeletePrescriptionDialog dialog);
-
-            void onDeletePrescriptionDialogNegativeClick(DeletePrescriptionDialog dialog);
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            listener = (DeletePrescriptionDialogListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString()
+                    + " must implement DeletePrescriptionDialogListener");
         }
     }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
+
+        // Set the title and message.
+        builder.setTitle("Delete Prescription");
+        builder.setMessage("The prescription will be deleted.");
+
+        // Set the PositiveButton and it's OnClickListener.
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                listener.onDeletePrescriptionDialogPositiveClick(DeletePrescriptionDialog.this);
+            }
+        });
+
+        // Set the NegativeButton and it's OnClickListener.
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                listener.onDeletePrescriptionDialogNegativeClick(DeletePrescriptionDialog.this);
+            }
+        });
+
+        // Return the created alert dialog.
+        return builder.create();
+    }
+
+    /**
+     * The DeletePrescriptionDialogListener models the method that will handle the button clicks.
+     */
+    public interface DeletePrescriptionDialogListener {
+        /**
+         * Handles a DeletePrescriptionDialog positive click.
+         *
+         * @param dialog Represents the DeletePrescriptionDialog.
+         */
+        void onDeletePrescriptionDialogPositiveClick(DeletePrescriptionDialog dialog);
+
+        /**
+         * Handles a DeletePrescriptionDialog negative click.
+         *
+         * @param dialog Represents the DeletePrescriptionDialog.
+         */
+
+        void onDeletePrescriptionDialogNegativeClick(DeletePrescriptionDialog dialog);
+    }
+}
