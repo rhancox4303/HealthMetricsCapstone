@@ -40,10 +40,6 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
         // Required empty public constructor
     }
 
-    /**
-     * The onCreateView method initializes the view variables with the user profile
-     * information fetched from the database using the HealthMetricsDbHelper object.
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

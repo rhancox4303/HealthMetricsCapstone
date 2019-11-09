@@ -29,13 +29,9 @@ public class MetricsListFragment extends Fragment implements View.OnClickListene
         // Required empty public constructor
     }
 
-    /**
-     * The onCreateView method initializes the rootView variables
-     * and creates the metric RecyclerView when the fragment is created.
-     */
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
         // Show the action bar and set the title to "Health Metrics"
         Objects.requireNonNull(((MainActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).show();
@@ -67,8 +63,9 @@ public class MetricsListFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     * The onClick method runs when the view's onClickListener is activated.
-     * It runs the launches the AddMetricFragment when the addMetricButton is pressed.
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
      */
     @Override
     public void onClick(View v) {

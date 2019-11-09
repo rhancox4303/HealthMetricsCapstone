@@ -9,37 +9,42 @@ import android.os.Bundle;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The DeleteMetricDialog extends the DialogFragment.
+ * Presents a dialog to the user indicating metric deletion options.
  */
 public class DeleteMetricDialog extends DialogFragment {
 
-    private DeleteMetricDialogListener listener;
-    private static int MetricId;
+    // Instantiate the metricId.
+    private static int metricId;
 
+    //Instantiate the DeleteMetricDialogListener.
+    private DeleteMetricDialogListener listener;
+
+    /**
+     * Create a new instance of the DeleteMetricDialog.
+     *
+     * @param metricId Represents the metric id.
+     * @return Returns a new DeleteMetricDialog.
+     */
     public static DeleteMetricDialog newInstance(int metricId) {
-        MetricId = metricId;
+        DeleteMetricDialog.metricId = metricId;
         return new DeleteMetricDialog();
     }
 
     public int getMetricId() {
-        return MetricId;
+        return metricId;
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
             listener = (DeleteMetricDialogListener) context;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
                     + " must implement DeleteMetricDialogListener");
         }
@@ -51,27 +56,35 @@ public class DeleteMetricDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
+        // Set the title and message.
         builder.setTitle("Delete Metric");
         builder.setMessage("The metric will be deleted. All data entries for this metric will be deleted.");
 
+        // Set the PositiveButton and it's OnClickListener.
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Send the positive button event back to the host activity
                 listener.onDeleteMetricDialogPositiveClick(DeleteMetricDialog.this);
             }
-        })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Send the negative button event back to the host activity
-                        listener.onDeleteMetricDialogNegativeClick(DeleteMetricDialog.this);
-                    }
-                });
+        });
 
+
+        // Set the NegativeButton and it's OnClickListener.
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                listener.onDeleteMetricDialogNegativeClick(DeleteMetricDialog.this);
+            }
+        });
+
+        // Return the created alert dialog.
         return builder.create();
     }
 
+    /**
+     * The DeleteMetricDialogListener models the method that will handle the button clicks.
+     */
     public interface DeleteMetricDialogListener {
-         void onDeleteMetricDialogPositiveClick(DeleteMetricDialog dialog);
-         void onDeleteMetricDialogNegativeClick(DeleteMetricDialog dialog);
+        void onDeleteMetricDialogPositiveClick(DeleteMetricDialog dialog);
+
+        void onDeleteMetricDialogNegativeClick(DeleteMetricDialog dialog);
     }
 }

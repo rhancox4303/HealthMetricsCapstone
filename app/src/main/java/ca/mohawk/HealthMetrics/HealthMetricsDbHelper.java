@@ -671,12 +671,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     /**
      * Gets metrics added to the user profile.
      *
-     * @return Returns a list of MetricRecyclerViewObjects.
+     * @return Returns a list of MetricDisplayObjects.
      */
     public List<MetricDisplayObject> getAddedMetrics() {
 
-        // Create the list of recyclerViewObjects.
-        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<>();
+        // Create the list of metricDisplayObjects.
+        List<MetricDisplayObject> metricDisplayObjects = new ArrayList<>();
 
         // Get the database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -720,23 +720,23 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 }
 
             }
-            recyclerViewObjects.add(new MetricDisplayObject(metricId, metricName, dataEntry, "Quantitative"));
+            metricDisplayObjects.add(new MetricDisplayObject(metricId, metricName, dataEntry, "Quantitative"));
         }
 
         cursor.close();
         readableDatabase.close();
-        return recyclerViewObjects;
+        return metricDisplayObjects;
     }
 
     /**
      * Gets added photo galleries from the database and converts them to MetricDisplayObject.
      *
-     * @return Returns a list of MetricRecyclerViewObjects.
+     * @return Returns a list of MetricDisplayObjects.
      */
     public List<MetricDisplayObject> getAddedPhotoGalleries() {
 
         // Create a the MetricDisplayObject list.
-        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<>();
+        List<MetricDisplayObject> metricDisplayObjects = new ArrayList<>();
 
         // Get database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -759,7 +759,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);
 
-        // Loop through results and add the MetricDisplayObject to the recyclerViewObjects list.
+        // Loop through results and add the MetricDisplayObject to the metricDisplayObjects list.
         while (cursor.moveToNext()) {
 
             int galleryId = cursor.getInt(
@@ -768,28 +768,29 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String galleryName = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Galleries.COLUMN_NAME_GALLERY_NAME));
 
-            recyclerViewObjects.add(new MetricDisplayObject(galleryId, galleryName, "Photo Gallery", "Gallery"));
+            metricDisplayObjects.add(new MetricDisplayObject(galleryId, galleryName, "Photo Gallery", "Gallery"));
         }
 
         cursor.close();
         readableDatabase.close();
-        return recyclerViewObjects;
+        return metricDisplayObjects;
     }
 
     /**
      * Gets metrics, galleries and notes that user has added to their profile.
      *
-     * @return Returns a list of MetricRecyclerViewObjects.
+     * @return Returns a list of MetricDisplayObjects.
      */
     public List<MetricDisplayObject> getAddedValues() {
 
-        // Build the recyclerViewObjects.
-        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<>(getAddedMetrics());
-        recyclerViewObjects.addAll(getAddedPhotoGalleries());
-        recyclerViewObjects.addAll(getAllNotes());
+        // Build the metricDisplayObjects.
+        List<MetricDisplayObject> metricDisplayObjects = new ArrayList<>(getAddedMetrics());
+
+        metricDisplayObjects.addAll(getAddedPhotoGalleries());
+        metricDisplayObjects.addAll(getAllNotes());
 
         // Return the built list.
-        return recyclerViewObjects;
+        return metricDisplayObjects;
     }
 
     /**
@@ -980,7 +981,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     private List<MetricDisplayObject> getAllNotes() {
 
         // Create the list of MetricDisplayObjects.
-        List<MetricDisplayObject> recyclerViewObjects = new ArrayList<>();
+        List<MetricDisplayObject> metricDisplayObjects = new ArrayList<>();
 
         // Get the database.
         SQLiteDatabase readableDatabase = getReadableDatabase();
@@ -999,7 +1000,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
                 null,
                 null);
 
-        // Loop through results and add the MetricDisplayObject to the recyclerViewObjects list.
+        // Loop through results and add the MetricDisplayObject to the metricDisplayObjects list.
         while (cursor.moveToNext()) {
 
             int noteId = cursor.getInt(
@@ -1008,12 +1009,12 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             String content = cursor.getString(
                     cursor.getColumnIndexOrThrow(HealthMetricContract.Notes.COLUMN_NAME_NOTE_CONTENT));
 
-            recyclerViewObjects.add(new MetricDisplayObject(noteId, "Note", content, "Note"));
+            metricDisplayObjects.add(new MetricDisplayObject(noteId, "Note", content, "Note"));
         }
 
         cursor.close();
         readableDatabase.close();
-        return recyclerViewObjects;
+        return metricDisplayObjects;
     }
 
     /**

@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.fragment.app.Fragment;
-import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.R;
@@ -88,7 +88,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         // Set the OnCheckedChangeListener for the addMetricRadioGroup.
         addMetricRadioGroup.setOnCheckedChangeListener(this);
 
-        // Initialize the healthMetricsDbHelper object.
+        // Get the healthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         // Get the lists of all metrics and galleries from the database.
@@ -176,7 +176,6 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
 
             // If the radioButtonMetricAddMetric button is checked then add the metric to the user.
             if (addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
-
                 updateStatus = healthMetricsDbHelper.addMetricToProfile(selectedUnitId, selectedMetricId);
 
                 // Else then add the gallery to the user.

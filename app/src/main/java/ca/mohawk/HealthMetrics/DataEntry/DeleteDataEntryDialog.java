@@ -73,7 +73,6 @@ public class DeleteDataEntryDialog extends DialogFragment {
         // Set the PositiveButton.
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Send the positive button event back to the main activity.
                 listener.onDeleteDataEntryDialogPositiveClick(DeleteDataEntryDialog.this);
             }
         });
@@ -81,7 +80,6 @@ public class DeleteDataEntryDialog extends DialogFragment {
         // Set the NegativeButton.
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Send the negative button event back to the main activity.
                 listener.onDeleteDataEntryDialogNegativeClick(DeleteDataEntryDialog.this);
             }
         });
@@ -91,7 +89,7 @@ public class DeleteDataEntryDialog extends DialogFragment {
     }
 
     /**
-     * The DeleteDataEntryDialogListener will handle the button clicks.
+     * The DeleteDataEntryDialogListener models the method that will handle the button clicks.
      */
     public interface DeleteDataEntryDialogListener {
 

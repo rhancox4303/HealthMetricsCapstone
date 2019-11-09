@@ -18,11 +18,12 @@ import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * CreatePhotoGalleryInputFragment extends the Fragment class.
+ * Allows the user to create photo galleries.
  */
 public class CreatePhotoGalleryInputFragment extends Fragment implements View.OnClickListener {
 
-    // The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
+    // Initialize the healthMetricsDbHelper.
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
     // Initialize the galleryNameEditText.
@@ -32,15 +33,11 @@ public class CreatePhotoGalleryInputFragment extends Fragment implements View.On
         // Required empty public constructor
     }
 
-    /**
-     * The onCreateView method initializes the view variables
-     * and the HealthMetricsDbHelper object when the Fragment view is created.
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment.
         View rootView = inflater.inflate(R.layout.fragment_create_photo_gallery_input, container, false);
 
         // Instantiate the healthMetricsDbHelper.
@@ -59,13 +56,18 @@ public class CreatePhotoGalleryInputFragment extends Fragment implements View.On
         return rootView;
     }
 
+    /**
+     * Creates the gallery in the database.
+     */
     private void createGallery() {
 
-        if(validateUserInput()){
+        // Validate the user input.
+        if (validateUserInput()) {
 
             String name = galleryNameEditText.getText().toString();
-            if(healthMetricsDbHelper.addPhotoGallery(new PhotoGallery(name, 0))){
-                Toast.makeText(getActivity(), "Gallery created.", Toast.LENGTH_SHORT).show();
+
+            // Add the gallery to the database and verify it was successful.
+            if (healthMetricsDbHelper.addPhotoGallery(new PhotoGallery(name, 0))) {
 
                 AddMetricFragment addMetricFragment = new AddMetricFragment();
 
@@ -73,13 +75,18 @@ public class CreatePhotoGalleryInputFragment extends Fragment implements View.On
                         .replace(R.id.fragmentContainer, addMetricFragment)
                         .addToBackStack(null)
                         .commit();
-            }else{
+            } else {
                 Toast.makeText(getActivity(), "Failed to create gallery.", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public boolean validateUserInput(){
+    /**
+     * Validates the user inputs.
+     *
+     * @return Return a boolean based on whether the user input is valid.
+     */
+    public boolean validateUserInput() {
 
         // Get the user inputted gallery name.
         String galleryName = galleryNameEditText.getText().toString().trim();
@@ -111,8 +118,13 @@ public class CreatePhotoGalleryInputFragment extends Fragment implements View.On
         return true;
     }
 
+    /**
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
+     */
     @Override
     public void onClick(View v) {
-            createGallery();
+        createGallery();
     }
 }

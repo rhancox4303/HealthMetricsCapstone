@@ -69,8 +69,8 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
 
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        metricArrayList = healthMetricsDbHelper.getAddedMetrics(metricArrayList);
-        galleryArrayList = healthMetricsDbHelper.getAddedPhotoGalleries(galleryArrayList);
+        metricArrayList = healthMetricsDbHelper.getAddedMetrics();
+        galleryArrayList = healthMetricsDbHelper.getAddedPhotoGalleries();
         prescriptionArrayList = healthMetricsDbHelper.getAllPrescriptions();
 
 
@@ -119,6 +119,10 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
         }
     }
 
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
+
     private void populateTargetSpinner(String type) {
         TargetId = -1;
         switch (type) {
@@ -155,10 +159,6 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
                 notificationTargetSpinner.setAdapter(prescriptionDisplayObjectArrayAdapter);
                 break;
         }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     @Override
@@ -230,7 +230,7 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
             return false;
         }
 
-        if(!dateEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")){
+        if (!dateEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")) {
             Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
             return false;
         }

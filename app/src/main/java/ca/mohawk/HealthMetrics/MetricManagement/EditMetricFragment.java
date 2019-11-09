@@ -19,47 +19,81 @@ import ca.mohawk.HealthMetrics.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * EditMetricFragment extends the Fragment class.
+ * Allows the user to the edit a metric.
  */
 public class EditMetricFragment extends Fragment implements View.OnClickListener {
 
+    // Initialise the HealthMetricsDbHelper.
+    private HealthMetricsDbHelper healthMetricsDbHelper;
+
+    // Initialize the metric Id and metric.
     private int metricId;
     private Metric metric;
-    private HealthMetricsDbHelper healthMetricsDbHelper;
+
+    // Initialize the metricNameEditText.
     private EditText metricNameEditText;
 
     public EditMetricFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_edit_metric, container, false);
 
+        // Get the healthMetricsDbHelper.
+        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+
+        // Set the views.
         metricNameEditText = rootView.findViewById(R.id.editTextMetricNameEditMetric);
-        Button editMetric = rootView.findViewById(R.id.buttonEditMetric);
+        Button editMetricButton = rootView.findViewById(R.id.buttonEditMetric);
 
-        editMetric.setOnClickListener(this);
+        // Set the editMetricButton onClickListener.
+        editMetricButton.setOnClickListener(this);
 
+        // Get the metric id from the bundle.
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             metricId = bundle.getInt("metric_id_key", -1);
         }
 
+        // Get the metric fom the database.
         metric = healthMetricsDbHelper.getMetricById(metricId);
 
+        // Validate the metric is not null
         if (metric != null) {
             metricNameEditText.setText(metric.name);
+        } else {
+            Toast.makeText(getContext(), "Error getting metric from the database.",
+                    Toast.LENGTH_SHORT).show();
+            navigateToMetricsListFragment();
         }
 
         return rootView;
     }
 
+    /**
+     * Replaces the current fragment with a MetricsListFragment.
+     */
+    private void navigateToMetricsListFragment() {
+
+        MetricsListFragment destinationFragment = new MetricsListFragment();
+
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, destinationFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    /**
+     * Validates the user inputs.
+     *
+     * @return Return a boolean based on whether the user input is valid.
+     */
     private boolean validateUserInput() {
 
         // Get the user inputted metric name.
@@ -94,14 +128,15 @@ public class EditMetricFragment extends Fragment implements View.OnClickListener
         return true;
     }
 
-    private void editMetric() {
+    /**
+     * Updates the metric in the database.
+     */
+    private void updateMetric() {
 
         if (validateUserInput()) {
             metric.name = metricNameEditText.getText().toString();
 
             if (healthMetricsDbHelper.updateMetric(metric)) {
-                // Inform user.
-                Toast.makeText(getActivity(), "Metric updated.", Toast.LENGTH_SHORT).show();
                 // Create and display addMetricFragment.
                 ManageMetricFragment manageMetricFragment = new ManageMetricFragment();
 
@@ -119,8 +154,13 @@ public class EditMetricFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    /**
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
+     */
     @Override
     public void onClick(View v) {
-        editMetric();
+        updateMetric();
     }
 }

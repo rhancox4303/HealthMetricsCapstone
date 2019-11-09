@@ -27,10 +27,6 @@ public class ViewUserFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
-    /**
-     * The onCreateView method initializes the view variables
-     * and the HealthMetricsDbHelper object when the Fragment view is created.
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

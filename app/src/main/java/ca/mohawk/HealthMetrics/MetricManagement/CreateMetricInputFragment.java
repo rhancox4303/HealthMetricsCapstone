@@ -54,7 +54,7 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         // Get the list of unit categories from the database.
-        List<UnitCategory> unitCategoriesList = healthMetricsDbHelper.getAllUnitCategories();
+        List<UnitCategory> unitCategories = healthMetricsDbHelper.getAllUnitCategories();
 
         Button createMetricButton = rootView.findViewById(R.id.buttonCreateMetricInput);
         createMetricButton.setOnClickListener(this);
@@ -66,10 +66,10 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
         Spinner unitCategorySpinner = rootView.findViewById(R.id.spinnerUnitCategoryCreateMetricInput);
 
         // Initialize the unitCategoryAdapater.
-        ArrayAdapter<UnitCategory> unitCategoryAdapater = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, unitCategoriesList);
+        ArrayAdapter<UnitCategory> unitCategoryAdapter = new ArrayAdapter<>(Objects.requireNonNull(getActivity()), android.R.layout.simple_spinner_item, unitCategories);
 
         // Assign the adapter.
-        unitCategorySpinner.setAdapter(unitCategoryAdapater);
+        unitCategorySpinner.setAdapter(unitCategoryAdapter);
 
         // Set the OnItemSelectedListener.
         unitCategorySpinner.setOnItemSelectedListener(this);
