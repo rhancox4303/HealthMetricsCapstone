@@ -12,11 +12,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import java.util.List;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.DosageMeasurement;
 import ca.mohawk.HealthMetrics.Models.Prescription;
@@ -231,6 +232,13 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
     }
 
     @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.buttonEditPrescription && validateUserInput()) {
+            editPrescription();
+        }
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         DosageMeasurementId = ((DosageMeasurement) parent.getSelectedItem()).id;
     }
@@ -238,13 +246,6 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.buttonEditPrescription && validateUserInput()) {
-            editPrescription();
-        }
     }
 }
 

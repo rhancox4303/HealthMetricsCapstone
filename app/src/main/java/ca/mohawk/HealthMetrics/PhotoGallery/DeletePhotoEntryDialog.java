@@ -1,59 +1,65 @@
 package ca.mohawk.HealthMetrics.PhotoGallery;
 
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
+
+import java.util.Objects;
+
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The DeletePhotoEntryDialog extends the DialogFragment.
+ * Presents a dialog to the user indicating photo deletion options.
  */
 public class DeletePhotoEntryDialog extends DialogFragment {
 
-    private static PhotoEntry PhotoEntry;
+    // Instantiate the photoEntry.
+    private static PhotoEntry photoEntry;
+
+    // Instantiate the DeletePhotoEntryDialogListener.
     private DeletePhotoEntryDialogListener listener;
 
+    /**
+     * Create a new instance of the DeletePhotoEntryDialog.
+     *
+     * @param photoEntry Represents the photo entry.
+     * @return Returns a new DeletePhotoEntryDialog.
+     */
     public static DeletePhotoEntryDialog newInstance(PhotoEntry photoEntry) {
         DeletePhotoEntryDialog dialog = new DeletePhotoEntryDialog();
-        PhotoEntry = photoEntry;
+        DeletePhotoEntryDialog.photoEntry = photoEntry;
         return dialog;
     }
 
     public int getPhotoEntryId() {
-        return PhotoEntry.id;
+        return photoEntry.id;
     }
 
     public int getGalleryId() {
-        return PhotoEntry.photoGalleryId;
+        return photoEntry.photoGalleryId;
     }
 
     public int getIsFromGallery() {
-        return PhotoEntry.isFromGallery;
+        return photoEntry.isFromGallery;
     }
 
     public String getPhotoEntryPath() {
-        return PhotoEntry.photoEntryPath;
+        return photoEntry.photoEntryPath;
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
             listener = (DeletePhotoEntryDialogListener) context;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
                     + " must implement DeletePhotoEntryDialogListener");
         }
@@ -65,28 +71,45 @@ public class DeletePhotoEntryDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
-        builder.setTitle("Delete Photo latestDataEntry");
-        builder.setMessage("The photo latestDataEntry will be deleted.");
+        // Set the title and message.
+        builder.setTitle("Delete Photo Entry");
+        builder.setMessage("The photo entry will be deleted.");
 
+        // Set the PositiveButton and it's OnClickListener.
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Send the positive button event back to the host activity
                 listener.onDeletePhotoEntryDialogPositiveClick(DeletePhotoEntryDialog.this);
             }
-        })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Send the negative button event back to the host activity
-                        listener.onDeletePhotoEntryDialogNegativeClick(DeletePhotoEntryDialog.this);
-                    }
-                });
+        });
 
+        // Set the NegativeButton and it's OnClickListener.
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                listener.onDeletePhotoEntryDialogNegativeClick(DeletePhotoEntryDialog.this);
+            }
+        });
+
+        // Return the created alert dialog.
         return builder.create();
     }
 
+    /**
+     * The DeletePhotoEntryDialogListener models the method that will handle the button clicks.
+     */
     public interface DeletePhotoEntryDialogListener {
+
+        /**
+         * Handles a DeletePhotoEntryDialog positive click.
+         *
+         * @param dialog Represents the DeletePhotoEntryDialog.
+         */
         void onDeletePhotoEntryDialogPositiveClick(DeletePhotoEntryDialog dialog);
 
+        /**
+         * Handles a DeletePhotoEntryDialog negative click.
+         *
+         * @param dialog Represents the DeletePhotoEntryDialog.
+         */
         void onDeletePhotoEntryDialogNegativeClick(DeletePhotoEntryDialog dialog);
     }
 }

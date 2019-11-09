@@ -6,40 +6,46 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
+
+import java.util.Objects;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The DeleteGalleryDialog extends the DialogFragment.
+ * Presents a dialog to the user indicating gallery deletion options.
  */
 public class DeleteGalleryDialog extends DialogFragment {
 
-    private static int GalleryId;
+    // Instantiate the galleryId.
+    private static int galleryId;
+
+    // Instantiate the DeleteGalleryDialogListener.
     private DeleteGalleryDialogListener listener;
 
+    /**
+     * Create a new instance of the DeleteGalleryDialog.
+     *
+     * @param galleryId Represents the gallery id.
+     * @return Returns a new DeleteGalleryDialog.
+     */
     public static DeleteGalleryDialog newInstance(int galleryId) {
-        DeleteGalleryDialog dialog = new DeleteGalleryDialog();
-        GalleryId = galleryId;
-        return dialog;
+        DeleteGalleryDialog deleteGalleryDialog = new DeleteGalleryDialog();
+        DeleteGalleryDialog.galleryId = galleryId;
+        return deleteGalleryDialog;
     }
 
     public int getGalleryId() {
-        return GalleryId;
+        return galleryId;
     }
 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
             listener = (DeleteGalleryDialogListener) context;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
                     + " must implement DeleteGalleryDialogListener");
         }
@@ -51,28 +57,45 @@ public class DeleteGalleryDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
+        // Set the title and message.
         builder.setTitle("Delete Gallery");
         builder.setMessage("The gallery will be deleted.");
 
+        // Set the PositiveButton and it's OnClickListener.
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Send the positive button event back to the host activity
                 listener.onDeleteGalleryDialogPositiveClick(DeleteGalleryDialog.this);
             }
-        })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Send the negative button event back to the host activity
-                        listener.onDeleteGalleryDialogNegativeClick(DeleteGalleryDialog.this);
-                    }
-                });
+        });
 
+        // Set the NegativeButton and it's OnClickListener.
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                listener.onDeleteGalleryDialogNegativeClick(DeleteGalleryDialog.this);
+            }
+        });
+
+        // Return the created alert dialog.
         return builder.create();
     }
 
+    /**
+     * The DeleteGalleryDialogListener models the method that will handle the button clicks.
+     */
     public interface DeleteGalleryDialogListener {
+
+        /**
+         * Handles a DeleteGalleryDialog positive click.
+         *
+         * @param dialog Represents the DeleteGalleryDialog.
+         */
         void onDeleteGalleryDialogPositiveClick(DeleteGalleryDialog dialog);
 
+        /**
+         * Handles a DeleteGalleryDialog negative click.
+         *
+         * @param dialog Represents the DeleteGalleryDialog.
+         */
         void onDeleteGalleryDialogNegativeClick(DeleteGalleryDialog dialog);
     }
 }

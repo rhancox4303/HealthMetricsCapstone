@@ -151,7 +151,6 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-
     /**
      * Populates the target spinner based on the type.
      *

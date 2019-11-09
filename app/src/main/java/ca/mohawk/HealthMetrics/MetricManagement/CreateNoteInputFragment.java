@@ -12,9 +12,10 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Objects;
 
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.Note;
@@ -121,7 +122,7 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
     }
 
     /**
-     * Creates the note in the database.
+     * Creates a note and adds it to the database.
      */
     private void createNote() {
 

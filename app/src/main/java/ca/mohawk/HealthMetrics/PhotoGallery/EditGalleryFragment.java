@@ -1,6 +1,5 @@
 package ca.mohawk.HealthMetrics.PhotoGallery;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,24 +8,33 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.R;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * EditGalleryFragment extends the Fragment class.
+ * Allows the user to the edit a photo gallery.
  */
 public class EditGalleryFragment extends Fragment implements View.OnClickListener {
 
+    // Initialise the HealthMetricsDbHelper.
     private HealthMetricsDbHelper healthMetricsDbHelper;
-    private int GalleryId;
+
+    // Initialise the gallery id.
+    private int galleryId;
+
+    // Initialise the nameEditText.
     private EditText nameEditText;
-    private PhotoGallery Gallery;
+
+    // Initialise the gallery.
+    private PhotoGallery gallery;
 
     public EditGalleryFragment() {
         // Required empty public constructor
@@ -38,29 +46,56 @@ public class EditGalleryFragment extends Fragment implements View.OnClickListene
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_edit_gallery, container, false);
+
+        // Get the HealthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
+        // Get the views.
+        Button editGalleryButton = rootView.findViewById(R.id.buttonEditGallery);
+        nameEditText = rootView.findViewById(R.id.editTextGalleryNameEditGallery);
+
+        editGalleryButton.setOnClickListener(this);
+
         Bundle bundle = this.getArguments();
+
+        // Get the gallery id from the bundle.
         if (bundle != null) {
-            GalleryId = bundle.getInt("selected_gallery_key", -1);
+            galleryId = bundle.getInt("selected_gallery_key", -1);
         }
 
+        // Get gallery from the database.
+        gallery = healthMetricsDbHelper.getPhotoGalleryById(galleryId);
 
-        Gallery = healthMetricsDbHelper.getPhotoGalleryById(GalleryId);
-
-        if (Gallery != null) {
-            nameEditText = rootView.findViewById(R.id.editTextGalleryNameEditGallery);
-            nameEditText.setText(Gallery.name);
-
-            Button editGalleryButton = rootView.findViewById(R.id.buttonEditGallery);
-            editGalleryButton.setOnClickListener(this);
+        // Validate the gallery is not null.
+        if (gallery != null) {
+            nameEditText.setText(gallery.name);
         } else {
-            //Leave fragment.
+            Toast.makeText(getActivity(), "Failed to get gallery from database."
+                    , Toast.LENGTH_SHORT).show();
+            navigateToMetricsListFragment();
         }
 
         return rootView;
     }
 
+    /**
+     * Replaces the current fragment with a MetricsListFragment.
+     */
+    private void navigateToMetricsListFragment() {
+
+        MetricsListFragment destinationFragment = new MetricsListFragment();
+
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, destinationFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    /**
+     * Validates the user inputs.
+     *
+     * @return Return a boolean based on whether the user input is valid.
+     */
     public boolean validateUserInput() {
 
         // Get the user inputted gallery name.
@@ -93,16 +128,22 @@ public class EditGalleryFragment extends Fragment implements View.OnClickListene
         return true;
     }
 
-    public void editGallery() {
+    /**
+     * Updates the gallery in the database.
+     */
+    public void updateGallery() {
+
+        // Validate the user input.
         if (validateUserInput()) {
 
             String galleryName = nameEditText.getText().toString();
-            PhotoGallery gallery = new PhotoGallery(GalleryId, galleryName, Gallery.isAddedToProfile);
+            PhotoGallery gallery = new PhotoGallery(galleryId, galleryName, this.gallery.isAddedToProfile);
 
+            // Validate the update was successful.
             if (healthMetricsDbHelper.updateGallery(gallery)) {
                 Fragment destinationFragment = new ManageGalleryFragment();
                 Bundle galleryBundle = new Bundle();
-                galleryBundle.putInt("selected_gallery_key", GalleryId);
+                galleryBundle.putInt("selected_gallery_key", galleryId);
                 destinationFragment.setArguments(galleryBundle);
 
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
@@ -115,8 +156,13 @@ public class EditGalleryFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    /**
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
+     */
     @Override
     public void onClick(View v) {
-        editGallery();
+        updateGallery();
     }
 }

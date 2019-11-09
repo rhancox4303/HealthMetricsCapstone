@@ -13,9 +13,10 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Objects;
 
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
@@ -90,7 +91,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
 
         return rootView;
     }
-
 
     /**
      * Updates the note in the database.
@@ -172,7 +172,6 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
                 .addToBackStack(null)
                 .commit();
     }
-
 
     /**
      * Runs when a view's onClickListener is activated.

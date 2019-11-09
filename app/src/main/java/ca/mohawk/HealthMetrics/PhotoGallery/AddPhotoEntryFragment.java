@@ -1,4 +1,3 @@
-//Taken from https://developer.android.com/training/camera/photobasics
 package ca.mohawk.HealthMetrics.PhotoGallery;
 
 import android.Manifest;
@@ -21,6 +20,11 @@ import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 
 import java.io.File;
@@ -29,10 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.PhotoEntry;
@@ -41,27 +41,41 @@ import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 import static android.app.Activity.RESULT_OK;
 
+/* The code in the Google Dev guide https://developer.android.com/training/camera/photobasics
+ *  was used and modified to create this class.
+ * */
 
 /**
- * A simple {@link Fragment} subclass.
+ * AddPhotoEntryFragment extends Fragment.
+ * Allows the user to create a photo entry.
  */
 public class AddPhotoEntryFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
+    // Instantiate the Camera and Gallery Permission and intent codes.
     private static final int CAMERA_INTENT_CODE = 2000;
     private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int GALLERY_INTENT_CODE = 2001;
     private static final int GALLERY_PERMISSION_CODE = 101;
 
+    // Instantiate the healthMetricsDbHelper.
     private HealthMetricsDbHelper healthMetricsDbHelper;
+
+    // Instantiate the views.
     private ImageView imageView;
     private EditText dateOfEntryEditText;
 
+    // Instantiate the photo path variables.
     private Uri currentPhotoUri = null;
     private String currentPhotoPath = null;
     private String previousPhotoPath = null;
+
+    // Initialize the time variable.
     private String time;
 
-    private int GalleryId;
+    // Initialize the galleryId.
+    private int galleryId;
+
+    // Initialize the isFromGallery variable.
     private int isFromGallery = 0;
 
     public AddPhotoEntryFragment() {
@@ -70,20 +84,18 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_add_photo_entry, container, false);
 
+        // Get the healthMetricsDbHelper.
+        healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+
+        // Get the gallery id from the bundle.
         Bundle bundle = this.getArguments();
-
         if (bundle != null) {
-            GalleryId = bundle.getInt("selected_gallery_key", -1);
-        }
-
-        if (GalleryId == -1) {
-            Toast.makeText(getActivity(), "Gallery not found.", Toast.LENGTH_SHORT).show();
-            // Go back to metric list view.`
+            galleryId = bundle.getInt("selected_gallery_key", -1);
         }
 
         imageView = rootView.findViewById(R.id.imageViewAddPhotoEntry);
@@ -99,11 +111,15 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
         return rootView;
     }
 
+    /**
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
+     */
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
-
             case R.id.buttonUploadImageAddPhotoEntry:
                 previousPhotoPath = currentPhotoPath;
                 showImageDialog();
@@ -121,98 +137,45 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
         }
     }
 
-    private void createPhotoEntry() {
-
-        if (validateUserInput()) {
-
-            String date = dateOfEntryEditText.getText().toString();
-            PhotoEntry photoEntry = new PhotoEntry(GalleryId, currentPhotoPath, date, isFromGallery);
-
-            if (healthMetricsDbHelper.addPhotoEntry(photoEntry)) {
-                ViewPhotoGalleryFragment viewPhotoGalleryFragment = new ViewPhotoGalleryFragment();
-
-                Bundle metricBundle = new Bundle();
-                metricBundle.putInt("selected_item_key", GalleryId);
-                viewPhotoGalleryFragment.setArguments(metricBundle);
-
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, viewPhotoGalleryFragment)
-                        .addToBackStack(null)
-                        .commit();
-            } else {
-                Toast.makeText(getActivity(), "Unable to add photo latestDataEntry to database.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private boolean validateUserInput() {
-        if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of latestDataEntry cannot be empty.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (!dateOfEntryEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")) {
-            Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (currentPhotoPath == null) {
-            Toast.makeText(getActivity(), "Please enter a photo.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if (minute < 10) {
-            time = hourOfDay + ":0" + minute;
-        } else {
-            time = hourOfDay + ":" + minute;
-        }
-        dateOfEntryEditText.setText(time);
-
-        DatePickerFragment datePickerFragment = new DatePickerFragment();
-        datePickerFragment.setOnDateSetListener(this);
-        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        if (dayOfMonth < 10) {
-            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
-                    .append("-0").append(dayOfMonth).append("-").append(year).toString());
-        } else {
-            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
-                    .append("-").append(dayOfMonth).append("-").append(year).toString());
-        }
-    }
-
+    /**
+     * Create and show a InsertPhotoDialog dialog.
+     */
     private void showImageDialog() {
 
-        InsertPhotoDialog dialog = InsertPhotoDialog.newInstance();
+        InsertPhotoDialog insertPhotoDialog = InsertPhotoDialog.newInstance();
 
-        dialog.setListener(new InsertPhotoDialog.insertPhotoDialogListener() {
+        // Set the listeners to handle button clicks.
+        insertPhotoDialog.setListener(new InsertPhotoDialog.InsertPhotoDialogListener() {
             @Override
             public void onInsertPhotoDialogPositiveClick(InsertPhotoDialog dialog) {
+                // Check Camera Permissions.
                 checkPermissions(CAMERA_PERMISSION_CODE);
             }
 
             @Override
             public void onInsertPhotoDialogNeutralClick(InsertPhotoDialog dialog) {
+                // Check Gallery Permissions.
                 checkPermissions(GALLERY_PERMISSION_CODE);
             }
 
             @Override
             public void onInsertPhotoDialogNegativeClick(InsertPhotoDialog dialog) {
+                // Dismiss the dialog.
                 dialog.dismiss();
             }
         });
 
-        dialog.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "imagePicker");
+        insertPhotoDialog.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(),
+                "insertPhotoDialog");
     }
 
+    /**
+     * Checks the Camera and Gallery permissions based on the permission code.
+     * <p>
+     * Dispatches the intent if the requested permission has already been granted.
+     *
+     * @param permissionCode Represents the code of permission that will be checked.
+     */
     private void checkPermissions(int permissionCode) {
         switch (permissionCode) {
             case CAMERA_PERMISSION_CODE:
@@ -237,14 +200,20 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    /**
+     * Runs after permissions are requested and dispatches a intent based on the results.
+     *
+     * @param requestCode  Represents the request code.
+     * @param permissions  Represents the array of permissions.
+     * @param grantResults Represents the results array.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
+        // Validate if the permissions were granted.
         switch (requestCode) {
             case CAMERA_PERMISSION_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     dispatchTakePictureIntent();
                 } else {
                     Toast.makeText(getActivity(), "Camera permission is required to add photos using the camera.", Toast.LENGTH_SHORT).show();
@@ -252,8 +221,7 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
                 break;
             }
             case GALLERY_PERMISSION_CODE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     dispatchPickFromGalleryIntent();
                 } else {
                     Toast.makeText(getActivity(), "Storage permissions is required to add photos using storage.", Toast.LENGTH_SHORT).show();
@@ -262,82 +230,219 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    /**
+     * Creates and launches an intent to use the camera to capture an image.
+     */
     private void dispatchTakePictureIntent() {
+
+        // Create ACTION_IMAGE_CAPTURE intent.
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
-            // Create the File where the photo should go
+
+            // Create a file in storage to the image in.
             File photoFile = null;
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                Log.d("ERROR", ex.toString());
+                Log.e("IOException: ", ex.toString());
             }
-            // Continue only if the File was successfully created
+
+            // Set the currentPhotoUri
             if (photoFile != null) {
                 currentPhotoUri = FileProvider.getUriForFile(getActivity(),
                         "ca.mohawk.HealthMetrics.fileprovider",
                         photoFile);
+
+                // Store the currentPhotoUri as an extra and launch the takePictureIntent.
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, currentPhotoUri);
                 startActivityForResult(takePictureIntent, CAMERA_INTENT_CODE);
             }
         }
     }
 
-    //google
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Objects.requireNonNull(getActivity()).getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        currentPhotoPath = image.getAbsolutePath();
-        // Save a file: path for use with ACTION_VIEW intents
-        return image;
-    }
-
-    private void deleteImageFile(String path) {
-        File file = new File(path);
-        file.delete();
-    }
-
+    /**
+     * Creates and launches an intent to use the gallery to select an image.
+     */
     private void dispatchPickFromGalleryIntent() {
+
+        // Create intent.
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
+        // Launch intent.
         if (galleryIntent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
             startActivityForResult(galleryIntent, GALLERY_INTENT_CODE);
         }
     }
 
+    /**
+     * Runs after the Gallery and Camera intents are finished.
+     *
+     * @param requestCode Represents the request code.
+     * @param resultCode  Represents the result code.
+     * @param data        Represents the returned data.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        // Get the current fragment.
         Fragment currentFragment = Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .findFragmentById(R.id.fragmentContainer);
 
+        // If a image was received from the camera.
         if (requestCode == CAMERA_INTENT_CODE && resultCode == RESULT_OK) {
+
             isFromGallery = 0;
+
+            // Use the Glide library to the load the image.
             Glide.with(Objects.requireNonNull(currentFragment))
                     .load(currentPhotoUri)
                     .into(imageView);
         }
 
+        // If a image was received from the gallery.
         if (requestCode == GALLERY_INTENT_CODE && resultCode == RESULT_OK) {
+
             isFromGallery = 1;
+
+            // Get the data from the intent.
             currentPhotoUri = data.getData();
             currentPhotoPath = Objects.requireNonNull(currentPhotoUri).toString();
+
+            // Use the Glide library to the load the image.
             Glide.with(Objects.requireNonNull(currentFragment))
                     .load(currentPhotoUri)
                     .into(imageView);
         }
 
+        // Delete the previously stored image.
         if (previousPhotoPath != null) {
             deleteImageFile(previousPhotoPath);
+        }
+    }
+
+    /**
+     * Create am image file to store images received from the camera in.
+     *
+     * @return Returns the created file.
+     * @throws IOException Throws an IO exception if the file cannot be created.
+     */
+    private File createImageFile() throws IOException {
+
+        // Create an image file name using the date.
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Objects.requireNonNull(getActivity()).getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    /**
+     * Deletes the file at the given path.
+     *
+     * @param path Represents the path of the file to delete.
+     */
+    private void deleteImageFile(String path) {
+        File file = new File(path);
+        file.delete();
+    }
+
+    /**
+     * Creates a photo entry and adds it to the database.
+     */
+    private void createPhotoEntry() {
+
+        // Validate the user input.
+        if (validateUserInput()) {
+
+            String date = dateOfEntryEditText.getText().toString();
+            PhotoEntry photoEntry = new PhotoEntry(galleryId, currentPhotoPath, date, isFromGallery);
+
+            if (healthMetricsDbHelper.addPhotoEntry(photoEntry)) {
+                ViewPhotoGalleryFragment viewPhotoGalleryFragment = new ViewPhotoGalleryFragment();
+
+                Bundle metricBundle = new Bundle();
+                metricBundle.putInt("selected_item_key", galleryId);
+                viewPhotoGalleryFragment.setArguments(metricBundle);
+
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, viewPhotoGalleryFragment)
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                Toast.makeText(getActivity(), "Unable to add photo entry to database.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
+     * Validates the user inputs.
+     *
+     * @return Return a boolean based on whether the user input is valid.
+     */
+    private boolean validateUserInput() {
+
+        //  If date of entry is empty then inform the user and return false.
+        if (dateOfEntryEditText.getText().toString().trim().equals("")) {
+            Toast.makeText(getActivity(), "The date of entry. cannot be empty.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        // If date of entry is does not contain a date and time then inform the user and return false.
+        if (!dateOfEntryEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")) {
+            Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // The a photo has not been entered then inform the user and return false.
+        if (currentPhotoPath == null) {
+            Toast.makeText(getActivity(), "Please enter a photo.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Runs when the TimePickerFragment onTimeSet listener is called.
+     *
+     * @param view      Represents the TimePicker view.
+     * @param hourOfDay Represents the selected hour.
+     * @param minute    Represents the selected minute.
+     */
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        if (minute < 10) {
+            time = hourOfDay + ":0" + minute;
+        } else {
+            time = hourOfDay + ":" + minute;
+        }
+
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setOnDateSetListener(this);
+        datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
+    }
+
+    /**
+     * Runs when the DatePickerFragment onDateSet listener is called.
+     *
+     * @param view       Represents the DatePicker view.
+     * @param year       Represents the selected year.
+     * @param month      Represents the selected month.
+     * @param dayOfMonth Represents the selected dayOfMonth.
+     */
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        if (dayOfMonth < 10) {
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
+                    .append("-0").append(dayOfMonth).append("-").append(year).toString());
+        } else {
+            dateOfEntryEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
+                    .append("-").append(dayOfMonth).append("-").append(year).toString());
         }
     }
 }

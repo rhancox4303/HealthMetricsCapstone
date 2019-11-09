@@ -6,27 +6,33 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
+
+import java.util.Objects;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The InsertPhotoDialog extends the DialogFragment.
+ * Presents a dialog to the user indicating photo insertion options.
  */
 public class InsertPhotoDialog extends DialogFragment {
 
-    private insertPhotoDialogListener listener;
+    // Instantiate the InsertPhotoDialogListener.
+    private InsertPhotoDialogListener listener;
 
+    /**
+     * Create a new instance of the InsertPhotoDialog.
+     *
+     * @return Returns a new InsertPhotoDialog.
+     */
     public static InsertPhotoDialog newInstance() {
 
         return new InsertPhotoDialog();
     }
 
-    void setListener(insertPhotoDialogListener listener) {
+    void setListener(InsertPhotoDialogListener listener) {
         this.listener = listener;
     }
 
@@ -41,35 +47,57 @@ public class InsertPhotoDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
-        builder.setTitle("Insert Photo latestDataEntry");
+        builder.setTitle("Insert Photo Entry.");
 
+        // Set the PositiveButton and it's OnClickListener.
         builder.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Send the positive button event back to the host activity
                 listener.onInsertPhotoDialogPositiveClick(InsertPhotoDialog.this);
             }
-        })
-                .setNeutralButton("Gallery", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Send the positive button event back to the host activity
-                        listener.onInsertPhotoDialogNeutralClick(InsertPhotoDialog.this);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Send the negative button event back to the host activity
-                        listener.onInsertPhotoDialogNegativeClick(InsertPhotoDialog.this);
-                    }
-                });
+        });
 
+        // Set the NeutralButton and it's OnClickListener.
+        builder.setNeutralButton("Gallery", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                listener.onInsertPhotoDialogNeutralClick(InsertPhotoDialog.this);
+            }
+        });
+
+        // Set the negative button and it's OnClickListener.
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                listener.onInsertPhotoDialogNegativeClick(InsertPhotoDialog.this);
+            }
+        });
+
+        // Return the created alert dialog.
         return builder.create();
     }
 
-    public interface insertPhotoDialogListener {
+    /**
+     * The InsertPhotoDialogListener models the method that will handle the button clicks.
+     */
+    public interface InsertPhotoDialogListener {
+
+        /**
+         * Handles a InsertPhotoDialog positive click.
+         *
+         * @param dialog Represents the InsertPhotoDialog.
+         */
         void onInsertPhotoDialogPositiveClick(InsertPhotoDialog dialog);
 
+        /**
+         * Handles a InsertPhotoDialog neutral click.
+         *
+         * @param dialog Represents the InsertPhotoDialog.
+         */
         void onInsertPhotoDialogNeutralClick(InsertPhotoDialog dialog);
 
+        /**
+         * Handles a InsertPhotoDialog negative click.
+         *
+         * @param dialog Represents the InsertPhotoDialog.
+         */
         void onInsertPhotoDialogNegativeClick(InsertPhotoDialog dialog);
     }
 }

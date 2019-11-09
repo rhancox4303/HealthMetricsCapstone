@@ -59,7 +59,7 @@ public class ViewPrescriptionFragment extends Fragment implements View.OnClickLi
         Prescription prescription = healthMetricsDbHelper.getPrescriptionById(PrescriptionId);
         DosageMeasurement dosageMeasurement = healthMetricsDbHelper.getDosageMeasurementById(prescription.dosageMeasurementId);
 
-        if (null != prescription || null != dosageMeasurement) {
+        if ( prescription != null || dosageMeasurement != null) {
             nameTextView.setText(prescription.name);
             formTextView.setText(prescription.form);
             strengthTextView.setText(prescription.strength);
