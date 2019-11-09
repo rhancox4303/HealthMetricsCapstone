@@ -93,8 +93,18 @@ public class DeleteDataEntryDialog extends DialogFragment {
      */
     public interface DeleteDataEntryDialogListener {
 
+        /**
+         * Handles a DeleteDataEntryDialog positive click.
+         *
+         * @param dialog Represents the DeleteDataEntryDialog.
+         */
         void onDeleteDataEntryDialogPositiveClick(DeleteDataEntryDialog dialog);
 
+        /**
+         * Handles a DeleteDataEntryDialog negative click.
+         *
+         * @param dialog Represents the DeleteDataEntryDialog.
+         */
         void onDeleteDataEntryDialogNegativeClick(DeleteDataEntryDialog dialog);
     }
 }

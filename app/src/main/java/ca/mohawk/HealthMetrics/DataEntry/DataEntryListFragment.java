@@ -113,10 +113,10 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         // Instantiate the list of Entries.
         List<Entry> entries = new ArrayList<>();
 
-        // For every data latestDataEntry object in createGraphView.
+        // For every data entry object in createGraphView.
         for (DataEntryDisplayObject dataEntry : dataEntryDisplayObjects) {
 
-            // Create a latestDataEntry with the numeric data latestDataEntry data and the date and time of latestDataEntry.
+            // Create a entry with the numeric data entry data and the date and time of entry.
             entries.add(new Entry(dataEntry.getDateOfEntry().getTime(), dataEntry.getNumericData()));
         }
 

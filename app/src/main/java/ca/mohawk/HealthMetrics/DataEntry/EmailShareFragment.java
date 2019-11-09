@@ -181,7 +181,7 @@ public class EmailShareFragment extends Fragment implements View.OnClickListener
         // Add the metric name to the top of the message.
         builder.append(String.format("%s Data\n", metric.name));
 
-        // Add each data latestDataEntry to the message.
+        // Add each data entry to the message.
         for (DataEntryDisplayObject dataEntry : dataEntries) {
             builder.append(String.format("%s : %s %s\n", dataEntry.dateOfEntry, dataEntry.data, dataEntry.unitAbbreviation));
         }

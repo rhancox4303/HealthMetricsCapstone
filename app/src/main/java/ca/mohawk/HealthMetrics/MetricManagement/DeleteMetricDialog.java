@@ -21,7 +21,7 @@ public class DeleteMetricDialog extends DialogFragment {
     // Instantiate the metricId.
     private static int metricId;
 
-    //Instantiate the DeleteMetricDialogListener.
+    // Instantiate the DeleteMetricDialogListener.
     private DeleteMetricDialogListener listener;
 
     /**
@@ -83,8 +83,19 @@ public class DeleteMetricDialog extends DialogFragment {
      * The DeleteMetricDialogListener models the method that will handle the button clicks.
      */
     public interface DeleteMetricDialogListener {
+
+        /**
+         * Handles a DeleteMetricDialog positive click.
+         *
+         * @param dialog Represents the DeleteMetricDialog.
+         */
         void onDeleteMetricDialogPositiveClick(DeleteMetricDialog dialog);
 
+        /**
+         * Handles a DeleteMetricDialog negative click.
+         *
+         * @param dialog Represents the DeleteMetricDialog.
+         */
         void onDeleteMetricDialogNegativeClick(DeleteMetricDialog dialog);
     }
 }

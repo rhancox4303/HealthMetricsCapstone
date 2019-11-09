@@ -58,7 +58,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
         // Get the healthMetricsDbHelper.
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        // Get the data latestDataEntry id from the passed bundle.
+        // Get the data entry id from the passed bundle.
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             dataEntryId = bundle.getInt("data_entry_selected_key", -1);
@@ -69,7 +69,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
 
         String dataEntryString = "";
 
-        // Validate the data latestDataEntry is not null.
+        // Validate the data entry is not null.
         if (dataEntry == null) {
             // Inform the user of the error and call the navigateToMetricsListFragment method.
             Toast.makeText(getActivity(), "Cannot load data latestDataEntry from database.",
@@ -77,7 +77,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
             navigateToMetricsListFragment();
 
         } else {
-            // Display the date of latestDataEntry and the data latestDataEntry.
+            // Display the date of entry and the data entry.
             dateOfEntryTextView.setText(dataEntry.dateOfEntry);
 
             // Set the dataEntryString.
@@ -150,7 +150,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
             // Create a new EditDataEntryFragment Fragment.
             Fragment destinationFragment = new EditDataEntryFragment();
 
-            // Create a bundle and set the data latestDataEntry id.
+            // Create a bundle and set the data entry id.
             Bundle bundle = new Bundle();
             bundle.putInt("data_entry_selected_key", dataEntryId);
             destinationFragment.setArguments(bundle);

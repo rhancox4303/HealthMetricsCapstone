@@ -115,27 +115,27 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
      */
     private boolean validateUserInput() {
 
-        // If the date of latestDataEntry string is empty, inform the user and return false.
+        // If the date of entry string is empty, inform the user and return false.
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
             Toast.makeText(getActivity(), "The date of latestDataEntry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If the date of latestDataEntry does not contain a date and time, inform the user and return false.
+        // If the date of entry does not contain a date and time, inform the user and return false.
         if (!dateOfEntryEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")) {
             Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If the data latestDataEntry string is empty, inform the user and return false.
+        // If the data entry string is empty, inform the user and return false.
         if (dataEntryEditText.getText().toString().trim().equals("")) {
             Toast.makeText(getActivity(), "The data latestDataEntry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If the data latestDataEntry string does not only contain digits, inform the user and return false.
+        // If the data entry string does not only contain digits, inform the user and return false.
         if (!dataEntryEditText.getText().toString().trim().matches("^[1-9]\\d*(\\.\\d+)?$")) {
             Toast.makeText(getActivity(), "The data latestDataEntry field can only contain digits.",
                     Toast.LENGTH_SHORT).show();
@@ -154,7 +154,7 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
         // Validate the user input.
         if (validateUserInput()) {
 
-            // Get the date and latestDataEntry from the edit texts.
+            // Get the date and data entry from the edit texts.
             String date = dateOfEntryEditText.getText().toString();
             String entry = dataEntryEditText.getText().toString();
 

@@ -82,9 +82,21 @@ public class RemoveMetricDialog extends DialogFragment {
     /**
      * The RemoveMetricDialogListener models the method that will handle the button clicks.
      */
+
     public interface RemoveMetricDialogListener {
+
+        /**
+         * Handles a RemoveMetricDialog positive click.
+         *
+         * @param dialog Represents the RemoveMetricDialog.
+         */
         void onRemoveMetricDialogPositiveClick(RemoveMetricDialog dialog);
 
+        /**
+         * Handles a RemoveMetricDialog negative click.
+         *
+         * @param dialog Represents the RemoveMetricDialog.
+         */
         void onRemoveMetricDialogNegativeClick(RemoveMetricDialog dialog);
     }
 }
