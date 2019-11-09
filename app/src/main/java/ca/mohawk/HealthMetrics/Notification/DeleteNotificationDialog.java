@@ -6,41 +6,47 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
-import java.util.Objects;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The DeleteNotificationDialog extends the DialogFragment.
+ * Presents a dialog to the user indicating notifications deletion options.
  */
 public class DeleteNotificationDialog extends DialogFragment {
 
-    private DeleteNotificationDialog.DeleteNotificationDialogListener listener;
-    private static int NotificationId;
+    // Instantiate the notificationId.
+    private static int notificationId;
 
+    // Instantiate the DeleteNotificationDialogListener.
+    private DeleteNotificationDialog.DeleteNotificationDialogListener listener;
+
+    /**
+     * Create a new instance of the DeleteNotificationDialog.
+     *
+     * @param notificationId Represents the notification id.
+     * @return Returns a new DeleteNotificationDialog.
+     */
     public static DeleteNotificationDialog newInstance(int notificationId) {
-        NotificationId = notificationId;
+        DeleteNotificationDialog.notificationId = notificationId;
 
         return new DeleteNotificationDialog();
     }
 
     public int getNotificationId() {
-        return NotificationId;
+        return notificationId;
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
             listener = (DeleteNotificationDialogListener) context;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(getActivity().toString()
                     + " must implement DeleteNotificationDialogListener");
         }
@@ -52,28 +58,45 @@ public class DeleteNotificationDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
+        // Set the title and message.
         builder.setTitle("Delete Notification");
         builder.setMessage("The notification will be deleted.");
 
+        // Set the PositiveButton and it's OnClickListener.
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Send the positive button event back to the host activity
                 listener.onDeleteNotificationDialogPositiveClick(DeleteNotificationDialog.this);
             }
-        })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Send the negative button event back to the host activity
-                        listener.onDeleteNotificationDialogNegativeClick(DeleteNotificationDialog.this);
-                    }
-                });
+        });
 
+        // Set the NegativeButton and it's OnClickListener.
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                listener.onDeleteNotificationDialogNegativeClick(DeleteNotificationDialog.this);
+            }
+        });
+
+        // Return the created alert dialog.
         return builder.create();
     }
 
+    /**
+     * The DeleteNotificationDialogListener models the method that will handle the button clicks.
+     */
     public interface DeleteNotificationDialogListener {
-         void onDeleteNotificationDialogPositiveClick(DeleteNotificationDialog dialog);
 
-         void onDeleteNotificationDialogNegativeClick(DeleteNotificationDialog dialog);
+        /**
+         * Handles a DeleteNotificationDialog positive click.
+         *
+         * @param dialog Represents the DeleteNotificationDialog.
+         */
+        void onDeleteNotificationDialogPositiveClick(DeleteNotificationDialog dialog);
+
+        /**
+         * Handles a DeleteNotificationDialog negative click.
+         *
+         * @param dialog Represents the DeleteNotificationDialog.
+         */
+        void onDeleteNotificationDialogNegativeClick(DeleteNotificationDialog dialog);
     }
 }

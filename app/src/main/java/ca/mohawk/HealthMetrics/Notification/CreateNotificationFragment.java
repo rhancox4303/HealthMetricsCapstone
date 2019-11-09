@@ -36,27 +36,39 @@ import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.TimePickerFragment;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The CreateNotificationFragment class is an extension of the Fragment class.
+ * Allows the user to create a notification.
  */
-public class CreateNotificationFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class CreateNotificationFragment extends Fragment implements AdapterView.OnItemSelectedListener,
+        View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    // Instantiate the healthMetricsDbHelper.
     private HealthMetricsDbHelper healthMetricsDbHelper;
-    private List<MetricDisplayObject> metricArrayList = new ArrayList<>();
 
-    private List<MetricDisplayObject> galleryArrayList = new ArrayList<>();
-    private List<PrescriptionDisplayObject> prescriptionArrayList;
+    // Instantiate the healthMetricsDbHelper.
+    private List<MetricDisplayObject> metrics = new ArrayList<>();
+    private List<MetricDisplayObject> galleries = new ArrayList<>();
+    private List<PrescriptionDisplayObject> prescriptionDisplayObjects;
 
+    // Instantiate views.
     private Spinner notificationTargetSpinner;
     private EditText dateEditText;
-    private String time;
-    private String NotificationType;
-    private int TargetId = -1;
 
-    private int Minute;
-    private int Hour;
-    private int Day;
-    private int Month;
-    private int Year;
+    // Instantiate the notificationType.
+    private String notificationType;
+
+    // Instantiate targetId.
+    private int targetId = -1;
+
+    // Instantiate the time.
+    private String time;
+
+    // Initialize the notification date variables.
+    private int minute;
+    private int hour;
+    private int day;
+    private int month;
+    private int year;
 
 
     public CreateNotificationFragment() {
@@ -67,53 +79,69 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_create_notification, container,
+                false);
+
+        // Get the healthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        metricArrayList = healthMetricsDbHelper.getAddedMetrics();
-        galleryArrayList = healthMetricsDbHelper.getAddedPhotoGalleries();
-        prescriptionArrayList = healthMetricsDbHelper.getAllPrescriptions();
+        // Get the lists of user aded metrics, galleries and all prescriptions from the database.
+        metrics = healthMetricsDbHelper.getAddedMetrics();
+        galleries = healthMetricsDbHelper.getAddedPhotoGalleries();
+        prescriptionDisplayObjects = healthMetricsDbHelper.getAllPrescriptions();
 
-
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_create_notification, container, false);
-
+        // Get the views.
         Button createNotificationButton = rootView.findViewById(R.id.buttonCreateNotification);
-        createNotificationButton.setOnClickListener(this);
-
         dateEditText = rootView.findViewById(R.id.editTextDateCreateNotification);
-        dateEditText.setOnClickListener(this);
-
         Spinner notificationTypeSpinner = rootView.findViewById(R.id.spinnerNotificationType);
         notificationTargetSpinner = rootView.findViewById(R.id.spinnerNotificationTarget);
 
+        // Set the OnClickListeners.
+        dateEditText.setOnClickListener(this);
+        createNotificationButton.setOnClickListener(this);
+
+        // Set the OnItemSelectedListeners.
         notificationTargetSpinner.setOnItemSelectedListener(this);
         notificationTypeSpinner.setOnItemSelectedListener(this);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(rootView.getContext(),
-                R.array.notification_type_array, android.R.layout.simple_spinner_item);
+        // Create and set a CharSequence array adapter for the notifications type.
+        ArrayAdapter<CharSequence> notificationTypeAdapter =
+                ArrayAdapter.createFromResource(rootView.getContext()
+                        , R.array.notification_type_array, android.R.layout.simple_spinner_item);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        notificationTypeSpinner.setAdapter(adapter);
+        notificationTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        notificationTypeSpinner.setAdapter(notificationTypeAdapter);
 
         return rootView;
     }
 
+    /**
+     * Runs when a item in a spinner is selected.
+     *
+     * @param parent   The parent adapter view.
+     * @param view     The selected view.
+     * @param position The position of the selected item in the spinner.
+     * @param id       The id.
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        // If the parent spinner is the NotificationType spinner get the notification type.
         if (parent.getId() == R.id.spinnerNotificationType) {
+            notificationType = parent.getSelectedItem().toString();
+            populateTargetSpinner(notificationType);
 
-            NotificationType = parent.getSelectedItem().toString();
-            populateTargetSpinner(NotificationType);
-
-        } else {
-            switch (NotificationType) {
+            // If the parent spinner is the NotificationTarget spinner get the notification target.
+        } else if (parent.getId() == R.id.spinnerNotificationTarget) {
+            switch (notificationType) {
                 case "Enter Metric Data":
                 case "Enter Gallery Data":
-                    TargetId = ((MetricDisplayObject) parent.getSelectedItem()).id;
+                    targetId = ((MetricDisplayObject) parent.getSelectedItem()).id;
                     break;
                 case "Refill Prescription":
                 case "Take Prescription":
-                    TargetId = ((PrescriptionDisplayObject) parent.getSelectedItem()).id;
+                    targetId = ((PrescriptionDisplayObject) parent.getSelectedItem()).id;
                     break;
             }
         }
@@ -123,14 +151,21 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
+
+    /**
+     * Populates the target spinner based on the type.
+     *
+     * @param type Represents the notification type.
+     */
     private void populateTargetSpinner(String type) {
-        TargetId = -1;
+
+        targetId = -1;
         switch (type) {
 
             case "Enter Metric Data":
                 ArrayAdapter<MetricDisplayObject> metricDisplayObjectArrayAdapter =
                         new ArrayAdapter<>(Objects.requireNonNull(getActivity()).getBaseContext(),
-                                android.R.layout.simple_spinner_item, metricArrayList);
+                                android.R.layout.simple_spinner_item, metrics);
 
                 metricDisplayObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 notificationTargetSpinner.setAdapter(metricDisplayObjectArrayAdapter);
@@ -140,10 +175,9 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
             case "Enter Gallery Data":
                 ArrayAdapter<MetricDisplayObject> galleryDisplayObjectArrayAdapter =
                         new ArrayAdapter<>(Objects.requireNonNull(getActivity()).getBaseContext(),
-                                android.R.layout.simple_spinner_item, galleryArrayList);
+                                android.R.layout.simple_spinner_item, galleries);
 
                 galleryDisplayObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
                 notificationTargetSpinner.setAdapter(galleryDisplayObjectArrayAdapter);
 
                 break;
@@ -152,15 +186,20 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
 
                 ArrayAdapter<PrescriptionDisplayObject> prescriptionDisplayObjectArrayAdapter =
                         new ArrayAdapter<>(Objects.requireNonNull(getActivity()).getBaseContext(),
-                                android.R.layout.simple_spinner_item, prescriptionArrayList);
+                                android.R.layout.simple_spinner_item, prescriptionDisplayObjects);
 
                 prescriptionDisplayObjectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
                 notificationTargetSpinner.setAdapter(prescriptionDisplayObjectArrayAdapter);
+
                 break;
         }
     }
 
+    /**
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
+     */
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.editTextDateCreateNotification) {
@@ -173,13 +212,21 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
         }
     }
 
+    /***
+     * Creates the notification in the database.
+     */
     private void createNotification() {
 
+        // Validate the user input.
         if (validateUserInput()) {
-            String dateTime = dateEditText.getText().toString();
 
-            Notification notification = new Notification(TargetId, NotificationType, dateTime);
+            String dateTime = dateEditText.getText().toString();
+            Notification notification = new Notification(targetId, notificationType, dateTime);
+
+            // Add the Notification to the database and get the id.
             int id = healthMetricsDbHelper.addNotification(notification);
+
+            // Validate the notification was created successfully.
             if (id > 0) {
                 startAlarm(id);
 
@@ -195,8 +242,14 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
         }
     }
 
+    /**
+     * Starts the alarm using the notification.
+     *
+     * @param id Represents the notification id.
+     */
     private void startAlarm(int id) {
 
+        // Get alarmManager.
         AlarmManager alarmManager = (AlarmManager) Objects.requireNonNull(getActivity())
                 .getSystemService(Context.ALARM_SERVICE);
 
@@ -204,61 +257,88 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
         intent.putExtra("id", id);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), id, intent, 0);
+
+        //  Get the calendar.
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTimeInMillis(System.currentTimeMillis());
 
-        // Specify the date/time to trigger the alarm
-        calendar.set(Calendar.YEAR, Year);
-        calendar.set(Calendar.MONTH, Month);
-        calendar.set(Calendar.DAY_OF_MONTH, Day);
-        calendar.set(Calendar.HOUR_OF_DAY, Hour);
-        calendar.set(Calendar.MINUTE, Minute);
+        // Specify the date and time to trigger the alarm.
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
 
+        // Set the alarm.
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
+    /**
+     * Validates the user inputs.
+     *
+     * @return Return a boolean based on whether the user input is valid.
+     */
     private boolean validateUserInput() {
+
+        //  If date of entry is empty then inform the user and return false.
         if (dateEditText.getText().toString().trim().equals("")) {
             Toast.makeText(getActivity(), "Date and time of notification cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if (TargetId == -1) {
+        //  If target is -1 then inform the user and return false.
+        if (targetId == -1) {
             Toast.makeText(getActivity(), "Select a notification target.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
+        // If date of entry is does not contain a date and time then inform the user and return false.
         if (!dateEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")) {
             Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
             return false;
         }
+
+        // Return true.
         return true;
     }
 
+    /**
+     * Runs when the TimePickerFragment onTimeSet listener is called.
+     *
+     * @param view      Represents the TimePicker view.
+     * @param hourOfDay Represents the selected hour.
+     * @param minute    Represents the selected minute.
+     */
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Minute = minute;
-        Hour = hourOfDay;
+        this.minute = minute;
+        hour = hourOfDay;
         if (minute < 10) {
             time = hourOfDay + ":0" + minute;
         } else {
             time = hourOfDay + ":" + minute;
         }
 
-        dateEditText.setText(time);
-
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.setOnDateSetListener(this);
         datePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "datePicker");
     }
 
+    /**
+     * Runs when the DatePickerFragment onDateSet listener is called.
+     *
+     * @param view       Represents the DatePicker view.
+     * @param year       Represents the selected year.
+     * @param month      Represents the selected month.
+     * @param dayOfMonth Represents the selected dayOfMonth.
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Year = year;
-        Month = month;
-        Day = dayOfMonth;
+        this.year = year;
+        this.month = month;
+        day = dayOfMonth;
         if (dayOfMonth < 10) {
             dateEditText.setText(new StringBuilder().append(time).append(" ").append(month + 1)
                     .append("-0").append(dayOfMonth).append("-").append(year).toString());

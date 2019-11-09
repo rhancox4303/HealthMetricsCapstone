@@ -2,9 +2,6 @@ package ca.mohawk.HealthMetrics.Notification;
 
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +10,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.Adapaters.NotificationRecyclerViewAdapter;
@@ -22,7 +20,8 @@ import ca.mohawk.HealthMetrics.R;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The NotificationListFragment class is an extension of the Fragment class.
+ * Allows the user to view all notification.
  */
 public class NotificationListFragment extends Fragment implements View.OnClickListener {
 
@@ -34,23 +33,33 @@ public class NotificationListFragment extends Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_notification_list, container, false);
+
+        // Get the healthMetricsDbHelper
+        HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
+
+        // Get the views.
         Button createNotificationButton = rootView.findViewById(R.id.buttonCreateNotificationNotificationList);
         createNotificationButton.setOnClickListener(this);
 
-
+        // Display all notifications from the Recycler View.
         RecyclerView notificationRecyclerView = rootView.findViewById(R.id.recyclerViewNotificationList);
 
-        ArrayList<Notification> notificationArrayList = healthMetricsDbHelper.getAllNotifications();
-        NotificationRecyclerViewAdapter adapter = new NotificationRecyclerViewAdapter(notificationArrayList,getActivity());
+        ArrayList<Notification> notifications = healthMetricsDbHelper.getAllNotifications();
+        NotificationRecyclerViewAdapter adapter = new NotificationRecyclerViewAdapter(notifications, getActivity());
         notificationRecyclerView.setAdapter(adapter);
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        // Return the rootView.
         return rootView;
     }
-
+    
+    /**
+     * Runs when a view's onClickListener is activated.
+     *
+     * @param v Represents the view.
+     */
     @Override
     public void onClick(View v) {
 
