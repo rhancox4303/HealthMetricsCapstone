@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
  * <p>
  * It used to display metrics in the metric spinner in the addMetricFragment.
  */
-public class AddMetricSpinnerObject {
+public class MetricSpinnerObject {
 
     // Represents the metric id.
     public int metricId;
@@ -19,13 +19,13 @@ public class AddMetricSpinnerObject {
     private String metricName;
 
     /**
-     * Constructs the AddMetricSpinnerObject.
+     * Constructs the MetricSpinnerObject.
      *
      * @param unitCategoryId Represents the unit category id.
      * @param metricName     Represents the metric name.
      * @param metricId       Represents the metric id.
      */
-    public AddMetricSpinnerObject(int unitCategoryId, String metricName, int metricId) {
+    public MetricSpinnerObject(int unitCategoryId, String metricName, int metricId) {
         this.metricId = metricId;
         this.unitCategoryId = unitCategoryId;
         this.metricName = metricName;

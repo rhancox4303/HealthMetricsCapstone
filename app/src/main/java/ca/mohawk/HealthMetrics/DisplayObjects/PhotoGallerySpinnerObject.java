@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
  * <p>
  * It used to display photo galleries in the metric spinner in the addMetricFragment.
  */
-public class AddMetricPhotoGallerySpinnerObject {
+public class PhotoGallerySpinnerObject {
 
     // Represents the id of the gallery.
     public int id;
@@ -16,12 +16,12 @@ public class AddMetricPhotoGallerySpinnerObject {
     private String galleryName;
 
     /**
-     * Constructs the AddMetricPhotoGallerySpinnerObject.
+     * Constructs the PhotoGallerySpinnerObject.
      *
      * @param galleryName Represents the gallery name.
      * @param id          Represents the id of the gallery.
      */
-    public AddMetricPhotoGallerySpinnerObject(String galleryName, int id) {
+    public PhotoGallerySpinnerObject(String galleryName, int id) {
         this.galleryName = galleryName;
         this.id = id;
     }

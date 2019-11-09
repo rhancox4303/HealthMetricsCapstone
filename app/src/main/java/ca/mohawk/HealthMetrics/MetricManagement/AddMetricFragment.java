@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Objects;
 
 import androidx.fragment.app.Fragment;
-import ca.mohawk.HealthMetrics.DisplayObjects.AddMetricPhotoGallerySpinnerObject;
-import ca.mohawk.HealthMetrics.DisplayObjects.AddMetricSpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.PhotoGallerySpinnerObject;
+import ca.mohawk.HealthMetrics.DisplayObjects.MetricSpinnerObject;
 import ca.mohawk.HealthMetrics.DisplayObjects.UnitSpinnerObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.R;
@@ -51,8 +51,8 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     private RadioGroup addMetricRadioGroup;
 
     // Instantiate the metric and photo gallery adapters.
-    private ArrayAdapter<AddMetricSpinnerObject> metricSpinnerObjectArrayAdapter;
-    private ArrayAdapter<AddMetricPhotoGallerySpinnerObject> photoGallerySpinnerObjectArrayAdapter;
+    private ArrayAdapter<MetricSpinnerObject> metricSpinnerObjectArrayAdapter;
+    private ArrayAdapter<PhotoGallerySpinnerObject> photoGallerySpinnerObjectArrayAdapter;
 
     public AddMetricFragment() {
         // Required empty public constructor
@@ -92,8 +92,8 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         // Get the lists of all metrics and galleries from the database.
-        List<AddMetricSpinnerObject> metrics = healthMetricsDbHelper.getAllMetrics();
-        List<AddMetricPhotoGallerySpinnerObject> galleries = healthMetricsDbHelper.getAllPhotoGalleries();
+        List<MetricSpinnerObject> metrics = healthMetricsDbHelper.getAllMetrics();
+        List<PhotoGallerySpinnerObject> galleries = healthMetricsDbHelper.getAllPhotoGalleries();
 
         // Set the metric spinner array adapter.
         metricSpinnerObjectArrayAdapter = new ArrayAdapter<>(rootView.getContext(),
@@ -287,10 +287,10 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
                 addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonMetricAddMetric) {
 
             // Get the unitCategoryId.
-            int unitCategoryId = ((AddMetricSpinnerObject) parent.getSelectedItem()).unitCategoryId;
+            int unitCategoryId = ((MetricSpinnerObject) parent.getSelectedItem()).unitCategoryId;
 
             // Get the selectedMetricId.
-            selectedMetricId = ((AddMetricSpinnerObject) parent.getSelectedItem()).metricId;
+            selectedMetricId = ((MetricSpinnerObject) parent.getSelectedItem()).metricId;
 
             // Call the loadUnitSpinner method with the unitCategoryId passed in.
             loadUnitSpinner(unitCategoryId);
@@ -301,7 +301,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
                 addMetricRadioGroup.getCheckedRadioButtonId() == R.id.radioButtonGalleryAddMetric) {
 
             // Get the selectedMetricId.
-            selectedMetricId = ((AddMetricPhotoGallerySpinnerObject) parent.getSelectedItem()).id;
+            selectedMetricId = ((PhotoGallerySpinnerObject) parent.getSelectedItem()).id;
 
             // Else if the parent is the spinnerUnitAddMetric.
         } else if (parent.getId() == R.id.spinnerUnitAddMetric) {

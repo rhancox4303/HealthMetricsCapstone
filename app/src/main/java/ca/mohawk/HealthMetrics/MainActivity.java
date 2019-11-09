@@ -31,7 +31,6 @@ import ca.mohawk.HealthMetrics.DataEntry.DataEntryListFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.MetricManagement.RemoveMetricDialog;
-import ca.mohawk.HealthMetrics.Models.Notification;
 import ca.mohawk.HealthMetrics.Note.DeleteNoteDialog;
 import ca.mohawk.HealthMetrics.Notification.DeleteNotificationDialog;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
@@ -228,7 +227,7 @@ public class MainActivity extends AppCompatActivity
 
         boolean removeSuccessful = false;
 
-        boolean deleteSuccessful = healthMetricsDbHelper.deleteDataEntryByMetricId(dialog.getMetricId());
+        boolean deleteSuccessful = healthMetricsDbHelper.deleteDataEntriesByMetricId(dialog.getMetricId());
 
         if (!deleteSuccessful) {
             MetricsListFragment metricsListFragment = new MetricsListFragment();
