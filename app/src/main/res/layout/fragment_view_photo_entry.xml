@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout18"
+    android:id="@+id/constraintLayoutViewPhotoEntry"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".PhotoGallery.ViewPhotoEntryFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline80"
+        android:id="@+id/guidelineOneViewPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -20,29 +21,30 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline80"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOneViewPhotoEntry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/photo_entry" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline81"
+        android:id="@+id/guidelineTwoViewPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline82"
+        android:id="@+id/guidelineThreeViewPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.7" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline83"
+        android:id="@+id/guidelineFourViewPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -50,66 +52,59 @@
 
     <TextView
         android:id="@+id/textViewDateOfEntryDisplayViewPhotoEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Date of Entry"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline82"
-        app:layout_constraintEnd_toStartOf="@+id/guideline84"
+        android:text="@string/date_of_entry"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeViewPhotoEntry"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoViewPhotoEntry"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline80" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline84"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneViewPhotoEntry" />
 
     <Button
         android:id="@+id/buttonDeleteEntryViewPhotoEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Delete Entry"
+        android:text="@string/delete_entry"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline81"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoViewPhotoEntry"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline83" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourViewPhotoEntry" />
 
     <Button
         android:id="@+id/buttonEditEntryViewPhotoEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Edit Entry"
+        android:text="@string/edit_entry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline81"
-        app:layout_constraintTop_toTopOf="@+id/guideline83" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoViewPhotoEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourViewPhotoEntry" />
 
     <TextView
         android:id="@+id/textViewDateOfEntryViewPhotoEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline82"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeViewPhotoEntry"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline84"
-        app:layout_constraintTop_toTopOf="@+id/guideline80" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoViewPhotoEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneViewPhotoEntry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

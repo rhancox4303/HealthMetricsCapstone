@@ -63,7 +63,7 @@ public class PrescriptionDisplayObject {
      * @return returns the concatenated string.
      */
     public String getFrequency() {
-        return getDosageAmount() + " " + frequency;
+        return getDosageAmount() + "\n" + frequency;
     }
 
     /**
@@ -72,7 +72,7 @@ public class PrescriptionDisplayObject {
      * @return returns the concatenated string.
      */
     public String getAmount() {
-        return amount + " " + dosageMeasurement;
+        return amount + "\n" + dosageMeasurement;
     }
 
     /**
@@ -81,7 +81,7 @@ public class PrescriptionDisplayObject {
      * @return returns the concatenated string.
      */
     public String getInformation() {
-        return name + " " + getFrequency();
+        return name + "\n" + getFrequency();
     }
 
     @NonNull

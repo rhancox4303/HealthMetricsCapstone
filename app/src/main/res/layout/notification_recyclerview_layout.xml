@@ -6,11 +6,11 @@
     android:background="@drawable/recycler_view_border">
 
     <TextView
-        android:id="@+id/textViewMetricName"
+        android:id="@+id/textViewNotificationInformation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:gravity="center_vertical|left"
+        android:gravity="center_vertical|start"
         android:textAppearance="?attr/textAppearanceListItem" />
     <View
         android:layout_width="0dp"
@@ -18,10 +18,10 @@
         android:layout_weight="1" />
 
     <TextView
-        android:id="@+id/textViewMetricDataEntry"
+        android:id="@+id/textViewNotificationDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:gravity="center_vertical|right"
+        android:gravity="center_vertical|end"
         android:textAppearance="?attr/textAppearanceListItem" />
 </LinearLayout>

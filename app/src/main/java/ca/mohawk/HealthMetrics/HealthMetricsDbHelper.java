@@ -1953,7 +1953,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         DosageMeasurement tablet = new DosageMeasurement("Tablets", "tab");
         dosageMeasurements.add(tablet);
 
-        DosageMeasurement capsule = new DosageMeasurement("Capsule", "cap");
+        DosageMeasurement capsule = new DosageMeasurement("Capsules", "cap");
         dosageMeasurements.add(capsule);
 
         // Add all the dosage measurements to the database.

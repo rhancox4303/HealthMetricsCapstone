@@ -14,9 +14,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Objects;
 
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
@@ -50,7 +51,6 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
     public CreateDataEntryFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,7 +117,7 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
 
         // If the date of entry string is empty, inform the user and return false.
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of latestDataEntry field cannot be empty.",
+            Toast.makeText(getActivity(), "The date of entry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -130,14 +130,14 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
 
         // If the data entry string is empty, inform the user and return false.
         if (dataEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The data latestDataEntry field cannot be empty.",
+            Toast.makeText(getActivity(), "The data entry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
         // If the data entry string does not only contain digits, inform the user and return false.
         if (!dataEntryEditText.getText().toString().trim().matches("^[1-9]\\d*(\\.\\d+)?$")) {
-            Toast.makeText(getActivity(), "The data latestDataEntry field can only contain digits.",
+            Toast.makeText(getActivity(), "The data entry field can only contain digits.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -177,7 +177,7 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
 
                 // Else, inform the user of the error.
             } else {
-                Toast.makeText(getActivity(), "Unable to add data latestDataEntry to database.",
+                Toast.makeText(getActivity(), "Unable to add data entry to database.",
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -197,7 +197,8 @@ public class CreateDataEntryFragment extends Fragment implements View.OnClickLis
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the Add Data Entry button or the Date of Entry EditText
+     * onClickListener is activated.
      *
      * @param v Represents the view.
      */

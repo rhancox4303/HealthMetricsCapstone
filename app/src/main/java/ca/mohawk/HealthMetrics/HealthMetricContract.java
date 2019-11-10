@@ -52,7 +52,7 @@ public final class HealthMetricContract {
     static abstract class MetricDataEntries implements BaseColumns {
 
         static final String TABLE_NAME = "MetricsDataEntries";
-        static final String COLUMN_NAME_METRIC_ID = "MetricID";
+        static final String COLUMN_NAME_METRIC_ID = "MetricId";
         static final String COLUMN_NAME_DATA_ENTRY = "data";
         static final String COLUMN_NAME_DATE_OF_ENTRY = "dateOfEntry";
 

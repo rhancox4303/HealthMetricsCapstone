@@ -9,9 +9,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Objects;
 
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.User;
 import ca.mohawk.HealthMetrics.R;
@@ -38,7 +39,7 @@ public class ViewUserFragment extends Fragment implements View.OnClickListener {
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         // Instantiate the edit User button.
-        Button editUserButton = rootView.findViewById(R.id.buttonNavigateToEditProfile);
+        Button editUserButton = rootView.findViewById(R.id.buttonEditUser);
 
         // Set the onClickListener for the editUserButton.
         editUserButton.setOnClickListener(this);
@@ -70,8 +71,7 @@ public class ViewUserFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * The onClick method runs when the a view's onClickListener is activated.
-     * It displays the EditUserFragment when the method is run.
+     * Runs when the edit user button is pressed.
      */
     @Override
     public void onClick(View v) {

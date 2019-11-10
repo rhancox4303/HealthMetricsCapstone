@@ -2,78 +2,73 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout11"
+    android:id="@+id/constraintLayoutAddDataEntry"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".DataEntry.CreateDataEntryFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline47"
+        android:id="@+id/guidelineOneAddDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline49"
+        android:id="@+id/guidelineTwoAddDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline48"
+        android:id="@+id/guidelineThreeAddDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.75" />
 
     <TextView
         android:id="@+id/textViewMetricDisplayAddDataEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline138"
-        app:layout_constraintEnd_toStartOf="@+id/guideline49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline46" />
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSevenAddDataEntry"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoAddDataEntry"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editTextDataEntryAddDataEntry"
-        android:layout_width="116dp"
+        android:layout_width="0dp"
         android:layout_height="59dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@+id/guideline138"
-        app:layout_constraintEnd_toStartOf="@+id/guideline48"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline49"
-        app:layout_constraintTop_toTopOf="@+id/guideline46" />
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSevenAddDataEntry"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeAddDataEntry"
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoAddDataEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixAddDataEntry" />
 
     <TextView
         android:id="@+id/textViewDisplayDateOfEntryAddDataEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Date of Entry"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline50"
-        app:layout_constraintEnd_toStartOf="@+id/guideline49"
+        android:text="@string/date_of_entry"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourAddDataEntry"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoAddDataEntry"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline47" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneAddDataEntry" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline50"
+        android:id="@+id/guidelineFourAddDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -82,36 +77,35 @@
     <EditText
         android:id="@+id/editTextDateOfEntryAddDataEntry"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
         android:ems="10"
         android:focusable="false"
         android:inputType="none"
-        app:layout_constraintBottom_toTopOf="@+id/guideline50"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourAddDataEntry"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline49"
-        app:layout_constraintTop_toTopOf="@+id/guideline47" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoAddDataEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneAddDataEntry" />
 
     <Button
         android:id="@+id/buttonAddEntryAddDataEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Add Data Entry"
+        android:text="@string/add_data_entry"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline51" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeAddDataEntry"
+        app:layout_constraintStart_toStartOf="@+id/guidelineEightAddDataEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFiveAddDataEntry" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline51"
+        android:id="@+id/guidelineFiveAddDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -121,28 +115,31 @@
         android:id="@+id/textViewUnitAddDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline138"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSevenAddDataEntry"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline48"
-        app:layout_constraintTop_toTopOf="@+id/guideline46" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineThreeAddDataEntry" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline46"
+        android:id="@+id/guidelineSixAddDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline138"
+        android:id="@+id/guidelineSevenAddDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEightAddDataEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

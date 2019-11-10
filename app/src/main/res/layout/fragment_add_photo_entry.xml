@@ -2,23 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout15"
+    android:id="@+id/constraintLayoutAddPhotoEntry"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".PhotoGallery.AddPhotoEntryFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline66"
+        android:id="@+id/guidelineOneAddPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline67"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
     <ImageView
@@ -29,20 +23,21 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline66"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOneAddPhotoEntry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/user_photo_entry" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline68"
+        android:id="@+id/guidelineTwoAddPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.7" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline69"
+        android:id="@+id/guidelineThreeAddPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -50,64 +45,80 @@
 
     <TextView
         android:id="@+id/textViewDateOfEntryDisplayAddPhotoEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Date of Entry"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline69"
-        app:layout_constraintEnd_toStartOf="@+id/guideline70"
+        android:text="@string/date_of_entry"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeAddPhotoEntry"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFourAddPhotoEntry"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline68" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoAddPhotoEntry" />
 
     <Button
         android:id="@+id/buttonAddEntryPhotoEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Add Entry"
+        android:text="@string/add_photo_entry"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline69" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSixAddPhotoEntry"
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveAddPhotoEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeAddPhotoEntry" />
 
     <EditText
         android:id="@+id/editTextDateOfEntryAddPhotoEntry"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        android:clickable="true"
         android:ems="10"
         android:focusable="false"
         android:inputType="none"
-        android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/guideline69"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeAddPhotoEntry"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline70"
-        app:layout_constraintTop_toTopOf="@+id/guideline68" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineFourAddPhotoEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoAddPhotoEntry" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline70"
+        android:id="@+id/guidelineFourAddPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.40" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <Button
         android:id="@+id/buttonUploadImageAddPhotoEntry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/choose_image"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoAddPhotoEntry"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSixAddPhotoEntry"
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveAddPhotoEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneAddPhotoEntry" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFiveAddPhotoEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload Image"
-        app:layout_constraintBottom_toTopOf="@+id/guideline68"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline66" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSixAddPhotoEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

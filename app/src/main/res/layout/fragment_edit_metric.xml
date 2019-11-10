@@ -2,46 +2,47 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout10"
+    android:id="@+id/constraintLayoutEditNote"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".MetricManagement.EditMetricFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline35"
+        android:id="@+id/guidelineOneEditMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline42"
+        android:id="@+id/guidelineTwoEditMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.1" />
 
     <TextView
         android:id="@+id/textViewMetricNameEditMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Metric Name"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline43"
-        app:layout_constraintEnd_toStartOf="@+id/guideline35"
+        android:text="@string/metric_name"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourEditMetric"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOneEditMetric"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline42" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoEditMetric" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline43"
+        android:id="@+id/guidelineFourEditMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <EditText
         android:id="@+id/editTextMetricNameEditMetric"
@@ -49,41 +50,47 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline43"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourEditMetric"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline35"
-        app:layout_constraintTop_toTopOf="@+id/guideline42" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline44"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineOneEditMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoEditMetric" />
 
     <Button
         android:id="@+id/buttonEditMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Edit Metric"
+        android:text="@string/edit_metric"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline45" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSixEditMetric"
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveEditMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeEditMetric" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline45"
+        android:id="@+id/guidelineThreeEditMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFiveEditMetric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSixEditMetric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,9 +12,10 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Objects;
 
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.Models.User;
@@ -25,9 +26,10 @@ import ca.mohawk.HealthMetrics.R;
  * The EditUserFragment class is an extension of the Fragment class.
  * It is used to edit the user's profile.
  */
-public class EditUserFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+public class EditUserFragment extends Fragment implements View.OnClickListener,
+        DatePickerDialog.OnDateSetListener {
 
-    //The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
+    // Initialize the HealthMetricsDbHelper healthMetricsDbHelper
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
     //The layout elements that are accessed throughout the fragment.
@@ -47,11 +49,11 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
         // Inflate the layout for this fragment.
         View rootView = inflater.inflate(R.layout.fragment_edit_user, container, false);
 
-        //Instantiate healthMetricsDbHelper.
+        //Get healthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         //Instantiate editUserButton.
-        Button editUserButton = rootView.findViewById(R.id.buttonEditProfile);
+        Button editUserButton = rootView.findViewById(R.id.buttonEditUser);
 
         //Set the editUserButton onClickListener
         editUserButton.setOnClickListener(this);
@@ -89,10 +91,9 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
     }
 
     /**
-     * The editUser method gets the user inputted values and uses the healthMetricsDbHelper
-     * object to update the user profile already in the database.
+     * Updates the user profile in the database.
      */
-    private void editUser() {
+    private void updateUser() {
 
         //If the call to validateUserInput returns true then proceed to create the user.
         if (validateUserInput()) {
@@ -113,9 +114,6 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
             //Use the healthMetricsDbHelper to update the user in the database and verify it was successful.
             if (healthMetricsDbHelper.updateUser(new User(firstName, lastName, gender, dateOfBirth))) {
 
-                //Send message to user.
-                Toast.makeText(getActivity(), "User updated.", Toast.LENGTH_SHORT).show();
-
                 //Create viewUserFragment.
                 ViewUserFragment viewUserFragment = new ViewUserFragment();
 
@@ -133,9 +131,9 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
     }
 
     /**
-     * The validateUserInput methods validates the user input.
+     * Validates the user input.
      *
-     * @return A boolean value is returned based on whether the user input is valid.
+     * @return Returns a boolean value based on whether the user input is valid.
      */
     private boolean validateUserInput() {
 
@@ -164,13 +162,12 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
     }
 
     /**
-     * The onClick method runs when the a view's onClickListener is activated.
-     * It runs the editProfile method or opens the DatePickerFragment depending on what was clicked.
+     * Runs the editProfile method or opens the DatePickerFragment depending on what was clicked.
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.buttonEditProfile) {
-            editUser();
+        if (v.getId() == R.id.buttonEditUser) {
+            updateUser();
         } else if (v.getId() == R.id.editTextDateOfBirthEditUser) {
             DatePickerFragment datePickerFragment = new DatePickerFragment();
             datePickerFragment.setOnDateSetListener(this);
@@ -184,7 +181,6 @@ public class EditUserFragment extends Fragment implements View.OnClickListener, 
      */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        //Add a 0 to the day if it less than 10 and then insert the date in dateOfBirthEditText.
         if (dayOfMonth < 10) {
             dateOfBirthEditText.setText(new StringBuilder().append(month + 1).append("-0")
                     .append(dayOfMonth).append("-").append(year).toString());

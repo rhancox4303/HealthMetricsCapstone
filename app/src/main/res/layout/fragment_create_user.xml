@@ -2,20 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout27"
+    android:id="@+id/constraintLayoutCreateUser"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".UserProfile.CreateUserFragment">
 
     <Button
         android:id="@+id/buttonCreateUser"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/create_user"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineNineCreateUser"
+        app:layout_constraintStart_toStartOf="@+id/guidelineEightCreateUser"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTenCreateUser" />
 
     <EditText
         android:id="@+id/editTextFirstNameCreateUser"
@@ -28,10 +33,10 @@
         android:ems="10"
         android:hint="@string/first_name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOneCreateUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoCreateUser"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
@@ -45,10 +50,10 @@
         android:ems="10"
         android:hint="@string/last_name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveCreateUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneCreateUser" />
 
     <EditText
         android:id="@+id/editTextDateOfBirthCreateUser"
@@ -60,10 +65,10 @@
         android:ems="10"
         android:focusable="false"
         android:inputType="none"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTenCreateUser"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/guideline135"
+        app:layout_constraintStart_toStartOf="@+id/guidelineSixCreateUser"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourCreateUser"
         tools:ignore="TextFields" />
 
     <RadioGroup
@@ -76,10 +81,10 @@
         android:layout_marginBottom="8dp"
         android:checkedButton="@+id/radioButtonMale"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/guideline135"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourCreateUser"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/guideline5">
+        app:layout_constraintStart_toStartOf="@+id/guidelineSixCreateUser"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFiveCreateUser">
 
         <RadioButton
             android:id="@+id/radioButtonMale"
@@ -102,54 +107,56 @@
 
     <TextView
         android:id="@+id/textViewGenderCreateUser"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/gender"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline135"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourCreateUser"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSixCreateUser"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineFiveCreateUser" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guidelineOneCreateUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/guidelineTwoCreateUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.10259918" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/guidelineFiveCreateUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
+        android:id="@+id/guidelineSixCreateUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
+        android:id="@+id/guidelineSevenCreateUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.6" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline135"
+        android:id="@+id/guidelineFourCreateUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -160,12 +167,34 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/date_of_birth"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTenCreateUser"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSixCreateUser"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline135" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourCreateUser" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTenCreateUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEightCreateUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineNineCreateUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

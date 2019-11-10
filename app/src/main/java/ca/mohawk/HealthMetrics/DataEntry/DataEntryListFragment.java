@@ -9,6 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -21,10 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.Adapaters.DataEntryRecyclerViewAdapter;
 import ca.mohawk.HealthMetrics.DisplayObjects.DataEntryDisplayObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
@@ -62,18 +63,16 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         // Turn on the options menu.
         setHasOptionsMenu(true);
 
-
         // Get the views.
-        Button addMetricButton = rootView.findViewById(R.id.buttonAddEntryMetricDataView);
-        Button manageMetricButton = rootView.findViewById(R.id.buttonManageMetricMetricDataView);
+        Button addMetricButton = rootView.findViewById(R.id.buttonAddEntryDataEntryList);
+        Button manageMetricButton = rootView.findViewById(R.id.buttonManageMetricDataEntryList);
         RecyclerView dataEntryRecyclerView = rootView.findViewById(R.id.recyclerViewDataEntryList);
-
 
         addMetricButton.setOnClickListener(this);
         manageMetricButton.setOnClickListener(this);
 
         // Get the line chart.
-        chart = rootView.findViewById(R.id.chartMetricDataView);
+        chart = rootView.findViewById(R.id.chartDataEntryList);
 
         // Get the healthMetricsDbHelper.
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
@@ -145,7 +144,7 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the Add Entry or Manage Metric buttons onClickListener are activated.
      *
      * @param v Represents the view.
      */
@@ -156,14 +155,14 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
         Fragment destinationFragment = new Fragment();
 
 
-        // If the id is buttonAddEntryMetricDataView assign destinationFragment to a
+        // If the id is buttonAddEntryDataEntryList assign destinationFragment to a
         // CreateDataEntry Fragment.
-        if (v.getId() == R.id.buttonAddEntryMetricDataView) {
+        if (v.getId() == R.id.buttonAddEntryDataEntryList) {
             destinationFragment = new CreateDataEntryFragment();
 
-            // Else if the id is buttonManageMetricMetricDataView assign destinationFragment to a
+            // Else if the id is buttonManageMetricDataEntryList assign destinationFragment to a
             // ManageMetricFragment Fragment.
-        } else if (v.getId() == R.id.buttonManageMetricMetricDataView) {
+        } else if (v.getId() == R.id.buttonManageMetricDataEntryList) {
             destinationFragment = new ManageMetricFragment();
         }
 

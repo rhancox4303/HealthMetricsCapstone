@@ -2,48 +2,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout5"
+    android:id="@+id/constraintLayoutEditNotification"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".Notification.EditNotificationFragment" >
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline120"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline148"
+        android:id="@+id/guidelineOneEditNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline152"
+        android:id="@+id/guidelineTwoEditNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline153"
+        android:id="@+id/guidelineThreeEditNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.20930232" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline154"
+        android:id="@+id/guidelineFourEditNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline155"
+        android:id="@+id/guidelineFiveEditNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -51,28 +45,36 @@
 
     <TextView
         android:id="@+id/textViewTypeDisplayEditNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Type"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline153"
-        app:layout_constraintEnd_toStartOf="@+id/guideline120"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/type"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeEditNotification"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOneEditNotification"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline152" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoEditNotification" />
 
     <TextView
         android:id="@+id/textViewTargetDisplayEditNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Target"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline154"
-        app:layout_constraintEnd_toStartOf="@+id/guideline120"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/target"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourEditNotification"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOneEditNotification"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline153" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeEditNotification" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline127"
+        android:id="@+id/guidelineSixEditNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -80,56 +82,86 @@
 
     <TextView
         android:id="@+id/textViewDateTimeDisplayEditNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Date and Time"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline127"
-        app:layout_constraintEnd_toStartOf="@+id/guideline120"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/date_and_time"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSixEditNotification"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOneEditNotification"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline155" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineFiveEditNotification" />
 
     <EditText
         android:id="@+id/editTextDateTimeEditNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="none"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
+        android:ems="10"
         android:focusable="false"
-        app:layout_constraintBottom_toTopOf="@+id/guideline127"
+        android:inputType="none"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSixEditNotification"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline120"
-        app:layout_constraintTop_toTopOf="@+id/guideline155"
+        app:layout_constraintStart_toStartOf="@+id/guidelineOneEditNotification"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFiveEditNotification"
         tools:ignore="TextFields" />
 
     <TextView
         android:id="@+id/textViewTypeEditNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline153"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeEditNotification"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline148"
-        app:layout_constraintTop_toTopOf="@+id/guideline152" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineOneEditNotification"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoEditNotification" />
 
     <TextView
         android:id="@+id/textViewTargetEditNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline154"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourEditNotification"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline148"
-        app:layout_constraintTop_toTopOf="@+id/guideline153" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineOneEditNotification"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeEditNotification" />
 
     <Button
         android:id="@+id/buttonEditNotification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/edit_notification"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineEightEditNotification"
+        app:layout_constraintStart_toStartOf="@+id/guidelineSevenEditNotification"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixEditNotification" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSevenEditNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Notification"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline127" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEightEditNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

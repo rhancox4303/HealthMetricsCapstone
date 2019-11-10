@@ -6,14 +6,16 @@
     android:layout_gravity="center">
     <ImageView
         android:layout_gravity="center"
-        android:id="@+id/image_view_gallery"
+        android:id="@+id/imageViewPhotoRecyclerView"
         android:adjustViewBounds="true"
         android:layout_width="200dp"
-        android:layout_height="150dp" />
+        android:layout_height="150dp"
+        android:contentDescription="@string/photo_entry" />
+
     <TextView
-        android:id="@+id/date_gallery"
-        android:layout_gravity="center"
-        android:textStyle="bold"
+        android:id="@+id/textViewDateOfEntryPhotoRecyclerView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textStyle="bold" />
 </LinearLayout>

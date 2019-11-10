@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.Models.Metric;
@@ -23,7 +24,7 @@ import ca.mohawk.HealthMetrics.R;
 
 /**
  * Acts as a custom adapter to display
- * the notifications in the notification list Recycler View.
+ * the notifications in recycler views.
  */
 public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<NotificationRecyclerViewAdapter.ViewHolder> {
 
@@ -60,7 +61,7 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
 
         // Inflate the view.
         LayoutInflater inflater = LayoutInflater.from(context);
-        View contactView = inflater.inflate(R.layout.notification_list_recycler_view_layout, parent, false);
+        View contactView = inflater.inflate(R.layout.notification_recyclerview_layout, parent, false);
 
         // Return the View Holder.
         return new ViewHolder(contactView);
@@ -89,19 +90,19 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
         switch (notification.notificationType) {
             case "Enter Metric Data":
                 Metric metric = healthMetricsDbHelper.getMetricById(notification.targetId);
-                information = metric != null ? "Input " + metric.name : "";
+                information = metric != null ? "Input " + metric.name : "Metric was not found.";
                 break;
             case "Enter Gallery Data":
                 PhotoGallery gallery = healthMetricsDbHelper.getPhotoGalleryById(notification.targetId);
-                information = gallery != null ? "Input " + gallery.name : "";
+                information = gallery != null ? "Input " + gallery.name : "Gallery was not found.";
                 break;
             case "Refill Prescription":
                 Prescription prescriptionRefill = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
-                information = prescriptionRefill != null ? "Refill " + prescriptionRefill.name : "";
+                information = prescriptionRefill != null ? "Refill " + prescriptionRefill.name : "Prescription not found.";
                 break;
             case "Take Prescription":
                 Prescription prescriptionTake = healthMetricsDbHelper.getPrescriptionById(notification.targetId);
-                information = prescriptionTake != null ? "Take " + prescriptionTake.name : "";
+                information = prescriptionTake != null ? "Take " + prescriptionTake.name : "Prescription not found.";
                 break;
         }
 
@@ -158,14 +159,12 @@ public class NotificationRecyclerViewAdapter extends RecyclerView.Adapter<Notifi
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        // Initialize the information and the date text views.
         TextView notificationInformationTextView;
         TextView notificationDateTextView;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            // Get the text views from the notifications list recycler view layout.
             notificationInformationTextView = itemView.findViewById(R.id.textViewNotificationInformation);
             notificationDateTextView = itemView.findViewById(R.id.textViewNotificationDate);
         }

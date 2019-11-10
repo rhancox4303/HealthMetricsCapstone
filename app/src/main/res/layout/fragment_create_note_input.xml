@@ -2,75 +2,109 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout30"
+    android:id="@+id/constraintLayoutCreateNoteInput"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".MetricManagement.CreateNoteInputFragment" >
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline145"
+        android:id="@+id/guidelineOneCreateNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline146"
+        android:id="@+id/guidelineTwoCreateNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline147"
+        android:id="@+id/guidelineThreeCreateNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <TextView
         android:id="@+id/textViewDateOfEntryCreateNoteInput"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Date of Entry"
-        app:layout_constraintBottom_toTopOf="@+id/guideline145"
-        app:layout_constraintEnd_toStartOf="@+id/guideline147"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/date_of_entry"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOneCreateNote"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeCreateNote"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextDateOfEntryCreateNoteInput"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="none"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:clickable="true"
-        app:layout_constraintBottom_toTopOf="@+id/guideline145"
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="none"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOneCreateNote"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline147"
-        app:layout_constraintTop_toTopOf="parent"
-        android:focusable="false" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineThreeCreateNote"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextNoteCreateNoteInput"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Enter note here..."
+        android:hint="@string/enter_note_here"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/guideline146"
+        android:lines="5"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoCreateNote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline145" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneCreateNote" />
 
     <Button
         android:id="@+id/buttonAddNoteCreateNoteInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/add_note"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFiveCreateNote"
+        app:layout_constraintStart_toStartOf="@+id/guidelineFourCreateNote"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoCreateNote"
+        app:layout_constraintVertical_bias="0.501" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFourCreateNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Note"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline146" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFiveCreateNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

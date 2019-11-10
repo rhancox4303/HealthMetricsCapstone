@@ -7,21 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
 import ca.mohawk.HealthMetrics.DataEntry.DataEntryListFragment;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.Note.ViewNoteFragment;
-import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
+import ca.mohawk.HealthMetrics.PhotoGallery.PhotoEntryList;
 import ca.mohawk.HealthMetrics.R;
 
 /**
  * Acts as a custom adapter to display
- * the user added metric objects in the metrics list recycler view.
+ * the user added metrics in the metrics recycler view.
  */
 public class MetricRecyclerViewAdapter extends
         RecyclerView.Adapter<MetricRecyclerViewAdapter.ViewHolder> {
@@ -60,7 +61,7 @@ public class MetricRecyclerViewAdapter extends
 
         // Inflate the view.
         LayoutInflater inflater = LayoutInflater.from(context);
-        View contactView = inflater.inflate(R.layout.metrics_view_recyclerview_layout, parent, false);
+        View contactView = inflater.inflate(R.layout.metrics_recyclerview_layout, parent, false);
 
         // Return the View Holder.
         return new ViewHolder(contactView);
@@ -116,7 +117,7 @@ public class MetricRecyclerViewAdapter extends
                 break;
             case "Gallery":
                 //Set fragment to a DataEntryListFragment.
-                fragment = new ViewPhotoGalleryFragment();
+                fragment = new PhotoEntryList();
                 break;
             case "Note":
                 //Set the fragment to a ViewNoteFragment.
@@ -152,7 +153,7 @@ public class MetricRecyclerViewAdapter extends
         }
     }
 
-    // Get the size of dataEntryRecyclerViewObjects.
+    // Get the size of metricDisplayObjects.
     @Override
     public int getItemCount() {
         return metricDisplayObjects.size();
@@ -163,14 +164,12 @@ public class MetricRecyclerViewAdapter extends
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        // Initialize the metric name and the latest data latestDataEntry text views.
         TextView textViewMetricName;
         TextView latestMetricDataEntry;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            // Get the text views from the metrics list recycler view layout.
             textViewMetricName = itemView.findViewById(R.id.textViewMetricName);
             latestMetricDataEntry = itemView.findViewById(R.id.textViewMetricDataEntry);
         }

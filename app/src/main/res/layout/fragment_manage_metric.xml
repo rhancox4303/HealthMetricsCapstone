@@ -2,42 +2,36 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout9"
+    android:id="@+id/constraintLayoutManageMetric"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MetricManagement.ManageMetricFragment" >
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline34"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+    android:background="@color/design_default_color_background"
+    tools:context=".MetricManagement.ManageMetricFragment">
 
     <TextView
         android:id="@+id/textViewMetricDisplayManageMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Metric Name"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline37"
-        app:layout_constraintEnd_toStartOf="@+id/guideline34"
+        android:text="@string/metric_name"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeManageMetric"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFiveManageMetric"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline36" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneManageMetric" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline36"
+        android:id="@+id/guidelineOneManageMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline37"
+        android:id="@+id/guidelineThreeManageMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -45,20 +39,20 @@
 
     <TextView
         android:id="@+id/textViewMetricNameManageMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline37"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeManageMetric"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline34"
-        app:layout_constraintTop_toTopOf="@+id/guideline36" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveManageMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneManageMetric" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline38"
+        android:id="@+id/guidelineFourManageMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -66,93 +60,100 @@
 
     <TextView
         android:id="@+id/textViewUnitDisplayManageMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Unit"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline38"
-        app:layout_constraintEnd_toStartOf="@+id/guideline34"
+        android:text="@string/unit"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourManageMetric"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFiveManageMetric"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline37" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeManageMetric" />
 
     <TextView
         android:id="@+id/textViewUnitManageMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline38"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourManageMetric"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline34"
-        app:layout_constraintTop_toTopOf="@+id/guideline37" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveManageMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeManageMetric" />
 
     <Button
         android:id="@+id/buttonDeleteManageMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Delete"
+        android:text="@string/delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline39"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSixManageMetric"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline41" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoManageMetric" />
 
     <Button
         android:id="@+id/buttonRemoveManageMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Remove"
+        android:text="@string/remove"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline40"
-        app:layout_constraintTop_toTopOf="@+id/guideline41" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineSevenManageMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoManageMetric" />
 
     <Button
         android:id="@+id/buttonEditManageMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Edit"
+        android:text="@string/edit"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline40"
-        app:layout_constraintStart_toStartOf="@+id/guideline39"
-        app:layout_constraintTop_toTopOf="@+id/guideline41" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSevenManageMetric"
+        app:layout_constraintStart_toStartOf="@+id/guidelineSixManageMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoManageMetric" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline39"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.30656934" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline40"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.7" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline41"
+        android:id="@+id/guidelineTwoManageMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFiveManageMetric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="165dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSixManageMetric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.33" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSevenManageMetric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.66" />
 </androidx.constraintlayout.widget.ConstraintLayout>

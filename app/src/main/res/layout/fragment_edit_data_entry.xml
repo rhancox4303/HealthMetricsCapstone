@@ -2,143 +2,148 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout13"
+    android:id="@+id/constraintLayoutEditDataEntry"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".DataEntry.EditDataEntryFragment">
 
+    <TextView
+        android:id="@+id/textViewMetricDisplayEditDataEntry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeEditDataEntry"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOneEditDataEntry"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourEditDataEntry" />
+
+    <EditText
+        android:id="@+id/editTextDateOfEntryEditDataEntry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="none"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveEditDataEntry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guidelineOneEditDataEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeEditDataEntry" />
+
+    <TextView
+        android:id="@+id/textViewDateOfEntryDisplayEditDataEntry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/date_of_entry"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveEditDataEntry"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOneEditDataEntry"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeEditDataEntry" />
+
+    <EditText
+        android:id="@+id/editTextDataEntryEditDataEntry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeEditDataEntry"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoEditDataEntry"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guidelineOneEditDataEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourEditDataEntry" />
+
+    <Button
+        android:id="@+id/buttonEditDataEntry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/edit_data_entry"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoEditDataEntry"
+        app:layout_constraintStart_toStartOf="@+id/guidelineSevenEditDataEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixEditDataEntry" />
+
+    <TextView
+        android:id="@+id/textViewUnitAbbreviationEditDataEntry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeEditDataEntry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoEditDataEntry"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourEditDataEntry" />
+
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline58"
+        android:id="@+id/guidelineOneEditDataEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTwoEditDataEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineThreeEditDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline59"
+        android:id="@+id/guidelineFourEditDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.10" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline60"
+        android:id="@+id/guidelineFiveEditDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline61"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline62"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.45" />
-
-    <TextView
-        android:id="@+id/textViewMetricDisplayEditDataEntry"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline59"
-        app:layout_constraintEnd_toStartOf="@+id/guideline62"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline58" />
-
-    <EditText
-        android:id="@+id/editTextDateOfEntryEditDataEntry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:ems="10"
-        android:focusable="false"
-        android:inputType="none"
-        app:layout_constraintBottom_toTopOf="@+id/guideline60"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline61"
-        app:layout_constraintTop_toTopOf="@+id/guideline59" />
-
-    <TextView
-        android:id="@+id/textViewDateOfEntryDisplayEditDataEntry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Date of Entry"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline60"
-        app:layout_constraintEnd_toStartOf="@+id/guideline61"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline59" />
-
-    <EditText
-        android:id="@+id/editTextDataEntryEditDataEntry"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/guideline59"
-        app:layout_constraintEnd_toStartOf="@+id/guideline139"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline62"
-        app:layout_constraintTop_toTopOf="@+id/guideline58" />
-
-    <Button
-        android:id="@+id/ButtonEditDataEntry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Edit Data Entry"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline63" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline63"
+        android:id="@+id/guidelineSixEditDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline139"
+        android:id="@+id/guidelineSevenEditDataEntry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75" />
-
-    <TextView
-        android:id="@+id/textViewUnitAbbreviationEditDataEntry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline59"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline139"
-        app:layout_constraintTop_toTopOf="@+id/guideline58" />
+        app:layout_constraintGuide_percent="0.26" />
 </androidx.constraintlayout.widget.ConstraintLayout>

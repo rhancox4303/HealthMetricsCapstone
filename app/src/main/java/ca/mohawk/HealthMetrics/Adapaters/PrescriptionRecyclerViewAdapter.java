@@ -9,11 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
 import ca.mohawk.HealthMetrics.DisplayObjects.PrescriptionDisplayObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MainActivity;
@@ -23,7 +24,7 @@ import ca.mohawk.HealthMetrics.R;
 
 /**
  * Acts as a custom adapter to display
- * the prescriptions in the prescription list recycler view.
+ * the prescriptions in recycler views.
  */
 public class PrescriptionRecyclerViewAdapter
         extends RecyclerView.Adapter<PrescriptionRecyclerViewAdapter.ViewHolder> {
@@ -130,16 +131,17 @@ public class PrescriptionRecyclerViewAdapter
 
                 // Validate the amount is not less than 0. Notify the user if it is.
                 if (prescription.amount < 0) {
-                    Toast.makeText(context, "amount cannot be less than 0.", Toast.LENGTH_SHORT).show();
-                }
+                    Toast.makeText(context, "Amount cannot be less than 0.", Toast.LENGTH_SHORT).show();
+                } else {
 
-                // If unable to update the database then notify the user.
-                if (!healthMetricsDbHelper.updatePrescription(prescription)) {
-                    Toast.makeText(context, "Unable to update amount.", Toast.LENGTH_SHORT).show();
+                    // If unable to update the database then notify the user.
+                    if (!healthMetricsDbHelper.updatePrescription(prescription)) {
+                        Toast.makeText(context, "Unable to update amount.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        // Call updateRecyclerView.
+                        updateRecyclerView();
+                    }
                 }
-
-                // Call updateRecyclerView.
-                updateRecyclerView();
             }
         });
 
@@ -203,18 +205,15 @@ public class PrescriptionRecyclerViewAdapter
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        // Initialize the information and amount text views.
         TextView prescriptionInformationTextView;
         TextView prescriptionAmountTextView;
 
-        // Initialize the increment and decrement buttons.
         Button incrementAmountButton;
         Button decrementAmountButton;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            // Get the views from the prescription list recycler view layout.
             prescriptionInformationTextView = itemView.findViewById(R.id.textViewPrescriptionInformation);
             prescriptionAmountTextView = itemView.findViewById(R.id.textViewPrescriptionAmount);
             incrementAmountButton = itemView.findViewById(R.id.buttonIncrementPrescriptionAmount);

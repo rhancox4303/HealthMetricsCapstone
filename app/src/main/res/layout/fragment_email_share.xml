@@ -3,67 +3,67 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayoutEmail"
+    android:id="@+id/constraintLayoutEmailShare"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".DataEntry.EmailShareFragment">
-
 
     <EditText
         android:id="@+id/editTextRecipientEmailShare"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="To"
+        android:hint="@string/to"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/guideline30"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoEmailShare"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline27" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneEmailShare" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline27"
+        android:id="@+id/guidelineOneEmailShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.10533515" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline30"
+        android:id="@+id/guidelineTwoEmailShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline31"
+        android:id="@+id/guidelineThreeEmailShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <EditText
         android:id="@+id/editTextSubjectLineEmailShare"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="Subject Line"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline31"
+        android:hint="@string/subject_line"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeEmailShare"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline30" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoEmailShare" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline32"
+        android:id="@+id/guidelineFiveEmailShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -73,22 +73,22 @@
         android:id="@+id/editTextMessageEmailShare"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:gravity="top"
-        android:hint="Message..."
+        android:hint="@string/message"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/guideline32"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveEmailShare"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline31"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeEmailShare"
         app:layout_constraintVertical_bias="0.514" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline33"
+        android:id="@+id/guidelineSixEmailShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -96,15 +96,29 @@
 
     <Button
         android:id="@+id/buttonSendEmailShare"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/send_email"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineEightEmailShare"
+        app:layout_constraintStart_toStartOf="@+id/guidelineSevenEmailShare"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFiveEmailShare" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSevenEmailShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Send"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline32" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEightEmailShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

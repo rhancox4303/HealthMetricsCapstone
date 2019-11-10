@@ -63,7 +63,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
         noteContentEditText = rootView.findViewById(R.id.editTextNoteContentEditNote);
         dateOfEntryEditText = rootView.findViewById(R.id.editTextDateOfEntryEditNote);
 
-        Button editNoteButton = rootView.findViewById(R.id.buttonEditNoteEditNote);
+        Button editNoteButton = rootView.findViewById(R.id.buttonEditNote);
 
         // Set the OnClickListeners.
         dateOfEntryEditText.setOnClickListener(this);
@@ -184,7 +184,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
             TimePickerFragment timePickerFragment = new TimePickerFragment();
             timePickerFragment.setOnTimeSetListener(this);
             timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(), "timePicker");
-        } else if (v.getId() == R.id.buttonEditNoteEditNote) {
+        } else if (v.getId() == R.id.buttonEditNote) {
             updateNote();
         }
     }

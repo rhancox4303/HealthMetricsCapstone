@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/recycler_view_border">
 
     <LinearLayout
         android:layout_width="175dp"
@@ -15,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:gravity="center_vertical|left"
+            android:gravity="center_vertical|start"
             android:textAppearance="?attr/textAppearanceListItem" />
     </LinearLayout>
 
@@ -28,13 +29,13 @@
             android:id="@+id/buttonIncrementPrescriptionAmount"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
-            android:text="+" />
+            android:text="@string/increment" />
 
         <Button
             android:id="@+id/buttonDecrementPrescriptionAmount"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
-            android:text="-" />
+            android:text="@string/decrement" />
 
     </LinearLayout>
 

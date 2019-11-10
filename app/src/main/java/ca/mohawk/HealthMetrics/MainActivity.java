@@ -33,7 +33,7 @@ import ca.mohawk.HealthMetrics.Notification.DeleteNotificationDialog;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.PhotoGallery.DeleteGalleryDialog;
 import ca.mohawk.HealthMetrics.PhotoGallery.DeletePhotoEntryDialog;
-import ca.mohawk.HealthMetrics.PhotoGallery.ViewPhotoGalleryFragment;
+import ca.mohawk.HealthMetrics.PhotoGallery.PhotoEntryList;
 import ca.mohawk.HealthMetrics.Prescription.DeletePrescriptionDialog;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
 import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
@@ -323,13 +323,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDeletePhotoEntryDialogPositiveClick(DeletePhotoEntryDialog dialog) {
 
-        // Initialize the viewPhotoGalleryFragment.
-        ViewPhotoGalleryFragment viewPhotoGalleryFragment = new ViewPhotoGalleryFragment();
+        // Initialize the photoEntryList.
+        PhotoEntryList photoEntryList = new PhotoEntryList();
 
-        // Pass the gallery id as a bundle to viewPhotoGalleryFragment.
+        // Pass the gallery id as a bundle to photoEntryList.
         Bundle photoEntryBundle = new Bundle();
         photoEntryBundle.putInt("selected_item_key", dialog.getGalleryId());
-        viewPhotoGalleryFragment.setArguments(photoEntryBundle);
+        photoEntryList.setArguments(photoEntryBundle);
 
         boolean deleteSuccessful = healthMetricsDbHelper.deletePhotoEntryById(dialog.getPhotoEntryId());
 
@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements
         } else {
             Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
         }
-        switchFragment(viewPhotoGalleryFragment);
+        switchFragment(photoEntryList);
     }
 
     /**

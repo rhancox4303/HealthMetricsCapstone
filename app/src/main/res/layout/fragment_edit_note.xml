@@ -2,95 +2,111 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout7"
+    android:id="@+id/constraintLayoutEditNote"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".Note.EditNoteFragment">
 
     <Button
-        android:id="@+id/buttonEditNoteEditNote"
-        android:layout_width="wrap_content"
+        android:id="@+id/buttonEditNote"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Edit Note"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/edit_note"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline151" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSixEditNote"
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveEditNote"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeEditNote" />
 
     <EditText
         android:id="@+id/editTextNoteContentEditNote"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:inputType="textMultiLine"
         android:singleLine="false"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline150"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoEditNote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.567"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline149" />
-
-    <TextView
-        android:id="@+id/textViewNoteDisplayEditNote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Note Content"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline149"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourEditNote" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline25"
+        android:id="@+id/guidelineOneViewNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline149"
+        android:id="@+id/guidelineFourEditNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
+        app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline150"
+        android:id="@+id/guidelineTwoEditNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline151"
+        android:id="@+id/guidelineThreeEditNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.8" />
 
     <EditText
         android:id="@+id/editTextDateOfEntryEditNote"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
-        android:inputType="none"
+        android:ems="10"
         android:focusable="false"
-        app:layout_constraintBottom_toTopOf="@+id/guideline151"
+        android:inputType="none"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeEditNote"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline25"
-        app:layout_constraintTop_toTopOf="@+id/guideline150" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineOneViewNote"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoEditNote" />
 
     <TextView
         android:id="@+id/textViewDateOfEntryEditNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/date_of_entry"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeEditNote"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineOneViewNote"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoEditNote" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFiveEditNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date Of Entry"
-        app:layout_constraintBottom_toTopOf="@+id/guideline151"
-        app:layout_constraintEnd_toStartOf="@+id/guideline25"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline150" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSixEditNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

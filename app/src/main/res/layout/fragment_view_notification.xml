@@ -2,27 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout26"
+    android:id="@+id/constraintLayoutViewNotification"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".Notification.ViewNotificationFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline128"
+        android:id="@+id/guidelineOneViewNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline129"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline130"
+        android:id="@+id/guidelineTwoViewNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -30,144 +24,140 @@
 
     <TextView
         android:id="@+id/textViewTypeDisplayViewNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Type"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline131"
-        app:layout_constraintEnd_toStartOf="@+id/guideline129"
+        android:text="@string/type"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeViewNotification"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoViewNotification"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline128" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneViewNotification" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline131"
+        android:id="@+id/guidelineThreeViewNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline132"
+        android:id="@+id/guidelineFourViewNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline133"
+        android:id="@+id/guidelineFiveViewNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline134"
+        android:id="@+id/guidelineSixViewNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.80" />
+        app:layout_constraintGuide_percent="0.8" />
 
     <TextView
         android:id="@+id/textViewTargetDisplayViewNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Target"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline132"
-        app:layout_constraintEnd_toStartOf="@+id/guideline129"
+        android:text="@string/target"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourViewNotification"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoViewNotification"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline131" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeViewNotification" />
 
     <TextView
         android:id="@+id/textViewDateTimeDisplayViewNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Date and Time"
+        android:text="@string/date_and_time"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline133"
-        app:layout_constraintEnd_toStartOf="@+id/guideline129"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveViewNotification"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoViewNotification"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline132" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourViewNotification" />
 
     <TextView
         android:id="@+id/textViewTypeViewNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline131"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeViewNotification"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline129"
-        app:layout_constraintTop_toTopOf="@+id/guideline128" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoViewNotification"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneViewNotification" />
 
     <TextView
         android:id="@+id/textViewTargetViewNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline132"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourViewNotification"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline129"
-        app:layout_constraintTop_toTopOf="@+id/guideline131" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoViewNotification"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeViewNotification" />
 
     <TextView
         android:id="@+id/textViewDateTimeViewNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline133"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveViewNotification"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline129"
-        app:layout_constraintTop_toTopOf="@+id/guideline132" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoViewNotification"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourViewNotification" />
 
     <Button
         android:id="@+id/buttonDeleteNotificationViewNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Delete"
+        android:text="@string/delete_notification"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline130"
-        app:layout_constraintTop_toTopOf="@+id/guideline134" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoViewNotification"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixViewNotification" />
 
     <Button
         android:id="@+id/buttonEditNotificationViewNotification"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Edit"
+        android:text="@string/edit_notification"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline130"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline134" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoViewNotification"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixViewNotification" />
 </androidx.constraintlayout.widget.ConstraintLayout>

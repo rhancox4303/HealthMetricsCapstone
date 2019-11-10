@@ -31,7 +31,8 @@
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan|adjustResize"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

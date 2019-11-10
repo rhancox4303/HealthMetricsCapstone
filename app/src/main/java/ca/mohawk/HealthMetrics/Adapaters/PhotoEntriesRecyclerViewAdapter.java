@@ -21,10 +21,10 @@ import ca.mohawk.HealthMetrics.R;
 
 /**
  * Acts as a custom adapter to display
- * the photo entries in the photo latestDataEntry list recycler view.
+ * the photo entries in recycler views.
  */
-public class PhotoGalleryRecyclerViewAdapter extends
-        RecyclerView.Adapter<PhotoGalleryRecyclerViewAdapter.ViewHolder> {
+public class PhotoEntriesRecyclerViewAdapter extends
+        RecyclerView.Adapter<PhotoEntriesRecyclerViewAdapter.ViewHolder> {
 
     // Instantiate the context variable.
     private Context context;
@@ -38,7 +38,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
      * @param photoEntries Represents the list of photo entries.
      * @param context      Represents the application context.
      */
-    public PhotoGalleryRecyclerViewAdapter(List<PhotoEntry> photoEntries, Context context) {
+    public PhotoEntriesRecyclerViewAdapter(List<PhotoEntry> photoEntries, Context context) {
         this.photoEntries = photoEntries;
         this.context = context;
     }
@@ -52,7 +52,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
      */
     @NonNull
     @Override
-    public PhotoGalleryRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PhotoEntriesRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // Get the context.
         Context context = parent.getContext();
@@ -69,15 +69,15 @@ public class PhotoGalleryRecyclerViewAdapter extends
      * Sets the item views in the view holder.
      *
      * @param viewHolder Represents the view holder.
-     * @param position   Represents the position of the photo latestDataEntry that is being displayed.
+     * @param position   Represents the position of the photo entry that is being displayed.
      */
     @Override
-    public void onBindViewHolder(PhotoGalleryRecyclerViewAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(PhotoEntriesRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
-        // Get photo latestDataEntry.
+        // Get photo entry.
         final PhotoEntry photoEntry = photoEntries.get(position);
 
-        // Display the date of latestDataEntry in the recycler view.
+        // Display the date of entry in the recycler view.
         TextView dateOfEntryTextView = viewHolder.textViewDateOfEntry;
         dateOfEntryTextView.setText(photoEntry.dateOfEntry);
 
@@ -107,7 +107,7 @@ public class PhotoGalleryRecyclerViewAdapter extends
         // Create ViewPhotoEntry Fragment.
         ViewPhotoEntryFragment destinationFragment = new ViewPhotoEntryFragment();
 
-        // Create bundle and add the photo latestDataEntry id.
+        // Create bundle and add the photo entry id.
         Bundle galleryBundle = new Bundle();
         galleryBundle.putInt("selected_photo_key", photoEntrySelected.id);
 
@@ -132,16 +132,14 @@ public class PhotoGalleryRecyclerViewAdapter extends
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        // Initialize the image view and the date of latestDataEntry text view.
         ImageView imageViewPhotoEntry;
         TextView textViewDateOfEntry;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            // Get the views from the photo entries list recycler view layout.
-            imageViewPhotoEntry = itemView.findViewById(R.id.image_view_gallery);
-            textViewDateOfEntry = itemView.findViewById(R.id.date_gallery);
+            imageViewPhotoEntry = itemView.findViewById(R.id.imageViewPhotoRecyclerView);
+            textViewDateOfEntry = itemView.findViewById(R.id.textViewDateOfEntryPhotoRecyclerView);
         }
     }
 }

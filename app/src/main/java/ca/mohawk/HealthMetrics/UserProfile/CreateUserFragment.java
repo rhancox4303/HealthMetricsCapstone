@@ -13,9 +13,10 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Objects;
 
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MainActivity;
@@ -26,12 +27,12 @@ import ca.mohawk.HealthMetrics.R;
 
 /**
  * The CreateUserFragment class is an extension of the Fragment class.
- * It is used to create the user's profile when the user opens the app for the first time.
+ * Allows the user to create the user profile when the user opens the app for the first time.
  */
 public class CreateUserFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
 
-    // The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
+    // Initialize the HealthMetricsDbHelper healthMetricsDbHelper
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
     //The layout elements that are accessed throughout the fragment.
@@ -78,8 +79,7 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     * The createUser method gets the user inputted values, creates the user and uses the
-     * healthMetricsDbHelper object to add the created user to the database.
+     * Adds the user to the database.
      */
     private void createUser() {
 
@@ -127,9 +127,9 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     * The validateUserInput methods validates the user input.
+     * Validates the user input.
      *
-     * @return A boolean value is returned based on whether the user input is valid.
+     * @return Returns a boolean based on whether the user input is valid.
      */
     public boolean validateUserInput() {
 
@@ -158,7 +158,7 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     * The storeLoggedInState method writes true to a SharedPreference that is used to
+     * Writes true to a SharedPreference that is used to
      * verify if the user has created an account.
      */
     private void storeLoggedInState() {
@@ -171,15 +171,14 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
         editor.commit();
     }
 
+
     /**
-     * The onDateSet method is ran when a date is selected from the datepicker dialog.
+     * The onDateSet method is ran when a date is selected from the datePicker dialog.
      * The date of birth field is set to the date that was selected.
      */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        //Add a 0 to the day if it less than 10 and then insert the date in dateOfBirthEditText.
         if (dayOfMonth < 10) {
-
             dateOfBirthEditText.setText(new StringBuilder().append(month + 1)
                     .append("-0").append(dayOfMonth).append("-").append(year).toString());
         } else {
@@ -189,10 +188,11 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     * The onClick method runs when the view's onClickListener is activated.
-     * It runs the createUser method or opens the DatePickerFragment depending on what was clicked.
+     * Runs when the Create user button or the Date of Entry EditText
+     * onClickListener is activated.
+     *
+     * @param v Represents the view.
      */
-    @Override
     public void onClick(View v) {
         //If the create user button was pressed then call createUser.
         if (v.getId() == R.id.buttonCreateUser) {

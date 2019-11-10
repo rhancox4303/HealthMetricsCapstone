@@ -2,50 +2,48 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayoutAddMetric"
+    android:id="@+id/constraintLayoutAddMetric"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".MetricManagement.AddMetricFragment">
 
     <Button
         android:id="@+id/buttonCreateMetricAddMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/create_metric"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline13"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineEightAddMetric"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline14" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixAddMetric" />
 
     <Button
         android:id="@+id/buttonAddMetric"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/add_metric"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="@+id/guideline14" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineEightAddMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixAddMetric" />
 
     <RadioGroup
         android:id="@+id/radioGroupAddMetric"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline9"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoAddMetric"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toTopOf="@+id/guideline137">
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveAddMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSevenAddMetric">
 
         <RadioButton
             android:id="@+id/radioButtonGalleryAddMetric"
@@ -66,31 +64,29 @@
     <Spinner
         android:id="@+id/spinnerUnitAddMetric"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/guideline11"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourAddMetric"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline10" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveAddMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeAddMetric" />
 
     <Spinner
         android:id="@+id/spinnerMetricAddMetric"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeAddMetric"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@+id/guideline9" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveAddMetric"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoAddMetric" />
 
     <TextView
         android:id="@+id/textViewUnitAddMetric"
@@ -101,13 +97,12 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/unit"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/guideline11"
-        app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourAddMetric"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFiveAddMetric"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline10" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeAddMetric" />
 
     <TextView
         android:id="@+id/textViewDisplayAddMetric"
@@ -118,12 +113,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/gallery"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"
-        app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintHorizontal_bias="0.58"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeAddMetric"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFiveAddMetric"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline9"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoAddMetric"
         app:layout_constraintVertical_bias="0.428" />
 
     <TextView
@@ -135,59 +129,61 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/type"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline9"
-        app:layout_constraintEnd_toStartOf="@+id/guideline8"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoAddMetric"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFiveAddMetric"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline137" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineSevenAddMetric" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline9"
+        android:id="@+id/guidelineTwoAddMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline10"
+        android:id="@+id/guidelineThreeAddMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.45" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline11"
+        android:id="@+id/guidelineFourAddMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.55" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline13"
+        android:id="@+id/guidelineFiveAddMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline14"
+        android:id="@+id/guidelineSixAddMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline137"
+        android:id="@+id/guidelineSevenAddMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEightAddMetric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

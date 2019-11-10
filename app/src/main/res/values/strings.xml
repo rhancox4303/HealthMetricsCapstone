@@ -1,38 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-    <string name="app_name">HealthMetricsCapstone</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="create_user">Create User</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="date_of_birth">Date of Birth</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-    <string name="gender">Gender</string>
-    <string name="edit_profile">Edit Profile</string>
+    <string name="add_data_entry">Add Data Entry</string>
+    <string name="add_entry">Add Entry</string>
     <string name="add_metric">Add Metric</string>
-    <string name="gallery">Gallery</string>
-    <string name="metric">Metric</string>
-    <string name="unit">Unit</string>
-    <string name="create_metric">Create Metric</string>
-    <string name="type">Type</string>
-    <string name="metric_type">Metric Type</string>
-    <string name="quantitative">Quantitative</string>
-    <string name="photo_galley">Photo Galley</string>
-    <string name="note">Note</string>
-    <string name="unit_category">Unit Category</string>
-    <string name="metric_name">Metric Name</string>
-    <string name="create_gallery">Create Gallery</string>
-    <string name="gallery_name">Gallery Name</string>
-    <string name="space" />
+    <string name="add_note">Add Note</string>
+    <string name="add_notification">Add Notification</string>
+    <string name="add_photo_entry">Add Photo Entry</string>
+    <string name="add_prescription">Add Prescription</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="amount">Amount</string>
+
+    <string name="app_name">HealthMetricsCapstone</string>
+
+    <string name="choose_image">Choose Image</string>
+
+    <string name="create_gallery">Create Gallery</string>
+    <string name="create_metric">Create Metric</string>
+    <string name="create_notification">Create Notification</string>
+    <string name="create_prescription">Create Prescription</string>
+    <string name="create_user">Create User</string>
+
+    <string name="date_and_time">Date and Time</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="date_of_entry">Date of Entry</string>
+
+    <string name="delete">Delete</string>
+    <string name="delete_entry">Delete Entry</string>
+    <string name="delete_gallery">Delete Gallery</string>
+    <string name="delete_notification">Delete Notification</string>
+    <string name="delete_prescription">Delete Prescription</string>
+
+    <string name="dosage">Dosage</string>
+
+    <string name="dose">Dose</string>
+
+    <string name="edit">Edit</string>
+    <string name="edit_data_entry">Edit Data Entry</string>
+    <string name="edit_entry">Edit Entry</string>
+    <string name="edit_gallery">Edit Gallery</string>
+    <string name="edit_metric">Edit Metric</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="edit_notification">Edit Notification</string>
+    <string name="edit_photo_entry">Edit Photo Entry</string>
+    <string name="edit_prescription">Edit Prescription</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="edit_user">Edit User</string>
+
+    <string name="enter_note_here">Enter note here…</string>
+
+    <string name="female">Female</string>
+
+    <string name="first_name">First Name</string>
+
+    <string name="form">Form</string>
+
+    <string name="frequency">Frequency</string>
+
+    <string name="gallery">Gallery</string>
+    <string name="gallery_name">Gallery Name</string>
+
+    <string name="gender">Gender</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="last_name">Last Name</string>
+
+    <string name="male">Male</string>
+
+    <string name="manage_gallery">Manage Gallery</string>
+    <string name="manage_metric">Manage Metric</string>
+
+    <string name="message">Message…</string>
+
+    <string name="metric">Metric</string>
+    <string name="metric_name">Metric Name</string>
+    <string name="metric_type">Metric Type</string>
+
+    <string name="name">Name</string>
+
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Android Studio</string>
+
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+
+    <string name="note">Note</string>
+
     <string-array name="notification_type_array">
         <item>Enter Metric Data</item>
         <item>Enter Gallery Data</item>
@@ -40,4 +96,35 @@
         <item>Take Prescription</item>
     </string-array>
 
+    <string name="photo_entry">Photo Entry</string>
+    <string name="photo_galley">Photo Galley</string>
+
+    <string name="quantitative">Quantitative</string>
+
+    <string name="reason">Reason</string>
+
+    <string name="remove">Remove</string>
+
+    <string name="send_email">Send Email</string>
+
+    <string name="space"/>
+
+    <string name="strength">Strength</string>
+
+    <string name="subject_line">Subject Line</string>
+
+    <string name="target">Target</string>
+
+    <string name="to">To</string>
+
+    <string name="type">Type</string>
+
+    <string name="unit">Unit</string>
+    <string name="unit_category">Unit Category</string>
+
+    <string name="upload_image">Upload Image</string>
+
+    <string name="user_photo_entry">User Photo Entry</string>
+    <string name="decrement">-</string>
+    <string name="increment">+</string>
 </resources>

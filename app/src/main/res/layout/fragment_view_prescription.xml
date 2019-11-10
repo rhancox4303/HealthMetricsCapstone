@@ -2,69 +2,70 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout22"
+    android:id="@+id/constraintLayoutViewPrescription"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".Prescription.ViewPrescriptionFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline101"
+        android:id="@+id/guidelineOneViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline102"
+        android:id="@+id/guidelineTwoViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline103"
+        android:id="@+id/guidelineThreeViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline104"
+        android:id="@+id/guidelineFourViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.20383038" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline105"
+        android:id="@+id/guidelineFiveViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.30916554" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline106"
+        android:id="@+id/guidelineSixViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.40492475" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline107"
+        android:id="@+id/guidelineSevenViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline108"
+        android:id="@+id/guidelineEightViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.6" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline109"
+        android:id="@+id/guidelineNineViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -72,112 +73,114 @@
 
     <TextView
         android:id="@+id/textViewNameDisplayViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Name"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline104"
-        app:layout_constraintEnd_toStartOf="@+id/guideline103"
+        android:text="@string/name"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourViewPrescription"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeViewPrescription"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline101" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneViewPrescription" />
 
     <TextView
         android:id="@+id/textViewFormDisplayViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Form"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline105"
-        app:layout_constraintEnd_toStartOf="@+id/guideline103"
+        android:text="@string/form"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveViewPrescription"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeViewPrescription"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline104" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourViewPrescription" />
 
     <TextView
         android:id="@+id/textViewStrengthDisplayViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Strength"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline106"
-        app:layout_constraintEnd_toStartOf="@+id/guideline103"
+        android:text="@string/strength"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSixViewPrescription"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeViewPrescription"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline105" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineFiveViewPrescription" />
 
     <TextView
         android:id="@+id/textViewDoseDisplayViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Doseage"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline107"
-        app:layout_constraintEnd_toStartOf="@+id/guideline103"
+        android:text="@string/dosage"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSevenViewPrescription"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeViewPrescription"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline106" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixViewPrescription" />
 
     <TextView
         android:id="@+id/textViewFrequencyDisplayViewPrescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Doseage Frequency"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline108"
-        app:layout_constraintEnd_toStartOf="@+id/guideline103"
+        android:text="@string/frequency"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineEightViewPrescription"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeViewPrescription"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline107" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineSevenViewPrescription" />
 
     <TextView
         android:id="@+id/textViewAmountDisplayViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Amount"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline109"
-        app:layout_constraintEnd_toStartOf="@+id/guideline103"
+        android:text="@string/amount"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineNineViewPrescription"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeViewPrescription"
+        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline108" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineEightViewPrescription"
+        app:layout_constraintVertical_bias="0.466" />
 
     <TextView
         android:id="@+id/textViewReasonDisplayViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Reason"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline102"
-        app:layout_constraintEnd_toStartOf="@+id/guideline103"
+        android:text="@string/reason"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoViewPrescription"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineThreeViewPrescription"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline109" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineNineViewPrescription" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline119"
+        android:id="@+id/guidelineTenViewPrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -185,128 +188,128 @@
 
     <Button
         android:id="@+id/buttonEditPrescriptionViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Edit Prescription"
+        android:text="@string/edit_prescription"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline119"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline102" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guidelineTenViewPrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoViewPrescription" />
 
     <Button
         android:id="@+id/buttonDeletePrescriptionViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Delete Prescription"
+        android:text="@string/delete_prescription"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline119"
-        app:layout_constraintTop_toTopOf="@+id/guideline102" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTenViewPrescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoViewPrescription" />
 
     <TextView
         android:id="@+id/textViewNameViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline104"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourViewPrescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline103"
-        app:layout_constraintTop_toTopOf="@+id/guideline101" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineThreeViewPrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneViewPrescription" />
 
     <TextView
         android:id="@+id/textViewFormViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline105"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveViewPrescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline103"
-        app:layout_constraintTop_toTopOf="@+id/guideline104" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineThreeViewPrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourViewPrescription" />
 
     <TextView
         android:id="@+id/textViewStrengthViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline106"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSixViewPrescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline103"
-        app:layout_constraintTop_toTopOf="@+id/guideline105" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineThreeViewPrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFiveViewPrescription" />
 
     <TextView
         android:id="@+id/textViewDoseageViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline107"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSevenViewPrescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline103"
-        app:layout_constraintTop_toTopOf="@+id/guideline106" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineThreeViewPrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixViewPrescription" />
 
     <TextView
         android:id="@+id/textViewFrequencyViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline108"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineEightViewPrescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline103"
-        app:layout_constraintTop_toTopOf="@+id/guideline107" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineThreeViewPrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSevenViewPrescription" />
 
     <TextView
         android:id="@+id/textViewAmountViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline109"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineNineViewPrescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline103"
-        app:layout_constraintTop_toTopOf="@+id/guideline108" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineThreeViewPrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineEightViewPrescription" />
 
     <TextView
         android:id="@+id/textViewReasonViewPrescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline102"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoViewPrescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline103"
-        app:layout_constraintTop_toTopOf="@+id/guideline109" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineThreeViewPrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineNineViewPrescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

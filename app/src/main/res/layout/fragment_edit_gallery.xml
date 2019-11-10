@@ -2,34 +2,35 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout17"
+    android:id="@+id/constraintLayoutEditGallery"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".PhotoGallery.EditGalleryFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline73"
+        android:id="@+id/guidelineOneEditGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline77"
+        android:id="@+id/guidelineTwoEditGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline78"
+        android:id="@+id/guidelineThreeEditGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline79"
+        android:id="@+id/guidelineFourEditGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -37,45 +38,59 @@
 
     <TextView
         android:id="@+id/textViewGalleryNameDisplayEditGallery"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Gallery Name"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline77"
-        app:layout_constraintEnd_toStartOf="@+id/guideline79"
+        android:text="@string/gallery_name"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoEditGallery"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFourEditGallery"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline73" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneEditGallery" />
 
     <EditText
         android:id="@+id/editTextGalleryNameEditGallery"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline77"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoEditGallery"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline79"
-        app:layout_constraintTop_toTopOf="@+id/guideline73" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineFourEditGallery"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneEditGallery" />
 
     <Button
         android:id="@+id/buttonEditGallery"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/edit_gallery"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSixEditGallery"
+        app:layout_constraintStart_toStartOf="@+id/guidelineFiveEditGallery"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeEditGallery" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFiveEditGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Edit Gallery"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline78" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSixEditGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

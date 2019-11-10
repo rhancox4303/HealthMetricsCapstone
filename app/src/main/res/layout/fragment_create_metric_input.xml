@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout28"
+    android:id="@+id/constraintLayoutCreateMetricInput"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".MetricManagement.CreateMetricInputFragment">
 
     <TextView
@@ -13,27 +14,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/unit_category"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline136"
-        app:layout_constraintEnd_toStartOf="@+id/guideline20"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeCreateMetricInput"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoCreateMetricInput"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline19" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneCreateMetricInput" />
 
     <TextView
-        android:id="@+id/textviewMetricNameCreateMetricInput"
+        android:id="@+id/textViewMetricNameCreateMetricInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/metric_name"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline19"
-        app:layout_constraintEnd_toStartOf="@+id/guideline20"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOneCreateMetricInput"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoCreateMetricInput"
         app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,48 +44,48 @@
         android:id="@+id/spinnerUnitCategoryCreateMetricInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline136"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeCreateMetricInput"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline20"
-        app:layout_constraintTop_toTopOf="@+id/guideline19" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoCreateMetricInput"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneCreateMetricInput" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline19"
+        android:id="@+id/guidelineOneCreateMetricInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline20"
+        android:id="@+id/guidelineTwoCreateMetricInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <EditText
         android:id="@+id/editTextMetricNameCreateMetricInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline19"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOneCreateMetricInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline20"
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoCreateMetricInput"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.377" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline136"
+        android:id="@+id/guidelineThreeCreateMetricInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -92,7 +93,7 @@
 
     <Button
         android:id="@+id/buttonCreateMetricInput"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -100,8 +101,22 @@
         android:layout_marginBottom="8dp"
         android:text="@string/create_metric"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline136" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFiveCreateMetricInput"
+        app:layout_constraintStart_toStartOf="@+id/guidelineFourCreateMetricInput"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeCreateMetricInput" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFourCreateMetricInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFiveCreateMetricInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

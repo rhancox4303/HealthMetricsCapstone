@@ -32,7 +32,7 @@ import ca.mohawk.HealthMetrics.R;
 public class AddMetricFragment extends Fragment implements View.OnClickListener,
         AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener {
 
-    // The HealthMetricsDbHelper healthMetricsDbHelper is used to access the SQLite database.
+    // Instantiate the healthMetricsDbHelper.
     private HealthMetricsDbHelper healthMetricsDbHelper;
 
     // Instantiate the unit and metric spinners.
@@ -115,7 +115,7 @@ public class AddMetricFragment extends Fragment implements View.OnClickListener,
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the create or add metric button's onClickListener is activated.
      *
      * @param v Represents the view.
      */

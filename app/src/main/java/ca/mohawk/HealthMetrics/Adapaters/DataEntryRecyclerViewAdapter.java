@@ -18,8 +18,9 @@ import ca.mohawk.HealthMetrics.MainActivity;
 import ca.mohawk.HealthMetrics.R;
 
 /**
- * Acts as a custom adapter for the data latestDataEntry objects
- * in the data entry list recycler view.
+ *
+ * Acts as a custom adapter for the data entries objects
+ * in the data entry recycler views.
  */
 public class DataEntryRecyclerViewAdapter extends
         RecyclerView.Adapter<DataEntryRecyclerViewAdapter.ViewHolder> {
@@ -33,7 +34,7 @@ public class DataEntryRecyclerViewAdapter extends
     /**
      * Constructs the DataEntryRecyclerViewAdapter.
      *
-     * @param dataEntryDisplayObjects Represents the list of DataEntryRecyclerViewObjects.
+     * @param dataEntryDisplayObjects Represents the list of DataEntryDisplayObject.
      * @param context                 Represents the application context.
      */
     public DataEntryRecyclerViewAdapter(List<DataEntryDisplayObject> dataEntryDisplayObjects, Context context) {
@@ -129,16 +130,15 @@ public class DataEntryRecyclerViewAdapter extends
      */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        // Initialize the data latestDataEntry and the date of latestDataEntry text views.
+
         TextView textViewDataEntry;
         TextView textViewDateOfEntry;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            // Get the text views from the data latestDataEntry recycler view layout.
             textViewDataEntry = itemView.findViewById(R.id.textViewDataEntryRecyclerView);
-            textViewDateOfEntry = itemView.findViewById(R.id.textViewDateOfEntryRecyclerView);
+            textViewDateOfEntry = itemView.findViewById(R.id.textViewDateOfEntryDataEntryRecyclerView);
         }
     }
 }

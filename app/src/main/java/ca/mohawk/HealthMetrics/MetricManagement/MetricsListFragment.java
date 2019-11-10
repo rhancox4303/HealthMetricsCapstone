@@ -2,17 +2,18 @@ package ca.mohawk.HealthMetrics.MetricManagement;
 
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 import java.util.Objects;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import ca.mohawk.HealthMetrics.Adapaters.MetricRecyclerViewAdapter;
 import ca.mohawk.HealthMetrics.DisplayObjects.MetricDisplayObject;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
@@ -23,15 +24,14 @@ import ca.mohawk.HealthMetrics.R;
  * The MetricsListFragment class is an extension of the Fragment class.
  * The Metrics List Fragment contains a recycler view of all metrics the user is currently tracking.
  */
-public class MetricsListFragment extends Fragment implements View.OnClickListener{
+public class MetricsListFragment extends Fragment implements View.OnClickListener {
 
     public MetricsListFragment() {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Show the action bar and set the title to "Health Metrics"
         Objects.requireNonNull(((MainActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).show();
@@ -42,17 +42,17 @@ public class MetricsListFragment extends Fragment implements View.OnClickListene
         HealthMetricsDbHelper healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
         //Instantiate the addMetricButton and set the OnClickListener.
-        Button addMetricButton =  rootView.findViewById(R.id.buttonAddMetricViewMetric);
+        Button addMetricButton = rootView.findViewById(R.id.buttonAddMetricMetricList);
         addMetricButton.setOnClickListener(this);
 
         // Get the recycler view in the fragment layout.
-        RecyclerView metricRecyclerView = rootView.findViewById(R.id.recyclerViewMetrics);
+        RecyclerView metricRecyclerView = rootView.findViewById(R.id.recyclerViewMetricList);
 
         // Get the list of added metrics from the database.
         List<MetricDisplayObject> addedMetricsList = healthMetricsDbHelper.getAddedValues();
 
         // Create a new MetricRecyclerViewAdapter and apply it to the metricRecyclerView.
-        MetricRecyclerViewAdapter adapter = new MetricRecyclerViewAdapter(addedMetricsList,getActivity());
+        MetricRecyclerViewAdapter adapter = new MetricRecyclerViewAdapter(addedMetricsList, getActivity());
         metricRecyclerView.setAdapter(adapter);
 
         // Set a new LinearLayoutManager to the metricRecyclerView.
@@ -63,13 +63,13 @@ public class MetricsListFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when Add Metric button onClickListener is activated.
      *
      * @param v Represents the view.
      */
     @Override
     public void onClick(View v) {
-        AddMetricFragment addMetricFragment= new AddMetricFragment();
+        AddMetricFragment addMetricFragment = new AddMetricFragment();
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, addMetricFragment)
                 .addToBackStack(null)

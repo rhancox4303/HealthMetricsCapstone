@@ -2,62 +2,63 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout14"
+    android:id="@+id/constraintsLayoutPhotoEntryList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PhotoGallery.ViewPhotoGalleryFragment">
+    android:background="@color/design_default_color_background"
+    tools:context=".PhotoGallery.PhotoEntryList">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline64"
+        android:id="@+id/guidelineOnePhotoEntryList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline65"
+        android:id="@+id/guidelineTwoPhotoEntryList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.49878347" />
 
     <Button
-        android:id="@+id/buttonAddEntryViewPhotoGallery"
-        android:layout_width="wrap_content"
+        android:id="@+id/buttonAddEntryPhotoEntryList"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Add Entry"
+        android:text="@string/add_entry"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline65"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoPhotoEntryList"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline64" />
+        app:layout_constraintTop_toTopOf="@+id/guidelineOnePhotoEntryList" />
 
     <Button
-        android:id="@+id/buttonManageGalleryViewPhotoGallery"
-        android:layout_width="wrap_content"
+        android:id="@+id/buttonManageGalleryPhotoEntryList"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Manage Gallery"
+        android:text="@string/manage_gallery"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline65"
-        app:layout_constraintTop_toTopOf="@+id/guideline64" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoPhotoEntryList"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOnePhotoEntryList" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerviewPhotoGallery"
+        android:id="@+id/recyclervVewPhotoEntryList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline64"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOnePhotoEntryList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

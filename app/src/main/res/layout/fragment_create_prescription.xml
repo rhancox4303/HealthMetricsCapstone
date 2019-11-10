@@ -2,317 +2,230 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout21"
+    android:id="@+id/constraintLayoutCreatePrescription"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".Prescription.CreatePrescriptionFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline92"
+        android:id="@+id/guidelineTwoCreatePrescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <Button
+        android:id="@+id/buttonCreatePrescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/create_prescription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineElevenCreatePrescription"
+        app:layout_constraintStart_toStartOf="@+id/guidelineTenCreatePrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineEightCreatePrescription" />
+
+    <EditText
+        android:id="@+id/editTextNameCreatePrescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineTwoCreatePrescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneCreatePrescription" />
+
+    <EditText
+        android:id="@+id/editTextFormCreatePrescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/form"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeCreatePrescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineTwoCreatePrescription" />
+
+    <EditText
+        android:id="@+id/editTextReasonCreatePrescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/reason"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineEightCreatePrescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSevenCreatePrescription" />
+
+    <EditText
+        android:id="@+id/editTextAmountCreatePrescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/amount"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSevenCreatePrescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSixCreatePrescription" />
+
+    <EditText
+        android:id="@+id/editTextDoseCreatePrescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/dosage"
+        android:inputType="numberDecimal|numberSigned"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveCreatePrescription"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineNineCreatePrescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourCreatePrescription" />
+
+    <EditText
+        android:id="@+id/editTextFrequencyCreatePrescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/frequency"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSixCreatePrescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFiveCreatePrescription" />
+
+    <Spinner
+        android:id="@+id/spinnerDosageMeasurementCreatePrescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFiveCreatePrescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guidelineNineCreatePrescription"
+        app:layout_constraintTop_toTopOf="@+id/guidelineFourCreatePrescription" />
+
+    <EditText
+        android:id="@+id/editTextStrengthCreatePrescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/strength"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineFourCreatePrescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineThreeCreatePrescription" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineOneCreatePrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline93"
+        android:id="@+id/guidelineThreeCreatePrescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30232558" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFourCreatePrescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.40902874"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFiveCreatePrescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSixCreatePrescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6087551" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSevenCreatePrescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEightCreatePrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline94"
+        android:id="@+id/guidelineNineCreatePrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.30" />
+        app:layout_constraintGuide_percent="0.40632603" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline95"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.20383038" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline96"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.30916554" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline97"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.40492475" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline98"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline99"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline100"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
-
-    <TextView
-        android:id="@+id/textViewNameDisplayCreatePrescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Name"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline95"
-        app:layout_constraintEnd_toStartOf="@+id/guideline94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline92" />
-
-    <TextView
-        android:id="@+id/textViewFormDisplayCreatePrescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Form"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline96"
-        app:layout_constraintEnd_toStartOf="@+id/guideline94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline95" />
-
-    <TextView
-        android:id="@+id/textViewDoseageDisplayCreatePrescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Doseage"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline98"
-        app:layout_constraintEnd_toStartOf="@+id/guideline94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline97" />
-
-    <TextView
-        android:id="@+id/textViewQuantityDisplayCreatePrescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Amount"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline100"
-        app:layout_constraintEnd_toStartOf="@+id/guideline94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline99" />
-
-    <TextView
-        android:id="@+id/textViewReasonDisplayCreatePrescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Reason"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline93"
-        app:layout_constraintEnd_toStartOf="@+id/guideline94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline100" />
-
-    <Button
-        android:id="@+id/buttonCreatePrescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Create Prescription"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline93" />
-
-    <EditText
-        android:id="@+id/editTextNameCreatePrescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline95"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline94"
-        app:layout_constraintTop_toTopOf="@+id/guideline92" />
-
-    <EditText
-        android:id="@+id/editTextFormCreatePrescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline96"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline94"
-        app:layout_constraintTop_toTopOf="@+id/guideline95" />
-
-    <EditText
-        android:id="@+id/editTextReasonCreatePrescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline93"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline94"
-        app:layout_constraintTop_toTopOf="@+id/guideline100" />
-
-    <EditText
-        android:id="@+id/editTextAmountCreatePrescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/guideline100"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline94"
-        app:layout_constraintTop_toTopOf="@+id/guideline99" />
-
-    <EditText
-        android:id="@+id/editTextDoseCreatePrescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="numberDecimal|numberSigned"
-        app:layout_constraintBottom_toTopOf="@+id/guideline98"
-        app:layout_constraintEnd_toStartOf="@+id/guideline140"
-        app:layout_constraintStart_toStartOf="@+id/guideline94"
-        app:layout_constraintTop_toTopOf="@+id/guideline97" />
-
-    <EditText
-        android:id="@+id/editTextFrequencyCreatePrescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline99"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline94"
-        app:layout_constraintTop_toTopOf="@+id/guideline98" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline140"
+        android:id="@+id/guidelineTenCreatePrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintGuide_percent="0.25" />
 
-    <Spinner
-        android:id="@+id/spinnerDosageMeasurementCreatePrescription"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline98"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline140"
-        app:layout_constraintTop_toTopOf="@+id/guideline97" />
-
-    <TextView
-        android:id="@+id/textViewFrequencyCreatePrescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Dosage Frequency"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline99"
-        app:layout_constraintEnd_toStartOf="@+id/guideline94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline98" />
-
-    <TextView
-        android:id="@+id/textViewStrengthCreatePrescription"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineElevenCreatePrescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Strength"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline97"
-        app:layout_constraintEnd_toStartOf="@+id/guideline94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline96" />
-
-    <EditText
-        android:id="@+id/editTextStrengthCreatePrescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline97"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline94"
-        app:layout_constraintTop_toTopOf="@+id/guideline96" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

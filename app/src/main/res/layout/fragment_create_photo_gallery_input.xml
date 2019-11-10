@@ -2,30 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout29"
+    android:id="@+id/constraintLayoutCreatePhotoGalleryInput"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/design_default_color_background"
     tools:context=".MetricManagement.CreatePhotoGalleryInputFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline142"
+        android:id="@+id/guidelineOneCreatePhotoGalleryInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline143"
+        android:id="@+id/guidelineTwoCreatePhotoGalleryInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline144"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
     <TextView
@@ -37,11 +31,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/gallery_name"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline144"
-        app:layout_constraintEnd_toStartOf="@+id/guideline143"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeCreatePhotoGalleryInput"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineTwoCreatePhotoGalleryInput"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline142" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextGalleryNameCreatePhotoGalleryInput"
@@ -53,18 +47,43 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline144"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineThreeCreatePhotoGalleryInput"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline143"
-        app:layout_constraintTop_toTopOf="@+id/guideline142" />
+        app:layout_constraintStart_toStartOf="@+id/guidelineTwoCreatePhotoGalleryInput"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonCreateGallery"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/create_gallery"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline144" />
+        app:layout_constraintEnd_toStartOf="@+id/guidelineFiveCreatePhotoGalleryInput"
+        app:layout_constraintStart_toStartOf="@+id/guidelineFourCreatePhotoGalleryInput"
+        app:layout_constraintTop_toTopOf="@+id/guidelineOneCreatePhotoGalleryInput" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineThreeCreatePhotoGalleryInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFourCreatePhotoGalleryInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineFiveCreatePhotoGalleryInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,6 +57,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_edit_data_entry, container,
                 false);
@@ -65,7 +66,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         TextView metricNameTextView = rootView.findViewById(R.id.textViewMetricDisplayEditDataEntry);
         TextView unitAbbreviationTextView = rootView.findViewById(R.id.textViewUnitAbbreviationEditDataEntry);
 
-        Button editDataEntryButton = rootView.findViewById(R.id.ButtonEditDataEntry);
+        Button editDataEntryButton = rootView.findViewById(R.id.buttonEditDataEntry);
 
         dataEntryEditText = rootView.findViewById(R.id.editTextDataEntryEditDataEntry);
         dateOfEntryEditText = rootView.findViewById(R.id.editTextDateOfEntryEditDataEntry);
@@ -76,7 +77,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         // Get the healthMetricsDbHelper.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(getActivity());
 
-        // Get the data latestDataEntry id from the passed bundle.
+        // Get the data entry id from the passed bundle.
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             dataEntryId = bundle.getInt("data_entry_selected_key", -1);
@@ -88,12 +89,12 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         // Validate the data latestDataEntry is not null.
         if (dataEntry == null) {
             // Inform the user of the error and call the navigateToMetricsListFragment method.
-            Toast.makeText(getActivity(), "Cannot load data latestDataEntry from database.",
+            Toast.makeText(getActivity(), "Cannot load data entry from database.",
                     Toast.LENGTH_SHORT).show();
             navigateToMetricsListFragment();
 
         } else {
-            // Display the date of latestDataEntry and the data latestDataEntry.
+            // Display the date of entry and the data entry.
             dateOfEntryEditText.setText(dataEntry.dateOfEntry);
             dataEntryEditText.setText(dataEntry.dataEntry);
 
@@ -143,27 +144,27 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
      */
     private boolean validateUserInput() {
 
-        // If the date of latestDataEntry string is empty, inform the user and return false.
+        // If the date of entry string is empty, inform the user and return false.
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
             Toast.makeText(getActivity(), "The date of latestDataEntry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If the date of latestDataEntry does not contain a date and time, inform the user and return false.
+        // If the date of entry does not contain a date and time, inform the user and return false.
         if (!dateOfEntryEditText.getText().toString().matches("^(\\d+:\\d\\d)\\s(\\d+-\\d\\d-\\d+)$")) {
             Toast.makeText(getActivity(), "Both a date and time is required.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If the data latestDataEntry string is empty, inform the user and return false.
+        // If the data entry string is empty, inform the user and return false.
         if (dataEntryEditText.getText().toString().trim().equals("")) {
             Toast.makeText(getActivity(), "The data latestDataEntry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // If the data latestDataEntry string does not only contain digits, inform the user and return false.
+        // If the data entry string does not only contain digits, inform the user and return false.
         if (!dataEntryEditText.getText().toString().trim().matches("^[1-9]\\d*(\\.\\d+)?$")) {
             Toast.makeText(getActivity(), "The data latestDataEntry field can only contain digits.",
                     Toast.LENGTH_SHORT).show();
@@ -242,7 +243,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
             timePickerFragment.show(Objects.requireNonNull(getFragmentManager()).beginTransaction(),
                     "timePicker");
             // Else if the view id is buttonEditDataEntry call the editDataEntry method.
-        } else if (v.getId() == R.id.ButtonEditDataEntry) {
+        } else if (v.getId() == R.id.buttonEditDataEntry) {
             editDataEntry();
         }
     }

@@ -364,14 +364,14 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
             PhotoEntry photoEntry = new PhotoEntry(galleryId, currentPhotoPath, date, isFromGallery);
 
             if (healthMetricsDbHelper.addPhotoEntry(photoEntry)) {
-                ViewPhotoGalleryFragment viewPhotoGalleryFragment = new ViewPhotoGalleryFragment();
+                PhotoEntryList photoEntryList = new PhotoEntryList();
 
                 Bundle metricBundle = new Bundle();
                 metricBundle.putInt("selected_item_key", galleryId);
-                viewPhotoGalleryFragment.setArguments(metricBundle);
+                photoEntryList.setArguments(metricBundle);
 
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, viewPhotoGalleryFragment)
+                        .replace(R.id.fragmentContainer, photoEntryList)
                         .addToBackStack(null)
                         .commit();
             } else {
