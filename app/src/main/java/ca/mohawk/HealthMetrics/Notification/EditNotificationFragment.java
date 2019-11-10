@@ -122,7 +122,7 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
         } else {
             Toast.makeText(getActivity(), "Cannot load notification from database.",
                     Toast.LENGTH_SHORT).show();
-            navigateToMetricsListFragment();
+            navigateToNotificationListFragment();
         }
 
         // Return rootView.
@@ -130,11 +130,11 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
     }
 
     /**
-     * Replaces the current fragment with a MetricsListFragment.
+     * Replaces the current fragment with a NotificationList Fragment.
      */
-    private void navigateToMetricsListFragment() {
+    private void navigateToNotificationListFragment() {
 
-        MetricsListFragment destinationFragment = new MetricsListFragment();
+        NotificationListFragment destinationFragment = new NotificationListFragment();
 
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, destinationFragment)
@@ -143,7 +143,7 @@ public class EditNotificationFragment extends Fragment implements View.OnClickLi
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the date and time edit text and edit notification button are pressed.
      *
      * @param v Represents the view.
      */

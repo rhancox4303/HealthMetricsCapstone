@@ -41,4 +41,18 @@ public class MetricDisplayObject {
     public String toString() {
         return name;
     }
+
+    /**
+     * Get the latest data entry. Cut off large notes.
+     * @return
+     */
+    public String getLatestDataEntry(){
+        if(category.equals("Note")){
+            if(latestDataEntry.length() > 15 ){
+
+            return latestDataEntry.substring(0,15) + "...";
+            }
+        }
+        return latestDataEntry;
+    }
 }

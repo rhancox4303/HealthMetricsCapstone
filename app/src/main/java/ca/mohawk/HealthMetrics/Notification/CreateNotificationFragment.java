@@ -195,7 +195,7 @@ public class CreateNotificationFragment extends Fragment implements AdapterView.
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the create notification button is pressed.
      *
      * @param v Represents the view.
      */

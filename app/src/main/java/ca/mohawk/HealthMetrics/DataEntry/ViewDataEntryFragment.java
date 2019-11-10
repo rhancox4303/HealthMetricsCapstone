@@ -137,7 +137,7 @@ public class ViewDataEntryFragment extends Fragment implements View.OnClickListe
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the delete or edit entry buttons are pressed.
      *
      * @param v Represents the view.
      */

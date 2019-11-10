@@ -63,7 +63,7 @@ public class MetricsListFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     * Runs when Add Metric button onClickListener is activated.
+     * Runs when Add Metric button is pressed.
      *
      * @param v Represents the view.
      */

@@ -79,7 +79,7 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the create metric button is pressed.
      *
      * @param v Represents the view.
      */
@@ -113,7 +113,7 @@ public class CreateMetricInputFragment extends Fragment implements View.OnClickL
         }
         // If metricName does not only contain numbers, digits and spaces. then inform the user and return false.
         if (!metricName.matches("[a-zA-Z0-9 ]*")) {
-            Toast.makeText(getActivity(), "The metric name may only contain letters and numbers", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The metric name may only contain letters, numbers and spaces.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

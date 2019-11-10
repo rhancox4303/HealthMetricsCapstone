@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.Models.User;
 import ca.mohawk.HealthMetrics.R;
 
@@ -73,6 +74,7 @@ public class EditUserFragment extends Fragment implements View.OnClickListener,
         // If the returned user is null then display a message to the user.
         if (user == null) {
             Toast.makeText(getActivity(), "User not found.", Toast.LENGTH_SHORT).show();
+            navigateToMetricsListFragment();
         } else {
             //Populate the fields with the user's information.
             firstNameEditText.setText(user.firstName);
@@ -90,6 +92,18 @@ public class EditUserFragment extends Fragment implements View.OnClickListener,
         return rootView;
     }
 
+    /**
+     * Replaces the current fragment with a MetricsListFragment.
+     */
+    private void navigateToMetricsListFragment() {
+
+        MetricsListFragment destinationFragment = new MetricsListFragment();
+
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, destinationFragment)
+                .addToBackStack(null)
+                .commit();
+    }
     /**
      * Updates the user profile in the database.
      */
@@ -162,7 +176,7 @@ public class EditUserFragment extends Fragment implements View.OnClickListener,
     }
 
     /**
-     * Runs the editProfile method or opens the DatePickerFragment depending on what was clicked.
+     * Runs when the edit user or date of birth edit text is pressed.
      */
     @Override
     public void onClick(View v) {

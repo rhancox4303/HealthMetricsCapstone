@@ -67,8 +67,8 @@ public class DeleteDataEntryDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
 
         // Set the title and message.
-        builder.setTitle("Delete Data latestDataEntry");
-        builder.setMessage("The data latestDataEntry will be deleted.");
+        builder.setTitle("Delete Data Entry");
+        builder.setMessage("The data entry will be deleted.");
 
         // Set the PositiveButton.
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {

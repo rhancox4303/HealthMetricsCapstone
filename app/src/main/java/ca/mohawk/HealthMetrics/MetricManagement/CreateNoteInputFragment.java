@@ -67,7 +67,7 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the add note button or date of entry edit text are pressed.
      *
      * @param v Represents the view.
      */
@@ -108,7 +108,7 @@ public class CreateNoteInputFragment extends Fragment implements View.OnClickLis
 
         // If date of entry is empty then inform the user and return false.
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of latestDataEntry cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The date of entry cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

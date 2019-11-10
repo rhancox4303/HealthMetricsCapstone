@@ -74,12 +74,12 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
             if (unit != null) {
                 unitTextView.setText(unit.unitName);
             } else {
-                Toast.makeText(getActivity(), "Error getting the unit from the database.",
+                Toast.makeText(getActivity(), "Failed getting the unit from the database.",
                         Toast.LENGTH_SHORT).show();
                 navigateToMetricsListFragment();
             }
         } else {
-            Toast.makeText(getActivity(), "Error getting the metric from the database.",
+            Toast.makeText(getActivity(), "Failed getting the metric from the database.",
                     Toast.LENGTH_SHORT).show();
             navigateToMetricsListFragment();
         }
@@ -101,7 +101,7 @@ public class ManageMetricFragment extends Fragment implements View.OnClickListen
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs the delete, edit and remove buttons are pressed.
      *
      * @param v Represents the view.
      */

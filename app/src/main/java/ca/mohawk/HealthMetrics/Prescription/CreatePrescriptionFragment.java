@@ -269,7 +269,7 @@ public class CreatePrescriptionFragment extends Fragment implements View.OnClick
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the create prescription button is pressed.
      *
      * @param v Represents the view.
      */

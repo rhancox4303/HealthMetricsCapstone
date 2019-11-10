@@ -147,7 +147,7 @@ public class EmailShareFragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the send email button is pressed.
      *
      * @param v Represents the view.
      */

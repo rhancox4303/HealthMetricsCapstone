@@ -79,7 +79,7 @@ public class ViewPhotoEntryFragment extends Fragment implements View.OnClickList
                     .into(imageView);
         } else {
 
-            Toast.makeText(getActivity(), "Error getting the Photo entry from the database.",
+            Toast.makeText(getActivity(), "Unable to get the photo entry from the database.",
                     Toast.LENGTH_SHORT).show();
             navigateToMetricsListFragment();
         }
@@ -101,7 +101,7 @@ public class ViewPhotoEntryFragment extends Fragment implements View.OnClickList
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when delete and edit entry buttons are pressed.
      *
      * @param v Represents the view.
      */

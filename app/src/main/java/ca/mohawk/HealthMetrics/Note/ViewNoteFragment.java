@@ -91,7 +91,7 @@ public class ViewNoteFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs the delete or edit not buttons are pressed.
      *
      * @param v Represents the view.
      */

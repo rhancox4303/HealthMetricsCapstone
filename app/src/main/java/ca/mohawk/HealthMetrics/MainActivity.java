@@ -11,10 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
-
-import java.io.File;
-
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,6 +19,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationView;
+
+import java.io.File;
+
 import ca.mohawk.HealthMetrics.DataEntry.DataEntryListFragment;
 import ca.mohawk.HealthMetrics.DataEntry.DeleteDataEntryDialog;
 import ca.mohawk.HealthMetrics.MetricManagement.DeleteMetricDialog;
@@ -180,13 +181,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDeleteMetricDialogPositiveClick(DeleteMetricDialog dialog) {
 
-        // Delete the metric and inform the user if it was successful
+        // Delete the metric and inform the user if it was not successful
         if (healthMetricsDbHelper.deleteMetric(dialog.getMetricId())) {
-            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+            switchFragment(new MetricsListFragment());
         } else {
             Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
         }
-        switchFragment(new MetricsListFragment());
+
     }
 
     /**
@@ -214,13 +215,12 @@ public class MainActivity extends AppCompatActivity implements
         metricBundle.putInt("selected_item_key", dialog.getMetricId());
         dataEntryListFragment.setArguments(metricBundle);
 
-        // Delete the data entry and inform the user if it was successful
+        // Delete the data entry and inform the user if it was not successful
         if (healthMetricsDbHelper.deleteDataEntry(dialog.getDataEntryId())) {
-            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+            switchFragment(dataEntryListFragment);
         } else {
             Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
         }
-        switchFragment(dataEntryListFragment);
     }
 
     /**
@@ -241,13 +241,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDeletePrescriptionDialogPositiveClick(DeletePrescriptionDialog dialog) {
 
-        // Delete the prescription and inform the user if it was successful
+        // Delete the prescription and inform the user if it was not successful
         if (healthMetricsDbHelper.deletePrescription(dialog.getPrescriptionId())) {
-            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+            switchFragment(new PrescriptionListFragment());
         } else {
             Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
         }
-        switchFragment(new PrescriptionListFragment());
     }
 
     /**
@@ -268,14 +267,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onRemoveMetricDialogPositiveClick(RemoveMetricDialog dialog) {
 
-        // Delete the data entries and remove the metric and inform the user if it was successful.
+        // Delete the data entries and remove the metric and inform the user if it was not successful.
         if (healthMetricsDbHelper.deleteDataEntriesByMetricId(dialog.getMetricId()) &&
                 healthMetricsDbHelper.removeMetricFromProfile(dialog.getMetricId())) {
-            Toast.makeText(this, "Remove was successful", Toast.LENGTH_SHORT).show();
+            switchFragment(new MetricsListFragment());
         } else {
             Toast.makeText(this, "Remove was not successful", Toast.LENGTH_SHORT).show();
         }
-        switchFragment(new MetricsListFragment());
     }
 
     /**
@@ -296,13 +294,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onDeleteNoteDialogPositiveClick(DeleteNoteDialog dialog) {
 
-        // Delete the note and inform the user if it was successful.
+        // Delete the note and inform the user if it was not successful.
         if (healthMetricsDbHelper.deleteNoteById(dialog.getNoteId())) {
-            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+            switchFragment(new MetricsListFragment());
         } else {
             Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
         }
-        switchFragment(new MetricsListFragment());
     }
 
     /**
@@ -338,13 +335,12 @@ public class MainActivity extends AppCompatActivity implements
             File photoEntryFile = new File(dialog.getPhotoEntryPath());
             photoEntryFile.delete();
         }
-        // Inform the user if it was successful.
+        // Inform the user if it was not successful.
         if (deleteSuccessful) {
-            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+            switchFragment(photoEntryList);
         } else {
             Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
         }
-        switchFragment(photoEntryList);
     }
 
     /**
@@ -367,11 +363,10 @@ public class MainActivity extends AppCompatActivity implements
 
         // Delete the gallery and inform the user if it was successful.
         if (healthMetricsDbHelper.deleteGallery(dialog.getGalleryId())) {
-            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+            switchFragment(new MetricsListFragment());
         } else {
             Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
         }
-        switchFragment(new MetricsListFragment());
     }
 
     /**
@@ -405,11 +400,10 @@ public class MainActivity extends AppCompatActivity implements
 
         // Delete the notification and inform the user if it was successful
         if (healthMetricsDbHelper.deleteNotification(dialog.getNotificationId())) {
-            Toast.makeText(this, "Deletion was successful", Toast.LENGTH_SHORT).show();
+            switchFragment(new NotificationListFragment());
         } else {
             Toast.makeText(this, "Deletion was not successful", Toast.LENGTH_SHORT).show();
         }
-        switchFragment(new NotificationListFragment());
     }
 
     /**

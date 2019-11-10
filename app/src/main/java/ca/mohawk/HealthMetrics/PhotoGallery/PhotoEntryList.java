@@ -73,7 +73,7 @@ public class PhotoEntryList extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the add entry and manage gallery buttons are pressed.
      *
      * @param v Represents the view.
      */

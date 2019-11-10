@@ -85,7 +85,7 @@ public class MetricRecyclerViewAdapter extends
 
         // Display the latest data latestDataEntry in the recycler view.
         TextView latestDataEntryTextView = viewHolder.latestMetricDataEntry;
-        latestDataEntryTextView.setText(metric.latestDataEntry);
+        latestDataEntryTextView.setText(metric.getLatestDataEntry());
 
         // Set the itemView onCLickListener.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

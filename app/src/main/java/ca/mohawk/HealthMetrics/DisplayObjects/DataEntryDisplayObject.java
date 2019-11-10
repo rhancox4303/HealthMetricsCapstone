@@ -13,23 +13,23 @@ import java.util.Date;
  */
 public class DataEntryDisplayObject {
 
-    // Represents the data latestDataEntry id.
+    // Represents the data entry id.
     public int id;
 
-    // Represents the date and time of the data latestDataEntry.
+    // Represents the date and time of the data entry.
     public String dateOfEntry;
 
-    // Represents the data of the data latestDataEntry.
+    // Represents the data of the data entry.
     public String data;
 
-    // Represent the abbreviation of the unit that the data latestDataEntry uses to measure it's data.
+    // Represent the abbreviation of the unit that the data entry uses to measure it's data.
     public String unitAbbreviation;
 
     /**
      * Constructs the DataEntryDisplayObject.
      *
-     * @param id               Represents the data latestDataEntry id.
-     * @param dateOfEntry      Represents the date and time of the data latestDataEntry.
+     * @param id               Represents the data entry id.
+     * @param dateOfEntry      Represents the date and time of the data entry.
      * @param data             Represents the data of the data entry.
      * @param unitAbbreviation Represents the unit abbreviation.
      */
@@ -59,7 +59,7 @@ public class DataEntryDisplayObject {
     }
 
     /**
-     * Converts the date of latestDataEntry to a date object.
+     * Converts the date of entry to a date object.
      *
      * @return Returns converted dateOfEntry date object.
      */

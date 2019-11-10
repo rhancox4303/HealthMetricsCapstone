@@ -116,7 +116,7 @@ public class EditGalleryFragment extends Fragment implements View.OnClickListene
         }
         // If galleryName does not only contain numbers, digits and spaces. then inform the user and return false.
         if (!galleryName.matches("[a-zA-Z0-9 ]*")) {
-            Toast.makeText(getActivity(), "The gallery name may only contain letters numbers and spaces.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The gallery name may only contain letters, numbers and spaces.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -157,7 +157,7 @@ public class EditGalleryFragment extends Fragment implements View.OnClickListene
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the edit gallery button is pressed.
      *
      * @param v Represents the view.
      */

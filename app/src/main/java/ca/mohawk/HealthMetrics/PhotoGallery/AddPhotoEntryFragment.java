@@ -112,7 +112,7 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the add photo entry or choose image buttons are pressed.
      *
      * @param v Represents the view.
      */
@@ -390,7 +390,7 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
 
         //  If date of entry is empty then inform the user and return false.
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of entry. cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The date of entry cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
         // If date of entry is does not contain a date and time then inform the user and return false.
@@ -399,7 +399,7 @@ public class AddPhotoEntryFragment extends Fragment implements View.OnClickListe
             return false;
         }
 
-        // The a photo has not been entered then inform the user and return false.
+        // The photo has not been entered then inform the user and return false.
         if (currentPhotoPath == null) {
             Toast.makeText(getActivity(), "Please enter a photo.", Toast.LENGTH_SHORT).show();
             return false;

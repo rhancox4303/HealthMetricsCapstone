@@ -14,9 +14,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Objects;
 
-import androidx.fragment.app.Fragment;
 import ca.mohawk.HealthMetrics.DatePickerFragment;
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
 import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
@@ -25,7 +26,6 @@ import ca.mohawk.HealthMetrics.Models.Metric;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.R;
 import ca.mohawk.HealthMetrics.TimePickerFragment;
-
 
 /**
  * The EditDataEntryFragment class is an extension of the Fragment class.
@@ -86,7 +86,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
         // Get the data from the database.
         DataEntry dataEntry = healthMetricsDbHelper.getDataEntryById(dataEntryId);
 
-        // Validate the data latestDataEntry is not null.
+        // Validate the data entry is not null.
         if (dataEntry == null) {
             // Inform the user of the error and call the navigateToMetricsListFragment method.
             Toast.makeText(getActivity(), "Cannot load data entry from database.",
@@ -146,7 +146,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
 
         // If the date of entry string is empty, inform the user and return false.
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of latestDataEntry field cannot be empty.",
+            Toast.makeText(getActivity(), "The date of entry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -159,14 +159,14 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
 
         // If the data entry string is empty, inform the user and return false.
         if (dataEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The data latestDataEntry field cannot be empty.",
+            Toast.makeText(getActivity(), "The data entry field cannot be empty.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
         // If the data entry string does not only contain digits, inform the user and return false.
         if (!dataEntryEditText.getText().toString().trim().matches("^[1-9]\\d*(\\.\\d+)?$")) {
-            Toast.makeText(getActivity(), "The data latestDataEntry field can only contain digits.",
+            Toast.makeText(getActivity(), "The data entry field can only contain digits.",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -176,25 +176,25 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
     }
 
     /**
-     * Updates the data latestDataEntry in the database.
+     * Updates the data entry in the database.
      */
     private void editDataEntry() {
 
         // Validate the user input.
         if (validateUserInput()) {
 
-            // Get the date and latestDataEntry from the edit texts.
+            // Get the date and entry from the edit texts.
             String date = dateOfEntryEditText.getText().toString();
             String entry = dataEntryEditText.getText().toString();
 
-            // Validate the data latestDataEntry was updated in the database successfully.
+            // Validate the data entry was updated in the database successfully.
             if (healthMetricsDbHelper.updateDataEntry(new DataEntry(dataEntryId, metricId, entry,
                     date))) {
 
                 // Create a new viewDataEntryFragment Fragment.
                 ViewDataEntryFragment viewDataEntryFragment = new ViewDataEntryFragment();
 
-                // Create a bundle and set the data latestDataEntry id.
+                // Create a bundle and set the data entry id.
                 Bundle dataEntryBundle = new Bundle();
                 dataEntryBundle.putInt("data_entry_selected_key", dataEntryId);
 
@@ -228,7 +228,7 @@ public class EditDataEntryFragment extends Fragment implements View.OnClickListe
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs the add data button or dte of entry edit text are pressed.
      *
      * @param v Represents the view.
      */

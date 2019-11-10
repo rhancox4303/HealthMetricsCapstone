@@ -299,7 +299,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
     }
 
     /**
-     * Updates a prescription in the database based on inputted inputted values.
+     * Updates a prescription in the database based on inputted values.
      */
     private void updatePrescription() {
 
@@ -331,7 +331,7 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs the edit prescription button is pressed.
      *
      * @param v Represents the view.
      */

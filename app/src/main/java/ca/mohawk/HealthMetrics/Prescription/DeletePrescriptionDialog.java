@@ -94,7 +94,6 @@ public class DeletePrescriptionDialog extends DialogFragment {
          *
          * @param dialog Represents the DeletePrescriptionDialog.
          */
-
         void onDeletePrescriptionDialogNegativeClick(DeletePrescriptionDialog dialog);
     }
 }

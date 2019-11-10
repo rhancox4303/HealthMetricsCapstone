@@ -59,7 +59,7 @@ public class DeleteGalleryDialog extends DialogFragment {
 
         // Set the title and message.
         builder.setTitle("Delete Gallery");
-        builder.setMessage("The gallery will be deleted.");
+        builder.setMessage("The gallery and all of it's photo entries will be deleted.");
 
         // Set the PositiveButton and it's OnClickListener.
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {

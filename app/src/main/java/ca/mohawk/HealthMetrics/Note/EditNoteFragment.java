@@ -147,7 +147,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
 
         // If date of entry is empty then inform the user and return false.
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of latestDataEntry cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The date of entry cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -174,7 +174,7 @@ public class EditNoteFragment extends Fragment implements View.OnClickListener, 
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the date of entry edit text or edit note button is pressed.
      *
      * @param v Represents the view.
      */

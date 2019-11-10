@@ -65,7 +65,7 @@ public class ManageGalleryFragment extends Fragment implements View.OnClickListe
         if (gallery != null) {
             galleryNameTextView.setText(gallery.name);
         } else {
-            Toast.makeText(getActivity(), "Error getting the gallery from the database.",
+            Toast.makeText(getActivity(), "Unable to get the gallery from the database.",
                     Toast.LENGTH_SHORT).show();
             navigateToMetricsListFragment();
         }
@@ -87,7 +87,7 @@ public class ManageGalleryFragment extends Fragment implements View.OnClickListe
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the delete gallery and edit gallery buttons are pressed.
      *
      * @param v Represents the view.
      */

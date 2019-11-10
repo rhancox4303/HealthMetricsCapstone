@@ -152,7 +152,7 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the choose image, date of entry edit text and edit photo entry buttons are pressed.
      *
      * @param v Represents the view.
      */
@@ -426,7 +426,7 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
 
         //  If date of entry is empty then inform the user and return false.
         if (dateOfEntryEditText.getText().toString().trim().equals("")) {
-            Toast.makeText(getActivity(), "The date of entry. cannot be empty.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The date of entry cannot be empty.", Toast.LENGTH_SHORT).show();
             return false;
         }
         // If date of entry is does not contain a date and time then inform the user and return false.
@@ -442,7 +442,6 @@ public class EditPhotoEntryFragment extends Fragment implements View.OnClickList
         }
         return true;
     }
-
 
     /**
      * Runs when the TimePickerFragment onTimeSet listener is called.

@@ -60,7 +60,7 @@ public class PrescriptionListFragment extends Fragment implements View.OnClickLi
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the add prescription button is pressed.
      *
      * @param v Represents the view.
      */

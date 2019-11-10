@@ -56,7 +56,7 @@ public class NotificationListFragment extends Fragment implements View.OnClickLi
     }
     
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when a the add notification button is pressed.
      *
      * @param v Represents the view.
      */

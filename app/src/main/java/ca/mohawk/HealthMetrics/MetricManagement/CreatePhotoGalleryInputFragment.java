@@ -106,7 +106,7 @@ public class CreatePhotoGalleryInputFragment extends Fragment implements View.On
         }
         // If galleryName does not only contain numbers, digits and spaces. then inform the user and return false.
         if (!galleryName.matches("[a-zA-Z0-9 ]*")) {
-            Toast.makeText(getActivity(), "The gallery name may only contain letters and numbers", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The gallery name may only contain letters, spaces and numbers", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -119,7 +119,7 @@ public class CreatePhotoGalleryInputFragment extends Fragment implements View.On
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when tbe create gallery button is pressed.
      *
      * @param v Represents the view.
      */

@@ -108,7 +108,7 @@ public class ViewPrescriptionFragment extends Fragment implements View.OnClickLi
     }
 
     /**
-     * Runs when a view's onClickListener is activated.
+     * Runs when the delete and edit prescription buttons are pressed.
      *
      * @param v Represents the view.
      */

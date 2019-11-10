@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import java.util.Objects;
 
 import ca.mohawk.HealthMetrics.HealthMetricsDbHelper;
+import ca.mohawk.HealthMetrics.MetricManagement.MetricsListFragment;
 import ca.mohawk.HealthMetrics.Models.User;
 import ca.mohawk.HealthMetrics.R;
 
@@ -56,6 +57,7 @@ public class ViewUserFragment extends Fragment implements View.OnClickListener {
         // If the returned user is null then display a message to the user.
         if (user == null) {
             Toast.makeText(getActivity(), "User not found.", Toast.LENGTH_SHORT).show();
+            navigateToMetricsListFragment();
 
             // Else then display the user's information.
         } else {
@@ -70,6 +72,18 @@ public class ViewUserFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
+    /**
+     * Replaces the current fragment with a MetricsListFragment.
+     */
+    private void navigateToMetricsListFragment() {
+
+        MetricsListFragment destinationFragment = new MetricsListFragment();
+
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, destinationFragment)
+                .addToBackStack(null)
+                .commit();
+    }
     /**
      * Runs when the edit user button is pressed.
      */
