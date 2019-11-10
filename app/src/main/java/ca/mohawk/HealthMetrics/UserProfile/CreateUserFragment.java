@@ -102,9 +102,6 @@ public class CreateUserFragment extends Fragment implements View.OnClickListener
             //Use the healthMetricsDbHelper to add the user to the database and verify it was successful.
             if (healthMetricsDbHelper.addUser(new User(firstName, lastName, gender, dateOfBirth))) {
 
-                //Send message to user.
-                Toast.makeText(getActivity(), "User added.", Toast.LENGTH_SHORT).show();
-
                 //Call storeLoggedInState.
                 storeLoggedInState();
 
