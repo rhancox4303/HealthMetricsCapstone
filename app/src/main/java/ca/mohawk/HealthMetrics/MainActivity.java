@@ -268,8 +268,9 @@ public class MainActivity extends AppCompatActivity implements
     public void onRemoveMetricDialogPositiveClick(RemoveMetricDialog dialog) {
 
         // Delete the data entries and remove the metric and inform the user if it was not successful.
-        if (healthMetricsDbHelper.deleteDataEntriesByMetricId(dialog.getMetricId()) &&
-                healthMetricsDbHelper.removeMetricFromProfile(dialog.getMetricId())) {
+        healthMetricsDbHelper.deleteDataEntriesByMetricId(dialog.getMetricId());
+
+        if (healthMetricsDbHelper.removeMetricFromProfile(dialog.getMetricId())) {
             switchFragment(new MetricsListFragment());
         } else {
             Toast.makeText(this, "Remove was not successful", Toast.LENGTH_SHORT).show();
