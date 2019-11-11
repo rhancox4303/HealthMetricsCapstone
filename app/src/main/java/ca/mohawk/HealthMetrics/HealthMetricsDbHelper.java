@@ -1297,7 +1297,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
 
         // Sort by the date of entry.
         String sortOrder =
-                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATE_OF_ENTRY + " ASC";
+                HealthMetricContract.MetricDataEntries.COLUMN_NAME_DATE_OF_ENTRY + " DESC";
 
         Cursor cursor = readableDatabase.query(
                 HealthMetricContract.MetricDataEntries.TABLE_NAME,

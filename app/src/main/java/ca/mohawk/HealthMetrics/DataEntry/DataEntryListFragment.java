@@ -23,6 +23,7 @@ import com.github.mikephil.charting.utils.EntryXComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -85,6 +86,14 @@ public class DataEntryListFragment extends Fragment implements View.OnClickListe
 
         // Get the list of dataEntries from the database.
         dataEntryDisplayObjects = healthMetricsDbHelper.getDataEntriesByMetricId(metricId);
+
+        // Sort by date.
+        Collections.sort(dataEntryDisplayObjects, new Comparator<DataEntryDisplayObject>() {
+            @Override
+            public int compare(DataEntryDisplayObject dataEntryOne, DataEntryDisplayObject dataEntryTwo) {
+                return dataEntryOne.getDateOfEntry().compareTo(dataEntryTwo.getDateOfEntry());
+            }
+        });
 
         // Instantiate the DataEntryRecyclerViewAdapter.
         DataEntryRecyclerViewAdapter adapter = new DataEntryRecyclerViewAdapter(
