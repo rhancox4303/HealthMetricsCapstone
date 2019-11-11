@@ -318,10 +318,16 @@ public class EditPrescriptionFragment extends Fragment implements AdapterView.On
 
             // Validate the update was successful.
             if (healthMetricsDbHelper.updatePrescription(newPrescription)) {
-                PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
+                ViewPrescriptionFragment prescriptionFragment = new ViewPrescriptionFragment();
 
+                // Create bundle and add the prescription id.
+                Bundle prescriptionBundle = new Bundle();
+                prescriptionBundle.putInt("prescription_selected_key", prescriptionId);
+                prescriptionFragment.setArguments(prescriptionBundle);
+
+                // Set the bundle to the destination fragment.
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, prescriptionListFragment)
+                        .replace(R.id.fragmentContainer, prescriptionFragment)
                         .addToBackStack(null)
                         .commit();
             } else {

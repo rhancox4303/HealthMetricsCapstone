@@ -2277,6 +2277,7 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_REASON, prescription.reason);
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FREQUENCY, prescription.frequency);
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_STRENGTH, prescription.strength);
+        values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGE_AMOUNT, prescription.dosageAmount);
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_DOSAGE_MEASUREMENT, prescription.dosageMeasurementId);
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_FORM, prescription.form);
         values.put(HealthMetricContract.Prescriptions.COLUMN_NAME_AMOUNT, prescription.amount);

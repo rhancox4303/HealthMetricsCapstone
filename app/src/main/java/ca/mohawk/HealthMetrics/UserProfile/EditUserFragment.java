@@ -119,7 +119,7 @@ public class EditUserFragment extends Fragment implements View.OnClickListener,
             String gender;
 
             //Get the user's selected gender.
-            if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMale) {
+            if (radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMaleEditUser) {
                 gender = "Male";
             } else {
                 gender = "Female";
