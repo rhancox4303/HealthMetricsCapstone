@@ -35,7 +35,7 @@ public final class HealthMetricContract {
     static abstract class Galleries implements BaseColumns {
 
         static final String TABLE_NAME = "Galleries";
-        static final String COLUMN_NAME_GALLERY_NAME = "GalleryName";
+        static final String COLUMN_NAME_GALLERY_NAME = "galleryName";
         static final String COLUMN_NAME_IS_ADDED_TO_PROFILE = "isAddedToProfile";
 
         static final String CREATE_TABLE = "CREATE TABLE "
@@ -52,7 +52,7 @@ public final class HealthMetricContract {
     static abstract class MetricDataEntries implements BaseColumns {
 
         static final String TABLE_NAME = "MetricsDataEntries";
-        static final String COLUMN_NAME_METRIC_ID = "MetricId";
+        static final String COLUMN_NAME_METRIC_ID = "metricId";
         static final String COLUMN_NAME_DATA_ENTRY = "data";
         static final String COLUMN_NAME_DATE_OF_ENTRY = "dateOfEntry";
 
@@ -72,8 +72,8 @@ public final class HealthMetricContract {
     static abstract class Metrics implements BaseColumns {
 
         static final String TABLE_NAME = "Metrics";
-        static final String COLUMN_NAME_UNIT_ID = "UnitID";
-        static final String COLUMN_NAME_METRIC_NAME = "MetricName";
+        static final String COLUMN_NAME_UNIT_ID = "unitId";
+        static final String COLUMN_NAME_METRIC_NAME = "metricName";
         static final String COLUMN_NAME_IS_ADDED_TO_PROFILE = "isAddedToProfile";
         static final String COLUMN_NAME_UNIT_CATEGORY_ID = "unitCategoryId";
 
@@ -112,10 +112,10 @@ public final class HealthMetricContract {
      */
     static abstract class Notifications implements BaseColumns {
 
-        static final String TABLE_NAME = "Notification";
+        static final String TABLE_NAME = "Notifications";
         static final String COLUMN_NAME_TARGET_ID = "targetId";
-        static final String COLUMN_NAME_TYPE = "Type";
-        static final String COLUMN_NAME_TARGET_DATE_TIME = "TargetDateAndTime";
+        static final String COLUMN_NAME_TYPE = "type";
+        static final String COLUMN_NAME_TARGET_DATE_TIME = "targetDateAndTime";
 
 
         static final String CREATE_TABLE = "CREATE TABLE "
@@ -132,9 +132,9 @@ public final class HealthMetricContract {
      */
     static abstract class PhotoEntries implements BaseColumns {
         static final String TABLE_NAME = "PhotoEntries";
-        static final String COLUMN_NAME_GALLERY_ID = "GalleryID";
+        static final String COLUMN_NAME_GALLERY_ID = "galleryId";
         static final String COLUMN_NAME_PHOTO_ENTRY_PATH = "photoEntryPath";
-        static final String COLUMN_NAME_DATE_OF_ENTRY = "DataOfEntry";
+        static final String COLUMN_NAME_DATE_OF_ENTRY = "dateOfEntry";
         static final String COLUMN_NAME_IS_FROM_GALLERY = "isFromGallery";
 
         static final String CREATE_TABLE = "CREATE TABLE "
@@ -225,8 +225,8 @@ public final class HealthMetricContract {
      */
     static abstract class UnitCategories implements BaseColumns {
 
-        static final String TABLE_NAME = "UnitsCategories";
-        static final String COLUMN_NAME_UNIT_CATEGORY = "unitName";
+        static final String TABLE_NAME = "UnitCategories";
+        static final String COLUMN_NAME_UNIT_CATEGORY = "unitCategory";
 
         static final String CREATE_TABLE = "CREATE TABLE "
                 + TABLE_NAME +
