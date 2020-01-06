@@ -4,9 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -37,8 +35,7 @@ import ca.mohawk.HealthMetrics.PhotoGallery.DeletePhotoEntryDialog;
 import ca.mohawk.HealthMetrics.PhotoGallery.PhotoEntryList;
 import ca.mohawk.HealthMetrics.Prescription.DeletePrescriptionDialog;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
-import ca.mohawk.HealthMetrics.UserProfile.CreateUserFragment;
-import ca.mohawk.HealthMetrics.UserProfile.ViewUserFragment;
+
 
 /**
  * The MainActivity extends the AppCompactActivity.
@@ -74,10 +71,6 @@ public class MainActivity extends AppCompatActivity implements
         // Get the database handler.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
 
-        // Determine if the user has created a profile based on shared preferences.
-        SharedPreferences userInfo = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        boolean loggedIn = userInfo.getBoolean("loggedIn", false);
-
         // Set up the navigation view.
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -90,15 +83,10 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Add the MetricsListFragment is tne user has created a profile.
-        if (loggedIn) {
-            MetricsListFragment metricsListFragment = new MetricsListFragment();
-            switchFragment(metricsListFragment);
-            // Add the CreateUserFragment is tne user has created a profile.
-        } else {
-            CreateUserFragment createUserFragment = new CreateUserFragment();
-            switchFragment(createUserFragment);
-        }
+        // Show the MetricsListFragment
+        MetricsListFragment metricsListFragment = new MetricsListFragment();
+        switchFragment(metricsListFragment);
+
     }
 
     @Override
@@ -137,10 +125,6 @@ public class MainActivity extends AppCompatActivity implements
 
         // Switch statement replaces the fragment based on the selected menu item.
         switch (id) {
-            case R.id.nav_profile:
-                ViewUserFragment viewUserFragment = new ViewUserFragment();
-                switchFragment(viewUserFragment);
-                break;
             case R.id.nav_metrics:
                 MetricsListFragment metricsListFragment = new MetricsListFragment();
                 switchFragment(metricsListFragment);
