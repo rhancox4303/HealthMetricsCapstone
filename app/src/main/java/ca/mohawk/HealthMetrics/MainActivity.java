@@ -32,7 +32,6 @@ import ca.mohawk.HealthMetrics.Notification.DeleteNotificationDialog;
 import ca.mohawk.HealthMetrics.Notification.NotificationListFragment;
 import ca.mohawk.HealthMetrics.PhotoGallery.DeleteGalleryDialog;
 import ca.mohawk.HealthMetrics.PhotoGallery.DeletePhotoEntryDialog;
-import ca.mohawk.HealthMetrics.PhotoGallery.GalleryListFragment;
 import ca.mohawk.HealthMetrics.PhotoGallery.PhotoEntryList;
 import ca.mohawk.HealthMetrics.Prescription.DeletePrescriptionDialog;
 import ca.mohawk.HealthMetrics.Prescription.PrescriptionListFragment;
@@ -126,17 +125,15 @@ public class MainActivity extends AppCompatActivity implements
 
         // Switch statement replaces the fragment based on the selected menu item.
         switch (id) {
-            case R.id.nav_galleries:
-                GalleryListFragment galleryListFragment = new GalleryListFragment();
-                switchFragment(galleryListFragment);
-                break;
             case R.id.nav_metrics:
                 MetricsListFragment metricsListFragment = new MetricsListFragment();
                 switchFragment(metricsListFragment);
+
                 break;
             case R.id.nav_notifications:
                 NotificationListFragment notificationListFragment = new NotificationListFragment();
                 switchFragment(notificationListFragment);
+
                 break;
             case R.id.nav_prescriptions:
                 PrescriptionListFragment prescriptionListFragment = new PrescriptionListFragment();
