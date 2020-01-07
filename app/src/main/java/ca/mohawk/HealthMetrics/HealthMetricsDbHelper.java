@@ -28,6 +28,7 @@ import ca.mohawk.HealthMetrics.Models.PhotoGallery;
 import ca.mohawk.HealthMetrics.Models.Prescription;
 import ca.mohawk.HealthMetrics.Models.Unit;
 import ca.mohawk.HealthMetrics.Models.UnitCategory;
+import ca.mohawk.HealthMetrics.Models.User;
 
 /**
  * The HealthMetricsDbHelper class extends the SQLiteOpenHelper Class.
