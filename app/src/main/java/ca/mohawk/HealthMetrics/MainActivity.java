@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,6 +72,16 @@ public class MainActivity extends AppCompatActivity implements
         // Get the database handler.
         healthMetricsDbHelper = HealthMetricsDbHelper.getInstance(this);
 
+        // Verify if first launch.
+        SharedPreferences preferences = getSharedPreferences("ca.mohawk.HealthMetrics", MODE_PRIVATE);
+
+        if (preferences.getBoolean("firstlaunch", true)) {
+
+            // Seed database.
+            healthMetricsDbHelper.seedDatabase();
+
+            preferences.edit().putBoolean("firstlaunch", false).commit();
+        }
         // Set up the navigation view.
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -86,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements
         // Show the MetricsListFragment
         MetricsListFragment metricsListFragment = new MetricsListFragment();
         switchFragment(metricsListFragment);
-
     }
 
     @Override
