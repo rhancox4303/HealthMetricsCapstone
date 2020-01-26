@@ -130,4 +130,7 @@
     <string name="upload_image">Upload Image</string>
 
     <string name="user_photo_entry">User Photo Entry</string>
+    <string name="notifications">Notifications</string>
+    <string name="prescriptions">Prescriptions</string>
+    <string name="metrics">Metrics</string>
 </resources>

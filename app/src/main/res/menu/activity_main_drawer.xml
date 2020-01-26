@@ -4,18 +4,13 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_metrics"
-            android:title="Metrics" />
+        <item android:id="@+id/nav_metrics" android:icon="@drawable/ic_notification_icon"
+            android:title="@string/metrics" />
         <item
             android:id="@+id/nav_prescriptions"
-            android:title="Prescriptions" />
+            android:title="@string/prescriptions" />
         <item
             android:id="@+id/nav_notifications"
-            android:title="Notifications" />
-        <item
-            android:id="@+id/nav_profile"
-            android:title="User Profile" />
+            android:title="@string/notifications" />
     </group>
-
 </menu>

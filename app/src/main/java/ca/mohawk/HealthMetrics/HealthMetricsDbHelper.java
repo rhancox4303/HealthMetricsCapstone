@@ -81,7 +81,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         //Create the tables.
         db.execSQL(HealthMetricContract.DosageMeasurements.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Prescriptions.CREATE_TABLE);
-        db.execSQL(HealthMetricContract.Users.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Notes.CREATE_TABLE);
         db.execSQL(HealthMetricContract.UnitCategories.CREATE_TABLE);
         db.execSQL(HealthMetricContract.Units.CREATE_TABLE);
@@ -489,43 +488,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
             writableDatabase.endTransaction();
             writableDatabase.close();
         }
-    }
-
-    /**
-     * Adds the user to the database.
-     *
-     * @param user Represents the user to be added to the database.
-     * @return Return a boolean value indicating if the user was added successfully.
-     */
-    public boolean addUser(User user) {
-
-        // Get the database.
-        SQLiteDatabase writableDatabase = getWritableDatabase();
-        writableDatabase.beginTransaction();
-
-        // Initialize id.
-        long id = -1;
-        try {
-            // Create content values.
-            ContentValues values = new ContentValues();
-            values.put(HealthMetricContract.Users.COLUMN_NAME_FIRST_NAME, user.firstName);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_LAST_NAME, user.lastName);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_DATE_OF_BIRTH, user.dateOfBirth);
-            values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.gender);
-
-            // Add values to database.
-            id = writableDatabase.insertOrThrow(HealthMetricContract.Users.TABLE_NAME, null, values);
-            writableDatabase.setTransactionSuccessful();
-
-        } catch (SQLException e) {
-            Log.e("SQLException:", e.getMessage());
-        } finally {
-            writableDatabase.endTransaction();
-            writableDatabase.close();
-        }
-
-        // Validate the insert was successful.
-        return id > 0;
     }
 
     /**
@@ -1862,39 +1824,6 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Gets the user from the database.
-     *
-     * @return Returns the user.
-     */
-    public User getUser() {
-
-        // Get the database.
-        SQLiteDatabase readableDatabase = getReadableDatabase();
-
-        // Set the query.
-        String selectQuery = "SELECT * FROM " + HealthMetricContract.Users.TABLE_NAME + " WHERE _ID = 1";
-
-        Cursor cursor = readableDatabase.rawQuery(selectQuery, null);
-
-        // Get the query results and return the user if it is found.
-        if (cursor.moveToFirst()) {
-            String firstName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_FIRST_NAME));
-            String lastName = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_LAST_NAME));
-            String gender = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_GENDER));
-            String dateOfBirth = cursor.getString(cursor.getColumnIndex(HealthMetricContract.Users.COLUMN_NAME_DATE_OF_BIRTH));
-
-            readableDatabase.close();
-            cursor.close();
-
-            return new User(firstName, lastName, gender, dateOfBirth);
-        } else {
-            readableDatabase.close();
-            cursor.close();
-            return null;
-        }
-    }
-
-    /**
      * Updates a metric to add a unit and remove it from the user profile.
      *
      * @param metricId Represents the metricId that will be updated.
@@ -2286,28 +2215,5 @@ public class HealthMetricsDbHelper extends SQLiteOpenHelper {
         return writableDatabase.update(HealthMetricContract.Prescriptions.TABLE_NAME, values,
                 HealthMetricContract.Prescriptions._ID + " = " + prescription.id,
                 null) > 0;
-    }
-
-    /**
-     * Updates the user profile in the database.
-     *
-     * @param user Represents the user that will be upgraded.
-     * @return Returns a boolean value indicating if the update is successful.
-     */
-    public boolean updateUser(User user) {
-
-        // Get database.
-        SQLiteDatabase writableDatabase = this.getWritableDatabase();
-
-        // Create content values.
-        ContentValues values = new ContentValues();
-        values.put(HealthMetricContract.Users.COLUMN_NAME_FIRST_NAME, user.firstName);
-        values.put(HealthMetricContract.Users.COLUMN_NAME_LAST_NAME, user.lastName);
-        values.put(HealthMetricContract.Users.COLUMN_NAME_DATE_OF_BIRTH, user.dateOfBirth);
-        values.put(HealthMetricContract.Users.COLUMN_NAME_GENDER, user.gender);
-
-        // Update row.
-        return writableDatabase.update(HealthMetricContract.Users.TABLE_NAME, values,
-                HealthMetricContract.Users._ID + " = 1", null) > 0;
     }
 }

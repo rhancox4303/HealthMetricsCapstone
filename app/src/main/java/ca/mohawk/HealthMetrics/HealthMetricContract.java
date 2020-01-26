@@ -179,27 +179,6 @@ public final class HealthMetricContract {
     }
 
     /**
-     * The Users class implements BaseColumns.
-     * It represents the users table.
-     */
-    static abstract class Users implements BaseColumns {
-        static final String TABLE_NAME = "Users";
-        static final String COLUMN_NAME_FIRST_NAME = "firstName";
-        static final String COLUMN_NAME_LAST_NAME = "lastName";
-        static final String COLUMN_NAME_GENDER = "gender";
-        static final String COLUMN_NAME_DATE_OF_BIRTH = "dateOfBirth";
-
-        static final String CREATE_TABLE = "CREATE TABLE "
-                + TABLE_NAME +
-                "(" + _ID + " INTEGER PRIMARY KEY," +
-                COLUMN_NAME_FIRST_NAME + " TEXT," +
-                COLUMN_NAME_LAST_NAME + " TEXT," +
-                COLUMN_NAME_GENDER + " TEXT," +
-                COLUMN_NAME_DATE_OF_BIRTH + " TEXT )";
-    }
-
-
-    /**
      * The Units class implements BaseColumns.
      * It represents the units table.
      */
